@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "586319496318",
+    "project_id": "citytourist-cea6c",
+    "storage_bucket": "citytourist-cea6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586319496318:android:db5ddf7368aa3e0136842f",
+        "android_client_info": {
+          "package_name": "com.example.citydiscovertourist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586319496318-bhbne1jvs2882hgp2mqoitl207pd6mil.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjggCH5bIMkm6y-C1kgkaaI8Eq98h0dCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586319496318-bhbne1jvs2882hgp2mqoitl207pd6mil.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

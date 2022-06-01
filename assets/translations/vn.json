@@ -1,0 +1,141 @@
+{
+    
+    "welcome message" : "Khám phá mọi địa điểm nổi tiếng ở Việt Nam và tìm các khách sạn và nhà hàng lân cận một cách dễ dàng nhất. Nhận chỉ đường theo thời gian thực, chi phí ước tính, blog du lịch, v.v.",
+    "welcome to" : "Chào mừng đến với",
+
+    "intro-title1" : "Không quan trọng bạn đang ở đâu",
+    "intro-title2" : "Khám phá Nội dung lân cận",
+    "intro-title3" : "Hướng dẫn du lịch theo thời gian thực",
+    "intro-description1" : "Truy cập thông tin quan trọng về điểm đến của bạn trước và trong chuyến du lịch ...",
+    "intro-description2" : "Khám phá các khách sạn và nhà hàng lân cận gần mọi điểm du lịch bằng cách dễ dàng nhất ...",
+    "intro-description3" : "Nhận chỉ đường, chi phí và những thứ khác liên quan đến du lịch ở một nơi ...",
+    "get started" : "Bắt đầu",
+
+    "explore country" : "Khám phá Việt Nam",
+    "search places" : "Tìm kiếm địa điểm",
+    "popular places" : "Địa điểm nổi tiếng",
+    "special state-1 places" : "Địa điểm ở Sylhet",
+    "special state-2 places" : "Địa điểm ở Chittagong",
+    "recently added" : "Đã thêm gần đây",
+    "recommended places" : "Địa điểm được đề xuất",
+
+    "people like this" : "Mọi người thích điều này",
+    "todo" : "Việc cần làm",
+    "you may also like" : "Bạn cũng có thể thích",
+    "travel guide" : "Hướng dẫn du lịch",
+    "nearby hotels" : "Khách sạn lân cận",
+    "nearby restaurants" : "Nhà hàng lân cận",
+    "steps" : "Các bước",
+    "estimated cost = " : "Chi phí ước tính =",
+    "distance = " : "Khoảng cách = ",
+    "no hotels found" : "Không tìm thấy khách sạn",
+    "no restaurants found" : "Không tìm thấy nhà hàng",
+    "we didn't find any nearby hotels in this area" : "Chúng tôi không tìm thấy bất kỳ khách sạn lân cận nào trong khu vực này",
+    "we didn't find any nearby restaurants in this area" : "Chúng tôi không tìm thấy bất kỳ nhà hàng lân cận nào trong khu vực này",
+    "user reviews" : "Đánh giá của người dùng",
+
+
+    "write a review" : "Viết đánh giá",
+    "no internet" : "Không có kết nối mạng!",
+    "no comments found" : "Không tìm thấy nhận xét nào",
+    "be the first to comment" : "Hãy là người đầu tiên nhận xét",
+
+    "recently added places" : "Địa điểm được thêm gần đây",
+
+
+    "search & explore" : "Tìm kiếm & Khám phá Địa điểm",
+    "recent searchs" : "Các Tìm kiếm Gần đây",
+    "search for places" : "Tìm kiếm địa điểm",
+    "search-description" :  "Bạn chưa tìm kiếm bất kỳ mục nào. \n Hãy thử ngay bây giờ - chúng tôi sẽ giúp bạn!",
+    "we have found" : "Chúng tôi đã tìm thấy",
+    "no places found" : "Không tìm thấy địa điểm",
+    "try again" : "Thử lại!",
+
+
+
+    "states" : "Bang",
+    "blogs" : "Blog",
+
+
+    "bookmarks" : "Dấu trang",
+    "saved places" : "Địa điểm đã lưu",
+    "saved blogs" : "Blog đã lưu",
+    "sign in first" : "Đăng nhập trước",
+    "sign in to save your favourite places here" : "Đăng nhập để lưu các địa điểm yêu thích của bạn",
+    "sign in to save your favourite blogs here" : "Đăng nhập để lưu các blog yêu thích của bạn",
+    "no blogs found" : "Không tìm thấy blog",
+    "save your favourite places here" : "Lưu địa điểm yêu thích của bạn",
+    "save your favourite blogs here" : "Lưu các blog yêu thích của bạn",
+
+
+
+    "skip" : "Bỏ qua",
+    "check your internet connection!" : "Kiểm tra kết nối Internet của bạn!",
+    "something is wrong. please try again." : "Đã xảy ra lỗi. Vui lòng thử lại.",
+
+
+    "sign in" : "Đăng nhập",
+    "cancel" : "Hủy bỏ",
+    
+    "no sign in title" : "Đăng nhập trước để truy cập tính năng này",
+    "no sign in subtitle" : "Bạn chưa đăng nhập. Vui lòng đăng nhập để mở khóa tính năng này",
+
+    
+    
+    "comments" : "Nhận xét",
+    "write a comment" : "Viết bình luận", 
+
+
+    
+    "no content" : "Không tìm thấy nội dung",
+    "delete?" : "Xóa bỏ?",
+    "delete from database?" : "Bạn muốn xóa mục này?",
+    "flag this comment" : "Gắn cờ cho nhận xét này",
+    "unflag this comment" : "Bỏ gắn thẻ cho nhận xét này",
+    "report" : "Báo cáo",
+    "delete" : "Xóa",
+    "report-info" : "Báo cáo của bạn đã được gửi thành công tới quản trị viên",
+    "report-info1" : "Cảm ơn bạn đã báo cáo. Chúng tôi sẽ trả lời trong vòng 24 giờ.",
+    "report-guest" : "Đăng nhập là Bắt buộc!",
+    "report-guest1" : "Bạn phải đăng nhập để báo cáo về mọi nhận xét",
+    "comment flagged" : "Nhận xét này đã bị gắn cờ!",
+
+
+    "notifications" : "Thông báo",
+    "notification details" : "Chi tiết thông báo",
+
+
+    "profile" : "Hồ sơ",
+    "general setting" : "Cài đặt chung",
+    "login" : "Đăng nhập",
+    "get notifications" : "Nhận thông báo",
+    "contact us" : "Liên hệ với chúng tôi",
+    "rate this app" : "Xếp hạng ứng dụng này",
+    "licence" : "Giấy phép",
+    "privacy policy" : "Chính sách bảo mật",
+    "about us" : "Về chúng tôi",
+    "logout" : "Đăng xuất",
+    "edit profile" : "Chỉnh sửa hồ sơ",
+    "update profile" : "Cập nhật hồ sơ",
+    "updated successfully" : "Đã cập nhật thành công",
+    "enter new name" : "Nhập tên mới",
+
+    "logout title" : "Bạn có thực sự muốn đăng xuất khỏi ứng dụng không?",
+    "yes" : "Có",
+    "no" : "Không",
+
+    "language" : "Ngôn ngữ",
+    "select language" : "Chọn ngôn ngữ",
+
+    "buy now" : "Mua ứng dụng này",
+    "buy now subtitle" : "Mua toàn bộ mã nguồn tại đây và xây dựng ứng dụng cho quốc gia của bạn",
+
+    
+    "facebook": "Facebook",
+    "youtube": "Youtube",
+    "no notifications": "Không tìm thấy thông báo",
+    "no blogs": "Không tìm thấy blog nào"
+
+
+
+}
