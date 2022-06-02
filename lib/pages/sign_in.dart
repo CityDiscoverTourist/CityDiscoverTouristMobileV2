@@ -44,33 +44,33 @@ class _SignInPageState extends State<SignInPage> {
                 scaffoldKey, 'something is wrong. please try again.'.tr());
             setState(() => googleSignInStarted = false);
           } else {
-            sb.checkUserExists().then((value) {
-              if (value == true) {
-                sb.getUserDatafromFirebase(sb.uid).then((value) => sb
-                    .saveDataToSP()
-                    .then((value) => sb.guestSignout())
-                    .then((value) => sb.setSignIn().then((value) {
-                          setState(() => googleSignInStarted = false);
-                          afterSignIn();
-                        })));
-                sb.guestSignout();
-                sb.setSignIn();
-                afterSignIn();
-              } else {
-                sb.getJoiningDate().then((value) => sb
-                    .saveToFirebase()
-                    .then((value) => sb.increaseUserCount())
-                    .then((value) => sb.saveDataToSP().then((value) => sb
-                        .guestSignout()
-                        .then((value) => sb.setSignIn().then((value) {
-                              setState(() => googleSignInStarted = false);
-                              afterSignIn();
-                            })))));
-                sb.guestSignout();
-                sb.setSignIn();
-                afterSignIn();
-              }
-            });
+            // sb.checkUserExists().then((value) {
+            //   if (value == true) {
+            //     sb.getUserDatafromFirebase(sb.uid).then((value) => sb
+            //         .saveDataToSP()
+            //         .then((value) => sb.guestSignout())
+            //         .then((value) => sb.setSignIn().then((value) {
+            //               setState(() => googleSignInStarted = false);
+            //               afterSignIn();
+            //             })));
+            sb.guestSignout();
+            sb.setSignIn();
+            afterSignIn();
+            // } else {
+            //   sb.getJoiningDate().then((value) => sb
+            //       .saveToFirebase()
+            //       .then((value) => sb.increaseUserCount())
+            //       .then((value) => sb.saveDataToSP().then((value) => sb
+            //           .guestSignout()
+            //           .then((value) => sb.setSignIn().then((value) {
+            //                 setState(() => googleSignInStarted = false);
+            //                 afterSignIn();
+            //               })))));
+            //   sb.guestSignout();
+            //   sb.setSignIn();
+            //   afterSignIn();
+            // }
+            // });
           }
         });
       }
