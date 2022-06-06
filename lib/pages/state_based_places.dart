@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/models/place.dart';
-import 'package:travel_hour/pages/place_details.dart';
+import 'package:travel_hour/pages/quest_details.dart';
 import 'package:travel_hour/utils/empty.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
@@ -338,7 +338,7 @@ class _ListItem extends StatelessWidget {
         )),
       ),
 
-      onTap: ()=> nextScreen(context, PlaceDetails(data: d, tag: tag)),
+      // onTap: ()=> nextScreen(context, QuestDetails(data: d, tag: tag)),
     );
   }
 }

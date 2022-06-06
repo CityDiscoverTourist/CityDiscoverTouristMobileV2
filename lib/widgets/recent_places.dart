@@ -3,8 +3,8 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/blocs/recent_places_bloc.dart';
 import 'package:travel_hour/models/place.dart';
-import 'package:travel_hour/pages/more_places.dart';
-import 'package:travel_hour/pages/place_details.dart';
+import 'package:travel_hour/pages/more_quests.dart';
+import 'package:travel_hour/pages/quest_details.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 import 'package:travel_hour/utils/loading_cards.dart';
@@ -30,8 +30,10 @@ class RecentPlaces extends StatelessWidget {
             Text('recently added', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[900], wordSpacing: 1, letterSpacing: -0.6),).tr(),
             Spacer(),
             IconButton(icon: Icon(Icons.arrow_forward),
-              onPressed: () => nextScreen(context, MorePlacesPage(title: 'recently added', color: Colors.blueGrey[600],)), 
-            )
+              // onPressed: () => nextScreen(context, MorePlacesPage(title: 'recently added', color: Colors.blueGrey[600],)
+              onPressed: (){},
+              ), 
+            
           ],),
         ),
         
@@ -126,7 +128,7 @@ class _ItemList extends StatelessWidget {
                 
               ),
 
-              onTap: () => nextScreen(context, PlaceDetails(data: d, tag: 'recent${d.timestamp}')),
+              // onTap: () => nextScreen(context, PlaceDetails(data: d, tag: 'recent${d.timestamp}')),
     );
   }
 }

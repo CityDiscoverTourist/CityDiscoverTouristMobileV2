@@ -4,8 +4,8 @@ import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/blocs/recommanded_places_bloc.dart';
 import 'package:travel_hour/models/place.dart';
-import 'package:travel_hour/pages/more_places.dart';
-import 'package:travel_hour/pages/place_details.dart';
+import 'package:travel_hour/pages/more_quests.dart';
+import 'package:travel_hour/pages/quest_details.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -38,9 +38,12 @@ class RecommendedPlaces extends StatelessWidget {
                   ),
               ).tr(),
               Spacer(),
-              IconButton(icon: Icon(Icons.arrow_forward), onPressed: () => nextScreen(context, MorePlacesPage(
-                title: 'recommended', 
-                color: Colors.green[300],)),)
+              IconButton(icon: Icon(Icons.arrow_forward), onPressed: () =>(){}
+              //  nextScreen(context, MorePlacesPage(
+              //   title: 'recommended', 
+              //   color: Colors.green[300],)
+              //   ),
+                )
             ],
           ),
         ),
@@ -169,7 +172,7 @@ class _ListItem extends StatelessWidget {
               
         ],
       ),
-      onTap: ()=> nextScreen(context, PlaceDetails(data: d, tag: 'recommended${d.timestamp}')),
+      // onTap: ()=> nextScreen(context, PlaceDetails(data: d, tag: 'recommended${d.timestamp}')),
     );
   }
 }

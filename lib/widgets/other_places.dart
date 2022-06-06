@@ -3,7 +3,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/blocs/other_places_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/models/place.dart';
-import 'package:travel_hour/pages/place_details.dart';
+import 'package:travel_hour/pages/quest_details.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'custom_cache_image.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -140,7 +140,7 @@ class _ItemList extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () => nextScreenReplace(context, PlaceDetails(data: d, tag: null)),
+      // onTap: () => nextScreenReplace(context, PlaceDetails(data: d, tag: null)),
     );
   }
 }
