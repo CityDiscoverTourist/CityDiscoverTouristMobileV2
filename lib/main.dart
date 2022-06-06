@@ -17,5 +17,6 @@ void main() {
     getPages: AppPages.getPages(),
     initialBinding: HomeBinding(),
     //Hello fen
+    //HOWAREU
   ));
 }
