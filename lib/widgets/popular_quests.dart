@@ -1,28 +1,28 @@
-import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:travel_hour/blocs/popular_places_bloc.dart';
-import 'package:travel_hour/models/place.dart';
-import 'package:provider/provider.dart';
-import 'package:travel_hour/pages/more_places.dart';
-import 'package:travel_hour/pages/place_details.dart';
-import 'package:travel_hour/utils/next_screen.dart';
-import 'package:travel_hour/widgets/custom_cache_image.dart';
-import 'package:travel_hour/utils/loading_cards.dart';
+
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+import 'package:line_icons/line_icons.dart';
+
+import 'package:provider/provider.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import '../controllers/home_controller.dart';
+
+import '../models/quest_type.dart';
+import '../pages/more_quests.dart';
+import '../pages/quest_type.dart';
+import 'custom_cache_image.dart';
 
 
 
-class PopularPlaces extends StatelessWidget {
-  PopularPlaces({Key? key}) : super(key: key);
 
-  
-
-
-  
+class PopularQuests extends StatelessWidget {
+  PopularQuests({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final pb = context.watch<PopularPlacesBloc>();
-    
+    // final pb = context.watch<PopularPlacesBloc>();
+     var controller = Get.find<HomeController>();
     
 
     return Column(
@@ -30,7 +30,7 @@ class PopularPlaces extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(left: 15, top: 15, right: 10),
           child: Row(children: <Widget>[
-            Text('popular places', style: TextStyle(
+            Text('Các thể loại', style: TextStyle(
               fontSize: 18, 
               fontWeight: FontWeight.bold, 
               color: Colors.grey[900],
@@ -40,7 +40,11 @@ class PopularPlaces extends StatelessWidget {
             ).tr(),
             Spacer(),
             IconButton(icon: Icon(Icons.arrow_forward),
-              onPressed: () => nextScreen(context, MorePlacesPage(title: 'popular', color: Colors.grey[800],)),            
+              onPressed: () =>
+              
+                 Get.to(QuestTypePage())
+              
+              //  nextScreen(context, MorePlacesPage(title: 'popular', color: Colors.grey[800],)),            
             )
           ],),
         ),
@@ -53,10 +57,10 @@ class PopularPlaces extends StatelessWidget {
             padding: EdgeInsets.only(left: 15, right: 15),
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
-            itemCount: pb.data.isEmpty ? 3 : pb.data.length,
+            itemCount: controller.questTypeList.isEmpty ? 3 : controller.questTypeList.length,
             itemBuilder: (BuildContext context, int index) {
-              if(pb.data.isEmpty) return LoadingPopularPlacesCard();
-              return _ItemList(d: pb.data[index],);
+              // if(pb.data.isEmpty) return LoadingPopularPlacesCard();
+              return _ItemList(q: controller.questTypeList[index],);
               //return LoadingCard1();
            },
           ),
@@ -70,8 +74,8 @@ class PopularPlaces extends StatelessWidget {
 
 
 class _ItemList extends StatelessWidget {
-  final Place d;
-  const _ItemList({Key? key, required this.d}) : super(key: key);
+  final QuestType q;
+  const _ItemList({Key? key, required this.q}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,17 +91,19 @@ class _ItemList extends StatelessWidget {
                 child: Stack(
                    children: [
                      Hero(
-                       tag: 'popular${d.timestamp}',
+                       tag: 'popular${q.id}',
                         child: ClipRRect(
+                        
                         borderRadius: BorderRadius.circular(10),
-                        child: CustomCacheImage(imageUrl: d.imageUrl1)
+                        child: CustomCacheImage(imageUrl: q.imagePath)
+                      //  child: Image.network(q.imagePath,fit: BoxFit.fill,),
                        ),
                      ),
                      Align(
                        alignment: Alignment.bottomLeft,
                        child: Padding(
                          padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
-                         child: Text(d.name!, 
+                         child: Text(q.name, 
                          maxLines: 2,
                          style: TextStyle(
                            fontSize: 16,
@@ -122,7 +128,7 @@ class _ItemList extends StatelessWidget {
                              children: [
                                Icon(LineIcons.heart, size: 16, color: Colors.white),
                                SizedBox(width: 5,),
-                               Text(d.loves.toString(), style: TextStyle(
+                               Text(q.name, style: TextStyle(
                                  fontSize: 12,
                                  color: Colors.white
                                ),)
@@ -137,7 +143,7 @@ class _ItemList extends StatelessWidget {
                 
               ),
 
-              onTap: () => nextScreen(context, PlaceDetails(data: d, tag: 'popular${d.timestamp}')),
+              onTap: () =>Get.to(MoreQuestPage(title: q.name, color: Colors.grey))
     );
   }
 }
