@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "586319496318-bnnces789vhdd0cc9sctuog5nq2vms8b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.citydiscovertourist",
+            "certificate_hash": "b73344674445d59311a71852ff2a02dd44bce061"
+          }
+        },
+        {
+          "client_id": "586319496318-egc5almo57bgses3rnufjq7d6547kmos.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.citydiscovertourist",
+            "certificate_hash": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+          }
+        },
+        {
           "client_id": "586319496318-bhbne1jvs2882hgp2mqoitl207pd6mil.apps.googleusercontent.com",
           "client_type": 3
         }

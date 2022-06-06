@@ -90,27 +90,27 @@ class _SignInPageState extends State<SignInPage> {
                 scaffoldKey, 'something is wrong. please try again.'.tr());
             setState(() => facebookSignInStarted = false);
           } else {
-            sb.checkUserExists().then((value) {
-              if (value == true) {
-                sb.getUserDatafromFirebase(sb.uid).then((value) => sb
-                    .saveDataToSP()
-                    .then((value) => sb.guestSignout())
-                    .then((value) => sb.setSignIn().then((value) {
-                          setState(() => facebookSignInStarted = false);
-                          afterSignIn();
-                        })));
-              } else {
-                sb.getJoiningDate().then((value) => sb
-                    .saveToFirebase()
-                    .then((value) => sb.increaseUserCount())
-                    .then((value) => sb.saveDataToSP().then((value) => sb
-                        .guestSignout()
-                        .then((value) => sb.setSignIn().then((value) {
-                              setState(() => facebookSignInStarted = false);
-                              afterSignIn();
-                            })))));
-              }
-            });
+            // sb.checkUserExists().then((value) {
+            //   if (value == true) {
+            //     sb.getUserDatafromFirebase(sb.uid).then((value) => sb
+            //         .saveDataToSP()
+            //         .then((value) => sb.guestSignout())
+            //         .then((value) => sb.setSignIn().then((value) {
+            //               setState(() => facebookSignInStarted = false);
+            afterSignIn();
+            //             })));
+            //   } else {
+            //     sb.getJoiningDate().then((value) => sb
+            //         .saveToFirebase()
+            //         .then((value) => sb.increaseUserCount())
+            //         .then((value) => sb.saveDataToSP().then((value) => sb
+            //             .guestSignout()
+            //             .then((value) => sb.setSignIn().then((value) {
+            //                   setState(() => facebookSignInStarted = false);
+            //                   afterSignIn();
+            //                 })))));
+            //   }
+            // });
           }
         });
       }
