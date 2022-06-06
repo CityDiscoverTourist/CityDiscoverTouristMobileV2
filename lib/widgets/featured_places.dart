@@ -1,26 +1,28 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/blocs/featured_bloc.dart';
-import 'package:travel_hour/models/place.dart';
-import 'package:travel_hour/pages/place_details.dart';
-import 'package:travel_hour/utils/next_screen.dart';
-import 'package:travel_hour/widgets/custom_cache_image.dart';
-import 'package:travel_hour/utils/loading_cards.dart';
 
-class Featured extends StatefulWidget {
-  Featured({Key? key}) : super(key: key);
+import '../controllers/home_controller.dart';
+import '../models/quest.dart';
+import '../pages/quest_details.dart';
 
-  _FeaturedState createState() => _FeaturedState();
+
+class FeaturedQuest extends StatefulWidget {
+  FeaturedQuest({Key? key}) : super(key: key);
+
+  _FeaturedQuestState createState() => _FeaturedQuestState();
 }
 
-class _FeaturedState extends State<Featured> {
+class _FeaturedQuestState extends State<FeaturedQuest> {
+  var controller = Get.find<HomeController>();
+
   @override
   Widget build(BuildContext context) {
-    final fb = context.watch<FeaturedBloc>();
-    double w = MediaQuery.of(context).size.width;
+    // final fb = context.watch<FeaturedBloc>();
 
+    double w = MediaQuery.of(context).size.width;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -30,21 +32,23 @@ class _FeaturedState extends State<Featured> {
           child: PageView.builder(
             controller: PageController(initialPage: 0),
             scrollDirection: Axis.horizontal,
-            itemCount: fb.data.isEmpty ? 1 : fb.data.length,
+            itemCount:
+                controller.questList.isEmpty ? 1 : controller.questList.length,
+            //  itemCount: 5,
             onPageChanged: (index) {
-              context.read<FeaturedBloc>().setListIndex(index);
+              controller.questList[index];
             },
             itemBuilder: (BuildContext context, int index) {
               // if(fb.data.isEmpty) return LoadingFeaturedCard();
               // return _FeaturedItemList(d: fb.data[index]);
-              if (fb.data.isEmpty) {
-                if (fb.hasData == false) {
-                  return _EmptyContent();
-                } else {
-                  return LoadingFeaturedCard();
-                }
-              }
-              return _FeaturedItemList(d: fb.data[index]);
+              // if (fb.data.isEmpty) {
+              //   if (fb.hasData == false) {
+              //     return _EmptyContent();
+              //   } else {
+              //     return LoadingFeaturedCard();
+              //   }
+              // }
+              return _FeaturedItemList(q: controller.questList[index]);
             },
           ),
         ),
@@ -54,7 +58,8 @@ class _FeaturedState extends State<Featured> {
         Center(
           child: DotsIndicator(
             dotsCount: 5,
-            position: context.watch<FeaturedBloc>().listIndex.toDouble(),
+            // position: context.watch<FeaturedBloc>().listIndex.toDouble(),
+            position: controller.questList.length.toDouble(),
             decorator: DotsDecorator(
               color: Colors.black26,
               activeColor: Colors.black,
@@ -72,9 +77,10 @@ class _FeaturedState extends State<Featured> {
 }
 
 class _FeaturedItemList extends StatelessWidget {
-  final Place d;
-  const _FeaturedItemList({Key? key, required this.d}) : super(key: key);
-
+  // final Place d;
+  // const _FeaturedItemList({Key? key, required this.d}) : super(key: key);
+  final Quest q;
+  const _FeaturedItemList({Key? key, required this.q}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -85,7 +91,8 @@ class _FeaturedItemList extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Hero(
-              tag: 'featured${d.timestamp}',
+              tag: 'featured${q.createdDate}',
+              // tag: 'feature',
               child: Container(
                   height: 220,
                   width: w,
@@ -94,7 +101,9 @@ class _FeaturedItemList extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: CustomCacheImage(imageUrl: d.imageUrl1))),
+                      child:
+                          //  CustomCacheImage(imageUrl: d.imageUrl1)
+                          Image.network(q.imagePath))),
             ),
             Positioned(
               height: 120,
@@ -117,14 +126,23 @@ class _FeaturedItemList extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          d.name!,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              q.title,
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Text(
+                            '💵${q.price.toString()}',
+                            style: TextStyle(fontSize: 22),
+                          )
+                        ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -136,7 +154,9 @@ class _FeaturedItemList extends StatelessWidget {
                           ),
                           Expanded(
                             child: Text(
-                              d.location!,
+                              // d.location!,
+                              // q.description,
+                              'Công viên nước đầm sen',
                               style: TextStyle(
                                   fontSize: 13, fontWeight: FontWeight.w400),
                               maxLines: 1,
@@ -154,12 +174,13 @@ class _FeaturedItemList extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Icon(
-                              LineIcons.heart,
+                              LineIcons.clock,
                               size: 18,
                               color: Colors.orange,
                             ),
                             Text(
-                              d.loves.toString(),
+                              // d.loves.toString(),
+                              q.estimatedTime + ' minutes',
                               style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
@@ -169,12 +190,13 @@ class _FeaturedItemList extends StatelessWidget {
                               width: 30,
                             ),
                             Icon(
-                              LineIcons.commentAlt,
+                              LineIcons.walking,
                               size: 18,
                               color: Colors.orange,
                             ),
                             Text(
-                              d.commentsCount.toString(),
+                              q.estimatedDistance + ' km',
+                              // 'Comment count',
                               style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
@@ -191,10 +213,7 @@ class _FeaturedItemList extends StatelessWidget {
             ),
           ],
         ),
-        onTap: () {
-          nextScreen(
-              context, PlaceDetails(data: d, tag: 'featured${d.timestamp}'));
-        },
+        onTap: () =>Get.to(()=>QuestDetails(data: q, tag: q.title))
       ),
     );
   }

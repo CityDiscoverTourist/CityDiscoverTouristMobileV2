@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/models/place.dart';
+import 'package:travel_hour/models/quest.dart';
 import 'package:travel_hour/pages/comments.dart';
 import 'package:travel_hour/pages/guide.dart';
 import 'package:travel_hour/pages/hotel.dart';
@@ -9,8 +10,8 @@ import 'package:travel_hour/utils/next_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class TodoWidget extends StatelessWidget {
-  final Place? placeData;
-  const TodoWidget({Key? key, required this.placeData}) : super(key: key);
+  final Quest? questData;
+  const TodoWidget({Key? key, required this.questData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class TodoWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('todo',
+        Text('Bạn nên biết',
             style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
@@ -67,21 +68,22 @@ class TodoWidget extends StatelessWidget {
                                       blurRadius: 2)
                                 ]),
                             child: Icon(
-                              LineIcons.handPointingLeft,
+                              LineIcons.walking,
                               size: 30,
                             ),
                           ),
                           
                           Text(
-                              'travel guide',
+                              questData!.estimatedDistance.toString()+' km',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 15),
+                                  fontSize: 18),
                             ).tr(),
                           
                         ])),
-                onTap: () => nextScreen(context, GuidePage(d: placeData)),
+                onTap: () =>(){}
+                //  nextScreen(context, GuidePage(d: questData)),
               ),
               InkWell(
                 child: Container(
@@ -107,19 +109,20 @@ class TodoWidget extends StatelessWidget {
                                       blurRadius: 2)
                                 ]),
                             child: Icon(
-                              LineIcons.hotel,
+                              Icons.timelapse,
                               size: 30,
                             ),
                           ),
                           Text(
-                            'nearby hotels',
+                            questData!.estimatedTime+' minutes',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
-                                fontSize: 15),
+                                fontSize: 18),
                           ).tr(),
                         ])),
-                onTap: () => nextScreen(context, HotelPage(placeData: placeData,)),
+                onTap: () =>(){}
+                //  nextScreen(context, HotelPage(placeData: questData,)),
               ),
               InkWell(
                 child: Container(
@@ -145,20 +148,21 @@ class TodoWidget extends StatelessWidget {
                                       blurRadius: 2)
                                 ]),
                             child: Icon(
-                              Icons.restaurant_menu,
+                              Icons.location_on,
                               size: 30,
                             ),
                           ),
                           Text(
-                              'nearby restaurants',
+                              '14',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 15),
+                                  fontSize: 18),
                             ).tr(),
                           
                         ])),
-                onTap: () => nextScreen(context, RestaurantPage(placeData: placeData,)),
+                onTap: () =>(){}
+                //  nextScreen(context, RestaurantPage(placeData: questData,)),
               ),
               InkWell(
                 child: Container(
@@ -196,7 +200,8 @@ class TodoWidget extends StatelessWidget {
                                 fontSize: 15),
                           ).tr(),
                         ])),
-                onTap: () => nextScreen(context, CommentsPage(collectionName: 'places', timestamp: placeData!.timestamp,)),
+                onTap: () =>(){}
+                //  nextScreen(context, CommentsPage(collectionName: 'places', timestamp: questData!.timestamp,)),
               ),
             ],
           ),
