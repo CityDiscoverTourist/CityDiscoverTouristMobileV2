@@ -37,7 +37,7 @@ Future<void> main() async {
     defaultTransition: Transition.native,
     //  translations: MyTranslations(),
     getPages: AppPages.getPages(),
-    initialBinding: LoginBinding(),
+    initialBinding: HomeBinding(),
     //Hello fen
     //HOWAREU
   ));
