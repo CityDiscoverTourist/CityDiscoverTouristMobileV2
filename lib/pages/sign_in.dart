@@ -1,14 +1,16 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
+import 'package:travel_hour/controllers/login_controller.dart';
 import 'package:travel_hour/pages/done.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/utils/snacbar.dart';
-import 'package:easy_localization/easy_localization.dart';
+// import 'package:easy_localization/easy_localization.dart';
 import 'package:travel_hour/widgets/language.dart';
 
 class SignInPage extends StatefulWidget {
@@ -32,47 +34,49 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   handleGoogleSignIn() async {
-    final sb = context.read<SignInBloc>();
+    // final sb = context.read<SignInBloc>();
+    LoginController controller = new LoginController();
     setState(() => googleSignInStarted = true);
     await AppService().checkInternet().then((hasInternet) async {
       if (hasInternet == false) {
-        openSnacbar(scaffoldKey, 'check your internet connection!'.tr());
+        openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
       } else {
-        await sb.signInWithGoogle().then((_) {
-          if (sb.hasError == true) {
-            openSnacbar(
-                scaffoldKey, 'something is wrong. please try again.'.tr());
-            setState(() => googleSignInStarted = false);
-          } else {
-            // sb.checkUserExists().then((value) {
-            //   if (value == true) {
-            //     sb.getUserDatafromFirebase(sb.uid).then((value) => sb
-            //         .saveDataToSP()
-            //         .then((value) => sb.guestSignout())
-            //         .then((value) => sb.setSignIn().then((value) {
-            //               setState(() => googleSignInStarted = false);
-            //               afterSignIn();
-            //             })));
-            sb.guestSignout();
-            sb.setSignIn();
-            afterSignIn();
-            // } else {
-            //   sb.getJoiningDate().then((value) => sb
-            //       .saveToFirebase()
-            //       .then((value) => sb.increaseUserCount())
-            //       .then((value) => sb.saveDataToSP().then((value) => sb
-            //           .guestSignout()
-            //           .then((value) => sb.setSignIn().then((value) {
-            //                 setState(() => googleSignInStarted = false);
-            //                 afterSignIn();
-            //               })))));
-            //   sb.guestSignout();
-            //   sb.setSignIn();
-            //   afterSignIn();
-            // }
-            // });
-          }
-        });
+        controller.login();
+        // await controller.login.((_) {
+        //   if (sb.hasError == true) {
+        //     openSnacbar(
+        //         scaffoldKey, 'something is wrong. please try again.'.tr());
+        //     setState(() => googleSignInStarted = false);
+        //   } else {
+        //     // sb.checkUserExists().then((value) {
+        //     //   if (value == true) {
+        //     //     sb.getUserDatafromFirebase(sb.uid).then((value) => sb
+        //     //         .saveDataToSP()
+        //     //         .then((value) => sb.guestSignout())
+        //     //         .then((value) => sb.setSignIn().then((value) {
+        //     //               setState(() => googleSignInStarted = false);
+        //     //               afterSignIn();
+        //     //             })));
+        //     sb.guestSignout();
+        //     sb.setSignIn();
+        //     afterSignIn();
+        //     // } else {
+        //     //   sb.getJoiningDate().then((value) => sb
+        //     //       .saveToFirebase()
+        //     //       .then((value) => sb.increaseUserCount())
+        //     //       .then((value) => sb.saveDataToSP().then((value) => sb
+        //     //           .guestSignout()
+        //     //           .then((value) => sb.setSignIn().then((value) {
+        //     //                 setState(() => googleSignInStarted = false);
+        //     //                 afterSignIn();
+        //     //               })))));
+        //     //   sb.guestSignout();
+        //     //   sb.setSignIn();
+        //     //   afterSignIn();
+        //     // }
+        //     // });
+        //   }
+        // });
       }
     });
   }
@@ -82,12 +86,12 @@ class _SignInPageState extends State<SignInPage> {
     setState(() => facebookSignInStarted = true);
     await AppService().checkInternet().then((hasInternet) async {
       if (hasInternet == false) {
-        openSnacbar(scaffoldKey, 'check your internet connection!'.tr());
+        openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
       } else {
         await sb.signInwithFacebook().then((_) {
           if (sb.hasError == true) {
             openSnacbar(
-                scaffoldKey, 'something is wrong. please try again.'.tr());
+                scaffoldKey, 'something is wrong. please try again.'.tr);
             setState(() => facebookSignInStarted = false);
           } else {
             // sb.checkUserExists().then((value) {
@@ -122,12 +126,12 @@ class _SignInPageState extends State<SignInPage> {
     setState(() => appleSignInStarted = true);
     await AppService().checkInternet().then((hasInternet) async {
       if (hasInternet == false) {
-        openSnacbar(scaffoldKey, 'check your internet connection!'.tr());
+        openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
       } else {
         await sb.signInWithApple().then((_) {
           if (sb.hasError == true) {
             openSnacbar(
-                scaffoldKey, 'something is wrong. please try again.'.tr());
+                scaffoldKey, 'something is wrong. please try again.'.tr);
             setState(() => appleSignInStarted = false);
           } else {
             sb.checkUserExists().then((value) {
@@ -176,11 +180,11 @@ class _SignInPageState extends State<SignInPage> {
               ? Container()
               : TextButton(
                   onPressed: () => handleSkip(),
-                  child: Text('skip',
+                  child: Text('skip'.tr,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                      )).tr()),
+                      ))),
           IconButton(
             alignment: Alignment.center,
             padding: EdgeInsets.all(0),
@@ -203,12 +207,12 @@ class _SignInPageState extends State<SignInPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'welcome to',
+                    'welcome to'.tr,
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w400,
                         color: Colors.grey[700]),
-                  ).tr(),
+                  ),
                   SizedBox(
                     height: 5,
                   ),
@@ -231,13 +235,13 @@ class _SignInPageState extends State<SignInPage> {
                   Padding(
                     padding: const EdgeInsets.only(left: 40, right: 40),
                     child: Text(
-                      'welcome message',
+                      'welcome message'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey[600]),
-                    ).tr(),
+                    ),
                   ),
                   SizedBox(height: 20),
                   Container(

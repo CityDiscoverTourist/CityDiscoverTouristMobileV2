@@ -1,18 +1,22 @@
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/blocs/notification_bloc.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
+import 'package:travel_hour/controllers/login_controller.dart';
 import 'package:travel_hour/pages/edit_profile.dart';
 import 'package:travel_hour/pages/notifications.dart';
 import 'package:travel_hour/pages/sign_in.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/language.dart';
-import 'package:easy_localization/easy_localization.dart';
+// import 'package:easy_localization/easy_localization.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -23,8 +27,9 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage>
     with AutomaticKeepAliveClientMixin {
+  var data = Get.arguments;
   openAboutDialog() {
-    final sb = context.read<SignInBloc>();
+    // final sb = context.read<SignInBloc>();
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -35,21 +40,49 @@ class _ProfilePageState extends State<ProfilePage>
               height: 30,
               width: 30,
             ),
-            applicationVersion: sb.appVersion,
+            applicationVersion: "1.0",
           );
         });
   }
 
   TextStyle _textStyle = TextStyle(
       fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[900]);
+  int _currentIndex = 3;
+  PageController _pageController = PageController();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  List<IconData> iconList = [
+    Feather.home,
+    Feather.list,
+    Feather.bookmark,
+    Feather.user
+  ];
+
+  void onTabTapped(int index) {
+    setState(() => _currentIndex = index);
+    _pageController.animateToPage(index,
+        curve: Curves.easeIn, duration: Duration(milliseconds: 300));
+  }
+
+  Future _onWillPop() async {
+    if (_currentIndex != 0) {
+      setState(() => _currentIndex = 0);
+      _pageController.animateToPage(0,
+          duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+    } else {
+      await SystemChannels.platform
+          .invokeMethod<void>('SystemNavigator.pop', true);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final sb = context.watch<SignInBloc>();
+    // final sb = context.watch<SignInBloc>();
+    LoginController controller = LoginController();
     return Scaffold(
         appBar: AppBar(
-          title: Text('profile').tr(),
+          title: Text('profile'.tr),
           centerTitle: false,
           actions: [
             IconButton(
@@ -57,21 +90,34 @@ class _ProfilePageState extends State<ProfilePage>
                 onPressed: () => nextScreen(context, NotificationsPage()))
           ],
         ),
+        key: scaffoldKey,
+        bottomNavigationBar: AnimatedBottomNavigationBar(
+          icons: iconList,
+          activeColor: Theme.of(context).primaryColor,
+          gapLocation: GapLocation.none,
+          activeIndex: _currentIndex,
+          inactiveColor: Colors.grey[500],
+          splashColor: Theme.of(context).primaryColor,
+          iconSize: 22,
+          onTap: (index) => onTabTapped(index),
+        ),
         body: ListView(
+          controller: _pageController,
           padding: EdgeInsets.fromLTRB(15, 20, 15, 50),
           children: [
-            sb.isSignedIn == false ? GuestUserUI() : UserUI(),
+            // controller.isSignedIn == false ? GuestUserUI() :
+            UserUI(),
 
             Text(
-              "general setting",
+              "general setting".tr,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-            ).tr(),
+            ),
 
             SizedBox(
               height: 15,
             ),
             ListTile(
-              title: Text('get notifications', style: _textStyle).tr(),
+              title: Text('get notifications'.tr, style: _textStyle),
               leading: Container(
                 height: 30,
                 width: 30,
@@ -80,19 +126,19 @@ class _ProfilePageState extends State<ProfilePage>
                     borderRadius: BorderRadius.circular(5)),
                 child: Icon(Feather.bell, size: 20, color: Colors.white),
               ),
-              trailing: Switch(
-                  activeColor: Theme.of(context).primaryColor,
-                  value: context.watch<NotificationBloc>().subscribed!,
-                  onChanged: (bool) {
-                    context.read<NotificationBloc>().fcmSubscribe(bool);
-                  }),
+              // trailing: Switch(
+              //     activeColor: Theme.of(context).primaryColor,
+              //     value: context.watch<NotificationBloc>().subscribed!,
+              //     onChanged: (bool) {
+              //       context.read<NotificationBloc>().fcmSubscribe(bool);
+              //     }),
             ),
             Divider(
               height: 5,
             ),
 
             ListTile(
-              title: Text('language', style: _textStyle).tr(),
+              title: Text('language'.tr, style: _textStyle),
               leading: Container(
                 height: 30,
                 width: 30,
@@ -112,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage>
             ),
 
             ListTile(
-              title: Text('contact us', style: _textStyle).tr(),
+              title: Text('contact us'.tr, style: _textStyle),
               leading: Container(
                 height: 30,
                 width: 30,
@@ -132,7 +178,7 @@ class _ProfilePageState extends State<ProfilePage>
             ),
 
             ListTile(
-              title: Text('rate this app', style: _textStyle).tr(),
+              title: Text('rate this app'.tr, style: _textStyle),
               leading: Container(
                 height: 30,
                 width: 30,
@@ -153,7 +199,7 @@ class _ProfilePageState extends State<ProfilePage>
             ),
 
             ListTile(
-              title: Text('privacy policy', style: _textStyle).tr(),
+              title: Text('privacy policy'.tr, style: _textStyle),
               leading: Container(
                 height: 30,
                 width: 30,
@@ -174,7 +220,7 @@ class _ProfilePageState extends State<ProfilePage>
             ),
 
             ListTile(
-              title: Text('about us', style: _textStyle).tr(),
+              title: Text('about us'.tr, style: _textStyle),
               leading: Container(
                 height: 30,
                 width: 30,
@@ -196,7 +242,7 @@ class _ProfilePageState extends State<ProfilePage>
             ),
 
             ListTile(
-              title: Text('facebook', style: _textStyle).tr(),
+              title: Text('facebook'.tr, style: _textStyle),
               leading: Container(
                 height: 30,
                 width: 30,
@@ -218,7 +264,7 @@ class _ProfilePageState extends State<ProfilePage>
             ),
 
             ListTile(
-              title: Text('youtube', style: _textStyle).tr(),
+              title: Text('youtube'.tr, style: _textStyle),
               leading: Container(
                 height: 30,
                 width: 30,
@@ -275,9 +321,9 @@ class GuestUserUI extends StatelessWidget {
       children: [
         ListTile(
           title: Text(
-            'login',
+            'login'.tr,
             style: _textStyle,
-          ).tr(),
+          ),
           leading: Container(
             height: 30,
             width: 30,
@@ -309,7 +355,8 @@ class UserUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sb = context.watch<SignInBloc>();
+    // final sb = context.watch<SignInBloc>();
+    var data = Get.arguments;
     TextStyle _textStyle = TextStyle(
         fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[900]);
     return Column(
@@ -321,12 +368,13 @@ class UserUI extends StatelessWidget {
               CircleAvatar(
                   radius: 60,
                   backgroundColor: Colors.grey[300],
-                  backgroundImage: CachedNetworkImageProvider(sb.imageUrl!)),
+                  backgroundImage:
+                      CachedNetworkImageProvider("data[0].imageUrl!")),
               SizedBox(
                 height: 10,
               ),
               Text(
-                sb.name!,
+                data[0].userName!,
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -338,7 +386,7 @@ class UserUI extends StatelessWidget {
         ),
         ListTile(
           title: Text(
-            sb.email!,
+            data[0].email,
             style: _textStyle,
           ),
           leading: Container(
@@ -371,9 +419,9 @@ class UserUI extends StatelessWidget {
         ),
         ListTile(
             title: Text(
-              'edit profile',
+              'edit profile'.tr,
               style: _textStyle,
-            ).tr(),
+            ),
             leading: Container(
               height: 30,
               width: 30,
@@ -386,16 +434,16 @@ class UserUI extends StatelessWidget {
               Feather.chevron_right,
               size: 20,
             ),
-            onTap: () => nextScreen(
-                context, EditProfile(name: sb.name, imageUrl: sb.imageUrl))),
+            onTap: () => nextScreen(context,
+                EditProfile(name: data[0].name, imageUrl: "sb.imageUrl"))),
         Divider(
           height: 5,
         ),
         ListTile(
           title: Text(
-            'logout',
+            'logout'.tr,
             style: _textStyle,
-          ).tr(),
+          ),
           leading: Container(
             height: 30,
             width: 30,
@@ -418,27 +466,22 @@ class UserUI extends StatelessWidget {
   }
 
   void openLogoutDialog(context) {
+    LoginController controller = new LoginController();
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('logout title').tr(),
+            title: Text('logout title'.tr),
             actions: [
               TextButton(
-                child: Text('no').tr(),
+                child: Text('no'.tr),
                 onPressed: () => Navigator.pop(context),
               ),
               TextButton(
-                child: Text('yes').tr(),
+                child: Text('yes'.tr),
                 onPressed: () async {
                   Navigator.pop(context);
-                  await context
-                      .read<SignInBloc>()
-                      .userSignout()
-                      .then((value) =>
-                          context.read<SignInBloc>().afterUserSignOut())
-                      .then((value) =>
-                          nextScreenCloseOthers(context, SignInPage()));
+                  await controller.logout();
                 },
               )
             ],
