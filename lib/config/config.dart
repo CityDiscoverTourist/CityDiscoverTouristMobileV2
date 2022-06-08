@@ -44,5 +44,5 @@ class Config {
   final String introImage3 = 'assets/images/travel5.png';
 
   //Language Setup
-  final List<String> languages = ['English', 'Spanish', 'Arabic', 'VN'];
+  final List<String> languages = ['English', 'Vietnamese'];
 }

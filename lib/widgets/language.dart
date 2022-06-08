@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/config/config.dart';
+import 'package:travel_hour/pages/profile.dart';
+
+import '../controllers/language_controller.dart';
 
 class LanguagePopup extends StatefulWidget {
   const LanguagePopup({Key? key}) : super(key: key);
@@ -11,6 +16,7 @@ class LanguagePopup extends StatefulWidget {
 }
 
 class _LanguagePopupState extends State<LanguagePopup> {
+  LanguegeController languageController = new LanguegeController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,14 +44,18 @@ class _LanguagePopupState extends State<LanguagePopup> {
           ),
           onTap: () async {
             if (d == 'English') {
-              context.setLocale(Locale('en'));
+              // context.setLocale(Locale('en'));
+              languageController.changeLanguage('en');
             } else if (d == 'Spanish') {
               context.setLocale(Locale('es'));
             } else if (d == 'Arabic') {
-              context.setLocale(Locale('ar'));
-            } else if (d == 'VN') {
-              context.setLocale(Locale('vn'));
+              // context.setLocale(Locale('ar'));
+              languageController.changeLanguage('ar');
+            } else if (d == 'Vietnamese') {
+              // context.setLocale(Locale('vn'));
+              languageController.changeLanguage('vn');
             }
+
             Navigator.pop(context);
           },
         ),

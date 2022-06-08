@@ -57,15 +57,15 @@
     "blogs" : "Blogs",
 
 
-    "bookmarks" : "Bookmarks",
-    "saved places" : "Saved Places",
-    "saved blogs" : "Saved Blogs",
+    "bookmarks" : "History",
+    "saved places" : "Purchased quests",
+    "saved blogs" : "Playing history",
     "sign in first" : "Sign In First",
-    "sign in to save your favourite places here" : "Sign in to save your favourite places here",
-    "sign in to save your favourite blogs here" : "Sign in to save your favourite blogs here",
-    "no blogs found" : "No Blogs Found",
-    "save your favourite places here" : "Save your favourite places here",
-    "save your favourite blogs here" : "Save your favourite blogs here",
+    "sign in to save your favourite places here" : "Sign in to save your purchased history here",
+    "sign in to save your favourite blogs here" : "Sign in to display your playing history here",
+    "no blogs found" : "No playing history Found",
+    "save your favourite places here" : "Save your purchased history here",
+    "save your favourite blogs here" : "Save your playing history here",
 
 
 

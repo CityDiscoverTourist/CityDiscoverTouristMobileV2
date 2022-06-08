@@ -43,6 +43,7 @@ android {
         applicationId "com.example.citydiscovertourist"
         minSdkVersion 21
         targetSdkVersion 31
+        multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

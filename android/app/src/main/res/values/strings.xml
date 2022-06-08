@@ -2,15 +2,17 @@
 <resources>
 
    <!-- Replace with your App Name -->
-   <string name="app_name">Travel Hour</string>
+   <string name="app_name">City Discover Tourist</string>
 
    <!-- Replace "193186341991913" with your Facebook App ID here. -->  
-   <string name="facebook_app_id">193186*******</string>
+   <string name="facebook_app_id">436231261837871</string>
+
+   <string name="facebook_client_token">9361df31a7b5e21e4aac0ab575ac07f1</string>
 
 
    <!--
       Replace "193186341991913" with your Facebook App ID here.
       **NOTE**: The scheme needs to start with `fb` and then your ID.
     -->
-   <string name="fb_login_protocol_scheme">fb19318******</string>  
+   <string name="fb_login_protocol_scheme">fb436231261837871</string>  
 </resources>

@@ -1,8 +1,14 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/config/config.dart';
+import 'package:travel_hour/pages/sign_in.dart';
 import 'package:travel_hour/pages/splash.dart';
+import 'package:travel_hour/routes/app_pages.dart';
+import 'package:travel_hour/routes/app_routes.dart';
+import 'package:travel_hour/utils/tranlations.dart';
+import 'bindings/login_binding.dart';
 import 'blocs/ads_bloc.dart';
 import 'blocs/blog_bloc.dart';
 import 'blocs/bookmark_bloc.dart';
@@ -20,11 +26,9 @@ import 'blocs/sp_state_two.dart';
 import 'blocs/state_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-
 final FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.instance;
-final FirebaseAnalyticsObserver firebaseObserver =  FirebaseAnalyticsObserver(analytics: firebaseAnalytics);
-
-
+final FirebaseAnalyticsObserver firebaseObserver =
+    FirebaseAnalyticsObserver(analytics: firebaseAnalytics);
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -38,48 +42,71 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<BlogBloc>( create: (context) => BlogBloc(),),
-        ChangeNotifierProvider<SignInBloc>(create: (context) => SignInBloc(),),
-        ChangeNotifierProvider<CommentsBloc>(create: (context) => CommentsBloc(),),
-        ChangeNotifierProvider<BookmarkBloc>(create: (context) => BookmarkBloc(),),
-        ChangeNotifierProvider<PopularPlacesBloc>(create: (context) => PopularPlacesBloc(),),
-        ChangeNotifierProvider<RecentPlacesBloc>(create: (context) => RecentPlacesBloc(),),
-        ChangeNotifierProvider<RecommandedPlacesBloc>(create: (context) => RecommandedPlacesBloc(),),
-        ChangeNotifierProvider<FeaturedBloc>(create: (context) => FeaturedBloc(),),
+        ChangeNotifierProvider<BlogBloc>(
+          create: (context) => BlogBloc(),
+        ),
+        ChangeNotifierProvider<SignInBloc>(
+          create: (context) => SignInBloc(),
+        ),
+        ChangeNotifierProvider<CommentsBloc>(
+          create: (context) => CommentsBloc(),
+        ),
+        ChangeNotifierProvider<BookmarkBloc>(
+          create: (context) => BookmarkBloc(),
+        ),
+        ChangeNotifierProvider<PopularPlacesBloc>(
+          create: (context) => PopularPlacesBloc(),
+        ),
+        ChangeNotifierProvider<RecentPlacesBloc>(
+          create: (context) => RecentPlacesBloc(),
+        ),
+        ChangeNotifierProvider<RecommandedPlacesBloc>(
+          create: (context) => RecommandedPlacesBloc(),
+        ),
+        ChangeNotifierProvider<FeaturedBloc>(
+          create: (context) => FeaturedBloc(),
+        ),
         ChangeNotifierProvider<SearchBloc>(create: (context) => SearchBloc()),
-        ChangeNotifierProvider<NotificationBloc>(create: (context) => NotificationBloc()),
+        ChangeNotifierProvider<NotificationBloc>(
+            create: (context) => NotificationBloc()),
         ChangeNotifierProvider<StateBloc>(create: (context) => StateBloc()),
-        ChangeNotifierProvider<SpecialStateOneBloc>(create: (context) => SpecialStateOneBloc()),
-        ChangeNotifierProvider<SpecialStateTwoBloc>(create: (context) => SpecialStateTwoBloc()),
-        ChangeNotifierProvider<OtherPlacesBloc>(create: (context) => OtherPlacesBloc()),
+        ChangeNotifierProvider<SpecialStateOneBloc>(
+            create: (context) => SpecialStateOneBloc()),
+        ChangeNotifierProvider<SpecialStateTwoBloc>(
+            create: (context) => SpecialStateTwoBloc()),
+        ChangeNotifierProvider<OtherPlacesBloc>(
+            create: (context) => OtherPlacesBloc()),
         ChangeNotifierProvider<AdsBloc>(create: (context) => AdsBloc()),
       ],
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          supportedLocales: context.supportedLocales,
-          localizationsDelegates: context.localizationDelegates,
-          locale: context.locale,
-          navigatorObservers: [firebaseObserver],
-          theme: ThemeData(
-              primarySwatch: Colors.blue,
-              primaryColor: Config.appThemeColor,
-              iconTheme: IconThemeData(color: Colors.grey[900]),
-              fontFamily: 'Manrope',
-              scaffoldBackgroundColor: Colors.grey[100],
-              appBarTheme: AppBarTheme(
-                color: Colors.white,
-                elevation: 0,
-                iconTheme: IconThemeData(
-                  color: Colors.grey[800],
-                ),
-                titleTextStyle: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Manrope',
-                    color: Colors.grey[900]
-                  )
-              ),),
-          home: SplashPage()),
-    ); 
+      child: GetMaterialApp(
+        translations: Translation(),
+        debugShowCheckedModeBanner: false,
+        supportedLocales: context.supportedLocales,
+        localizationsDelegates: context.localizationDelegates,
+        locale: context.locale,
+        getPages: AppPages.getPages(),
+        initialBinding: LoginBinding(),
+        initialRoute: KLoginScreen,
+        // navigatorObservers: [firebaseObserver],
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          primaryColor: Config.appThemeColor,
+          iconTheme: IconThemeData(color: Colors.grey[900]),
+          fontFamily: 'Manrope',
+          scaffoldBackgroundColor: Colors.grey[100],
+          appBarTheme: AppBarTheme(
+              color: Colors.white,
+              elevation: 0,
+              iconTheme: IconThemeData(
+                color: Colors.grey[800],
+              ),
+              titleTextStyle: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Manrope',
+                  color: Colors.grey[900])),
+        ),
+      ),
+    );
   }
 }
