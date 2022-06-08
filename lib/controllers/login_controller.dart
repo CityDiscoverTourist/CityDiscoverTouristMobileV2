@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/pages/home.dart';
 import 'dart:convert';
 // import 'package:citydiscovertourist/api/api.dart';
@@ -28,6 +29,11 @@ class LoginController extends GetxController {
   late User firebaseUser;
   late FirebaseAuth firebaseAuth;
   bool isSignedIn = false;
+
+  //CUONGNHT EDIT CODE
+  //ADD VARIABLE Customer for change
+  Customer? currentCustomer;
+
   Future<void> initlizeFirebaseApp() async {
     firebaseApp = await Firebase.initializeApp();
   }
@@ -109,7 +115,13 @@ class LoginController extends GetxController {
           isSignedIn = true;
           update();
           Get.back();
-          Get.to(ProfilePage(), arguments: [customer, token]);
+          // Get.to(ProfilePage(), arguments: [customer, token]);
+
+          //CUONGNHT EditCode
+          //Get to HomePage -->ProfilePage 
+          currentCustomer=customer;
+          Get.put(HomeController()).indexHomePage.value=1;
+          Get.to(HomePage());
         }
 
         // prefs.setString('token', token);

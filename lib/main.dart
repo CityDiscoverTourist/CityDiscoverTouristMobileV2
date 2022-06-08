@@ -33,7 +33,7 @@ Future<void> main() async {
     locale: Locale('en'),
     fallbackLocale: Locale('en'),
     // It is not mandatory to use named routes, but dynamic urls are interesting.
-    initialRoute: KLoginScreen,
+    initialRoute: KWelcomeScreen,
     defaultTransition: Transition.native,
     //  translations: MyTranslations(),
     getPages: AppPages.getPages(),

@@ -16,6 +16,8 @@ import 'package:travel_hour/pages/sign_in.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/language.dart';
+
+import '../controllers/home_controller.dart';
 // import 'package:easy_localization/easy_localization.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -27,7 +29,12 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage>
     with AutomaticKeepAliveClientMixin {
-  var data = Get.arguments;
+
+  // var data = Get.arguments;
+  
+  //CUONGNHT EDITCODE
+  //CALL LOGIN CONTROLLER TO GET CUSTOMER'S INFORMATION
+  var dara = Get.find<LoginController>().currentCustomer;
   openAboutDialog() {
     // final sb = context.read<SignInBloc>();
     showDialog(
