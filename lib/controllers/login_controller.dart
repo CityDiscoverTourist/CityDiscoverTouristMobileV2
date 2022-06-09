@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/pages/home.dart';
 import 'dart:convert';
@@ -25,6 +26,7 @@ import '../pages/sign_in.dart';
 
 class LoginController extends GetxController {
   // Intilize the flutter app
+  SharedPreferences? sp;
   late FirebaseApp firebaseApp;
   late User firebaseUser;
   late FirebaseAuth firebaseAuth;
@@ -32,7 +34,24 @@ class LoginController extends GetxController {
 
   //CUONGNHT EDIT CODE
   //ADD VARIABLE Customer for change
-  Customer? currentCustomer;
+
+  String? _userName;
+  String? get userName => _userName;
+
+  String? _uid;
+  String? get uid => _uid;
+
+  String? _email;
+  String? get email => _email;
+
+  String? _imagePath;
+  String? get imagePath => _imagePath;
+
+  String? _phoneNumber;
+  String? get phoneNumber => _phoneNumber;
+
+  String? _jwtToken;
+  String? get jwtToken => _jwtToken;
 
   Future<void> initlizeFirebaseApp() async {
     firebaseApp = await Firebase.initializeApp();
@@ -47,7 +66,7 @@ class LoginController extends GetxController {
       update();
     }
     if (firebaseAuth.currentUser == null) {
-      return HomePage();
+      return SignInPage();
     } else {
       firebaseUser = firebaseAuth.currentUser!;
       update();
@@ -55,11 +74,12 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<void> login() async {
-    // var prefs = await SharedPreferences.getInstance();
-    try {
-      // Get.dialog(Center(child: LoadingWidget()), barrierDismissible: false);
+  void onInit() async {
+    super.onInit();
+  }
 
+  Future<void> login() async {
+    try {
       await initlizeFirebaseApp();
 
       firebaseAuth = FirebaseAuth.instance;
@@ -77,24 +97,12 @@ class LoginController extends GetxController {
           await FirebaseAuth.instance.signInWithCredential(credential);
       firebaseUser = userCredentialData.user!;
       var idToken = await firebaseUser.getIdToken();
-      // prefs.setString('email', firebaseUser.email!);
-
       Map data2 = {'tokenId': idToken};
-      // print('idToken: ${idToken}');
       var body = json.encode(data2);
-      // var response2 =
-      //     await Dio().postUri(Uri.parse(Api.baseUrl + ApiEndPoints.login),
-      //         options: Options(
-      //           headers: {"Content-Type": "application/json", "": ""},
-      //         ),
-      //         data: data);
       var response = await http.post(
           Uri.parse(Api.baseUrl + ApiEndPoints.login),
           headers: {"Content-Type": "application/json"},
           body: body);
-
-      // print(Api.baseUrl + ApiEndPoints.login);
-
       if (response.statusCode == 200) {
         String email = firebaseUser.email!;
         final responseData = json.decode(response.body);
@@ -103,71 +111,23 @@ class LoginController extends GetxController {
                 ApiEndPoints.customer +
                 responseData['accountId']),
             headers: {"Content-Type": "application/json"});
-        print(Api.baseUrl +
-            ApiEndPoints.customer +
-            "cf3607ec-b5a6-4357-a8e2-c7e27e7cb503");
         if (response2.statusCode == 200) {
           final responseData2 = json.decode(response2.body);
           Customer customer = Customer.fromJson(responseData2['data']);
           var token = responseData['jwtToken'];
-          print('JWT: ${token}');
           print(customer);
           isSignedIn = true;
           update();
           Get.back();
-          // Get.to(ProfilePage(), arguments: [customer, token]);
-
-          //CUONGNHT EditCode
-          //Get to HomePage -->ProfilePage 
-          currentCustomer=customer;
-          Get.put(HomeController()).indexHomePage.value=1;
+          saveDataToSP(customer, token);
+          Get.put(
+            LoginController(),
+            permanent: true,
+          );
+          Get.put(HomeController()).indexHomePage.value = 0;
           Get.to(HomePage());
         }
-
-        // prefs.setString('token', token);
-
-        // call api lấy user về, xong check xem có sđt chưa  api get user by email
-        // UserController controller = Get.put(UserController());
-        // call để nó có User Sẵn
-        // String email = firebaseUser.email!;
-        // final response2 = await http.get(
-        //     Uri.parse(
-        //         'http://54.255.129.30:8100/api/v1/user/accounts/${email}'),
-        //     headers: {
-        //       "Accept": "application/json",
-        //       "content-type": "application/json",
-        //       "Authorization": "Bearer ${token}"
-        //     });
-        // if (response2.statusCode == 200) {
-        //   // print("call api getUser");
-        //   UserLogin userInfo = await userFromJson(response2.body);
-        //   //save userID to local
-        //   prefs.setInt('userID', userInfo.id!);
-        //   prefs.setString('userName', userInfo.name!);
-        //   if (userInfo.phone == null || userInfo.phone!.isEmpty) {
-        //     // userInfo.phone == null || userInfo.phone!.isEmpty
-        //     //  || userInfo.phone!.isEmpty
-        //     update();
-        //     Get.back();
-        //     Get.to((RequiredPhoneBumberScreen()));
-        //   } else {
-        //     update();
-        //     Get.back();
-        //     // Get.off(Home());
-        //     Get.off(RidePickerPage());
-        //   }
-        // } else {
-        //   throw Exception("fail to check phone number");
-        // }
-        // ;
       }
-
-      //  var response2 = await http.get(
-      // Uri.parse(
-      //     "https://booking-yacht.azurewebsites.net/api/v1/agencies"),
-      // headers: {"Content-Type": "application/json", "Authorization": "Bearer $token"},
-      // );
-
     } catch (ex) {
       Get.back();
       Get.snackbar('Sign In Error', 'Error Signing in',
@@ -182,11 +142,30 @@ class LoginController extends GetxController {
     }
   }
 
+  Future saveDataToSP(Customer customer, String jwtToken) async {
+    sp = await SharedPreferences.getInstance();
+
+    await sp?.setString('uid', customer.id);
+    await sp?.setString('userName', customer.userName);
+    await sp?.setString('email', customer.email);
+    await sp?.setString('phoneNumber', customer.phoneNumber);
+    await sp?.setString('imagePath', customer.imagePath);
+    await sp?.setString('jwtToken', jwtToken);
+  }
+
+  Future getDataFromSp() async {
+    sp = await SharedPreferences.getInstance();
+    _userName = sp?.getString('userName');
+    _phoneNumber = sp?.getString('phoneNumber');
+    _email = sp?.getString('email');
+    _imagePath = sp?.getString('imagePath');
+    _uid = sp?.getString('uid');
+    _jwtToken = sp?.getString('jwtToken');
+  }
+
   Future<void> logout() async {
-    // final prefs = await SharedPreferences.getInstance();
-    // prefs.clear();
-    // HomeController controller = Get.find<HomeController>();
-    // controller.tabIndex = 0;
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
     await GoogleSignIn().signOut();
     await FirebaseAuth.instance.signOut();
     Get.offAll(SignInPage());

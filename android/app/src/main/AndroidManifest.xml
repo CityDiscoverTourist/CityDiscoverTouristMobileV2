@@ -8,7 +8,7 @@
    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/> 
 
    <application
-        android:label="Travel Hour"
+        android:label="City Discover Tourist"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

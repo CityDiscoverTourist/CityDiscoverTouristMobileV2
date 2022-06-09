@@ -6,6 +6,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travel_hour/blocs/notification_bloc.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
@@ -29,12 +30,11 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage>
     with AutomaticKeepAliveClientMixin {
-
   // var data = Get.arguments;
-  
+
   //CUONGNHT EDITCODE
   //CALL LOGIN CONTROLLER TO GET CUSTOMER'S INFORMATION
-  var dara = Get.find<LoginController>().currentCustomer;
+
   openAboutDialog() {
     // final sb = context.read<SignInBloc>();
     showDialog(
@@ -97,17 +97,17 @@ class _ProfilePageState extends State<ProfilePage>
                 onPressed: () => nextScreen(context, NotificationsPage()))
           ],
         ),
-        key: scaffoldKey,
-        bottomNavigationBar: AnimatedBottomNavigationBar(
-          icons: iconList,
-          activeColor: Theme.of(context).primaryColor,
-          gapLocation: GapLocation.none,
-          activeIndex: _currentIndex,
-          inactiveColor: Colors.grey[500],
-          splashColor: Theme.of(context).primaryColor,
-          iconSize: 22,
-          onTap: (index) => onTabTapped(index),
-        ),
+        // key: scaffoldKey,
+        // bottomNavigationBar: AnimatedBottomNavigationBar(
+        //   icons: iconList,
+        //   activeColor: Theme.of(context).primaryColor,
+        //   gapLocation: GapLocation.none,
+        //   activeIndex: _currentIndex,
+        //   inactiveColor: Colors.grey[500],
+        //   splashColor: Theme.of(context).primaryColor,
+        //   iconSize: 22,
+        //   onTap: (index) => onTabTapped(index),
+        // ),
         body: ListView(
           controller: _pageController,
           padding: EdgeInsets.fromLTRB(15, 20, 15, 50),
@@ -364,6 +364,8 @@ class UserUI extends StatelessWidget {
   Widget build(BuildContext context) {
     // final sb = context.watch<SignInBloc>();
     var data = Get.arguments;
+    var controller = Get.find<LoginController>();
+    controller.getDataFromSp();
     TextStyle _textStyle = TextStyle(
         fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[900]);
     return Column(
@@ -375,13 +377,13 @@ class UserUI extends StatelessWidget {
               CircleAvatar(
                   radius: 60,
                   backgroundColor: Colors.grey[300],
-                  backgroundImage:
-                      CachedNetworkImageProvider("data[0].imageUrl!")),
+                  backgroundImage: CachedNetworkImageProvider(
+                      "controller.sp!.getString('imagePath').toString()")),
               SizedBox(
                 height: 10,
               ),
               Text(
-                data[0].userName!,
+                controller.sp!.getString('userName').toString(),
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -393,7 +395,7 @@ class UserUI extends StatelessWidget {
         ),
         ListTile(
           title: Text(
-            data[0].email,
+            controller.sp!.getString('email').toString(),
             style: _textStyle,
           ),
           leading: Container(
@@ -408,22 +410,22 @@ class UserUI extends StatelessWidget {
         Divider(
           height: 5,
         ),
-        ListTile(
-          title: Text(
-            "sb.joiningDate!",
-            style: _textStyle,
-          ),
-          leading: Container(
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-                color: Colors.green, borderRadius: BorderRadius.circular(5)),
-            child: Icon(LineIcons.timesCircle, size: 20, color: Colors.white),
-          ),
-        ),
-        Divider(
-          height: 5,
-        ),
+        // ListTile(
+        //   title: Text(
+        //     "sb.joiningDate!",
+        //     style: _textStyle,
+        //   ),
+        //   leading: Container(
+        //     height: 30,
+        //     width: 30,
+        //     decoration: BoxDecoration(
+        //         color: Colors.green, borderRadius: BorderRadius.circular(5)),
+        //     child: Icon(LineIcons.timesCircle, size: 20, color: Colors.white),
+        //   ),
+        // ),
+        // Divider(
+        //   height: 5,
+        // ),
         ListTile(
             title: Text(
               'edit profile'.tr,
