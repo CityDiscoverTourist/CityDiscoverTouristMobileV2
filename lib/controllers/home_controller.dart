@@ -13,6 +13,7 @@ class HomeController extends GetxController {
   var cityList = List<City>.empty().obs;
   var questTypeList = List<QuestType>.empty().obs;
   var cityChoice=1.obs;
+  var indexHomePage=0.obs;
   @override
   void onInit() async {
     super.onInit();

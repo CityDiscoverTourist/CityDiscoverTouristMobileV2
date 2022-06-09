@@ -12,16 +12,17 @@ String customerToJson(List<Customer> data) =>
 
 class Customer {
   Customer({
+    this.imagePath,
     required this.id,
     required this.userName,
     required this.normalizedUserName,
     required this.email,
     required this.normalizedEmail,
     required this.emailConfirmed,
-    required this.passwordHash,
+    this.passwordHash,
     required this.securityStamp,
     required this.concurrencyStamp,
-    required this.phoneNumber,
+    this.phoneNumber,
     required this.phoneNumberConfirmed,
     required this.twoFactorEnabled,
     // required this.lockoutEnd,
@@ -29,6 +30,7 @@ class Customer {
     required this.accessFailedCount,
   });
 
+  dynamic imagePath;
   String id;
   String userName;
   String normalizedUserName;
@@ -41,11 +43,12 @@ class Customer {
   dynamic phoneNumber;
   bool phoneNumberConfirmed;
   bool twoFactorEnabled;
-  // late DateTime lockoutEnd;
+  // DateTime lockoutEnd;
   bool lockoutEnabled;
   int accessFailedCount;
 
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
+        imagePath: json["imagePath"],
         id: json["id"],
         userName: json["userName"],
         normalizedUserName: json["normalizedUserName"],
@@ -60,14 +63,13 @@ class Customer {
         phoneNumber: json["phoneNumber"],
         phoneNumberConfirmed: json["phoneNumberConfirmed"],
         twoFactorEnabled: json["twoFactorEnabled"],
-        // lockoutEnd: json["lockoutEnd"] == null
-        //     ? null
-        //     : json[DateTime.parse("lockoutEnd")],
+        // lockoutEnd: json["lockoutEnd"] == null ? null : DateTime.parse(json["lockoutEnd"]),
         lockoutEnabled: json["lockoutEnabled"],
         accessFailedCount: json["accessFailedCount"],
       );
 
   Map<String, dynamic> toJson() => {
+        "imagePath": imagePath,
         "id": id,
         "userName": userName,
         "normalizedUserName": normalizedUserName,

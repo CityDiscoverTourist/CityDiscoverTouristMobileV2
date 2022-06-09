@@ -14,13 +14,11 @@ class AppPages {
       GetPage(
           name: KWelcomeScreen, page: () => HomePage(), binding: HomeBinding()),
       GetPage(
-          name: KLoginScreen,
-          page: () => SignInPage(),
-          binding: LoginBinding()),
+          name: KLoginScreen, page: () => SignInPage(), binding: HomeBinding()),
       GetPage(
           name: KProfileScreen,
           page: () => ProfilePage(),
-          binding: LoginBinding()),
+          binding: HomeBinding()),
     ];
   }
 }
