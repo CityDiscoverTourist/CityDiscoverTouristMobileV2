@@ -5,4 +5,5 @@ class ApiEndPoints {
   // static const getGenreList = "genre/movie/list";
   static const login = "/auths/login-firebase";
   static const customer = "/customers/";
+  static const loginFacebook = "/auths/login-facebook";
 }

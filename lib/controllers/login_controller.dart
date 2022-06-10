@@ -5,6 +5,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -30,7 +31,8 @@ class LoginController extends GetxController {
   late FirebaseApp firebaseApp;
   late User firebaseUser;
   late FirebaseAuth firebaseAuth;
-  bool isSignedIn = false;
+  bool? _isSignedIn = false;
+  bool? get isSignedIn => _isSignedIn;
 
   //CUONGNHT EDIT CODE
   //ADD VARIABLE Customer for change
@@ -57,7 +59,8 @@ class LoginController extends GetxController {
     firebaseApp = await Firebase.initializeApp();
   }
 
-  Future<Widget> checkUserLoggedIn() async {
+  Future<void> checkUserLoggedIn() async {
+    print("Ok");
     if (firebaseApp == null) {
       await initlizeFirebaseApp();
     }
@@ -66,16 +69,17 @@ class LoginController extends GetxController {
       update();
     }
     if (firebaseAuth.currentUser == null) {
-      return SignInPage();
+      Get.toNamed("/LOGIN_SCREEN");
     } else {
       firebaseUser = firebaseAuth.currentUser!;
       update();
-      return HomePage();
+      Get.toNamed("/WELCOME_SCREEN");
     }
   }
 
   void onInit() async {
     super.onInit();
+    // await checkUserLoggedIn();
   }
 
   Future<void> login() async {
@@ -116,10 +120,10 @@ class LoginController extends GetxController {
           Customer customer = Customer.fromJson(responseData2['data']);
           var token = responseData['jwtToken'];
           print(customer);
-          isSignedIn = true;
+          _isSignedIn = true;
           update();
           Get.back();
-          saveDataToSP(customer, token);
+          saveDataToSP(customer, token, _isSignedIn!);
           Get.put(
             LoginController(),
             permanent: true,
@@ -142,7 +146,70 @@ class LoginController extends GetxController {
     }
   }
 
-  Future saveDataToSP(Customer customer, String jwtToken) async {
+  Future<void> loginFacebook() async {
+    try {
+      await initlizeFirebaseApp();
+
+      firebaseAuth = FirebaseAuth.instance;
+      final LoginResult facebookLoginResult = await FacebookAuth.instance
+          .login(permissions: ['email', 'public_profile']);
+      final accessToken = await FacebookAuth.instance.accessToken;
+
+      final AuthCredential credential =
+          FacebookAuthProvider.credential(accessToken!.token);
+      print(accessToken.token);
+      Map data2 = {'resource': accessToken.token};
+      var body = json.encode(data2);
+      var response = await http.post(
+          Uri.parse(Api.baseUrl +
+              ApiEndPoints.loginFacebook +
+              '?resource=' +
+              accessToken.token),
+          headers: {"Content-Type": "application/json"},
+          body: body);
+
+      print(response.body);
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        var response2 = await http.get(
+            Uri.parse(Api.baseUrl +
+                ApiEndPoints.customer +
+                responseData['accountId']),
+            headers: {"Content-Type": "application/json"});
+        if (response2.statusCode == 200) {
+          final responseData2 = json.decode(response2.body);
+          Customer customer = Customer.fromJson(responseData2['data']);
+          var token = responseData['jwtToken'];
+          print(customer);
+          _isSignedIn = true;
+          update();
+          Get.back();
+          saveDataToSP(customer, token, _isSignedIn!);
+          // Get.put(
+          //   LoginController(),
+          //   permanent: true,
+          // );
+          Get.put(HomeController()).indexHomePage.value = 0;
+          Get.to(HomePage());
+        }
+      }
+    } catch (ex) {
+      Get.back();
+      print(ex.toString());
+      Get.snackbar(ex.toString(), 'Error Signing in',
+          duration: Duration(seconds: 5),
+          backgroundColor: Colors.black,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+          icon: Icon(
+            Icons.error,
+            color: Colors.red,
+          ));
+    }
+  }
+
+  Future saveDataToSP(
+      Customer customer, String jwtToken, bool isSignedIn) async {
     sp = await SharedPreferences.getInstance();
 
     await sp?.setString('uid', customer.id);
@@ -151,6 +218,7 @@ class LoginController extends GetxController {
     await sp?.setString('phoneNumber', customer.phoneNumber);
     await sp?.setString('imagePath', customer.imagePath);
     await sp?.setString('jwtToken', jwtToken);
+    await sp?.setBool('isSignedIn', isSignedIn);
   }
 
   Future getDataFromSp() async {
@@ -161,6 +229,7 @@ class LoginController extends GetxController {
     _imagePath = sp?.getString('imagePath');
     _uid = sp?.getString('uid');
     _jwtToken = sp?.getString('jwtToken');
+    _isSignedIn = sp?.getBool('isSignedIn');
   }
 
   Future<void> logout() async {
