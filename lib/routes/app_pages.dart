@@ -4,6 +4,7 @@ import '../bindings/home_binding.dart';
 import '../bindings/login_binding.dart';
 import '../pages/home.dart';
 import '../pages/sign_in.dart';
+import '../pages/splash.dart';
 import 'app_routes.dart';
 import 'package:get/get.dart';
 // ignore_for_file: prefer_const_constructors
@@ -18,6 +19,10 @@ class AppPages {
       GetPage(
           name: KProfileScreen,
           page: () => ProfilePage(),
+          binding: HomeBinding()),
+      GetPage(
+          name: KSplashScreen,
+          page: () => SplashPage(),
           binding: HomeBinding()),
     ];
   }

@@ -82,41 +82,43 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   handleFacebookSignIn() async {
-    final sb = context.read<SignInBloc>();
+    // final sb = context.read<SignInBloc>();
+    LoginController controller = new LoginController();
     setState(() => facebookSignInStarted = true);
     await AppService().checkInternet().then((hasInternet) async {
       if (hasInternet == false) {
         openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
       } else {
-        await sb.signInwithFacebook().then((_) {
-          if (sb.hasError == true) {
-            openSnacbar(
-                scaffoldKey, 'something is wrong. please try again.'.tr);
-            setState(() => facebookSignInStarted = false);
-          } else {
-            // sb.checkUserExists().then((value) {
-            //   if (value == true) {
-            //     sb.getUserDatafromFirebase(sb.uid).then((value) => sb
-            //         .saveDataToSP()
-            //         .then((value) => sb.guestSignout())
-            //         .then((value) => sb.setSignIn().then((value) {
-            //               setState(() => facebookSignInStarted = false);
-            afterSignIn();
-            //             })));
-            //   } else {
-            //     sb.getJoiningDate().then((value) => sb
-            //         .saveToFirebase()
-            //         .then((value) => sb.increaseUserCount())
-            //         .then((value) => sb.saveDataToSP().then((value) => sb
-            //             .guestSignout()
-            //             .then((value) => sb.setSignIn().then((value) {
-            //                   setState(() => facebookSignInStarted = false);
-            //                   afterSignIn();
-            //                 })))));
-            //   }
-            // });
-          }
-        });
+        controller.loginFacebook();
+        // await sb.signInwithFacebook().then((_) {
+        //   if (sb.hasError == true) {
+        //     openSnacbar(
+        //         scaffoldKey, 'something is wrong. please try again.'.tr);
+        //     setState(() => facebookSignInStarted = false);
+        //   } else {
+        //     // sb.checkUserExists().then((value) {
+        //     //   if (value == true) {
+        //     //     sb.getUserDatafromFirebase(sb.uid).then((value) => sb
+        //     //         .saveDataToSP()
+        //     //         .then((value) => sb.guestSignout())
+        //     //         .then((value) => sb.setSignIn().then((value) {
+        //     //               setState(() => facebookSignInStarted = false);
+        //     // afterSignIn();
+        //     //             })));
+        //     //   } else {
+        //     //     sb.getJoiningDate().then((value) => sb
+        //     //         .saveToFirebase()
+        //     //         .then((value) => sb.increaseUserCount())
+        //     //         .then((value) => sb.saveDataToSP().then((value) => sb
+        //     //             .guestSignout()
+        //     //             .then((value) => sb.setSignIn().then((value) {
+        //     //                   setState(() => facebookSignInStarted = false);
+        //     //                   afterSignIn();
+        //     //                 })))));
+        //     //   }
+        //     // });
+        //   }
+        // });
       }
     });
   }

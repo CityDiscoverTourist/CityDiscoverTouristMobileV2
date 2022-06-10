@@ -57,12 +57,12 @@
     "blogs" : "Blog",
 
 
-    "bookmarks" : "Dấu trang",
-    "saved places" : "Địa điểm đã lưu",
-    "saved blogs" : "Blog đã lưu",
+    "bookmarks" : "Lịch sử",
+    "saved places" : "Các Quest đã mua",
+    "saved blogs" : "Lịch sử chơi",
     "sign in first" : "Đăng nhập trước",
-    "sign in to save your favourite places here" : "Đăng nhập để lưu các địa điểm yêu thích của bạn",
-    "sign in to save your favourite blogs here" : "Đăng nhập để lưu các blog yêu thích của bạn",
+    "sign in to save your favourite places here" : "Đăng nhập để xem các quest bạn đã mua",
+    "sign in to save your favourite blogs here" : "Đăng nhập để xem lịch sử chơi của bạn",
     "no blogs found" : "Không tìm thấy blog",
     "save your favourite places here" : "Lưu địa điểm yêu thích của bạn",
     "save your favourite blogs here" : "Lưu các blog yêu thích của bạn",

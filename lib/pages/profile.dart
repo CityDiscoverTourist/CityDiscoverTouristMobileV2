@@ -378,7 +378,7 @@ class UserUI extends StatelessWidget {
                   radius: 60,
                   backgroundColor: Colors.grey[300],
                   backgroundImage: CachedNetworkImageProvider(
-                      "controller.sp!.getString('imagePath').toString()")),
+                      controller.sp!.getString('imagePath').toString())),
               SizedBox(
                 height: 10,
               ),

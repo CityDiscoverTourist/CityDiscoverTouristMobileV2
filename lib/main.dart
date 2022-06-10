@@ -30,8 +30,11 @@ Future<void> main() async {
   //   useOnlyLangCode: true,
   //   child: MyApp(),
   // ));
-  LoginController controller = new LoginController();
-  controller.checkUserLoggedIn();
+  // LoginBinding().dependencies();
+  Get.put(LoginController(), permanent: true);
+  // LoginController controller = new LoginController();
+  // controller.checkUserLoggedIn();
+
   runApp(GetMaterialApp(
     translations: Translation(),
     locale: Locale('en'),
@@ -41,8 +44,10 @@ Future<void> main() async {
     defaultTransition: Transition.native,
     //  translations: MyTranslations(),
     getPages: AppPages.getPages(),
-    initialBinding: HomeBinding(),
+    initialBinding: LoginBinding(),
     //Hello fen
     //HOWAREU
   ));
+  // var controller = Get.find<LoginController>();
+  // controller.checkUserLoggedIn();
 }
