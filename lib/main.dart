@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
+import 'package:travel_hour/controllers/home_controller.dart';
+import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/routes/app_pages.dart';
 import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/utils/tranlations.dart';
@@ -31,7 +33,11 @@ Future<void> main() async {
   //   child: MyApp(),
   // ));
   // LoginBinding().dependencies();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   Get.put(LoginController(), permanent: true);
+  Get.put(LoginControllerV2(), permanent: true);
+    Get.put(HomeController(), permanent: true);
   // LoginController controller = new LoginController();
   // controller.checkUserLoggedIn();
 
@@ -40,7 +46,7 @@ Future<void> main() async {
     locale: Locale('en'),
     fallbackLocale: Locale('en'),
     // It is not mandatory to use named routes, but dynamic urls are interesting.
-    initialRoute: KLoginScreen,
+    initialRoute: KSplashScreen,
     defaultTransition: Transition.native,
     //  translations: MyTranslations(),
     getPages: AppPages.getPages(),

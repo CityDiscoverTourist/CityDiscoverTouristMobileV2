@@ -1,4 +1,6 @@
+import 'package:travel_hour/pages/sign_inV2.dart';
 import 'package:travel_hour/pages/profile.dart';
+import 'package:travel_hour/pages/splashV2.dart';
 
 import '../bindings/home_binding.dart';
 import '../bindings/login_binding.dart';
@@ -15,15 +17,16 @@ class AppPages {
       GetPage(
           name: KWelcomeScreen, page: () => HomePage(), binding: HomeBinding()),
       GetPage(
-          name: KLoginScreen, page: () => SignInPage(), binding: HomeBinding()),
+          name: KLoginScreen, page: () => LoginScreen(), binding: LoginBinding()),
       GetPage(
           name: KProfileScreen,
           page: () => ProfilePage(),
           binding: HomeBinding()),
       GetPage(
           name: KSplashScreen,
-          page: () => SplashPage(),
+          page: () => SplashStart(),
           binding: HomeBinding()),
+          
     ];
   }
 }

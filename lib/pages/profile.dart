@@ -364,8 +364,8 @@ class UserUI extends StatelessWidget {
   Widget build(BuildContext context) {
     // final sb = context.watch<SignInBloc>();
     var data = Get.arguments;
-    var controller = Get.find<LoginController>();
-    controller.getDataFromSp();
+    var controller = Get.find<HomeController>();
+    // controller.getDataFromSp();
     TextStyle _textStyle = TextStyle(
         fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[900]);
     return Column(
@@ -378,12 +378,12 @@ class UserUI extends StatelessWidget {
                   radius: 60,
                   backgroundColor: Colors.grey[300],
                   backgroundImage: CachedNetworkImageProvider(
-                      controller.sp!.getString('imagePath').toString())),
+                      controller.sp.imagePath.toString())),
               SizedBox(
                 height: 10,
               ),
               Text(
-                controller.sp!.getString('userName').toString(),
+                controller.sp.userName.toString(),
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -395,7 +395,7 @@ class UserUI extends StatelessWidget {
         ),
         ListTile(
           title: Text(
-            controller.sp!.getString('email').toString(),
+            controller.sp.email.toString(),
             style: _textStyle,
           ),
           leading: Container(
