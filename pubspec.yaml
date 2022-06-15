@@ -63,6 +63,7 @@ dependencies:
   md2_tab_indicator:
     git:
       url: https://github.com/westdabestdb/md2_tab_indicator
+  geolocator: ^8.2.1
 
 
   

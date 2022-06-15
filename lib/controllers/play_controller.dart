@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:travel_hour/pages/completed_quest.dart';
 import 'package:travel_hour/pages/ingroress.dart';
 import 'package:travel_hour/services/play_service.dart';
+import 'package:http/http.dart' as http;
 
+import '../api/api.dart';
+import '../api/api_end_points.dart';
 import '../models/questItem.dart';
 
 class PlayController extends GetxController {
@@ -96,7 +102,7 @@ class PlayController extends GetxController {
 
 //Check Location of customer
   void checkLocatCustomer() async {
-    checkLocation.value = await PlayService().checkLocation();
+    checkLocation.value = await PlayService().checkLocation("9");
   }
 
 //Check currentAns
