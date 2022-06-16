@@ -15,7 +15,7 @@ class AnswerPage extends GetView<PlayController> {
       builder: (controller) {
         return Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text(controller.questItem.name),
+            Text(controller.questItemCurrent.name),
             TextField(
               controller: myController,
             ),

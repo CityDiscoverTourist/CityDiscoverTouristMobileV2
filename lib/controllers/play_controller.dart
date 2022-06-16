@@ -11,19 +11,32 @@ import 'package:http/http.dart' as http;
 
 import '../api/api.dart';
 import '../api/api_end_points.dart';
+import '../models/quest.dart';
 import '../models/questItem.dart';
 
 class PlayController extends GetxController {
+  //Bool check status show SplashPage await result from API
   var isLoading = false.obs;
-  late QuestItem questItem;
+  //QuestItem current
+  late QuestItem questItemCurrent;
+  //Handle button submit Answer in Answer_questItem Page
   var clickAns = false.obs;
+  //Bool check status when Answer Correct
   var correctAns = false.obs;
-
+  //Information of Quest current
+  Quest ?questCurrent;
+  //Current Ans of Customer
   var currentAns = "".obs;
+  //Type Quest Item :
+  //1.Text
+  //2.Compare Image
   var typeQuestItem = 1.obs;
+ //Lat long -Location of Customer
   var lat;
   var long;
+  //Check Location same Location of QuestItem
   var checkLocation = false.obs;
+  //Widget change when typeQuestItem change
   late Widget BodyType;
 
   //Test List
@@ -33,13 +46,16 @@ class PlayController extends GetxController {
   void onInit() async {
     super.onInit();
     fetchQuestItemTest();
+
+    //B1 Fetch data the first QuestItem 1
+    PlayService().fetchDataQuestItem();
   }
 
   @override
   void onReady() async {
     super.onReady();
     print('TextInit');
-    questItem = qItem[index.value];
+    questItemCurrent = qItem[index.value];
     ever(clickAns, handleAuthStateChanged);
     // ever(correctAns, handleAuthStateChanged);
   }
@@ -59,7 +75,7 @@ class PlayController extends GetxController {
       //Check câu cuối
       if (index.value != qItem.length - 1) {
         fetchNextQuestItem();
-        print(questItem.id);
+        print(questItemCurrent.id);
         //refeshCurrentAns
         currentAns.value = "";
         update();
@@ -97,7 +113,7 @@ class PlayController extends GetxController {
 
     //test
     increaseIndex();
-    questItem = qItem[index.value];
+    questItemCurrent = qItem[index.value];
   }
 
 //Check Location of customer
@@ -128,7 +144,7 @@ class PlayController extends GetxController {
   void fetchQuestItemTest() async {
     var qItemApi = await PlayService.fetchTestData();
     if (qItemApi != null) qItem.assignAll(qItemApi);
-    questItem = qItem[index.value];
+    questItemCurrent = qItem[index.value];
   }
 
   void increaseIndex() {
