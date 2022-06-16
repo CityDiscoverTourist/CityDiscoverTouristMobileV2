@@ -30,8 +30,8 @@ class SpecialStateOne extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    color: Colors.grey[800], 
-                    wordSpacing: 1, 
+                    color: Colors.grey[800],
+                    wordSpacing: 1,
                     letterSpacing: -0.6),
               ).tr(),
               Spacer(),
@@ -47,24 +47,24 @@ class SpecialStateOne extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          child: ListView.builder(
-            padding: EdgeInsets.only(left: 10, right: 10),
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: spb.data.isEmpty ? 4 : spb.data.length,
-            itemBuilder: (BuildContext context, int index) {
-              if (spb.data.isEmpty) return Container();
-              return ListCard(
-                d: spb.data[index],
-                tag: 'sp1$index',
-                color: Colors.grey[200],
-              );
-            },
-          ),
-        )
+        // Container(
+        //   width: MediaQuery.of(context).size.width,
+        //   child: ListView.builder(
+        //     padding: EdgeInsets.only(left: 10, right: 10),
+        //     shrinkWrap: true,
+        //     scrollDirection: Axis.vertical,
+        //     physics: NeverScrollableScrollPhysics(),
+        //     itemCount: spb.data.isEmpty ? 4 : spb.data.length,
+        //     itemBuilder: (BuildContext context, int index) {
+        //       if (spb.data.isEmpty) return Container();
+        //       return ListCard(
+        //         d: spb.data[index],
+        //         tag: 'sp1$index',
+        //         color: Colors.grey[200],
+        //       );
+        //     },
+        //   ),
+        // )
       ],
     );
   }

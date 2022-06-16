@@ -6,4 +6,5 @@ class ApiEndPoints {
   static const login = "/auths/login-firebase";
   static const customer = "/customers/";
   static const loginFacebook = "/auths/login-facebook";
+  static const getQuestByCustomerID = "/customer-quests/get-by-customer-id?id=";
 }

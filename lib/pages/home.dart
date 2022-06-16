@@ -7,10 +7,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:travel_hour/pages/guide.dart';
 
 import 'package:travel_hour/pages/profile.dart';
+import 'package:travel_hour/pages/test/map.dart';
 import '../controllers/home_controller.dart';
+import 'bookmark.dart';
 import 'explore.dart';
+import 'history.dart';
 
 // class HomePage extends StatefulWidget {
 //   HomePage({Key? key}) : super(key: key);
@@ -89,9 +93,10 @@ class HomePage extends StatelessWidget {
     var _currentIndex = myController.indexHomePage;
     final views = [
       Explore(),
+      GuidePage(),
       // quest(),
 //             // BlogPage(),
-//             // BookmarkPage(),
+      HistoryPage(),
       ProfilePage(),
     ];
     return Scaffold(
@@ -108,7 +113,7 @@ class HomePage extends StatelessWidget {
           onItemSelected: _currentIndex,
           items: <BottomNavyBarItem>[
             BottomNavyBarItem(
-              icon: Icon(Icons.apps),
+              icon: Icon(Icons.home),
               title: Text('Home'),
               activeColor: Colors.red,
               textAlign: TextAlign.center,
@@ -120,16 +125,16 @@ class HomePage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             BottomNavyBarItem(
-              icon: Icon(Icons.message),
+              icon: Icon(Icons.history_sharp),
               title: Text(
-                'Messages test for mes teset test test ',
+                'History ',
               ),
               activeColor: Colors.pink,
               textAlign: TextAlign.center,
             ),
             BottomNavyBarItem(
-              icon: Icon(Icons.settings),
-              title: Text('Settings'),
+              icon: Icon(Icons.account_circle),
+              title: Text('Profile'),
               activeColor: Colors.blue,
               textAlign: TextAlign.center,
             ),

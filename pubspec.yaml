@@ -64,6 +64,9 @@ dependencies:
     git:
       url: https://github.com/westdabestdb/md2_tab_indicator
   geolocator: ^8.2.1
+  device_info_plus: ^3.2.4
+  flutter_map: ^1.0.0
+  flutter_local_notifications: ^9.6.1
 
 
   

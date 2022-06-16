@@ -7,12 +7,15 @@ import 'package:travel_hour/blocs/bookmark_bloc.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/models/blog.dart';
+import 'package:travel_hour/models/quest.dart';
 import 'package:travel_hour/pages/blog_details.dart';
 import 'package:travel_hour/utils/empty.dart';
 import 'package:travel_hour/utils/list_card.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 import 'package:travel_hour/utils/loading_cards.dart';
+
+import '../controllers/home_controller.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -26,7 +29,8 @@ class _HistoryPageState extends State<HistoryPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final SignInBloc sb = context.watch<SignInBloc>();
+    // final SignInBloc sb = context.watch<SignInBloc>();
+    var controller = Get.find<HomeController>();
 
     return DefaultTabController(
       length: 2,
@@ -73,20 +77,8 @@ class _HistoryPageState extends State<HistoryPage>
               ]),
         ),
         body: TabBarView(children: <Widget>[
-          sb.guestUser == true
-              ? EmptyPage(
-                  icon: Feather.user_plus,
-                  message: 'sign in first'.tr,
-                  message1: "sign in to save your favourite places here".tr,
-                )
-              : BookmarkedPlaces(),
-          sb.guestUser == true
-              ? EmptyPage(
-                  icon: Feather.user_plus,
-                  message: 'sign in first'.tr,
-                  message1: "sign in to save your favourite blogs here".tr,
-                )
-              : BookmarkedBlogs(),
+          BookmarkedPlaces(),
+          BookmarkedBlogs(),
         ]),
       ),
     );
@@ -107,16 +99,17 @@ class _BookmarkedPlacesState extends State<BookmarkedPlaces>
     with AutomaticKeepAliveClientMixin {
   final String collectionName = 'hotels';
   final String type = 'bookmarked_hotels';
+  var controller = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Container(
       child: FutureBuilder(
-        future: context.watch<BookmarkBloc>().getPlaceData(),
+        // future: context.watch<BookmarkBloc>().getPlaceData(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data.length == 0)
+          if (controller.questList.isNotEmpty) {
+            if (controller.questList.length == 0)
               return EmptyPage(
                 icon: Feather.bookmark,
                 message: 'no places found'.tr,
@@ -125,13 +118,13 @@ class _BookmarkedPlacesState extends State<BookmarkedPlaces>
             else
               return ListView.separated(
                 padding: EdgeInsets.all(5),
-                itemCount: snapshot.data.length,
+                itemCount: controller.questList.length,
                 separatorBuilder: (context, index) => SizedBox(
                   height: 5,
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   return ListCard(
-                    d: snapshot.data[index],
+                    d: controller.questList[index],
                     tag: "bookmark$index",
                     color: Colors.white,
                   );
@@ -168,16 +161,17 @@ class _BookmarkedBlogsState extends State<BookmarkedBlogs>
     with AutomaticKeepAliveClientMixin {
   final String collectionName = 'blogs';
   final String type = 'bookmarked_blogs';
+  var controller = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Container(
       child: FutureBuilder(
-        future: context.watch<BookmarkBloc>().getBlogData(),
+        // future: context.watch<BookmarkBloc>().getBlogData(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data.length == 0)
+          if (controller.questList.isNotEmpty) {
+            if (controller.questList.length == 0)
               return EmptyPage(
                 icon: Feather.bookmark,
                 message: 'no blogs found'.tr,
@@ -186,12 +180,12 @@ class _BookmarkedBlogsState extends State<BookmarkedBlogs>
             else
               return ListView.separated(
                 padding: EdgeInsets.all(15),
-                itemCount: snapshot.data.length,
+                itemCount: controller.questList.length,
                 separatorBuilder: (context, index) => SizedBox(
                   height: 15,
                 ),
                 itemBuilder: (BuildContext context, int index) {
-                  return _BlogList(data: snapshot.data[index]);
+                  return _BlogList(data: controller.questList[index]);
                 },
               );
           }
@@ -215,7 +209,7 @@ class _BookmarkedBlogsState extends State<BookmarkedBlogs>
 }
 
 class _BlogList extends StatelessWidget {
-  final Blog? data;
+  final Quest? data;
   const _BlogList({Key? key, required this.data}) : super(key: key);
 
   @override
@@ -231,10 +225,10 @@ class _BlogList extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(3),
               child: Hero(
-                  tag: 'bookmark${data!.timestamp}',
+                  tag: 'bookmark${data!.createdDate}',
                   child: Container(
                     width: 140,
-                    child: CustomCacheImage(imageUrl: data!.thumbnailImagelUrl),
+                    child: CustomCacheImage(imageUrl: data!.imagePath),
                   )),
             ),
             Flexible(
@@ -245,7 +239,7 @@ class _BlogList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      data!.title!,
+                      data!.title,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -264,7 +258,7 @@ class _BlogList extends StatelessWidget {
                             SizedBox(
                               width: 3,
                             ),
-                            Text(data!.date!,
+                            Text(data!.createdDate.toString(),
                                 style: TextStyle(
                                     fontSize: 13, color: Colors.grey)),
                           ],
@@ -275,7 +269,7 @@ class _BlogList extends StatelessWidget {
                             SizedBox(
                               width: 3,
                             ),
-                            Text(data!.loves.toString(),
+                            Text(data!.areaId.toString(),
                                 style: TextStyle(
                                     fontSize: 13, color: Colors.grey)),
                           ],
@@ -290,8 +284,8 @@ class _BlogList extends StatelessWidget {
         ),
       ),
       onTap: () {
-        nextScreen(context,
-            BlogDetails(blogData: data, tag: 'bookmark${data!.timestamp}'));
+        // nextScreen(context,
+        //     BlogDetails(blogData: con, tag: 'bookmark${data!.timestamp}'));
       },
     );
   }
