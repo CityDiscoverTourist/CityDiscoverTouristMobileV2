@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geo/geo.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -112,20 +113,29 @@ class _GuidePageState extends State<GuidePage> {
   void animateCamera() {
     mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(10.845362657418587, 106.79410016682986),
-        zoom: 8,
-        tilt: 30,
-        bearing: 120)));
+        zoom: 17,
+        tilt: 50,
+        bearing: 270)));
   }
 
   static const _initialCameraPosition = CameraPosition(
-    target: LatLng(10.845362657418587, 106.79410016682986),
-    zoom: 11.5,
-  );
+      target: LatLng(10.845362657418587, 106.79410016682986),
+      zoom: 90,
+      tilt: 90,
+      bearing: 80);
+  changeMapMode() {}
 
+  Future<String> getJsonFile(String path) async {
+    return await rootBundle.loadString(path);
+  }
+
+  void setMapStyle(String mapStyle) {}
   void onMapCreated(controller) {
     //controller.setMapStyle(MapUtils.mapStyles);
     // setState(() {
     mapController = controller;
+    getJsonFile("assets/style_mode.json")
+        .then((value) => {mapController.setMapStyle(value)});
     // });
   }
 
@@ -319,6 +329,7 @@ class _GuidePageState extends State<GuidePage> {
     return new Scaffold(
         body: SafeArea(
       child: Stack(children: <Widget>[
+        Container(),
         SlidingUpPanel(
             minHeight: 125,
             maxHeight: MediaQuery.of(context).size.height * 0.80,
