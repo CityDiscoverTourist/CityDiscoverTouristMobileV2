@@ -37,7 +37,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   Get.put(LoginController(), permanent: true);
   Get.put(LoginControllerV2(), permanent: true);
-    Get.put(HomeController(), permanent: true);
+  Get.put(HomeController(), permanent: true);
   // LoginController controller = new LoginController();
   // controller.checkUserLoggedIn();
 
