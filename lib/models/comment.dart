@@ -1,37 +1,45 @@
+// To parse this JSON data, do
+//
+//     final comment = commentFromJson(jsonString);
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
+
+List<Comment> commentFromJson(String str) => List<Comment>.from(json.decode(str).map((x) => Comment.fromJson(x)));
+
+String commentToJson(List<Comment> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Comment {
+    Comment({
+        required this.id,
+        required this.name,
+        required this.imageUrl,
+        required this.comment,
+        required this.rating,
+        required this.date,
+    });
 
-  String? uid;
-  String? name;
-  String? imageUrl;
-  String? comment;
-  String? date;
-  String? timestamp;
+    int id;
+    String name;
+    String imageUrl;
+    String comment;
+    int rating;
+    String date;
 
-  Comment({
-    this.uid,
-    this.name,
-    this.imageUrl,
-    this.comment,
-    this.date,
-    this.timestamp
-    
-  });
-
-
-  factory Comment.fromFirestore(DocumentSnapshot snapshot){
-    Map d = snapshot.data() as Map<dynamic, dynamic>;
-    return Comment(
-      uid: d['uid'],
-      name: d['name'],
-      imageUrl: d['image url'],
-      comment: d['comment'],
-      date: d['date'],
-      timestamp: d['timestamp'], 
-
-
+    factory Comment.fromJson(Map<String, dynamic> json) => Comment(
+        id: json["id"],
+        name: json["name"],
+        imageUrl: json["imageUrl"],
+        comment: json["comment"],
+        rating: json["rating"],
+        date:json["date"],
     );
-  }
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "imageUrl": imageUrl,
+        "comment": comment,
+        "rating": rating,
+        "date": date,
+    };
 }
