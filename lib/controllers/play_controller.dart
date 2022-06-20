@@ -69,7 +69,8 @@ class PlayController extends GetxController {
   //handleAuthStateChanged
   void handleAuthStateChanged(clickAns) async {
     //Check câu trả lời
-    PlayService().checkAnswer("3", "stringgggdd", "42");
+    correctAns.value =
+        await PlayService().checkAnswer("3", "stringgggdd", "42");
     // correctAns.value = qItem[index.value].ans == currentAns.value;
     if (correctAns.value == true) {
       //Prepare data for nextQuestItem

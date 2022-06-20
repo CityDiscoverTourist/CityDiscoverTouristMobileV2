@@ -48,7 +48,7 @@ class PlayService {
 
   Future<bool> checkAnswer(
       String customerQuestId, String customerReply, String questItemId) async {
-    var response = await http.get(
+    var response = await http.put(
         Uri.parse(Api.baseUrl +
             ApiEndPoints.checkAnswer +
             customerQuestId +
@@ -57,7 +57,13 @@ class PlayService {
             "&questItemId=" +
             questItemId),
         headers: {"Content-Type": "application/json"});
-
+    // print(Api.baseUrl +
+    //     ApiEndPoints.checkAnswer +
+    //     customerQuestId +
+    //     "?customerReply=" +
+    //     customerReply +
+    //     "&questItemId=" +
+    //     questItemId);
     if (response.statusCode == 200) {
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
       // var data = json.decode(response.body);
