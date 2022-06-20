@@ -23,12 +23,47 @@ class PlayService {
     // }
   }
 
+  //Cái này chưa xài đc tại trang api đang lỗi
+  static Future<List<QuestItem>?> fetchTestData2(String questId) async {
+    var response = await http.get(
+        Uri.parse(Api.baseUrl + ApiEndPoints.checkAnswer + questId),
+        headers: {"Content-Type": "application/json"});
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      final questItemList = await questItemFromJson(responseData['data']);
+      // print('object');
+      return questItemList;
+    }
+    return null;
+  }
+
   Future<QuestItem> fetchDataQuestItem() {
     QuestItem? questItem;
     return Future<QuestItem>.value(questItem);
   }
 
-  Future<bool> checkAnswer() {
+  // Future<bool> checkAnswer() {
+  //   return Future<bool>.value(false);
+  // }
+
+  Future<bool> checkAnswer(
+      String customerQuestId, String customerReply, String questItemId) async {
+    var response = await http.get(
+        Uri.parse(Api.baseUrl +
+            ApiEndPoints.checkAnswer +
+            customerQuestId +
+            "?customerReply=" +
+            customerReply +
+            "&questItemId=" +
+            questItemId),
+        headers: {"Content-Type": "application/json"});
+
+    if (response.statusCode == 200) {
+      // print("OKkkkkkkkkkkkkkkkkkkkkk");
+      // var data = json.decode(response.body);
+      // print(data);
+      return Future<bool>.value(true);
+    }
     return Future<bool>.value(false);
   }
 
@@ -88,22 +123,80 @@ class PlayService {
     Position? pos = await getCurrentPosition();
     var lat = pos?.latitude.toString();
     var long = pos?.longitude.toString();
-    var response = await http.post(
+    var response = await http.get(
         Uri.parse(Api.baseUrl +
-            ApiEndPoints.loginFacebook +
-            "9" +
-            "?latitude=" +
-            lat! +
-            "&longitude=" +
-            long!),
+                ApiEndPoints.checkUserLocationQuest +
+                questID +
+                //Cái này để tạm latlong cứng để trả về true
+                "?latitude=10.7801203" +
+                // lat! +
+                "&longitude=106.6995542"
+            // +
+            // long!
+            ),
         headers: {"Content-Type": "application/json"});
+
     if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      if (data == true) {
-        return Future<bool>.value(true);
-      }
-      return Future<bool>.value(false);
+      // print("OKkkkkkkkkkkkkkkkkkkkkk");
+      // var data = json.decode(response.body);
+      // print(data);
+      return Future<bool>.value(true);
     }
     return Future<bool>.value(false);
+  }
+
+  Future<bool> checkLocationWithQuestItem(String questItemID) async {
+    Position? pos = await getCurrentPosition();
+    var lat = pos?.latitude.toString();
+    var long = pos?.longitude.toString();
+    var response = await http.get(
+        Uri.parse(Api.baseUrl +
+                ApiEndPoints.checkUserLocationQuestItem +
+                questItemID +
+                //Cái này để tạm latlong cứng để trả về true
+                "?latitude=10.7801203" +
+                // lat! +
+                "&longitude=106.6995542"
+            // +
+            // long!
+            ),
+        headers: {"Content-Type": "application/json"});
+
+    if (response.statusCode == 200) {
+      // print("OKkkkkkkkkkkkkkkkkkkkkk");
+      return Future<bool>.value(true);
+    }
+    return Future<bool>.value(false);
+  }
+
+  Future<String> getSuggestion(String questItemId) async {
+    var response = await http.get(
+        Uri.parse(Api.baseUrl + ApiEndPoints.getSuggestion + questItemId),
+        headers: {"Content-Type": "application/json"});
+    print(Api.baseUrl + ApiEndPoints.getSuggestion + questItemId);
+    if (response.statusCode == 200) {
+      // print("OKkkkkkkkkkkkkkkkkkkkkk");
+      var data = json.decode(response.body);
+      print(data);
+      return Future<String>.value(data);
+    }
+    return Future<String>.value(null);
+  }
+
+  Future<void> decreasePointSuggestion(String customerQuestId) async {
+    var response = await http.put(
+        Uri.parse(Api.baseUrl +
+            ApiEndPoints.decreasePointSuggestion +
+            customerQuestId),
+        headers: {"Content-Type": "application/json"});
+
+    if (response.statusCode == 200) {
+      print("OKkkkkkkkkkkkkkkkkkkkkk");
+      // var data = json.decode(response.body);
+      // print(data);
+      // return Future<bool>.value(true);
+    }
+    print("Failed");
+    // return Future<bool>.value(false);
   }
 }

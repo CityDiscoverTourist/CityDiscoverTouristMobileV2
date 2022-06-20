@@ -24,14 +24,15 @@ class PlayController extends GetxController {
   //Bool check status when Answer Correct
   var correctAns = false.obs;
   //Information of Quest current
-  Quest ?questCurrent;
+  Quest? questCurrent;
   //Current Ans of Customer
   var currentAns = "".obs;
   //Type Quest Item :
   //1.Text
   //2.Compare Image
+  var suggesstion = "".obs;
   var typeQuestItem = 1.obs;
- //Lat long -Location of Customer
+  //Lat long -Location of Customer
   var lat;
   var long;
   //Check Location same Location of QuestItem
@@ -68,7 +69,8 @@ class PlayController extends GetxController {
   //handleAuthStateChanged
   void handleAuthStateChanged(clickAns) async {
     //Check câu trả lời
-    correctAns.value = qItem[index.value].ans == currentAns.value;
+    PlayService().checkAnswer("3", "stringgggdd", "42");
+    // correctAns.value = qItem[index.value].ans == currentAns.value;
     if (correctAns.value == true) {
       //Prepare data for nextQuestItem
       print("handleAuthStateChanged - dòng 50 TRUE");
@@ -122,10 +124,13 @@ class PlayController extends GetxController {
   }
 
 //Check currentAns
-  void checkAnswer() async {
+  void checkAnswer(
+      String customerQuestId, String customerReply, String questItemId) async {
     try {
       isLoading(true);
-      correctAns.value = await PlayService().checkAnswer();
+      // Xài tạm dữ liệu cứng để trả về true
+      correctAns.value =
+          await PlayService().checkAnswer("3", "stringgggdd", "42");
     } finally {
       isLoading(false);
     }
@@ -145,6 +150,15 @@ class PlayController extends GetxController {
     var qItemApi = await PlayService.fetchTestData();
     if (qItemApi != null) qItem.assignAll(qItemApi);
     questItemCurrent = qItem[index.value];
+  }
+
+  void getSuggestion(String questItemId) async {
+    try {
+      isLoading(true);
+      suggesstion.value = await PlayService().getSuggestion(questItemId);
+    } finally {
+      isLoading(false);
+    }
   }
 
   void increaseIndex() {
