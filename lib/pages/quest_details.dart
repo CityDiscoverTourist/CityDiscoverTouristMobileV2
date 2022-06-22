@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/pages/start_play.dart';
+import 'package:travel_hour/widgets/big_text.dart';
 
 import '../controllers/home_controller.dart';
 import '../models/quest.dart';
@@ -209,22 +210,23 @@ class _QuestDetailsState extends State<QuestDetails> {
               color: Colors.white,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.075,
-              child: Row(
+              child: Column(children: [
+                Divider(
+                  thickness: 2,
+                  color: Colors.amber,
+                  height: 10,
+                ),Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 40),
-                    child: Text(widget.data!.price.toString() + ' VNĐ',
-                        style: TextStyle(
-                          fontSize: 26,
-                          color: Colors.green[600],
-                        )),
+                    padding: const EdgeInsets.only(left: 20),
+                    child: BigText(text: widget.data!.price.toString()+" VNĐ",color: Colors.green,size: 32,fontWeight: FontWeight.w600,)
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 40.0),
+                    padding: const EdgeInsets.only(right: 20.0),
                     child: ElevatedButton(
                       onPressed: () {Get.to(StartPage());},
-                      child: Text('MUA', style: TextStyle(fontSize: 16)),
+                      child: BigText(text: 'MUA',fontWeight: FontWeight.w600,color: Colors.white,),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.only(
                             left: 40.0, top: 16.0, bottom: 16.0, right: 40.0),
@@ -236,6 +238,7 @@ class _QuestDetailsState extends State<QuestDetails> {
                   )
                 ],
               ),
+              ],)
             ))
       ]),
     );
