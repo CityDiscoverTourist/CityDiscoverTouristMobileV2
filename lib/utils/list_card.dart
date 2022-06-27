@@ -3,8 +3,6 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/models/place.dart';
 import 'package:travel_hour/models/quest.dart';
-import 'package:travel_hour/pages/quest_details.dart';
-import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 
 class ListCard extends StatelessWidget {
@@ -44,7 +42,7 @@ class ListCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          d!.title!,
+                          d!.title,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -67,7 +65,7 @@ class ListCard extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                d!.price!.toString(),
+                                d!.price.toString(),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(

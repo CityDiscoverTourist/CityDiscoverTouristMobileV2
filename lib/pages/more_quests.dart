@@ -181,7 +181,10 @@ class _ListItem extends StatelessWidget {
                             size: 16,
                             color: Colors.grey,
                           ),
-                          BigText(text: 'Công viên nước đầm sen',size: 14,)
+                          BigText(
+                            text: 'Công viên nước đầm sen',
+                            size: 14,
+                          )
                         ],
                       ),
                       Divider(
@@ -196,7 +199,10 @@ class _ListItem extends StatelessWidget {
                             size: 24,
                             color: Colors.orange,
                           ),
-                          BigText(text: q.estimatedTime+' minutes',size: 16,),
+                          BigText(
+                            text: q.estimatedTime + ' minutes',
+                            size: 16,
+                          ),
                           SizedBox(
                             width: 30,
                           ),
@@ -205,17 +211,23 @@ class _ListItem extends StatelessWidget {
                             size: 18,
                             color: Colors.orange,
                           ),
-                       BigText(text: q.estimatedDistance+' km',size: 16,),
-                       Spacer(),
-                       Container(
-                        child: Center(child: BigText(text: q.price.toString()+" vnđ")),
-                        width: MediaQuery.of(context).size.width*0.25,
-                        height: 35,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFFF9C00),
-                          borderRadius: BorderRadius.circular(10)
-                        ),
-                       )
+                          BigText(
+                            text: q.estimatedDistance + ' km',
+                            size: 16,
+                          ),
+                          Spacer(),
+                          Container(
+                            child: Center(
+                                child: BigText(
+                              text: q.price.toString() + " vnđ",
+                              fontWeight: FontWeight.w700,
+                            )),
+                            width: MediaQuery.of(context).size.width * 0.25,
+                            height: 35,
+                            decoration: BoxDecoration(
+                                color: Color(0xFFFF9C00),
+                                borderRadius: BorderRadius.circular(10)),
+                          )
                         ],
                       ),
                     ],
