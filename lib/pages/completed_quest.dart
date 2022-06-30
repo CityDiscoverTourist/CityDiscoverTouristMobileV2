@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:travel_hour/controllers/play_controller.dart';
 import 'package:travel_hour/pages/home.dart';
+import 'package:travel_hour/pages/rating_quest.dart';
 
 class CompletedPage extends GetView<PlayController> {
   const CompletedPage({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class CompletedPage extends GetView<PlayController> {
           ElevatedButton(
             onPressed: () {
               Get.close(0);
-              Get.to(HomePage());
+              Get.to(RatingQuest());
             },
             child: Text('Go Home', style: TextStyle(fontSize: 16)),
             style: ElevatedButton.styleFrom(
