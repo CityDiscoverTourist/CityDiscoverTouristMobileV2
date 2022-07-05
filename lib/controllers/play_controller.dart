@@ -137,6 +137,36 @@ class PlayController extends GetxController {
     }
   }
 
+  void buyQuest(String customerId, String questID) async {
+    try {
+      isLoading(true);
+      // Xài tạm dữ liệu cứng để trả về true
+      await PlayService().buyQuest("1d9f265d-fd25-44de-ab64-14fcc1719e02", "9");
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  void customerStartQuest(String customerQuestId, String questID) async {
+    try {
+      isLoading(true);
+      // Xài tạm dữ liệu cứng để trả về true
+      await PlayService().customerStartQuest(customerQuestId, questID);
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  void decreasePointSuggestion(String customerQuestId, String questID) async {
+    try {
+      isLoading(true);
+      // Xài tạm dữ liệu cứng để trả về true
+      await PlayService().decreasePointSuggestion(customerQuestId);
+    } finally {
+      isLoading(false);
+    }
+  }
+
   //ClickAns
   void clickAnswer() {
     if (clickAns.value == true) {

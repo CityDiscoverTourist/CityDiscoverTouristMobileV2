@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
+import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/controllers/login_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/pages/done.dart';
@@ -13,6 +14,8 @@ import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/utils/snacbar.dart';
 // import 'package:easy_localization/easy_localization.dart';
 import 'package:travel_hour/widgets/language.dart';
+
+import '../controllers/play_controller.dart';
 
 class LoginScreen extends StatefulWidget {
   final String? tag;
@@ -85,12 +88,17 @@ class _LoginScreenState extends State<LoginScreen> {
   handleFacebookSignIn() async {
     // final sb = context.read<SignInBloc>();
     LoginController controller = new LoginController();
+    PlayController playController = new PlayController();
+    HomeController homeController = new HomeController();
     setState(() => facebookSignInStarted = true);
     await AppService().checkInternet().then((hasInternet) async {
       if (hasInternet == false) {
         openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
       } else {
-        controller.loginFacebook();
+        // controller.loginFacebook();
+        // playController.buyQuest("1d9f265d-fd25-44de-ab64-14fcc1719e02", "9");
+        // playController.customerStartQuest("9", "9");
+        homeController.getQuestDetailByID("9");
         // await sb.signInwithFacebook().then((_) {
         //   if (sb.hasError == true) {
         //     openSnacbar(

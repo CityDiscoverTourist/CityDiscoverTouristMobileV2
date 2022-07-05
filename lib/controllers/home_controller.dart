@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 import 'package:travel_hour/models/customer.dart';
 import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/services/login_service.dart';
@@ -22,10 +23,12 @@ class HomeController extends GetxController {
   var isLoading = true.obs;
   var questList = List<Quest>.empty().obs;
   var puQuestList = List<Quest>.empty().obs;
+  var HisQuestList = List<Quest>.empty().obs;
   var cityList = List<City>.empty().obs;
   var questTypeList = List<QuestType>.empty().obs;
   var cityChoice = 1.obs;
   var indexHomePage = 0.obs;
+  var language = "1".obs;
 
   late GoogleSignIn googleSign;
   var isSignIn = false.obs;
@@ -164,14 +167,45 @@ class HomeController extends GetxController {
     }
   }
 
-  void _getQuestByCustomerID(String id) async {
+  void getPuQuestByCustomerID(String customerId) async {
     try {
       isLoading(true);
-      var questListApi = await QuestService.fetchQuestFeatureData();
+      var questListApi = await QuestService.fetchPuQuestFeatureData(
+          "1d9f265d-fd25-44de-ab64-14fcc1719e02", language);
       if (questListApi != null) {
         print('Co Roi Ne');
-        questList.assignAll(questListApi);
+        puQuestList.assignAll(questListApi);
       }
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  void changeLanguage() async {
+    try {
+      isLoading(true);
+      Locale? locale = Get.locale;
+      print(locale);
+      if (locale.toString() == "en") {
+        language.value = "0";
+        print(language);
+        // update();
+      } else {
+        language.value = "1";
+        print(language);
+        // update();
+      }
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  void getQuestDetailByID(String questId) async {
+    try {
+      isLoading(true);
+      changeLanguage();
+      print(language);
+      await QuestService.fetchQuestDetail(questId, language.value);
     } finally {
       isLoading(false);
     }

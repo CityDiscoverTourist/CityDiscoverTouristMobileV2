@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:travel_hour/models/questItem.dart';
 import 'package:http/http.dart' as http;
@@ -68,6 +69,68 @@ class PlayService {
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
       // var data = json.decode(response.body);
       // print(data);
+      return Future<bool>.value(true);
+    }
+    return Future<bool>.value(false);
+  }
+
+  Future<bool> buyQuest(String customerId, String questID) async {
+    var now = new DateTime.now();
+    var dateFormatted = DateFormat("yyyy-MM-ddTHH:mm:ss").format(now);
+    print(dateFormatted);
+    Map mydata = {
+      'createdDate': dateFormatted,
+      'customerId': customerId,
+      'questId': questID
+    };
+    var body = json.encode(mydata);
+    var response = await http.post(
+        Uri.parse(Api.baseUrl + ApiEndPoints.buyQuest),
+        headers: {"Content-Type": "application/json"},
+        body: body);
+    print(Api.baseUrl + ApiEndPoints.buyQuest);
+    // print(Api.baseUrl +
+    //     ApiEndPoints.checkAnswer +
+    //     customerQuestId +
+    //     "?customerReply=" +
+    //     customerReply +
+    //     "&questItemId=" +
+    //     questItemId);
+    if (response.statusCode == 200) {
+      // print("OKkkkkkkkkkkkkkkkkkkkkk");
+      var data = json.decode(response.body);
+      print(data);
+      return Future<bool>.value(true);
+    }
+    return Future<bool>.value(false);
+  }
+
+  Future<bool> customerStartQuest(
+      String customerQuestId, String questID) async {
+    var now = new DateTime.now();
+    var dateFormatted = DateFormat("yyyy-MM-ddTHH:mm:ss").format(now);
+    print(dateFormatted);
+    Map mydata = {
+      'createdDate': dateFormatted,
+      'customerQuestId': customerQuestId,
+    };
+    var body = json.encode(mydata);
+    var response = await http.post(
+        Uri.parse(Api.baseUrl + ApiEndPoints.customerStartQuest + questID),
+        headers: {"Content-Type": "application/json"},
+        body: body);
+    print(Api.baseUrl + ApiEndPoints.buyQuest);
+    // print(Api.baseUrl +
+    //     ApiEndPoints.checkAnswer +
+    //     customerQuestId +
+    //     "?customerReply=" +
+    //     customerReply +
+    //     "&questItemId=" +
+    //     questItemId);
+    if (response.statusCode == 200) {
+      // print("OKkkkkkkkkkkkkkkkkkkkkk");
+      var data = json.decode(response.body);
+      print(data);
       return Future<bool>.value(true);
     }
     return Future<bool>.value(false);

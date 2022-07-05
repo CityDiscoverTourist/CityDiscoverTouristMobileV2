@@ -7,6 +7,7 @@ import 'package:travel_hour/pages/test/map.dart';
 import '../bindings/home_binding.dart';
 import '../bindings/login_binding.dart';
 import '../pages/home.dart';
+import '../pages/momo_payment.dart';
 import '../pages/sign_in.dart';
 import '../pages/splash.dart';
 import 'app_routes.dart';
@@ -37,6 +38,10 @@ class AppPages {
       GetPage(
           name: KMapScreen,
           page: () => ManyMarkersPage(),
+          binding: HomeBinding()),
+      GetPage(
+          name: KMomoPaymentScreen,
+          page: () => MomoPaymentPage(),
           binding: HomeBinding()),
     ];
   }
