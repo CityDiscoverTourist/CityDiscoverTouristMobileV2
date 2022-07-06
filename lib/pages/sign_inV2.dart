@@ -5,8 +5,9 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
+import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/controllers/login_controller.dart';
-import 'package:travel_hour/controllers/play_controller.dart';
+import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/pages/done.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/next_screen.dart';
@@ -14,16 +15,16 @@ import 'package:travel_hour/utils/snacbar.dart';
 // import 'package:easy_localization/easy_localization.dart';
 import 'package:travel_hour/widgets/language.dart';
 
-import '../controllers/home_controller.dart';
+import '../controllers/play_controller.dart';
 
-class SignInPage extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   final String? tag;
-  SignInPage({Key? key, this.tag}) : super(key: key);
+  LoginScreen({Key? key, this.tag}) : super(key: key);
 
-  _SignInPageState createState() => _SignInPageState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _LoginScreenState extends State<LoginScreen> {
   bool googleSignInStarted = false;
   bool facebookSignInStarted = false;
   bool appleSignInStarted = false;
@@ -95,6 +96,7 @@ class _SignInPageState extends State<SignInPage> {
         openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
       } else {
         // controller.loginFacebook();
+        // playController.buyQuest("1d9f265d-fd25-44de-ab64-14fcc1719e02", "9");
         // playController.customerStartQuest("9", "9");
         homeController.getQuestDetailByID("9");
         // await sb.signInwithFacebook().then((_) {
@@ -271,7 +273,7 @@ class _SignInPageState extends State<SignInPage> {
                     height: 50,
                     width: MediaQuery.of(context).size.width * 0.80,
                     child: TextButton(
-                        onPressed: () => handleGoogleSignIn(),
+                        onPressed: () => Get.find<LoginControllerV2>().login(),
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.resolveWith(
                                 (states) => Colors.blueAccent),

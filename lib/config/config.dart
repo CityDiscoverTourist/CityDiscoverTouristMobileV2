@@ -3,7 +3,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Config {
   final String appName = 'City Discover Tourist';
-  final String mapAPIKey = 'AIzaSyCJ_xAkp6ULrF29-zSxBi4LUV57OKmdVsI';
+  final String mapAPIKey = 'AIzaSyAa1lXnXXjyMzTXuyFz5OQpaQ2uXNNY5rs';
+
+  // final String mapAPIKey = 'AIzaSyCJ_xAkp6ULrF29-zSxBi4LUV57OKmdVsI';
   final String countryName = 'Việt Nam';
   final String splashIcon = 'assets/images/splash.png';
   final String supportEmail = 'YOUR_EMAIL';

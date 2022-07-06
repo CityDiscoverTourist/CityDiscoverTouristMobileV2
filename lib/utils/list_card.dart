@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/models/place.dart';
-import 'package:travel_hour/pages/quest_details.dart';
-import 'package:travel_hour/utils/next_screen.dart';
+import 'package:travel_hour/models/quest.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 
 class ListCard extends StatelessWidget {
-  final Place? d;
+  final Quest? d;
   final String tag;
   final Color? color;
-  const ListCard({Key? key, required this.d, required this.tag, required this.color}) : super(key: key);
+  const ListCard(
+      {Key? key, required this.d, required this.tag, required this.color})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,92 +26,97 @@ class ListCard extends StatelessWidget {
             child: Stack(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(top: 15, left: 25, right: 10, bottom: 10),
-                    alignment: Alignment.topLeft,
-                    height: 120,
-                    decoration: BoxDecoration(
-                      color: color,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 15, left: 115, right: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            d!.name!,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600,
-                            ),
+                  margin:
+                      EdgeInsets.only(top: 15, left: 25, right: 10, bottom: 10),
+                  alignment: Alignment.topLeft,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 15, left: 115, right: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          d!.title!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
                           ),
-                          SizedBox(height: 5,),
-                          Row(
-                            children: [
-                              Icon(Feather.map_pin, size: 12, color: Colors.grey,),
-                              SizedBox(width: 3,),
-                              Expanded(
-                                child: Text(
-                                  d!.location!,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Feather.map_pin,
+                              size: 12,
+                              color: Colors.grey,
+                            ),
+                            SizedBox(
+                              width: 3,
+                            ),
+                            Expanded(
+                              child: Text(
+                                d!.price!.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
-                                    color: Colors.grey[700]
-                                  ),
-                                ),
+                                    color: Colors.grey[700]),
                               ),
-                            ],
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 8, bottom: 20),
-                            height: 2,
-                            width: 120,
-                            decoration: BoxDecoration(
-                                color: Colors.blueAccent,
-                                borderRadius: BorderRadius.circular(20)),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Icon(
-                                LineIcons.heart,
-                                size: 18,
-                                color: Colors.orangeAccent,
-                              ),
-                              Text(
-                                d!.loves.toString(),
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.grey[600]
-                                ),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Icon(
-                                LineIcons.commentAlt,
-                                size: 18,
-                                color: Colors.grey[700],
-                              ),
-                              Text(
-                                d!.commentsCount.toString(),
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.grey[600]
-                                ),
-                              ),
-                              Spacer(),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 8, bottom: 20),
+                          height: 2,
+                          width: 120,
+                          decoration: BoxDecoration(
+                              color: Colors.blueAccent,
+                              borderRadius: BorderRadius.circular(20)),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Icon(
+                              LineIcons.heart,
+                              size: 18,
+                              color: Colors.orangeAccent,
+                            ),
+                            Text(
+                              d!.createdDate.toString(),
+                              style: TextStyle(
+                                  fontSize: 13, color: Colors.grey[600]),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Icon(
+                              LineIcons.commentAlt,
+                              size: 18,
+                              color: Colors.grey[700],
+                            ),
+                            Text(
+                              d!.areaId.toString(),
+                              style: TextStyle(
+                                  fontSize: 13, color: Colors.grey[600]),
+                            ),
+                            Spacer(),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                
+                ),
               ],
             ),
           ),
@@ -123,8 +129,8 @@ class ListCard extends StatelessWidget {
                     height: 120,
                     width: 120,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: CustomCacheImage(imageUrl: d!.imageUrl1))),
+                        borderRadius: BorderRadius.circular(5),
+                        child: CustomCacheImage(imageUrl: d!.imagePath))),
               ))
         ],
       ),
@@ -132,7 +138,6 @@ class ListCard extends StatelessWidget {
     );
   }
 }
-
 
 class ListCard1 extends StatelessWidget {
   final Place d;
@@ -152,93 +157,95 @@ class ListCard1 extends StatelessWidget {
             child: Stack(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(top: 5, left: 30, right: 10, bottom: 5),
-                    alignment: Alignment.topLeft,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 30, left: 110, right: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            d.name!,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 16, 
-                              fontWeight: FontWeight.w600
+                  margin:
+                      EdgeInsets.only(top: 5, left: 30, right: 10, bottom: 5),
+                  alignment: Alignment.topLeft,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 30, left: 110, right: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          d.name!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Feather.map_pin,
+                              size: 12,
+                              color: Colors.grey,
                             ),
-                          ),
-                          SizedBox(height: 5,),
-                          Row(
-                            children: [
-                              Icon(Feather.map_pin, size: 12, color: Colors.grey,),
-                              SizedBox(width: 3,),
-                              Expanded(
-                                child: Text(
-                                  d.location!,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
+                            SizedBox(
+                              width: 3,
+                            ),
+                            Expanded(
+                              child: Text(
+                                d.location!,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
-                                    color: Colors.grey[700]
-                                  ),
-                                ),
+                                    color: Colors.grey[700]),
                               ),
-                            ],
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 8, bottom: 20),
-                            height: 2,
-                            width: 120,
-                            decoration: BoxDecoration(
-                                color: Colors.blueAccent,
-                                borderRadius: BorderRadius.circular(20)),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Icon(
-                                LineIcons.heart,
-                                size: 18,
-                                color: Colors.orangeAccent,
-                              ),
-                              Text(
-                                d.loves.toString(),
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.grey[600]
-                                ),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Icon(
-                                LineIcons.commentAlt,
-                                size: 18,
-                                color: Colors.grey[700],
-                              ),
-                              Text(
-                                d.commentsCount.toString(),
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.grey[600]
-                                ),
-                              ),
-                              Spacer(),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 8, bottom: 20),
+                          height: 2,
+                          width: 120,
+                          decoration: BoxDecoration(
+                              color: Colors.blueAccent,
+                              borderRadius: BorderRadius.circular(20)),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Icon(
+                              LineIcons.heart,
+                              size: 18,
+                              color: Colors.orangeAccent,
+                            ),
+                            Text(
+                              d.loves.toString(),
+                              style: TextStyle(
+                                  fontSize: 13, color: Colors.grey[600]),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Icon(
+                              LineIcons.commentAlt,
+                              size: 18,
+                              color: Colors.grey[700],
+                            ),
+                            Text(
+                              d.commentsCount.toString(),
+                              style: TextStyle(
+                                  fontSize: 13, color: Colors.grey[600]),
+                            ),
+                            Spacer(),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                
+                ),
               ],
             ),
           ),
@@ -251,8 +258,8 @@ class ListCard1 extends StatelessWidget {
                     height: 120,
                     width: 120,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: CustomCacheImage(imageUrl: d.imageUrl1))),
+                        borderRadius: BorderRadius.circular(5),
+                        child: CustomCacheImage(imageUrl: d.imageUrl1))),
               ))
         ],
       ),

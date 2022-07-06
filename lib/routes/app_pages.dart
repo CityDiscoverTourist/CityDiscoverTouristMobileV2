@@ -1,8 +1,13 @@
+import 'package:travel_hour/pages/history.dart';
+import 'package:travel_hour/pages/sign_inV2.dart';
 import 'package:travel_hour/pages/profile.dart';
+import 'package:travel_hour/pages/splashV2.dart';
+import 'package:travel_hour/pages/test/map.dart';
 
 import '../bindings/home_binding.dart';
 import '../bindings/login_binding.dart';
 import '../pages/home.dart';
+import '../pages/momo_payment.dart';
 import '../pages/sign_in.dart';
 import '../pages/splash.dart';
 import 'app_routes.dart';
@@ -15,14 +20,28 @@ class AppPages {
       GetPage(
           name: KWelcomeScreen, page: () => HomePage(), binding: HomeBinding()),
       GetPage(
-          name: KLoginScreen, page: () => SignInPage(), binding: HomeBinding()),
+          name: KLoginScreen,
+          page: () => LoginScreen(),
+          binding: LoginBinding()),
       GetPage(
           name: KProfileScreen,
           page: () => ProfilePage(),
           binding: HomeBinding()),
       GetPage(
           name: KSplashScreen,
-          page: () => SplashPage(),
+          page: () => SplashStart(),
+          binding: HomeBinding()),
+      GetPage(
+          name: KHistoryScreen,
+          page: () => HistoryPage(),
+          binding: HomeBinding()),
+      GetPage(
+          name: KMapScreen,
+          page: () => ManyMarkersPage(),
+          binding: HomeBinding()),
+      GetPage(
+          name: KMomoPaymentScreen,
+          page: () => MomoPaymentPage(),
           binding: HomeBinding()),
     ];
   }

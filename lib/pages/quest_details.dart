@@ -5,6 +5,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_hour/pages/start_play.dart';
 
 import '../controllers/home_controller.dart';
 import '../models/quest.dart';
@@ -222,7 +223,7 @@ class _QuestDetailsState extends State<QuestDetails> {
                   Padding(
                     padding: const EdgeInsets.only(right: 40.0),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {Get.to(StartPage());},
                       child: Text('MUA', style: TextStyle(fontSize: 16)),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.only(

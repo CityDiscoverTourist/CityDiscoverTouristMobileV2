@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/config/config.dart';
+import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/pages/profile.dart';
 
 import '../controllers/language_controller.dart';
