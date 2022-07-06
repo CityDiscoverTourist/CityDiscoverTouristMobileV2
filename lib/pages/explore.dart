@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:travel_hour/controllers/search_controller.dart';
 import 'package:travel_hour/models/city.dart';
+import 'package:travel_hour/pages/searchV2.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import '../../config/config.dart';
 import '../controllers/home_controller.dart';
@@ -158,7 +160,12 @@ class Header extends StatelessWidget {
                 ),
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Get.put(SearchController());
+              Get.to(SearchPageV2());
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => SearchPage()));
+            },
           )
         ],
       ),

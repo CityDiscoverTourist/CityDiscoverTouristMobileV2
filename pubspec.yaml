@@ -67,6 +67,8 @@ dependencies:
   device_info_plus: ^3.2.4
   flutter_map: ^1.0.0
   flutter_local_notifications: ^9.6.1
+  momo_vn: ^2.0.2
+  flutter_cart: ^0.0.7
 
 
   

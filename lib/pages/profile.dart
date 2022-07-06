@@ -378,7 +378,12 @@ class UserUI extends StatelessWidget {
                   radius: 60,
                   backgroundColor: Colors.grey[300],
                   backgroundImage: CachedNetworkImageProvider(
-                      controller.sp.imagePath.toString())),
+                      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000")),
+              // CircleAvatar(
+              //     radius: 60,
+              //     backgroundColor: Colors.grey[300],
+              //     backgroundImage: CachedNetworkImageProvider(
+              //         controller.sp.imagePath.toString())),
               SizedBox(
                 height: 10,
               ),
@@ -443,8 +448,11 @@ class UserUI extends StatelessWidget {
               Feather.chevron_right,
               size: 20,
             ),
-            onTap: () => nextScreen(context,
-                EditProfile(name: data[0].name, imageUrl: "sb.imageUrl"))),
+            onTap: () => nextScreen(
+                context,
+                EditProfile(
+                    name: controller.sp.userName.toString(),
+                    imageUrl: "controller.sp.name"))),
         Divider(
           height: 5,
         ),
