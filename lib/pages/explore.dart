@@ -7,11 +7,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:travel_hour/controllers/search_controller.dart';
 import 'package:travel_hour/models/city.dart';
 import 'package:travel_hour/pages/searchV2.dart';
+import 'package:travel_hour/widgets/big_text.dart';
 import '../../config/config.dart';
 import '../controllers/home_controller.dart';
 
 import '../widgets/featured_places.dart';
-import '../widgets/popular_quests.dart';
+import '../widgets/quest_type_scroll.dart';
 
 class Explore extends StatefulWidget {
   Explore({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
                 children: <Widget>[
                   Header(),
                   FeaturedQuest(),
-                  PopularQuests(),
+                  QuestTypeScroll(),
                   // RecentPlaces(),
                   // SpecialStateOne(),
                   // SpecialStateTwo(),
@@ -54,9 +55,8 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final SignInBloc sb = Provider.of<SignInBloc>(context);
     var controller = Get.find<HomeController>();
-    Rx<City>? dropdownValue =Rx<City>(controller.cityList[1]);
+    Rx<City>? dropdownValue = Rx<City>(controller.cityList[1]);
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 20),
       child: Column(
@@ -69,67 +69,38 @@ class Header extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      Config().appName,
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontFamily: 'Muli',
-                          fontWeight: FontWeight.w900,
-                          color: Colors.grey[800]),
+                    BigText(
+                      text: Config().appName,
+                      size: 22,
+                      fontWeight: FontWeight.w900,
                     ),
-                    // Text(
-                    //   'explore country',
-                    //   style: TextStyle(
-                    //       fontSize: 13,
-                    //       fontWeight: FontWeight.w500,
-                    //       color: Colors.grey[600]),
-                    // ).tr()
-                    // DropdownButton<String>(
-                    //   value: dropdownValue,
-                    //   icon: const Icon(Icons.arrow_downward),
-                    //   elevation: 16,
-                    //   style: const TextStyle(color: Colors.deepPurple),
-                    //   underline: Container(
-                    //     height: 2,
-                    //     color: Colors.deepPurpleAccent,
-                    //   ),
-                    //   onChanged: (String? newValue) {
-                    //     Obx() => {dropdownValue = newValue!};
-                    //   },
-                    //   items:((controller.cityList.map<String>((city) => city.name))
-                    //       .toList())
-                    //       .map<DropdownMenuItem<String>>((String value) {
-                    //     return DropdownMenuItem<String>(
-                    //       value: value,
-                    //       child: Text(value),
-                    //     );
-                    //   }).toList(),
-                    // )
-                  Obx(()=>  DropdownButton<City>(
-                      //isDense: true,
-                      // hint: controller.cityChoice,
-                      value: dropdownValue.value,
-                      icon: Icon(Icons.location_city),
-                      iconSize: 24,
-                      elevation: 16,
-                      style: TextStyle(color: Colors.deepPurple),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.blue[300],
+                    Obx(
+                      () => DropdownButton<City>(
+                        //isDense: true,
+                        // hint: controller.cityChoice,
+                        value: dropdownValue.value,
+                        icon: Icon(Icons.location_city),
+                        iconSize: 24,
+                        elevation: 16,
+                        style: TextStyle(color: Colors.deepPurple),
+                        underline: Container(
+                          height: 2,
+                          color: Colors.blue[300],
+                        ),
+                        onChanged: (City? newValue) {
+                          dropdownValue.value = newValue!;
+                          //Get Id City for reload List Quest
+                          controller.cityChoice.value = newValue.id;
+                        },
+                        items: controller.cityList
+                            .map<DropdownMenuItem<City>>((City value) {
+                          return DropdownMenuItem<City>(
+                            value: value,
+                            child: Text(value.name),
+                          );
+                        }).toList(),
                       ),
-                      onChanged: (City? newValue) {
-                        dropdownValue.value = newValue!;
-                        //Get Id City for reload List Quest
-                        controller.cityChoice.value = newValue.id;
-                      },
-                      items: controller.cityList
-                          .map<DropdownMenuItem<City>>((City value) {
-                        return DropdownMenuItem<City>(
-                          value: value,
-                          child: Text(value.name),
-                        );
-                      }).toList(),
-                    ),)
+                    )
                   ],
                 ),
                 Spacer(),
@@ -177,13 +148,14 @@ class Header extends StatelessWidget {
                     SizedBox(
                       width: 10,
                     ),
-                    Text(
-                      'search places',
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.blueGrey[700],
-                          fontWeight: FontWeight.w500),
-                    ).tr(),
+                    // Text(
+                    //   'search places',
+                    //   style: TextStyle(
+                    //       fontSize: 15,
+                    //       color: Colors.blueGrey[700],
+                    //       fontWeight: FontWeight.w500),
+                    // ).tr(),
+                    BigText(text: "search places",)
                   ],
                 ),
               ),

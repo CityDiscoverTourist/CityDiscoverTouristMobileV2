@@ -1,13 +1,14 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_hour/widgets/big_text.dart';
 
 import '../controllers/home_controller.dart';
 import '../models/quest.dart';
 import '../pages/quest_details.dart';
-
 
 class FeaturedQuest extends StatefulWidget {
   FeaturedQuest({Key? key}) : super(key: key);
@@ -20,7 +21,6 @@ class _FeaturedQuestState extends State<FeaturedQuest> {
 
   @override
   Widget build(BuildContext context) {
-    // final fb = context.watch<FeaturedBloc>();
 
     double w = MediaQuery.of(context).size.width;
     return Column(
@@ -88,133 +88,144 @@ class _FeaturedItemList extends StatelessWidget {
       padding: const EdgeInsets.only(left: 20, right: 20),
       width: w,
       child: InkWell(
-        child: Stack(
-          children: <Widget>[
-            Hero(
-              tag: 'featured${q.createdDate}',
-              // tag: 'feature',
-              child: Container(
-                  height: 220,
-                  width: w,
+          child: Stack(
+            children: <Widget>[
+              Hero(
+                tag: 'featured${q.createdDate}',
+                // tag: 'feature',
+                child: Container(
+                    height: 220,
+                    width: w,
+                    decoration: BoxDecoration(
+                        color: Colors.grey[400],
+                        borderRadius: BorderRadius.circular(10)),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child:
+                            //  CustomCacheImage(imageUrl: d.imageUrl1)
+                            Image.network(q.imagePath))),
+              ),
+              Positioned(
+                height: 120,
+                width: w * 0.70,
+                left: w * 0.11,
+                bottom: 10,
+                child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.grey[400],
-                      borderRadius: BorderRadius.circular(10)),
-                  child: ClipRRect(
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
-                      child:
-                          //  CustomCacheImage(imageUrl: d.imageUrl1)
-                          Image.network(q.imagePath))),
-            ),
-            Positioned(
-              height: 120,
-              width: w * 0.70,
-              left: w * 0.11,
-              bottom: 10,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: Colors.grey[200]!,
-                          offset: Offset(0, 2),
-                          blurRadius: 2)
-                    ]),
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              q.title,
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Colors.grey[200]!,
+                            offset: Offset(0, 2),
+                            blurRadius: 2)
+                      ]),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Expanded(
+                              child: BigText(text: q.title,fontWeight: FontWeight.w600,)
                             ),
-                          ),
-                          Text(
-                            '💵${q.price.toString()}',
-                            style: TextStyle(fontSize: 22),
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Icon(
-                            Icons.location_on,
-                            size: 16,
-                            color: Colors.grey,
-                          ),
-                          Expanded(
-                            child: Text(
-                              // d.location!,
-                              // q.description,
-                              'Công viên nước đầm sen',
-                              style: TextStyle(
-                                  fontSize: 13, fontWeight: FontWeight.w400),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            Spacer()
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: RatingBarIndicator(
+                                rating: 3.5,
+                                itemBuilder: (context, index) => Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                itemCount: 5,
+                                itemSize: 10.0,
+                                direction: Axis.horizontal,
+                              ),
                             ),
-                          )
-                        ],
-                      ),
-                      Divider(
-                        color: Colors.grey[300],
-                        height: 20,
-                      ),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Icon(
-                              LineIcons.clock,
-                              size: 18,
-                              color: Colors.orange,
-                            ),
-                            Text(
-                              // d.loves.toString(),
-                              q.estimatedTime + ' minutes',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey[700]),
-                            ),
+                            Text('3.5',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey)),
                             SizedBox(
-                              width: 30,
+                              width: 10,
                             ),
-                            Icon(
-                              LineIcons.walking,
-                              size: 18,
-                              color: Colors.orange,
-                            ),
-                            Text(
-                              q.estimatedDistance + ' km',
-                              // 'Comment count',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey[700]),
-                            ),
+                            Text('523 comments',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey)),
                             Spacer(),
                           ],
                         ),
-                      )
-                    ],
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Icon(
+                              Icons.location_on,
+                              size: 16,
+                              color: Colors.grey,
+                            ),
+                            Expanded(
+                              child: Text(
+                                // d.location!,
+                                // q.description,
+                                'Công viên nước đầm sen',
+                                style: TextStyle(
+                                    fontSize: 13, fontWeight: FontWeight.w400),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ],
+                        ),
+                        Divider(
+                          color: Colors.grey[300],
+                          height: 20,
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(
+                                LineIcons.clockAlt,
+                                size: 24,
+                                color: Colors.orange,
+                              ),
+                              Text(
+                                q.estimatedTime + ' minutes',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey[700]),
+                              ),
+                              SizedBox(
+                                width: 30,
+                              ),
+                              Icon(
+                                LineIcons.walking,
+                                size: 18,
+                                color: Colors.orange,
+                              ),
+                              Text(
+                                q.estimatedDistance + ' km',
+                                // 'Comment count',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey[700]),
+                              ),
+                              Spacer(),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-        onTap: () =>Get.to(()=>QuestDetails(data: q, tag: q.title))
-      ),
+            ],
+          ),
+          onTap: () => Get.to(() => QuestDetails(data: q, tag: q.title))),
     );
   }
 }

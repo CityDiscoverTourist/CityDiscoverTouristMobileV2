@@ -4,11 +4,12 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:travel_hour/widgets/big_text.dart';
 import '../controllers/home_controller.dart';
 import '../models/quest_type.dart';
 import '../widgets/custom_cache_image.dart';
 import 'more_quests.dart';
-
+import 'dart:math' as math;
 
 class QuestTypePage extends StatefulWidget {
   QuestTypePage({Key? key}) : super(key: key);
@@ -27,21 +28,14 @@ class _QuestTypePageState extends State<QuestTypePage>
     var myController = Get.find<HomeController>();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFFFF9C00),
         centerTitle: false,
         automaticallyImplyLeading: false,
-        title: Text('states').tr(),
+        title:  BigText(
+                text: "Các thể loại",
+                fontWeight: FontWeight.w900,color: Colors.white,
+              ),
         elevation: 0,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Feather.rotate_cw,
-              size: 22,
-            ),
-            onPressed: () {
-              // context.read<StateBloc>().onReload(mounted);
-            },
-          )
-        ],
       ),
       body: RefreshIndicator(
         child:
@@ -107,7 +101,7 @@ class _ItemList extends StatelessWidget {
               ],
             )),
         onTap: () =>
-            Get.to(MoreQuestPage(title: d.name, color: Colors.redAccent))
+            Get.to(MoreQuestPage(title: d.name, color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0)))
         );
   }
 }
