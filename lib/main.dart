@@ -46,7 +46,7 @@ Future<void> main() async {
     locale: Locale('vn'),
     fallbackLocale: Locale('vn'),
     // It is not mandatory to use named routes, but dynamic urls are interesting.
-    initialRoute: KMomoPaymentScreen,
+    initialRoute: KSplashScreen,
     defaultTransition: Transition.native,
     //  translations: MyTranslations(),
     getPages: AppPages.getPages(),
