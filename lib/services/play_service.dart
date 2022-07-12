@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:travel_hour/models/questItem.dart';
 import 'package:http/http.dart' as http;
+import 'package:travel_hour/models/questItemV2.dart';
 
 import '../api/api.dart';
 import '../api/api_end_points.dart';
@@ -25,16 +26,36 @@ class PlayService {
   }
 
   //Cái này chưa xài đc tại trang api đang lỗi
-  static Future<List<QuestItem>?> fetchTestData2(String questId) async {
+  static Future<List<QuestItem2>?> fetchQuestItemData(
+      String questId, var language) async {
     var response = await http.get(
-        Uri.parse(Api.baseUrl + ApiEndPoints.checkAnswer + questId),
-        headers: {"Content-Type": "application/json"});
+        Uri.parse(Api.baseUrl +
+            ApiEndPoints.getQuestItemByQuestId +
+            questId +
+            "?language=" +
+            language.toString()),
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoia2hhdGhpMjYwMTAwQGdtYWlsLmNvbSIsImp0aSI6IjYyMDQ5ODVlLTYxMTUtNDQzOC1hZDVlLTY1M2NjZDZmZDNkZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImtoYXRoaTI2MDEwMEBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL2V4cGlyYXRpb24iOiIwNy8xMi8yMDIyIDA0OjE3OjA3IiwiZXhwIjoxNjU3NTk5NDI3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MjE1IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MjE1In0.EVdcvwUJbm5hhqg-RY21tItehRquGXtcnnQ_3C7Cr2U'
+        });
     if (response.statusCode == 200) {
-      final responseData = json.decode(response.body);
-      final questItemList = await questItemFromJson(responseData['data']);
+      List<QuestItem2> listQuest = new List.empty(growable: true);
+      // final responseData = json.decode(response.body);
+      print("Get Success");
+      Map<String, dynamic> map = json.decode(response.body);
+      List<dynamic> data = map["data"];
+      for (var element in data) {
+        // print(element.toString() + "/n");
+        listQuest.add(QuestItem2.fromJson(element));
+      }
+      // for (var element in listQuest) {
+      //   print(element.id);
+      // }
       // print('object');
-      return questItemList;
+      return listQuest;
     }
+    print("Get faild");
     return null;
   }
 
@@ -74,20 +95,24 @@ class PlayService {
     return Future<bool>.value(false);
   }
 
-  Future<bool> buyQuest(String customerId, String questID) async {
-    var now = new DateTime.now();
-    var dateFormatted = DateFormat("yyyy-MM-ddTHH:mm:ss").format(now);
-    print(dateFormatted);
+  Future<bool> buyQuest(String customerId, String questID, int quantity,
+      var totalAmout, var discountCode) async {
+    // var now = new DateTime.now();
+    // var dateFormatted = DateFormat("yyyy-MM-ddTHH:mm:ss").format(now);
+    // print(dateFormatted);
     Map mydata = {
-      'createdDate': dateFormatted,
+      'quantity': quantity,
+      'totalAmount': totalAmout,
       'customerId': customerId,
       'questId': questID
     };
     var body = json.encode(mydata);
-    var response = await http.post(
-        Uri.parse(Api.baseUrl + ApiEndPoints.buyQuest),
-        headers: {"Content-Type": "application/json"},
-        body: body);
+    String httpString = Api.baseUrl + ApiEndPoints.buyQuest;
+    if (discountCode != null) {
+      httpString = httpString + "?discountCode=" + discountCode;
+    }
+    var response = await http.post(Uri.parse(httpString),
+        headers: {"Content-Type": "application/json"}, body: body);
     print(Api.baseUrl + ApiEndPoints.buyQuest);
     // print(Api.baseUrl +
     //     ApiEndPoints.checkAnswer +

@@ -120,8 +120,8 @@ class PlayController extends GetxController {
   }
 
 //Check Location of customer
-  void checkLocatCustomer() async {
-    checkLocation.value = await PlayService().checkLocation("9");
+  void checkLocatCustomer(var questId) async {
+    checkLocation.value = await PlayService().checkLocation(questId);
   }
 
 //Check currentAns
@@ -130,18 +130,20 @@ class PlayController extends GetxController {
     try {
       isLoading(true);
       // Xài tạm dữ liệu cứng để trả về true
-      correctAns.value =
-          await PlayService().checkAnswer("3", "stringgggdd", "42");
+      correctAns.value = await PlayService()
+          .checkAnswer(customerQuestId, customerReply, questItemId);
     } finally {
       isLoading(false);
     }
   }
 
-  void buyQuest(String customerId, String questID) async {
+  void buyQuest(String customerId, String questID, int quantity, var totalAmout,
+      var discountCode) async {
     try {
       isLoading(true);
       // Xài tạm dữ liệu cứng để trả về true
-      await PlayService().buyQuest("1d9f265d-fd25-44de-ab64-14fcc1719e02", "9");
+      await PlayService()
+          .buyQuest(customerId, questID, quantity, totalAmout, discountCode);
     } finally {
       isLoading(false);
     }
@@ -181,6 +183,18 @@ class PlayController extends GetxController {
     var qItemApi = await PlayService.fetchTestData();
     if (qItemApi != null) qItem.assignAll(qItemApi);
     questItemCurrent = qItem[index.value];
+  }
+
+  void fetchQuestItemList(var questId, var language) async {
+    try {
+      isLoading(true);
+      await PlayService.fetchQuestItemData(questId.toString(), language);
+    } finally {
+      isLoading(false);
+    }
+    // var qItemApi = await PlayService.fetchTestData();
+    // if (qItemApi != null) qItem.assignAll(qItemApi);
+    // questItemCurrent = qItem[index.value];
   }
 
   void getSuggestion(String questItemId) async {

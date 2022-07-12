@@ -170,8 +170,9 @@ class HomeController extends GetxController {
   void getPuQuestByCustomerID(String customerId) async {
     try {
       isLoading(true);
-      var questListApi = await QuestService.fetchPuQuestFeatureData(
-          "1d9f265d-fd25-44de-ab64-14fcc1719e02", language);
+      changeLanguage();
+      var questListApi =
+          await QuestService.fetchPuQuestFeatureData(customerId, language);
       if (questListApi != null) {
         print('Co Roi Ne');
         puQuestList.assignAll(questListApi);

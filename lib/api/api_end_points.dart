@@ -18,7 +18,7 @@ class ApiEndPoints {
   static const addCustomerTask = "/customer-tasks/";
   static const checkAnswer = "/customer-tasks/check-answer/";
   static const getQuestItemByQuestId = "/quest-items/get-by-quest-id/";
-  static const buyQuest = "/customer-quests";
+  static const buyQuest = "/payments";
   static const getQuestById = "/quests/";
   static const getCustomerQuestByCustomerId =
       "/customer-quests/get-by-customer-id?id=";

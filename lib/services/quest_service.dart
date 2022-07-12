@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import '../api/api.dart';
 import '../api/api_end_points.dart';
+import '../controllers/login_controller_V2.dart';
 import '../models/quest.dart';
 
 class QuestService {
@@ -71,21 +72,25 @@ class QuestService {
 
   static Future<List<Quest>?> fetchPuQuestFeatureData(
       String customerId, var language) async {
-    var lang = 0;
-    if (language == true) {
-      lang = 1;
-    }
+    // var lang = 0;
+    // if (language == true) {
+    //   lang = 1;
+    // }
     print(language.toString());
     var response = await http.get(
         Uri.parse(Api.baseUrl +
             ApiEndPoints.getCustomerQuestByCustomerId +
             customerId),
-        headers: {"Content-Type": "application/json"});
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+        });
     print(Api.baseUrl +
         ApiEndPoints.getCustomerQuestByCustomerId +
         customerId +
         "?language=" +
-        lang.toString());
+        language.toString());
     if (response.statusCode == 200) {
       List<Quest> listQuest = new List.empty(growable: true);
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
@@ -98,7 +103,7 @@ class QuestService {
                 ApiEndPoints.getQuestById +
                 element["questId"].toString() +
                 "?language=" +
-                lang.toString()),
+                language.toString()),
             headers: {"Content-Type": "application/json"});
         print(Api.baseUrl +
             ApiEndPoints.getQuestById +
@@ -121,6 +126,7 @@ class QuestService {
 
   static Future<List<Quest>?> fetchPlayedQuestFeatureData(
       String customerId) async {
+    var myController = Get.find<LoginControllerV2>();
     var response = await http.get(
         Uri.parse(Api.baseUrl +
             ApiEndPoints.getCustomerQuestByCustomerId +
@@ -138,7 +144,10 @@ class QuestService {
             Uri.parse(Api.baseUrl +
                 ApiEndPoints.getQuestById +
                 element["questId"].toString()),
-            headers: {"Content-Type": "application/json"});
+            headers: {
+              "Content-Type": "application/json",
+              'Authorization': 'Bearer ' + myController.jwtToken.value
+            });
         print(Api.baseUrl +
             ApiEndPoints.getQuestById +
             element["questId"].toString());
@@ -164,13 +173,18 @@ class QuestService {
     //   lang = 1;
     // }
     // print(language.toString());
+    var myController = Get.find<LoginControllerV2>();
+    // print(myController.jwtToken.value);
     var response = await http.get(
         Uri.parse(Api.baseUrl +
             ApiEndPoints.getQuestById +
             questId +
             "?language=" +
             language.toString()),
-        headers: {"Content-Type": "application/json"});
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer ' + myController.jwtToken.value
+        });
     // print(Api.baseUrl +
     //     ApiEndPoints.getQuestById +
     //     questId +

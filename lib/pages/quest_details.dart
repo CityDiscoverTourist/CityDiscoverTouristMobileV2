@@ -10,6 +10,7 @@ import 'package:travel_hour/pages/start_play.dart';
 import '../controllers/home_controller.dart';
 import '../models/quest.dart';
 import '../widgets/custom_cache_image.dart';
+import '../widgets/payment_widget.dart';
 import '../widgets/todo.dart';
 
 class QuestDetails extends StatefulWidget {
@@ -25,6 +26,14 @@ class QuestDetails extends StatefulWidget {
 
 class _QuestDetailsState extends State<QuestDetails> {
   final String collectionName = 'places';
+  int quantity2 = 1;
+  var totalAmout;
+
+  @override
+  void initState() {
+    super.initState();
+    totalAmout = (widget.data!.price * quantity2);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,13 +156,16 @@ class _QuestDetailsState extends State<QuestDetails> {
                     //   itemSize: 20.0,
                     //   direction: Axis.horizontal,
                     // ),
-                   
+
                     Row(
                       children: <Widget>[
                         // LoveCount(
                         //     collectionName: collectionName,
                         //     timestamp: widget.data!.timestamp),
-                        Text('⭐ 4.7',style: TextStyle(fontSize: 18),),
+                        Text(
+                          '⭐ 4.7',
+                          style: TextStyle(fontSize: 18),
+                        ),
                         SizedBox(
                           width: 50,
                         ),
@@ -162,7 +174,10 @@ class _QuestDetailsState extends State<QuestDetails> {
                           color: Colors.grey,
                           size: 20,
                         ),
-                         Text('47',style: TextStyle(fontSize: 18),),
+                        Text(
+                          '47',
+                          style: TextStyle(fontSize: 18),
+                        ),
                         // CommentCount(
                         //     collectionName: collectionName,
                         //     timestamp: widget.data!.timestamp)
@@ -223,7 +238,88 @@ class _QuestDetailsState extends State<QuestDetails> {
                   Padding(
                     padding: const EdgeInsets.only(right: 40.0),
                     child: ElevatedButton(
-                      onPressed: () {Get.to(StartPage());},
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          )),
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return StatefulBuilder(builder:
+                                (BuildContext context, StateSetter mystate) {
+                              return Container(
+                                height: 600,
+                                padding: const EdgeInsets.fromLTRB(
+                                    10.0, 70.0, 20.0, 20.0),
+                                child: Column(
+                                  children: <Widget>[
+                                    PaymentWidget(
+                                      quest: widget.data!,
+                                      quantity: quantity2,
+                                      totalAmout: totalAmout,
+                                    ),
+                                    // Container(
+                                    //   padding: EdgeInsets.all(3),
+                                    //   decoration: BoxDecoration(
+                                    //       borderRadius: BorderRadius.circular(5),
+                                    //       color: Theme.of(context).accentColor),
+                                    //   child: Row(
+                                    //     children: [
+                                    //       RaisedButton(
+                                    //           onPressed: () async {
+                                    //             mystate(() {
+                                    //               quantity = quantity - 1;
+                                    //             });
+                                    //           },
+                                    //           child: Icon(
+                                    //             Icons.remove,
+                                    //             color: Colors.white,
+                                    //             size: 16,
+                                    //           )),
+                                    //       Container(
+                                    //         margin: EdgeInsets.symmetric(horizontal: 3),
+                                    //         padding: EdgeInsets.symmetric(
+                                    //             horizontal: 3, vertical: 2),
+                                    //         decoration: BoxDecoration(
+                                    //             borderRadius: BorderRadius.circular(3),
+                                    //             color: Colors.white),
+                                    //         child: Text(
+                                    //           quantity.toString(),
+                                    //           style: TextStyle(
+                                    //               color: Colors.black, fontSize: 16),
+                                    //         ),
+                                    //       ),
+                                    //       RaisedButton(
+                                    //           onPressed: () async {
+                                    //             mystate(() {
+                                    //               quantity = quantity + 1;
+                                    //             });
+                                    //           },
+                                    //           child: Icon(
+                                    //             Icons.add,
+                                    //             color: Colors.white,
+                                    //             size: 16,
+                                    //           )),
+                                    //     ],
+                                    //   ),
+                                    // ),
+                                    // RaisedButton(
+                                    //   child: const Text('Hủy'),
+                                    //   onPressed: () => Navigator.pop(context),
+                                    // ),
+                                    // RaisedButton(
+                                    //   child: const Text('Xác nhận thanh toán'),
+                                    //   onPressed: () => Navigator.pop(context),
+                                    // )
+                                  ],
+                                ),
+                              );
+                            });
+                          },
+                        );
+                      },
                       child: Text('MUA', style: TextStyle(fontSize: 16)),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.only(

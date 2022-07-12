@@ -6,7 +6,9 @@ import 'package:travel_hour/common/customFullScreenDialog.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
 
 class LoginControllerV2 extends GetxController {
-  var homeController = Get.put(HomeController()); 
+  var homeController = Get.put(HomeController());
+  var jwtToken = "".obs;
+  // String? get jwtToken => _jwtToken;
   @override
   void onInit() async {
     super.onInit();
@@ -31,10 +33,9 @@ class LoginControllerV2 extends GetxController {
           await googleSignInAccount.authentication;
       OAuthCredential oAuthCredential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken
-          );
-          print(googleSignInAuthentication.idToken);
-          // print("Tesst");
+          idToken: googleSignInAuthentication.idToken);
+      // print(googleSignInAuthentication.idToken);
+      // print("Tesst");
       await homeController.firebaseAuth.signInWithCredential(oAuthCredential);
       CustomFullScreenDialog.cancelDialog();
     }
