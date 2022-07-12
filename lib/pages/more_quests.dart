@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:travel_hour/pages/quest_details.dart';
+import 'package:travel_hour/widgets/big_text.dart';
 
 import '../controllers/home_controller.dart';
 import '../models/quest.dart';
@@ -60,10 +62,11 @@ class _MoreQuestPageState extends State<MoreQuestPage> {
                   height: 140,
                   width: double.infinity,
                 ),
-                title: Text(
-                  '${widget.title}',
-                  style: TextStyle(color: Colors.white),
-                ).tr(),
+                title: BigText(
+                  text: widget.title,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
                 titlePadding: EdgeInsets.only(left: 20, bottom: 15, right: 15),
               ),
             ),
@@ -129,87 +132,104 @@ class _ListItem extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        q.title,
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.w600),
+                      BigText(
+                        text: q.title,
+                        fontWeight: FontWeight.w600,
                       ),
                       SizedBox(
                         height: 2,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(
-                            LineIcons.walking,
-                            size: 16,
-                            color: Colors.grey,
-                          ),
-                          SizedBox(
-                            width: 3,
-                          ),
                           Expanded(
-                            child: Text(
-                              q.estimatedDistance,
-                              maxLines: 1,
-                              style: TextStyle(
-                                  fontSize: 14, color: Colors.grey[700]),
+                            child: RatingBarIndicator(
+                              rating: 3.5,
+                              itemBuilder: (context, index) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              itemCount: 5,
+                              itemSize: 10.0,
+                              direction: Axis.horizontal,
                             ),
                           ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            CupertinoIcons.time,
-                            size: 16,
-                            color: Colors.grey[700],
-                          ),
                           SizedBox(
-                            width: 3,
+                            width: 5,
                           ),
-                          Text(
-                            q.estimatedTime,
-                            style: TextStyle(
-                                fontSize: 13, color: Colors.grey[700]),
-                          ),
-                          Spacer(),
-                          Icon(
-                            LineIcons.heart,
-                            size: 16,
-                            color: Colors.grey,
-                          ),
-                          SizedBox(
-                            width: 3,
-                          ),
-                          Text(
-                            q.areaId.toString(),
-                            style: TextStyle(
-                                fontSize: 13, color: Colors.grey[700]),
-                          ),
+                          Text('3.5',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey)),
                           SizedBox(
                             width: 10,
                           ),
+                          Text('523 comments',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey)),
+                          Spacer(),
+                          Spacer()
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
                           Icon(
-                            LineIcons.comment,
+                            Icons.location_on,
                             size: 16,
                             color: Colors.grey,
                           ),
-                          SizedBox(
-                            width: 3,
-                          ),
-                          Text(
-                            q.estimatedTime.toString(),
-                            style: TextStyle(
-                                fontSize: 13, color: Colors.grey[700]),
-                          ),
+                          BigText(
+                            text: 'Công viên nước đầm sen',
+                            size: 14,
+                          )
                         ],
-                      )
+                      ),
+                      Divider(
+                        color: Colors.grey[300],
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Icon(
+                            LineIcons.clockAlt,
+                            size: 24,
+                            color: Colors.orange,
+                          ),
+                          BigText(
+                            text: q.estimatedTime + ' minutes',
+                            size: 16,
+                          ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Icon(
+                            LineIcons.walking,
+                            size: 18,
+                            color: Colors.orange,
+                          ),
+                          BigText(
+                            text: q.estimatedDistance + ' km',
+                            size: 16,
+                          ),
+                          Spacer(),
+                          Container(
+                            child: Center(
+                                child: BigText(
+                              text: q.price.toString() + " vnđ",
+                              fontWeight: FontWeight.w700,
+                            )),
+                            width: MediaQuery.of(context).size.width * 0.25,
+                            height: 35,
+                            decoration: BoxDecoration(
+                                color: Color(0xFFFF9C00),
+                                borderRadius: BorderRadius.circular(10)),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 ),

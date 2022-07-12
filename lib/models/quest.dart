@@ -37,7 +37,7 @@ class Quest {
   String estimatedTime;
   String estimatedDistance;
   // DateTime availableTime;
-  DateTime createdDate;
+  DateTime? createdDate;
   // DateTime updatedDate;
   String status;
   int questTypeId;
@@ -53,7 +53,7 @@ class Quest {
         estimatedTime: json["estimatedTime"],
         estimatedDistance: json["estimatedDistance"],
         // availableTime: DateTime.parse(json["availableTime"]),
-        createdDate: DateTime.parse(json["createdDate"]),
+        createdDate: DateTime.parse(json["createdDate"].toString()),
         // updatedDate: DateTime.parse(json["updatedDate"]),
         status: json["status"],
         questTypeId: json["questTypeId"],
@@ -70,7 +70,7 @@ class Quest {
         "estimatedTime": estimatedTime,
         "estimatedDistance": estimatedDistance,
         // "availableTime": availableTime.toIso8601String(),
-        "createdDate": createdDate.toIso8601String(),
+        "createdDate": createdDate!.toString(),
         // "updatedDate": updatedDate.toIso8601String(),
         "status": status,
         "questTypeId": questTypeId,

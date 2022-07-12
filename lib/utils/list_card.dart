@@ -42,7 +42,7 @@ class ListCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          d!.title!,
+                          d!.title,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -65,7 +65,7 @@ class ListCard extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                d!.price!.toString(),
+                                d!.price.toString(),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
