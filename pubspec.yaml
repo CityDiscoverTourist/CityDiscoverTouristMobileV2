@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   
   get:
+  flutter_countdown_timer: ^4.1.0
   font_awesome_flutter: ^9.0.0
   bottom_navy_bar:
   flutter_rating_bar: ^4.0.1
@@ -69,7 +70,8 @@ dependencies:
   flutter_local_notifications: ^9.6.1
   momo_vn: ^2.0.2
   flutter_cart: ^0.0.7
-
+  qr_flutter: ^4.0.0
+  dotted_line: ^3.1.0
 
   
 

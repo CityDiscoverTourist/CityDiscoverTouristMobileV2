@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/widgets/big_text.dart';
+import 'package:travel_hour/widgets/custom_cache_image.dart';
 
 import '../controllers/home_controller.dart';
 import '../models/quest.dart';
@@ -21,58 +22,59 @@ class _FeaturedQuestState extends State<FeaturedQuest> {
 
   @override
   Widget build(BuildContext context) {
-
     double w = MediaQuery.of(context).size.width;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          height: 260,
-          width: w,
-          child: PageView.builder(
-            controller: PageController(initialPage: 0),
-            scrollDirection: Axis.horizontal,
-            itemCount:
-                controller.questList.isEmpty ? 1 : controller.questList.length,
-            //  itemCount: 5,
-            onPageChanged: (index) {
-              controller.questList[index];
-            },
-            itemBuilder: (BuildContext context, int index) {
-              // if(fb.data.isEmpty) return LoadingFeaturedCard();
-              // return _FeaturedItemList(d: fb.data[index]);
-              // if (fb.data.isEmpty) {
-              //   if (fb.hasData == false) {
-              //     return _EmptyContent();
-              //   } else {
-              //     return LoadingFeaturedCard();
-              //   }
-              // }
-              return _FeaturedItemList(q: controller.questList[index]);
-            },
-          ),
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        Center(
-          child: DotsIndicator(
-            dotsCount: 5,
-            // position: context.watch<FeaturedBloc>().listIndex.toDouble(),
-            position: controller.questList.length.toDouble(),
-            decorator: DotsDecorator(
-              color: Colors.black26,
-              activeColor: Colors.black,
-              spacing: EdgeInsets.only(left: 6),
-              size: const Size.square(5.0),
-              activeSize: const Size(20.0, 4.0),
-              activeShape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)),
+    return Obx(() => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              height: 260,
+              width: w,
+              child: PageView.builder(
+                controller: PageController(initialPage: 0),
+                scrollDirection: Axis.horizontal,
+                itemCount: controller.questList.isEmpty
+                    ? 1
+                    : controller.questList.length,
+                //  itemCount: 5,
+                onPageChanged: (index) {
+                  // ignore: unnecessary_statements
+                  controller.questList[index];
+                },
+                itemBuilder: (BuildContext context, int index) {
+                  // if(fb.data.isEmpty) return LoadingFeaturedCard();
+                  // return _FeaturedItemList(d: fb.data[index]);
+                  // if (fb.data.isEmpty) {
+                  //   if (fb.hasData == false) {
+                  //     return _EmptyContent();
+                  //   } else {
+                  //     return LoadingFeaturedCard();
+                  //   }
+                  // }
+                  return _FeaturedItemList(q: controller.questList[index]);
+                },
+              ),
             ),
-          ),
-        )
-      ],
-    );
+            SizedBox(
+              height: 8,
+            ),
+            Center(
+              child: DotsIndicator(
+                dotsCount: 15,
+                // position: context.watch<FeaturedBloc>().listIndex.toDouble(),
+                position: controller.questList.length.toDouble(),
+                decorator: DotsDecorator(
+                  color: Colors.black26,
+                  activeColor: Colors.black,
+                  spacing: EdgeInsets.only(left: 6),
+                  size: const Size.square(5.0),
+                  activeSize: const Size(20.0, 4.0),
+                  activeShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                ),
+              ),
+            )
+          ],
+        ));
   }
 }
 
@@ -91,8 +93,8 @@ class _FeaturedItemList extends StatelessWidget {
           child: Stack(
             children: <Widget>[
               Hero(
-                tag: 'featured${q.createdDate}',
-                // tag: 'feature',
+                // tag: 'featured${q.createdDate}',
+                tag: 'feature',
                 child: Container(
                     height: 220,
                     width: w,
@@ -100,10 +102,12 @@ class _FeaturedItemList extends StatelessWidget {
                         color: Colors.grey[400],
                         borderRadius: BorderRadius.circular(10)),
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child:
-                            //  CustomCacheImage(imageUrl: d.imageUrl1)
-                            Image.network(q.imagePath))),
+                      borderRadius: BorderRadius.circular(10),
+                      child: q.imagePath != null
+                          ? CustomCacheImage(imageUrl: q.imagePath)
+                          : Image.asset('assets/images/logo.png'),
+                      // Image.network(q.imagePath)
+                    )),
               ),
               Positioned(
                 height: 120,
@@ -130,9 +134,10 @@ class _FeaturedItemList extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Expanded(
-                              child: BigText(text: q.title,fontWeight: FontWeight.w600,)
-                            ),
-                            Spacer()
+                                child: BigText(
+                              text: q.title,
+                              fontWeight: FontWeight.w600,
+                            )),
                           ],
                         ),
                         Row(
@@ -149,11 +154,17 @@ class _FeaturedItemList extends StatelessWidget {
                                 direction: Axis.horizontal,
                               ),
                             ),
-                            Text('3.5',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey)),
+                            Text('3.5',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey)),
                             SizedBox(
                               width: 10,
                             ),
-                            Text('523 comments',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey)),
+                            Text('523 comments',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey)),
                             Spacer(),
                           ],
                         ),

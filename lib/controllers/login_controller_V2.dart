@@ -19,8 +19,6 @@ class LoginControllerV2 extends GetxController {
     super.onReady();
   }
 
-  @override
-  void onClose() {}
 
   void login() async {
     CustomFullScreenDialog.showDialog();

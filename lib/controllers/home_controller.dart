@@ -7,6 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
+import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/customer.dart';
 import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/services/login_service.dart';
@@ -23,12 +24,12 @@ class HomeController extends GetxController {
   var isLoading = true.obs;
   var questList = List<Quest>.empty().obs;
   var puQuestList = List<Quest>.empty().obs;
-  var HisQuestList = List<Quest>.empty().obs;
+  var hisQuestList = List<Quest>.empty().obs;
   var cityList = List<City>.empty().obs;
   var questTypeList = List<QuestType>.empty().obs;
-  var cityChoice = 1.obs;
+  var areaIdChoice = 4.obs;
   var indexHomePage = 0.obs;
-  var language = "1".obs;
+  var language = 1.obs;
 
   late GoogleSignIn googleSign;
   var isSignIn = false.obs;
@@ -84,11 +85,11 @@ class HomeController extends GetxController {
     super.onReady();
     //Reload list quest by city
     ever(
-        cityChoice,
+        areaIdChoice,
         (_) => {
               print("HOME CONTROLLER: " +
                   "Text Id City OnChange - " +
-                  cityChoice.toString())
+                  areaIdChoice.toString())
             });
 
     googleSign = GoogleSignIn();
@@ -104,7 +105,7 @@ class HomeController extends GetxController {
   void fetchQuestFeatureData() async {
     try {
       isLoading(true);
-      var questListApi = await QuestService.fetchQuestFeatureData();
+      var questListApi = await QuestService.fetchQuestFeatureData(areaIdChoice.value,language.value);
       if (questList != null) {
         print('Co Roi Ne');
         questList.assignAll(questListApi!);
@@ -128,7 +129,7 @@ class HomeController extends GetxController {
   void fetchCityData() async {
     try {
       isLoading(true);
-      var cityListApi = await CityService.fetchCityData();
+      var cityListApi = await CityService().fetchCityData();
       if (cityListApi != null) {
         print('Co Roi Ne');
         cityList.assignAll(cityListApi);
@@ -187,11 +188,11 @@ class HomeController extends GetxController {
       Locale? locale = Get.locale;
       print(locale);
       if (locale.toString() == "en") {
-        language.value = "0";
+        language.value = 0;
         print(language);
         // update();
       } else {
-        language.value = "1";
+        language.value = 1;
         print(language);
         // update();
       }

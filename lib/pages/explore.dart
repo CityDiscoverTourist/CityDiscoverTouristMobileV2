@@ -35,10 +35,7 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
                   Header(),
                   FeaturedQuest(),
                   QuestTypeScroll(),
-                  // RecentPlaces(),
-                  // SpecialStateOne(),
-                  // SpecialStateTwo(),
-                  // RecommendedPlaces()
+               
                 ],
               ),
             ),
@@ -90,7 +87,7 @@ class Header extends StatelessWidget {
                         onChanged: (City? newValue) {
                           dropdownValue.value = newValue!;
                           //Get Id City for reload List Quest
-                          controller.cityChoice.value = newValue.id;
+                          controller.areaIdChoice.value = newValue.id;
                         },
                         items: controller.cityList
                             .map<DropdownMenuItem<City>>((City value) {

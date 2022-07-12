@@ -225,7 +225,7 @@ class _BlogList extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(3),
               child: Hero(
-                  tag: 'bookmark${data!.createdDate}',
+                  tag: 'bookmark${data!.areaId}',
                   child: Container(
                     width: 140,
                     child: CustomCacheImage(imageUrl: data!.imagePath),
@@ -258,7 +258,9 @@ class _BlogList extends StatelessWidget {
                             SizedBox(
                               width: 3,
                             ),
-                            Text(data!.createdDate.toString(),
+                            Text(
+                              'create day',
+                              // data!.createdDate.toString(),
                                 style: TextStyle(
                                     fontSize: 13, color: Colors.grey)),
                           ],

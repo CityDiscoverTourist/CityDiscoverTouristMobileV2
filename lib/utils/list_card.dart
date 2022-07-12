@@ -93,7 +93,8 @@ class ListCard extends StatelessWidget {
                               color: Colors.orangeAccent,
                             ),
                             Text(
-                              d!.createdDate.toString(),
+                              // d!.createdDate.toString(),
+                              'create day',
                               style: TextStyle(
                                   fontSize: 13, color: Colors.grey[600]),
                             ),
@@ -130,7 +131,11 @@ class ListCard extends StatelessWidget {
                     width: 120,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(5),
-                        child: CustomCacheImage(imageUrl: d!.imagePath))),
+                        child: 
+                       d!.imagePath != null
+                          ? CustomCacheImage(imageUrl: d!.imagePath)
+                          : Image.asset('assets/images/logo.png'),
+                        )),
               ))
         ],
       ),
