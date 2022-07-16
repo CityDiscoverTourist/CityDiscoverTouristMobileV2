@@ -25,7 +25,8 @@ class LoginService {
 
       final responseData = json.decode(response.body);
       myController.jwtToken.value = responseData['jwtToken'];
-      print("JWT: "+responseData['jwtToken']);
+      print("HOME CONTROLLER: "+myController.jwtToken.value.toString());
+      // print("JWT: "+responseData['jwtToken']);
       var response2 = await http.get(
         Uri.parse(
             Api.baseUrl + ApiEndPoints.customer + responseData['accountId']),

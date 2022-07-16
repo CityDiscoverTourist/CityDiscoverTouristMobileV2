@@ -10,14 +10,16 @@ import 'package:travel_hour/pages/guide.dart';
 import 'package:travel_hour/pages/player_quest.dart';
 
 import 'package:travel_hour/pages/profile.dart';
+import 'package:travel_hour/pages/splashV2.dart';
 import '../controllers/home_controller.dart';
 import 'explore.dart';
 import 'history.dart';
 
 class HomePage extends StatelessWidget {
+    HomeController myController =  Get.put(HomeController());
   @override
-  Widget build(BuildContext context) {
-    var myController = Get.find<HomeController>();
+  Widget build(BuildContext context)  {
+
     var _currentIndex = myController.indexHomePage;
     final views = [
       Explore(),
@@ -29,6 +31,10 @@ class HomePage extends StatelessWidget {
     return Scaffold(
         // appBar: AppBar(title: Text("Flutter Demo")),
         body: Obx(() {
+          if(myController.isLoading.value==true){
+            print("true nef");
+            return SplashStart();
+          }else
           return views[_currentIndex.value];
         }),
         floatingActionButton: FloatingActionButton(

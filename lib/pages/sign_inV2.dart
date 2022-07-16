@@ -37,59 +37,60 @@ class _LoginScreenState extends State<LoginScreen> {
     nextScreen(context, DonePage());
   }
 
-  handleGoogleSignIn() async {
-    // final sb = context.read<SignInBloc>();
-    LoginController controller = new LoginController();
-    setState(() => googleSignInStarted = true);
-    await AppService().checkInternet().then((hasInternet) async {
-      if (hasInternet == false) {
-        openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
-      } else {
-        controller.login();
-        // await controller.login.((_) {
-        //   if (sb.hasError == true) {
-        //     openSnacbar(
-        //         scaffoldKey, 'something is wrong. please try again.'.tr());
-        //     setState(() => googleSignInStarted = false);
-        //   } else {
-        //     // sb.checkUserExists().then((value) {
-        //     //   if (value == true) {
-        //     //     sb.getUserDatafromFirebase(sb.uid).then((value) => sb
-        //     //         .saveDataToSP()
-        //     //         .then((value) => sb.guestSignout())
-        //     //         .then((value) => sb.setSignIn().then((value) {
-        //     //               setState(() => googleSignInStarted = false);
-        //     //               afterSignIn();
-        //     //             })));
-        //     sb.guestSignout();
-        //     sb.setSignIn();
-        //     afterSignIn();
-        //     // } else {
-        //     //   sb.getJoiningDate().then((value) => sb
-        //     //       .saveToFirebase()
-        //     //       .then((value) => sb.increaseUserCount())
-        //     //       .then((value) => sb.saveDataToSP().then((value) => sb
-        //     //           .guestSignout()
-        //     //           .then((value) => sb.setSignIn().then((value) {
-        //     //                 setState(() => googleSignInStarted = false);
-        //     //                 afterSignIn();
-        //     //               })))));
-        //     //   sb.guestSignout();
-        //     //   sb.setSignIn();
-        //     //   afterSignIn();
-        //     // }
-        //     // });
-        //   }
-        // });
-      }
-    });
-  }
+  // handleGoogleSignIn() async {
+  //   // final sb = context.read<SignInBloc>();
+  //   LoginController controller = new LoginController();
+  //   setState(() => googleSignInStarted = true);
+  //   await AppService().checkInternet().then((hasInternet) async {
+  //     if (hasInternet == false) {
+  //       openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
+  //     } else {
+  //       controller.login();
+  //       // await controller.login.((_) {
+  //       //   if (sb.hasError == true) {
+  //       //     openSnacbar(
+  //       //         scaffoldKey, 'something is wrong. please try again.'.tr());
+  //       //     setState(() => googleSignInStarted = false);
+  //       //   } else {
+  //       //     // sb.checkUserExists().then((value) {
+  //       //     //   if (value == true) {
+  //       //     //     sb.getUserDatafromFirebase(sb.uid).then((value) => sb
+  //       //     //         .saveDataToSP()
+  //       //     //         .then((value) => sb.guestSignout())
+  //       //     //         .then((value) => sb.setSignIn().then((value) {
+  //       //     //               setState(() => googleSignInStarted = false);
+  //       //     //               afterSignIn();
+  //       //     //             })));
+  //       //     sb.guestSignout();
+  //       //     sb.setSignIn();
+  //       //     afterSignIn();
+  //       //     // } else {
+  //       //     //   sb.getJoiningDate().then((value) => sb
+  //       //     //       .saveToFirebase()
+  //       //     //       .then((value) => sb.increaseUserCount())
+  //       //     //       .then((value) => sb.saveDataToSP().then((value) => sb
+  //       //     //           .guestSignout()
+  //       //     //           .then((value) => sb.setSignIn().then((value) {
+  //       //     //                 setState(() => googleSignInStarted = false);
+  //       //     //                 afterSignIn();
+  //       //     //               })))));
+  //       //     //   sb.guestSignout();
+  //       //     //   sb.setSignIn();
+  //       //     //   afterSignIn();
+  //       //     // }
+  //       //     // });
+  //       //   }
+  //       // });
+  //     }
+  //   }
+  //   );
+  // }
 
   handleFacebookSignIn() async {
     // final sb = context.read<SignInBloc>();
-    LoginController controller = new LoginController();
+    // LoginController controller = new LoginController();
     PlayController playController = new PlayController();
-    HomeController homeController = new HomeController();
+    HomeController homeController = Get.find<HomeController>();
     setState(() => facebookSignInStarted = true);
     await AppService().checkInternet().then((hasInternet) async {
       if (hasInternet == false) {
