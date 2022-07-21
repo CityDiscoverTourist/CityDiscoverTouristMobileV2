@@ -124,6 +124,10 @@ class PlayController extends GetxController {
     checkLocation.value = await PlayService().checkLocation(questId);
   }
 
+  Future<bool> checkPaymentStatus(var paymentId) async {
+    return await PlayService().checkPaymentStatus(paymentId);
+  }
+
 //Check currentAns
   void checkAnswer(
       String customerQuestId, String customerReply, String questItemId) async {
@@ -137,13 +141,15 @@ class PlayController extends GetxController {
     }
   }
 
-  void buyQuest(String customerId, String questID, int quantity, var totalAmout,
-      var discountCode) async {
+  Future<List?> buyQuest(var id, String customerId, String questID,
+      int quantity, var totalAmout, var discountCode) async {
     try {
       isLoading(true);
       // Xài tạm dữ liệu cứng để trả về true
-      await PlayService()
-          .buyQuest(customerId, questID, quantity, totalAmout, discountCode);
+      // await PlayService()
+      //     .buyQuest(customerId, questID, quantity, totalAmout, discountCode);
+      return PlayService().buyQuest(
+          id, customerId, questID, quantity, totalAmout, discountCode);
     } finally {
       isLoading(false);
     }

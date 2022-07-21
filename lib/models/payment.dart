@@ -21,10 +21,12 @@ class Payment {
     required this.customerId,
     required this.isValid,
     required this.questId,
+    required this.questName,
+    required this.questDescription,
   });
 
   String id;
-  String paymentMethod;
+  dynamic paymentMethod;
   int quantity;
   int totalAmount;
   String status;
@@ -32,17 +34,21 @@ class Payment {
   String customerId;
   bool isValid;
   int questId;
+  String questName;
+  String questDescription;
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
         id: json["id"],
         paymentMethod: json["paymentMethod"],
         quantity: json["quantity"],
         totalAmount: json["totalAmount"],
-        status: json["status"] == null ? null : json["status"],
+        status: json["status"],
         createdDate: DateTime.parse(json["createdDate"]),
         customerId: json["customerId"],
         isValid: json["isValid"],
         questId: json["questId"],
+        questName: json["questName"],
+        questDescription: json["questDescription"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -50,10 +56,12 @@ class Payment {
         "paymentMethod": paymentMethod,
         "quantity": quantity,
         "totalAmount": totalAmount,
-        "status": status == null ? null : status,
+        "status": status,
         "createdDate": createdDate.toIso8601String(),
         "customerId": customerId,
         "isValid": isValid,
         "questId": questId,
+        "questName": questName,
+        "questDescription": questDescription,
       };
 }

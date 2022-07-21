@@ -1,5 +1,9 @@
+import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:app_links/app_links.dart';
+import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,6 +11,9 @@ import 'package:get/get.dart';
 import 'package:momo_vn/momo_vn.dart';
 import 'package:travel_hour/controllers/play_controller.dart';
 import 'package:travel_hour/models/quest.dart';
+import 'package:http/http.dart' as http;
+import 'package:travel_hour/pages/momo_web_payment.dart';
+import 'package:uuid/uuid.dart';
 
 import '../controllers/home_controller.dart';
 import '../models/payment.dart';
@@ -16,6 +23,7 @@ class PaymentWidget extends StatefulWidget {
   final Quest quest;
   final int quantity;
   final totalAmout;
+  static const String? paymentStatus2 = "";
 
   const PaymentWidget(
       {Key? key,
@@ -25,19 +33,62 @@ class PaymentWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<PaymentWidget> createState() => _PaymentWidgetState();
+  State<PaymentWidget> createState() => PaymentWidgetState();
 }
 
-class _PaymentWidgetState extends State<PaymentWidget> {
+class PaymentWidgetState extends State<PaymentWidget>
+    with WidgetsBindingObserver {
   late MomoVn _momoPay;
   late PaymentResponse _momoPaymentResult;
   late String _paymentStatus;
   int quantity2 = 0;
   var total;
+  var uuid = Uuid();
+  static String payUrl = "";
+  var playCode;
+
+  String partnerCode = 'MOMOXOUE20220626';
+  String partnerName = 'City Discover Tourist';
+  String accessKey = 'YQz23DOoGwYM0FC4';
+  // StreamSubscription<Uri>? _linkSubscription;
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        // --
+        print('App in Resumed');
+        // var controller = Get.find<PlayController>();
+        PlayController controller = new PlayController();
+        // ignore: unrelated_type_equality_checks
+        bool check = await controller.checkPaymentStatus(playCode);
+        print(check);
+        if (check == true) {
+          print(_paymentStatus);
+          setState(() {
+            _paymentStatus = "Thanh toan thanh cong";
+          });
+        }
+        break;
+      case AppLifecycleState.inactive:
+        // --
+        print('App in Inactive');
+        break;
+      case AppLifecycleState.paused:
+        // --
+        print('App in Paused');
+        break;
+      case AppLifecycleState.detached:
+        // --
+        print('App in Detached');
+        break;
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _momoPay = MomoVn();
     _momoPay.on(MomoVn.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _momoPay.on(MomoVn.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -45,6 +96,7 @@ class _PaymentWidgetState extends State<PaymentWidget> {
     initPlatformState();
     quantity2 = widget.quantity;
     total = widget.totalAmout;
+    playCode = uuid.v4();
   }
 
   Future<void> initPlatformState() async {
@@ -56,10 +108,10 @@ class _PaymentWidgetState extends State<PaymentWidget> {
   Widget build(BuildContext context) {
     var quest;
     final key = new GlobalKey<ScaffoldState>();
-    print("CustomerId:" + Get.find<HomeController>().sp.id);
-    print("QuestID:" + widget.quest.id.toString());
-    print("Quantoty:" + quantity2.toString());
-    print("Total:" + total.toString());
+    // print("CustomerId:" + Get.find<HomeController>().sp.id);
+    // print("QuestID:" + widget.quest.id.toString());
+    // print("Quantoty:" + quantity2.toString());
+    // print("Total:" + total.toString());
     return Container(
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -102,64 +154,67 @@ class _PaymentWidgetState extends State<PaymentWidget> {
               )
             ],
           ),
-          Divider(),
-          ListTile(
-            title: CustomText(
-              // text: widget.quest.title.toString(),
-              text: "Số Lượng",
-            ),
-            // subtitle: CustomText(
-            //   text: quantity.toString(),
-            // ),
-            trailing: Container(
-              // padding: EdgeInsets.all(3),
-              height: 200,
-              width: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                // color: Theme.of(context).accentColor
-              ),
-              child: Row(
-                children: [
-                  RaisedButton(
-                      onPressed: () async {
-                        setState(() {
-                          quantity2 = quantity2 - 1;
-                          total = quantity2 * widget.quest.price;
-                        });
-                      },
-                      child: Icon(
-                        Icons.remove,
-                        color: Colors.white,
-                        size: 13,
-                      )),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 3),
-                    padding: EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+          _paymentStatus.isEmpty ? Divider() : Container(),
+          _paymentStatus.isEmpty
+              ? ListTile(
+                  title: CustomText(
+                    // text: widget.quest.title.toString(),
+                    text: "Số Lượng",
+                  ),
+                  // subtitle: CustomText(
+                  //   text: quantity.toString(),
+                  // ),
+                  trailing: Container(
+                    // padding: EdgeInsets.all(3),
+                    height: 200,
+                    width: 200,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        color: Colors.white),
-                    child: Text(
-                      quantity2.toString(),
-                      style: TextStyle(color: Colors.black, fontSize: 16),
+                      borderRadius: BorderRadius.circular(5),
+                      // color: Theme.of(context).accentColor
+                    ),
+                    child: Row(
+                      children: [
+                        RaisedButton(
+                            onPressed: () async {
+                              setState(() {
+                                quantity2 = quantity2 - 1;
+                                total = quantity2 * widget.quest.price;
+                              });
+                            },
+                            child: Icon(
+                              Icons.remove,
+                              color: Colors.white,
+                              size: 13,
+                            )),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 3),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              color: Colors.white),
+                          child: Text(
+                            quantity2.toString(),
+                            style: TextStyle(color: Colors.black, fontSize: 16),
+                          ),
+                        ),
+                        RaisedButton(
+                            onPressed: () async {
+                              setState(() {
+                                quantity2 = quantity2 + 1;
+                                total = quantity2 * widget.quest.price;
+                              });
+                            },
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 13,
+                            )),
+                      ],
                     ),
                   ),
-                  RaisedButton(
-                      onPressed: () async {
-                        setState(() {
-                          quantity2 = quantity2 + 1;
-                          total = quantity2 * widget.quest.price;
-                        });
-                      },
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 13,
-                      )),
-                ],
-              ),
-            ),
-          ),
+                )
+              : Container(),
           // Column(
           //     children: widget.listPayment
           //         .map((item) =>
@@ -202,13 +257,13 @@ class _PaymentWidgetState extends State<PaymentWidget> {
               ? Container()
               : ListTile(
                   title: CustomText(
-                    text: "Mã chơi : 032138921389",
+                    text: "Mã chơi : " + playCode,
                     // color: Colors.grey,
                   ),
                   trailing: RaisedButton(
                     child: const Text('Copy'),
                     onPressed: () {
-                      Clipboard.setData(new ClipboardData(text: "032138921389"))
+                      Clipboard.setData(new ClipboardData(text: playCode))
                           .then((_) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text('Copied to your clipboard !')));
@@ -252,29 +307,45 @@ class _PaymentWidgetState extends State<PaymentWidget> {
                       ? const Text('Xác nhận thanh toán')
                       : const Text('Xác nhận'),
                   onPressed: () async {
-                    MomoPaymentInfo options = MomoPaymentInfo(
-                        merchantName: "TTNC&TVKT",
-                        appScheme: "MOMOXOUE20220626",
-                        merchantCode: 'MOMOXOUE20220626',
-                        partnerCode: 'MOMOXOUE20220626',
-                        amount: total.round(),
-                        orderId: '12321312',
-                        orderLabel: 'Mua Quest' + widget.quest.title,
-                        merchantNameLabel: "Mua Quest",
-                        fee: 10,
-                        description: 'Thanh toán mua Quest',
-                        username: 'Ciity Discover Tourist',
-                        partner: 'merchant',
-                        extra: "{\"key1\":\"value1\",\"key2\":\"value2\"}",
-                        isTestMode: true);
-                    PlayController controller = new PlayController();
-                    controller.buyQuest(Get.find<HomeController>().sp.id,
-                        widget.quest.id.toString(), quantity2, total, null);
-                    try {
-                      _momoPay.open(options);
-                    } catch (e) {
-                      debugPrint(e.toString());
+                    // MomoPaymentInfo options = MomoPaymentInfo(
+                    //     merchantName: "TTNC&TVKT",
+                    //     appScheme: "MOMOXOUE20220626",
+                    //     merchantCode: 'MOMOXOUE20220626',
+                    //     partnerCode: 'MOMOXOUE20220626',
+                    //     amount: total.round(),
+                    //     orderId: '41e879aa-859c-4bda-b77b-37b7e07c6674',
+                    //     orderLabel: 'Mua Quest' + widget.quest.title,
+                    //     merchantNameLabel: "Mua Quest",
+                    //     fee: 0,
+                    //     description: 'Thanh toán mua Quest',
+                    //     username: 'Ciity Discover Tourist',
+                    //     partner: 'merchant',
+                    //     // extra: "{\"key1\":\"value1\",\"key2\":\"value2\"}",
+                    //     isTestMode: true);
+                    if (_paymentStatus.isEmpty) {
+                      PlayController controller = new PlayController();
+
+                      List? map = await controller.buyQuest(
+                          playCode,
+                          Get.find<HomeController>().sp.id,
+                          widget.quest.id.toString(),
+                          quantity2,
+                          total,
+                          null);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MoMoWebView(
+                                    url: map!.first,
+                                  )));
+                    } else {
+                      Navigator.pop(context);
                     }
+                    // try {
+                    //   _momoPay.open(options);
+                    // } catch (e) {
+                    //   debugPrint(e.toString());
+                    // }
                   },
                 ),
                 _paymentStatus.isEmpty
@@ -318,7 +389,9 @@ class _PaymentWidgetState extends State<PaymentWidget> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+
     _momoPay.clear();
   }
 

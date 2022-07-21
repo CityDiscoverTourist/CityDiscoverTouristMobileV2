@@ -95,15 +95,18 @@ class PlayService {
     return Future<bool>.value(false);
   }
 
-  Future<bool> buyQuest(String customerId, String questID, int quantity,
-      var totalAmout, var discountCode) async {
+  Future<List?> buyQuest(var id, String customerId, String questID,
+      int quantity, var totalAmout, var discountCode) async {
+    List returnData = new List.empty(growable: true);
     // var now = new DateTime.now();
     // var dateFormatted = DateFormat("yyyy-MM-ddTHH:mm:ss").format(now);
     // print(dateFormatted);
     Map mydata = {
+      'id': id,
       'quantity': quantity,
       'totalAmount': totalAmout,
       'customerId': customerId,
+      'isMobile': true,
       'questId': questID
     };
     var body = json.encode(mydata);
@@ -121,11 +124,35 @@ class PlayService {
     //     customerReply +
     //     "&questItemId=" +
     //     questItemId);
+    print(response.body);
     if (response.statusCode == 200) {
-      // print("OKkkkkkkkkkkkkkkkkkkkkk");
+      print("OKkkkkkkkkkkkkkkkkkkkkk");
       var data = json.decode(response.body);
-      print(data);
-      return Future<bool>.value(true);
+      returnData = data["data"];
+      // print(data);
+      print(returnData);
+      return returnData;
+    }
+    print("Error");
+    return returnData;
+  }
+
+  Future<bool> checkPaymentStatus(String paymentId) async {
+    var response = await http.get(
+      Uri.parse(Api.baseUrl +
+          ApiEndPoints.checkPaymentStatus +
+          paymentId +
+          "?language=0"),
+      headers: {"Content-Type": "application/json"},
+    );
+    // print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      print("Get Data ok");
+      if (data["status"] == "success") {
+        return true;
+      }
+      return false;
     }
     return Future<bool>.value(false);
   }
