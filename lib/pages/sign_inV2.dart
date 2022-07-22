@@ -89,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
   handleFacebookSignIn() async {
     // final sb = context.read<SignInBloc>();
     // LoginController controller = new LoginController();
-    PlayController playController = new PlayController();
+    // PlayController playController = new PlayController();
     HomeController homeController = Get.find<HomeController>();
     setState(() => facebookSignInStarted = true);
     await AppService().checkInternet().then((hasInternet) async {

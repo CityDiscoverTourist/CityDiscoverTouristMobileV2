@@ -6,6 +6,7 @@ import 'package:travel_hour/services/comment_service.dart';
 
 import '../services/app_service.dart';
 import '../utils/toast.dart';
+import 'login_controller_V2.dart';
 
 class Comment_Controller extends GetxController {
   var dataComment = List<Comment>.empty().obs;
@@ -13,7 +14,11 @@ class Comment_Controller extends GetxController {
   var lastVisible = 0.obs;
   //Màn hình loading
   var isLoading = false.obs;
-  var isMoreLoading=false.obs;
+  //
+  var indexPage = 0.obs;
+  //
+  var idQuest=0.obs;
+  var isMoreLoading = false.obs;
   //Kiểm tra có data hay không
   var hasData = false.obs;
   //Biến Comment và rating
@@ -23,7 +28,7 @@ class Comment_Controller extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    getCommentData();
+    await getCommentData();
   }
 
   @override
@@ -38,20 +43,24 @@ class Comment_Controller extends GetxController {
 
   void refeshData() {
     lastVisible.value = 0;
+    isMoreLoading.value = false;
     getCommentData();
   }
 
-  void getCommentData() async {
+  getCommentData() async {
     try {
       // if(!isMoreLoading.value){
-        // print("FALSE NÈ");
+      // print("FALSE NÈ");
       isLoading(true);
+      indexPage++;
+      print(indexPage.value);
       // }
       print("object HELLOOO");
       //Dòng này bỏ vô test hiệu ứng đợi vì dg dùng data fake nên ko test dc
-   await   Future.delayed(Duration(seconds: 2));
-      var commentApi = await CommentService.fetchCommentsData(1);
+      await Future.delayed(Duration(seconds: 2));
+      var commentApi = await CommentService.fetchCommentsData(indexPage.value,Get.find<LoginControllerV2>().jwtToken.value,Get.find<LoginControllerV2>().sp.id,idQuest.value);
       if (commentApi != null) {
+        // hasData(true);
         print("COMMENT_CONTROLLER: Have data Comment");
         if (dataComment.isEmpty || lastVisible.value == 0) {
           dataComment.assignAll(commentApi);
@@ -61,7 +70,7 @@ class Comment_Controller extends GetxController {
         } //nếu dataComment đã có sẵn dữ liệu thì nối lại
         //Gán vị trí cuối cùng
         lastVisible.value = dataComment.length - 1;
-      }
+      } else {}
     } finally {
       isLoading(false);
       isMoreLoading(false);

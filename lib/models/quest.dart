@@ -39,7 +39,7 @@ class Quest {
     // DateTime createdDate;
     String status;
     int questTypeId;
-    int questOwnerId;
+    int? questOwnerId;
     int areaId;
     int countQuestItem;
     int totalFeedback;

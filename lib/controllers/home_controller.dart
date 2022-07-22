@@ -35,6 +35,7 @@ class HomeController extends GetxController {
   var language = 1.obs;
   var jwtToken = "".obs;
 
+  var dropdownValue;
   // late GoogleSignIn googleSign;
   // var isSignIn = false.obs;
   // FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -43,8 +44,8 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    startData();
-
+    await startData();
+    dropdownValue = cityList[1];
     flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
@@ -100,7 +101,10 @@ class HomeController extends GetxController {
         (_) => {
               print("[HomeController]-L99" +
                   "Text Id City OnChange - " +
-                  areaIdChoice.toString())
+                  areaIdChoice.toString()),
+                  print(Get.find<LoginControllerV2>().sp.id),
+              updateData(),
+              update(),
             });
     ever(
         jwtToken,
@@ -113,12 +117,21 @@ class HomeController extends GetxController {
 
   @override
   void onClose() {}
-  void startData() async {
+  startData() async {
     try {
       isLoading(true);
       await fetchCityData();
       await fetchQuestFeatureData();
       await fetchQuestTypeData();
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  updateData() async {
+    try {
+      isLoading(true);
+      await fetchQuestFeatureData();
     } finally {
       isLoading(false);
     }

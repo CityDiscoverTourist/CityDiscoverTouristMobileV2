@@ -53,7 +53,7 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Get.find<HomeController>();
-    Rx<City>? dropdownValue = Rx<City>(controller.cityList[1]);
+    Rx<City>? dropdownValue = Rx<City>(controller.dropdownValue);
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 20),
       child: Column(
@@ -85,7 +85,8 @@ class Header extends StatelessWidget {
                           color: Colors.blue[300],
                         ),
                         onChanged: (City? newValue) {
-                          dropdownValue.value = newValue!;
+                          controller.dropdownValue = newValue!;
+                          dropdownValue.value=newValue;
                           //Get Id City for reload List Quest
                           controller.areaIdChoice.value = newValue.id;
                         },

@@ -1192,6 +1192,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0"
+  status_view:
+    dependency: "direct main"
+    description:
+      name: status_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2"
   stream_channel:
     dependency: transitive
     description:
