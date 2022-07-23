@@ -31,8 +31,8 @@ class PlayControllerV2 extends GetxController {
 
   var isLoadQuestItem = false.obs;
   late QuestItem questItemCurrent;
- var sugggestion="".obs;
- var isShowSuggestion=false.obs;
+  var sugggestion = "".obs;
+  var isShowSuggestion = false.obs;
   //Handle button submit Answer in Answer_questItem Page
   var clickAns = false.obs;
   //Bool check status when Answer Correct
@@ -136,7 +136,7 @@ class PlayControllerV2 extends GetxController {
       print(correctAns.value);
       if (correctAns.value == true) {
         isShowSuggestion(false);
-         Get.snackbar('Right Ans', 'Congratulations',
+        Get.snackbar('Right Ans', 'Congratulations',
             duration: Duration(seconds: 2),
             backgroundColor: Colors.black,
             colorText: Colors.white,
@@ -151,23 +151,24 @@ class PlayControllerV2 extends GetxController {
         int nextQuestItemId = await PlayService()
             .moveNextQuestItem(customerQuestID.value, pQuest.questId);
         print('nextQuestItemId ' + nextQuestItemId.toString());
-        if(nextQuestItemId!=-1){
-        //gọi hàm getQuestItem
-        isLoading(true);
-        questItemCurrent = await PlayService.fetchQuestItem(nextQuestItemId);
-        sugggestion.value=await PlayService().getSuggestion(questItemCurrent.id);
-        isLoading(false);
-        //Check câu cuối
-        }else{
-            Get.to(CompletedPage());
+        if (nextQuestItemId != -1) {
+          //gọi hàm getQuestItem
+          isLoading(true);
+          questItemCurrent = await PlayService.fetchQuestItem(nextQuestItemId);
+          sugggestion.value =
+              await PlayService().getSuggestion(questItemCurrent.id);
+          isLoading(false);
+          //Check câu cuối
+        } else {
+          Get.to(CompletedPage());
         }
-      
+
         print(questItemCurrent.id);
         //refeshCurrentAns
         currentAns.value = "";
         update();
         //Get to next
-       
+
         // Get.to(IngrogressPage());
         // } else {
         // Get.to(CompletedPage());
@@ -189,17 +190,45 @@ class PlayControllerV2 extends GetxController {
     }
   }
 
-  void showSuggestion()async{
-    if(isShowSuggestion.value==false){
-      try{
+  void showSuggestion() async {
+    if (isShowSuggestion.value == false) {
+      try {
         isLoading(true);
-  cusTask=await PlayService().decreasePointSuggestion(customerQuestID.value);
-isShowSuggestion(true);
-      }finally{
+        cusTask =
+            await PlayService().decreasePointSuggestion(customerQuestID.value);
+        isShowSuggestion(true);
+      } finally {
         isLoading(false);
       }
-  
     }
+  }
+
+  void checkImage(String customerQuestId, String questItemId) async {
+    try {
+      isLoading(true);
+      // Xài tạm dữ liệu cứng để trả về true
+      await PlayService().checkImage(customerQuestId, questItemId);
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<List?> buyQuest(var id, String customerId, String questID,
+      int quantity, var totalAmout, var discountCode) async {
+    try {
+      isLoading(true);
+      // Xài tạm dữ liệu cứng để trả về true
+      // await PlayService()
+      //     .buyQuest(customerId, questID, quantity, totalAmout, discountCode);
+      return PlayService().buyQuest(
+          id, customerId, questID, quantity, totalAmout, discountCode);
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<bool> checkPaymentStatus(var paymentId) async {
+    return await PlayService().checkPaymentStatus(paymentId);
   }
 
 //Add Customer to Quest
@@ -216,9 +245,9 @@ isShowSuggestion(true);
         print('Ok');
         questItemCurrent =
             await PlayService.fetchQuestItem(cusTask.questItemId);
-        if (questItemCurrent != null){
-            sugggestion.value=await PlayService().getSuggestion(questItemCurrent.id);
-
+        if (questItemCurrent != null) {
+          sugggestion.value =
+              await PlayService().getSuggestion(questItemCurrent.id);
         }
       }
     }
