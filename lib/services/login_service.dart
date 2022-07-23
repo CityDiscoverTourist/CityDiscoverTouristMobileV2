@@ -15,39 +15,6 @@ class LoginService {
 
   Future<Customer> apiCheckLogin(String token, String deviceId) async {
     Customer rs;
-    // // ignore: avoid_print
-    // print("CheckLogin_Api TokenGG: " + deviceId);
-    // var body = jsonEncode({'token': token});
-    // var response = await http.post(
-    //     Uri.parse(
-    //         "https://citytourist.azurewebsites.net/api/v1/auths/login-firebase"),
-    //     body: body,
-    //     headers: {
-    //       "Accept": "application/json",
-    //       "content-type": "application/json"
-    //     });
-
-    // // ignore: avoid_print
-    // print("CheckLogin_Api Status_Code: " '$response.statusCode');
-    // if (response.statusCode == 200) {
-    //   final responseData = json.decode(response.body);
-    //   var response2 = await http.get(
-    //       Uri.parse("https://citytourist.azurewebsites.net/api/v1/customers/" +
-    //           responseData['accountId']),
-    //       headers: {"Content-Type": "application/json"});
-    //   if (response2.statusCode == 200) {
-    //     final responseData2 = json.decode(response2.body);
-    //     rs = Customer.fromJson(responseData2['data']);
-    //     var token = responseData['jwtToken'];
-    //     print(rs);
-    //     return Future<Customer>.value(rs);
-    //   }else{
-    //      return Future<Customer>.value(null);
-    //   }
-    // } else
-    //   // ignore: null_argument_to_non_null_type
-    //   return Future<Customer>.value(null);
-
     var myController = Get.find<LoginControllerV2>();
     Map data2 = {'tokenId': token};
     var body = json.encode(data2);
@@ -58,6 +25,8 @@ class LoginService {
 
       final responseData = json.decode(response.body);
       myController.jwtToken.value = responseData['jwtToken'];
+      print("HOME CONTROLLER: "+myController.jwtToken.value.toString());
+      // print("JWT: "+responseData['jwtToken']);
       var response2 = await http.get(
         Uri.parse(
             Api.baseUrl + ApiEndPoints.customer + responseData['accountId']),

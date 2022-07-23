@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
+import 'package:travel_hour/pages/home.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 
@@ -141,7 +143,7 @@ class RatingQuest extends StatelessWidget {
               ]),
             ),
             InkWell(
-              onTap: (){},
+              onTap: (){Get.to(HomePage());},
               child: Container(
                 width: double.infinity,
                 height: 50,

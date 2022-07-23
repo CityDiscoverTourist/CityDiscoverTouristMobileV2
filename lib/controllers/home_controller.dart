@@ -1,12 +1,15 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/customer.dart';
 import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/services/login_service.dart';
@@ -21,27 +24,28 @@ import '../services/questtype_service.dart';
 
 class HomeController extends GetxController {
   var isLoading = true.obs;
+  // var isStartTest = true.obs;
   var questList = List<Quest>.empty().obs;
   var puQuestList = List<Quest>.empty().obs;
-  var HisQuestList = List<Quest>.empty().obs;
+  var hisQuestList = List<Quest>.empty().obs;
   var cityList = List<City>.empty().obs;
   var questTypeList = List<QuestType>.empty().obs;
-  var cityChoice = 1.obs;
+  var areaIdChoice = 4.obs;
   var indexHomePage = 0.obs;
-  var language = "1".obs;
+  var language = 1.obs;
+  var jwtToken = "".obs;
 
-  late GoogleSignIn googleSign;
-  var isSignIn = false.obs;
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  var dropdownValue;
+  // late GoogleSignIn googleSign;
+  // var isSignIn = false.obs;
+  // FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   String deviceId = ""; //*
-  late Customer sp;
 
   @override
   void onInit() async {
     super.onInit();
-    fetchQuestFeatureData();
-    fetchCityData();
-    fetchQuestTypeData();
+    await startData();
+    dropdownValue = cityList[1];
     flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
@@ -52,9 +56,10 @@ class HomeController extends GetxController {
       sound: true,
     );
     final FirebaseMessaging _fcm = FirebaseMessaging.instance;
-    _fcm
-        .getToken()
-        .then((token) => {print('The token||' + token!), deviceId = token});
+    _fcm.getToken().then((token) => {
+          print('[HomeController]-L57-The token ID||' + token!),
+          deviceId = token
+        });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       // ignore: avoid_print
@@ -77,41 +82,73 @@ class HomeController extends GetxController {
             ));
       }
     });
+    // isStartTest(true);
   }
 
   @override
-  Future<void> onReady() async {
+  void onReady() async {
     super.onReady();
+    print("[HomeController]-L88-ONREADY :" + jwtToken.value);
+    // googleSign = GoogleSignIn();
+    // await ever(isSignIn, handleAuthStateChanged);
+    // isSignIn.value = await firebaseAuth.currentUser != null;
+    // firebaseAuth.authStateChanges().listen((event) {
+    //   isSignIn.value = event != null;
+    // });
     //Reload list quest by city
     ever(
-        cityChoice,
+        areaIdChoice,
         (_) => {
-              print("HOME CONTROLLER: " +
+              print("[HomeController]-L99" +
                   "Text Id City OnChange - " +
-                  cityChoice.toString())
+                  areaIdChoice.toString()),
+                  print(Get.find<LoginControllerV2>().sp.id),
+              updateData(),
+              update(),
             });
-
-    googleSign = GoogleSignIn();
-    ever(isSignIn, handleAuthStateChanged);
-    isSignIn.value = await firebaseAuth.currentUser != null;
-    firebaseAuth.authStateChanges().listen((event) {
-      isSignIn.value = event != null;
-    });
+    ever(
+        jwtToken,
+        (_) => {
+              print(
+                "JWT change" + jwtToken.value,
+              ),
+            });
   }
 
   @override
   void onClose() {}
-  void fetchQuestFeatureData() async {
+  startData() async {
     try {
       isLoading(true);
-      var questListApi = await QuestService.fetchQuestFeatureData();
-      if (questList != null) {
-        print('Co Roi Ne');
-        questList.assignAll(questListApi!);
-      }
+      await fetchCityData();
+      await fetchQuestFeatureData();
+      await fetchQuestTypeData();
     } finally {
       isLoading(false);
     }
+  }
+
+  updateData() async {
+    try {
+      isLoading(true);
+      await fetchQuestFeatureData();
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  fetchQuestFeatureData() async {
+    // try {
+    //   isLoading(true);
+    var questListApi = await QuestService.fetchQuestFeatureData(
+        areaIdChoice.value, language.value);
+    if (questList != null) {
+      print('Co Roi Ne');
+      questList.assignAll(questListApi!);
+    }
+    // } finally {
+    //   isLoading(false);
+    // }
   }
 
   static const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -125,47 +162,50 @@ class HomeController extends GetxController {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  void fetchCityData() async {
-    try {
-      isLoading(true);
-      var cityListApi = await CityService.fetchCityData();
-      if (cityListApi != null) {
-        print('Co Roi Ne');
-        cityList.assignAll(cityListApi);
-      }
-    } finally {
-      isLoading(false);
+  fetchCityData() async {
+    // try {
+    //   isLoading(true);
+    var cityListApi = await CityService().fetchCityData();
+    if (cityListApi != null) {
+      print('Co Roi Ne');
+      cityList.assignAll(cityListApi);
     }
+    // } finally {
+    //   isLoading(false);
+    // }
   }
 
-  void fetchQuestTypeData() async {
-    try {
-      isLoading(true);
-      var quest_typeListApi = await QuestTypeService.fetchQuestTypeData();
-      if (quest_typeListApi != null) {
-        print('Co Roi Ne');
-        questTypeList.assignAll(quest_typeListApi);
-      }
-    } finally {
-      isLoading(false);
+  fetchQuestTypeData() async {
+    // try {
+    //   isLoading(true);
+
+    var quest_typeListApi = await QuestTypeService.fetchQuestTypeData(
+        Get.find<LoginControllerV2>().jwtToken.value);
+    if (quest_typeListApi != null) {
+      print('Co Roi Ne');
+      questTypeList.assignAll(quest_typeListApi);
     }
+    // } finally {
+    //   isLoading(false);
+    // }
   }
 
-  void handleAuthStateChanged(isLoggedIn) async {
-    print("Token trong HAM: " + deviceId);
-    if (isLoggedIn) {
-      sp = await LoginService().apiCheckLogin(
-          await firebaseAuth.currentUser!.getIdToken(), deviceId);
-      if (sp != null)
-        Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
-      else {
-        await googleSign.disconnect();
-        await firebaseAuth.signOut();
-      }
-    } else {
-      Get.offAllNamed(KLoginScreen);
-    }
-  }
+  // void handleAuthStateChanged(isLoggedIn) async {
+  //   print("[HomeController]-L162-DeviceID:" + deviceId);
+  //   if (isLoggedIn) {
+  //     print("[HomeController]-L164: ");
+  //     sp = await LoginService().apiCheckLogin(
+  //         await firebaseAuth.currentUser!.getIdToken(), deviceId);
+  //     if (sp != null)
+  //       Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
+  //     else {
+  //       await googleSign.disconnect();
+  //       await firebaseAuth.signOut();
+  //     }
+  //   } else {
+  //     Get.offAllNamed(KLoginScreen);
+  //   }
+  // }
 
   void getPuQuestByCustomerID(String customerId) async {
     try {
@@ -187,11 +227,11 @@ class HomeController extends GetxController {
       Locale? locale = Get.locale;
       print(locale);
       if (locale.toString() == "en") {
-        language.value = "0";
+        language.value = 0;
         print(language);
         // update();
       } else {
-        language.value = "1";
+        language.value = 1;
         print(language);
         // update();
       }

@@ -3,65 +3,68 @@
 //     final quest = questFromJson(jsonString);
 
 import 'dart:convert';
-import 'dart:ffi';
 
-List<Quest> questFromJson(String str) =>
-    List<Quest>.from(json.decode(str).map((x) => Quest.fromJson(x)));
+List<Quest> questFromJson(String str) => List<Quest>.from(json.decode(str).map((x) => Quest.fromJson(x)));
 
-String questToJson(List<Quest> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String questToJson(List<Quest> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Quest {
-  Quest({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.price,
-    this.imagePath,
-    required this.estimatedTime,
-    required this.estimatedDistance,
-    // required this.availableTime,
-    required this.createdDate,
-    // required this.updatedDate,
-    required this.status,
-    required this.questTypeId,
-    // required this.questOwnerId,
-    required this.areaId,
-  });
+    Quest({
+        required this.id,
+        required this.title,
+        required this.description,
+        required this.price,
+        required this.imagePath,
+        required this.estimatedTime,
+        required this.estimatedDistance,
+        required this.availableTime,
+        // required this.createdDate,
+        required this.status,
+        required this.questTypeId,
+        required this.questOwnerId,
+        required this.areaId,
+        required this.countQuestItem,
+        required this.totalFeedback,
+        required this.averageStart,
+    });
 
-  int id;
-  String title;
-  String description;
-  num price;
-  dynamic imagePath;
-  String estimatedTime;
-  String estimatedDistance;
-  // DateTime availableTime;
-  DateTime? createdDate;
-  // DateTime updatedDate;
-  String status;
-  int questTypeId;
-  // int questOwnerId;
-  int areaId;
+    int id;
+    String title;
+    String description;
+    double price;
+    dynamic imagePath;
+    String estimatedTime;
+    String estimatedDistance;
+    String availableTime;
+    // DateTime createdDate;
+    String status;
+    int questTypeId;
+    int? questOwnerId;
+    int areaId;
+    int countQuestItem;
+    int totalFeedback;
+    int? averageStart;
 
-  factory Quest.fromJson(Map<String, dynamic> json) => Quest(
+    factory Quest.fromJson(Map<String, dynamic> json) => Quest(
         id: json["id"],
         title: json["title"],
         description: json["description"],
         price: json["price"],
-        imagePath: json["imagePath"],
+        imagePath: json["imagePath"] ,
         estimatedTime: json["estimatedTime"],
         estimatedDistance: json["estimatedDistance"],
-        // availableTime: DateTime.parse(json["availableTime"]),
-        createdDate: DateTime.parse(json["createdDate"].toString()),
-        // updatedDate: DateTime.parse(json["updatedDate"]),
+        availableTime: json["availableTime"],
+        // createdDate: DateTime.parse(json["createdDate"].toString()),
         status: json["status"],
         questTypeId: json["questTypeId"],
-        // questOwnerId: json["questOwnerId"],
+        questOwnerId: json["questOwnerId"],
         areaId: json["areaId"],
-      );
+        countQuestItem: json["countQuestItem"],
+        totalFeedback: json["totalFeedback"],
+        averageStart: json["averageStart"],
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
         "description": description,
@@ -69,12 +72,14 @@ class Quest {
         "imagePath": imagePath,
         "estimatedTime": estimatedTime,
         "estimatedDistance": estimatedDistance,
-        // "availableTime": availableTime.toIso8601String(),
-        "createdDate": createdDate!.toString(),
-        // "updatedDate": updatedDate.toIso8601String(),
+        "availableTime": availableTime,
+        // "createdDate": createdDate!.toString(),
         "status": status,
         "questTypeId": questTypeId,
-        // "questOwnerId": questOwnerId,
+        "questOwnerId": questOwnerId,
         "areaId": areaId,
-      };
+        "countQuestItem": countQuestItem,
+        "totalFeedback": totalFeedback,
+        "averageStart": averageStart,
+    };
 }

@@ -6,22 +6,27 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/controllers/play_controller.dart';
+import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/pages/answer_questitem.dart';
+import 'package:travel_hour/pages/home.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 
+import '../controllers/play_controllerV2.dart';
 import '../widgets/custom_cache_image.dart';
 
-class StartPage extends GetView<PlayController> {
-  const StartPage({Key? key}) : super(key: key);
+class RulePage extends GetView<PlayControllerV2> {
+  PurchasedQuest pQuest;
+  RulePage({required this.pQuest, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Get.put(PlayControllerV2()).pQuest = pQuest;
     return Scaffold(
         backgroundColor: Colors.blueGrey.shade50,
         appBar: AppBar(
           backgroundColor: Colors.amberAccent,
           title: BigText(
-            text: "QUEST 1",
+            text: "RulePage",
             fontWeight: FontWeight.w700,
           ),
           centerTitle: true,
@@ -156,8 +161,13 @@ class StartPage extends GetView<PlayController> {
             bottom: 0,
             child: InkWell(
               onTap: () {
-                 Get.put(PlayController());
-            Get.to(AnswerPage());
+                var controller = Get.find<PlayControllerV2>();
+                print('RULE PAGE' +
+                    controller.questItemCurrent.description.toString());
+                    controller.changeIsLoading();
+                Get.to(AnswerPage());
+                print("HCM HCM HCM");
+                // Get.to(AnswerPage());
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,
