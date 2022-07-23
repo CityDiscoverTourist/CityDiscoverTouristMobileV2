@@ -96,7 +96,8 @@ class _SignInPageState extends State<SignInPage> {
       } else {
         // controller.loginFacebook();
         // playController.customerStartQuest("9", "9");
-        homeController.getQuestDetailByID("9");
+        // homeController.getQuestDetailByID("9");
+        playController.checkImage("customerQuestId", "questItemId");
         // await sb.signInwithFacebook().then((_) {
         //   if (sb.hasError == true) {
         //     openSnacbar(

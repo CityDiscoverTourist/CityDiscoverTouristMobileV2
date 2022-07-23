@@ -215,4 +215,14 @@ class PlayController extends GetxController {
   void increaseIndex() {
     index = index + 1;
   }
+
+  void checkImage(String customerQuestId, String questItemId) async {
+    try {
+      isLoading(true);
+      // Xài tạm dữ liệu cứng để trả về true
+      await PlayService().checkImage(customerQuestId, questItemId);
+    } finally {
+      isLoading(false);
+    }
+  }
 }
