@@ -21,6 +21,8 @@ import 'package:travel_hour/utils/sign_in_dialog.dart';
 import 'package:travel_hour/utils/toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../widgets/custom_cache_image.dart';
+
 class CommentsPageV2 extends StatefulWidget {
   const CommentsPageV2({
     Key? key,
@@ -252,34 +254,55 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
           ),
           SafeArea(
             child: Container(
-              height: 65,
+              // height: 80,
               padding: EdgeInsets.only(top: 8, bottom: 10, right: 20, left: 20),
               width: double.infinity,
               color: Colors.white,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(25)),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                      errorStyle: TextStyle(fontSize: 0),
-                      contentPadding:
-                          EdgeInsets.only(left: 15, top: 10, right: 5),
-                      border: InputBorder.none,
-                      hintText: 'Write a comment',
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          Icons.send,
-                          color: Colors.grey[700],
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          myController.handleSubmit(textCtrl.text, context);
-                          textCtrl.clear();
-                        },
-                      )),
-                  controller: textCtrl,
-                ),
+              child: Column(
+                children: [
+                  RatingBar.builder(
+                    initialRating: 5,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    // allowHalfRating: true,
+                    itemCount: 5,
+                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    onRatingUpdate: (rating) {
+                      myController.rating.value=rating.toInt();
+                      print(rating+  myController.rating.value);
+
+                    },
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(25)),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          errorStyle: TextStyle(fontSize: 0),
+                          contentPadding:
+                              EdgeInsets.only(left: 15, top: 10, right: 5),
+                          border: InputBorder.none,
+                          hintText: 'Write a comment',
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              Icons.send,
+                              color: Colors.grey[700],
+                              size: 20,
+                            ),
+                            onPressed: () {
+                              myController.handleSubmit(textCtrl.text, context);
+                              textCtrl.clear();
+                            },
+                          )),
+                      controller: textCtrl,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -297,9 +320,16 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
             borderRadius: BorderRadius.circular(5)),
         child: ListTile(
           leading: CircleAvatar(
-              radius: 25,
-              backgroundColor: Colors.grey[200],
-              backgroundImage: CachedNetworkImageProvider(d.imageUrl)),
+            radius: 25,
+            backgroundColor: Colors.grey[200],
+            child:
+                // d.imageUrl!=null?CachedNetworkImageProvider(imageUrl: d.imageUrl):Image.asset('assets/images/logo.png'),
+                d.imagePath != null
+                    ? CustomCacheImage(imageUrl: d.imagePath)
+                    : Image.asset('assets/images/logo.png'),
+
+            // d.imageUrl!=null?CachedNetworkImage(imageUrl: d.imageUrl):Image.asset('assets/images/logo.png'),
+          ),
           title: Row(
             children: <Widget>[
               Text(
@@ -312,7 +342,7 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
               SizedBox(
                 width: 10,
               ),
-              Text(d.date,
+              Text(d.createdDate.toString(),
                   style: TextStyle(
                       color: Colors.grey[500],
                       fontSize: 11,
@@ -330,7 +360,7 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
             ],
           ),
           subtitle: Text(
-            d.comment,
+            d.feedBack,
             style: TextStyle(
                 fontSize: 15,
                 color: Colors.black54,

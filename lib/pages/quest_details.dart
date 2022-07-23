@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/pages/start_play.dart';
+import 'package:travel_hour/pages/rulepage.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/expanded.dart';
 import 'package:travel_hour/widgets/small_text.dart';
@@ -107,6 +108,10 @@ class _QuestDetailsState extends State<QuestDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                  BigText(
+                                text: widget.data!.title,
+                                fontWeight: FontWeight.w600,
+                              ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -116,10 +121,7 @@ class _QuestDetailsState extends State<QuestDetails> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              BigText(
-                                text: widget.data!.title,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              
                               SizedBox(
                                 height: 10,
                               ),
@@ -174,7 +176,7 @@ class _QuestDetailsState extends State<QuestDetails> {
                         Container(
                           child: Center(
                               child: BigText(
-                            text: widget.data!.price.toString() + " vnđ",
+                           text: widget.data!.price.toStringAsFixed(00) + " vnđ",
                             fontWeight: FontWeight.w700,
                           )),
                           width: MediaQuery.of(context).size.width * 0.25,

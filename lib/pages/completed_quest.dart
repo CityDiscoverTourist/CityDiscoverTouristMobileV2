@@ -4,10 +4,11 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:travel_hour/controllers/play_controller.dart';
+import 'package:travel_hour/controllers/play_controllerV2.dart';
 import 'package:travel_hour/pages/home.dart';
 import 'package:travel_hour/pages/rating_quest.dart';
 
-class CompletedPage extends GetView<PlayController> {
+class CompletedPage extends GetView<PlayControllerV2> {
   const CompletedPage({Key? key}) : super(key: key);
 
   @override
@@ -15,7 +16,7 @@ class CompletedPage extends GetView<PlayController> {
     return Scaffold(
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text("Completed Page"),
+          Text("Completed Page + "+controller.cusTask.currentPoint.toString()),
           ElevatedButton(
             onPressed: () {
               Get.close(0);

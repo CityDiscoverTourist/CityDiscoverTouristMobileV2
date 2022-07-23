@@ -85,7 +85,7 @@ class _ItemList extends StatelessWidget {
                 tag: 'popular${q.id}',
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(30),
-                    child: CustomCacheImage(imageUrl: q.imagePath)
+                    child: q.imagePath!=null?CustomCacheImage(imageUrl: q.imagePath):Image.asset('assets/images/logo.png'),
                     //  child: Image.network(q.imagePath,fit: BoxFit.fill,),
                     ),
               ),

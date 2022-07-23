@@ -18,31 +18,39 @@ class AppPages {
   static List<GetPage> getPages() {
     return [
       GetPage(
-          name: KWelcomeScreen, page: () => HomePage(), binding: HomeBinding()),
+          name: KWelcomeScreen, page: () => HomePage(),
+          //  binding: HomeBinding()
+           ),
       GetPage(
           name: KLoginScreen,
           page: () => LoginScreen(),
-          binding: LoginBinding()),
+          // binding: LoginBinding()
+          ),
       GetPage(
           name: KProfileScreen,
           page: () => ProfilePage(),
-          binding: HomeBinding()),
+          // binding: HomeBinding()
+          ),
       GetPage(
           name: KSplashScreen,
           page: () => SplashStart(),
-          binding: HomeBinding()),
+          // binding: HomeBinding()
+          ),
       GetPage(
           name: KHistoryScreen,
           page: () => HistoryPage(),
-          binding: HomeBinding()),
+          // binding: HomeBinding()
+          ),
       GetPage(
           name: KMapScreen,
           page: () => ManyMarkersPage(),
-          binding: HomeBinding()),
+          // binding: HomeBinding()
+          ),
       GetPage(
           name: KMomoPaymentScreen,
           page: () => MomoPaymentPage(),
-          binding: HomeBinding()),
+          // binding: HomeBinding()
+          ),
     ];
   }
 }

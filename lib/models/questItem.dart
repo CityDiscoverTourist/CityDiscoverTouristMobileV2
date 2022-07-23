@@ -4,30 +4,83 @@
 
 import 'dart:convert';
 
-List<QuestItem> questItemFromJson(String str) => List<QuestItem>.from(json.decode(str).map((x) => QuestItem.fromJson(x)));
+QuestItem questItemFromJson(String str) => QuestItem.fromJson(json.decode(str));
 
-String questItemToJson(List<QuestItem> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String questItemToJson(QuestItem data) => json.encode(data.toJson());
 
 class QuestItem {
     QuestItem({
         required this.id,
-        required this.name,
-        required this.ans,
+        required this.questItemTypeId,
+        required this.locationId,
+        required this.questId,
+        required this.content,
+        required this.description,
+        required this.duration,
+        //  this.createdDate,
+        //  this.updatedDate,
+        // required this.qrCode,
+        // required this.rightAnswer,
+        required this.answerImageUrl,
+        required this.status,
+        required this.listImages,
+        // required this.suggestions,
+        required this.itemId,
     });
 
     int id;
-    String name;
-    String ans;
+    int questItemTypeId;
+    int locationId;
+    int questId;
+    String content;
+    String description;
+    int duration;
+    // DateTime? createdDate;
+    // DateTime? updatedDate;
+    // String qrCode;
+    // String rightAnswer;
+    String? answerImageUrl;
+    String status;
+    List<String> listImages;
+    // List<Suggestion> suggestions;
+    int itemId;
 
     factory QuestItem.fromJson(Map<String, dynamic> json) => QuestItem(
         id: json["id"],
-        name: json["name"],
-        ans: json["ans"],
+        questItemTypeId: json["questItemTypeId"],
+        locationId: json["locationId"],
+        questId: json["questId"],
+        content: json["content"],
+        description: json["description"],
+        duration: json["duration"],
+        // createdDate: DateTime.parse(json["createdDate"]),
+        // updatedDate: DateTime.parse(json["updatedDate"]),
+        // qrCode: json["qrCode"],
+        // rightAnswer: json["rightAnswer"],
+        answerImageUrl: json["answerImageUrl"],
+        status: json["status"],
+        listImages: List<String>.from(json["listImages"].map((x) => x)),
+        // suggestions: List<Suggestion>.from(json["suggestions"].map((x) => Suggestion.fromJson(x))),
+        itemId: json["itemId"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "name": name,
-        "ans": ans,
+        "questItemTypeId": questItemTypeId,
+        "locationId": locationId,
+        "questId": questId,
+        "content": content,
+        "description": description,
+        "duration": duration,
+        // "createdDate": createdDate.toString(),
+        // "updatedDate": updatedDate.toString(),
+        // "qrCode": qrCode,
+        // "rightAnswer": rightAnswer,
+        "answerImageUrl": answerImageUrl,
+        "status": status,
+        "listImages": List<dynamic>.from(listImages.map((x) => x)),
+        // "suggestions": List<dynamic>.from(suggestions.map((x) => x.toJson())),
+        "itemId": itemId,
     };
 }
+

@@ -8,9 +8,11 @@ import 'package:travel_hour/pages/home.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 
 import '../controllers/login_controller.dart';
+import '../widgets/big_text.dart';
 
 class SplashStart extends StatefulWidget {
-  SplashStart({Key? key}) : super(key: key);
+  final String content;
+  SplashStart({Key? key, this.content='City Discover Tourist'}) : super(key: key);
 
   _SplashStartState createState() => _SplashStartState();
 }
@@ -71,7 +73,7 @@ class _SplashStartState extends State<SplashStart>
               )),
         ),
         Center(
-          child: Text('City Discovery Tourist',style: TextStyle(fontSize: 16),),
+          child: BigText(text: widget.content,size: 16,fontWeight: FontWeight.w700,),
         )
       ],
     ));

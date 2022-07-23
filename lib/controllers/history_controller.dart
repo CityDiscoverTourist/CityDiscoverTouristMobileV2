@@ -11,8 +11,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
+import 'package:travel_hour/controllers/login_controller_V2.dart';
+import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/models/quest.dart';
 import 'package:travel_hour/pages/home.dart';
+import 'package:travel_hour/services/purchased_service.dart';
 import 'dart:convert';
 // import 'package:citydiscovertourist/api/api.dart';
 // import 'package:citydiscovertourist/api/api_end_points.dart';
@@ -27,16 +30,32 @@ import '../pages/sign_in.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class HistoryController extends GetxController {
-  var purchsedQuestList = List<Quest>.empty().obs;
+  var purchsedQuestList = List<PurchasedQuest>.empty().obs;
   var historyQuestList = List<Quest>.empty().obs;
-  Future<List> getPuschedQuests() async {
-    String collectionName = 'puschedquests';
-    String type = 'pusched quests';
+var isLoading=false.obs;
+ void onInit() async {
+    super.onInit();
+     await getPuschedQuests();
+ }
+ void onReady(){
+  update();
+ }
 
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    String? _uid = sp.getString('uid');
-    Map data2 = {'tokenId': _uid};
-    var body = json.encode(data2);
+
+
+ getPuschedQuests() async {
+  try{
+    isLoading(true);
+ var quest_typeListApi = await PurchasedService.fetchPurchasedQuests(Get.find<LoginControllerV2>().sp.id.toString(),0,
+        Get.find<LoginControllerV2>().jwtToken.value);
+    if (quest_typeListApi != null) {
+      print('Co Roi Ne');
+      purchsedQuestList.assignAll(quest_typeListApi);
+    }
     return purchsedQuestList;
+  }finally{
+    isLoading(false);
+  }
+    
   }
 }

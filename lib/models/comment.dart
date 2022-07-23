@@ -11,35 +11,39 @@ String commentToJson(List<Comment> data) => json.encode(List<dynamic>.from(data.
 class Comment {
     Comment({
         required this.id,
+        required this.customerId,
         required this.name,
-        required this.imageUrl,
-        required this.comment,
+        this.imagePath,
+        required this.feedBack,
         required this.rating,
-        required this.date,
+        required this.createdDate,
     });
 
     int id;
+    String customerId;
     String name;
-    String imageUrl;
-    String comment;
+    dynamic imagePath;
+    String feedBack;
     int rating;
-    String date;
+    DateTime createdDate;
 
     factory Comment.fromJson(Map<String, dynamic> json) => Comment(
         id: json["id"],
+        customerId: json["customerId"],
         name: json["name"],
-        imageUrl: json["imageUrl"],
-        comment: json["comment"],
+        imagePath: json["imagePath"],
+        feedBack: json["feedBack"],
         rating: json["rating"],
-        date:json["date"],
+        createdDate: DateTime.parse(json["createdDate"]),
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
+        "customerId": customerId,
         "name": name,
-        "imageUrl": imageUrl,
-        "comment": comment,
+        "imagePath": imagePath,
+        "feedBack": feedBack,
         "rating": rating,
-        "date": date,
+        "createdDate": createdDate.toString(),
     };
 }

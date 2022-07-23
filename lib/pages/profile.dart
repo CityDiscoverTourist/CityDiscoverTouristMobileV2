@@ -11,9 +11,12 @@ import 'package:travel_hour/blocs/notification_bloc.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/controllers/login_controller.dart';
+import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/pages/edit_profile.dart';
 import 'package:travel_hour/pages/notifications.dart';
 import 'package:travel_hour/pages/sign_in.dart';
+import 'package:travel_hour/pages/sign_inV2.dart';
+import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/language.dart';
@@ -86,7 +89,7 @@ class _ProfilePageState extends State<ProfilePage>
   Widget build(BuildContext context) {
     super.build(context);
     // final sb = context.watch<SignInBloc>();
-    LoginController controller = LoginController();
+    // LoginController controller = LoginController();
     return Scaffold(
         appBar: AppBar(
           title: Text('profile'.tr),
@@ -345,8 +348,7 @@ class GuestUserUI extends StatelessWidget {
           ),
           onTap: () => nextScreenPopup(
               context,
-              SignInPage(
-                tag: 'popup',
+              LoginScreen(
               )),
         ),
         SizedBox(
@@ -364,7 +366,7 @@ class UserUI extends StatelessWidget {
   Widget build(BuildContext context) {
     // final sb = context.watch<SignInBloc>();
     var data = Get.arguments;
-    var controller = Get.find<HomeController>();
+    var controller = Get.find<LoginControllerV2>();
     // controller.getDataFromSp();
     TextStyle _textStyle = TextStyle(
         fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[900]);
@@ -483,7 +485,7 @@ class UserUI extends StatelessWidget {
   }
 
   void openLogoutDialog(context) {
-    LoginController controller = new LoginController();
+    LoginControllerV2 controller = Get.find<LoginControllerV2>();
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -496,9 +498,9 @@ class UserUI extends StatelessWidget {
               ),
               TextButton(
                 child: Text('yes'.tr),
-                onPressed: () async {
-                  Navigator.pop(context);
-                  await controller.logout();
+                onPressed: (){
+                Navigator.pop(context);
+                  controller.logout();
                 },
               )
             ],

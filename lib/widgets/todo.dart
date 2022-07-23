@@ -199,7 +199,7 @@ class TodoWidget extends StatelessWidget {
                             ).tr(),
                           ])),
                   onTap: () =>
-                      {Get.put(Comment_Controller()), Get.to(CommentsPageV2())}
+                      {Get.put(Comment_Controller()).idQuest.value=questData!.id, Get.to(CommentsPageV2())}
                   //  nextScreen(context, CommentsPage(collectionName: 'places', timestamp: questData!.timestamp,)),
                   ),
             ],

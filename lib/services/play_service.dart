@@ -1,65 +1,105 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:travel_hour/models/customer.dart';
+import 'package:travel_hour/models/customer_task.dart';
+import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/models/questItem.dart';
 import 'package:http/http.dart' as http;
-import 'package:travel_hour/models/questItemV2.dart';
 
 import '../api/api.dart';
 import '../api/api_end_points.dart';
 
 class PlayService {
-  static Future<List<QuestItem>?> fetchTestData() async {
-    Iterable list = [
-      {"id": 1, "name": "Quest1", "ans": "A"},
-      {"id": 2, "name": "Quest2", "ans": "A"},
-      {"id": 3, "name": "Quest3", "ans": "A"}
-    ];
-    final qItemMap = list.cast<Map<String, dynamic>>();
-    final questItemList = await qItemMap.map<QuestItem>((json) {
-      return QuestItem.fromJson(json);
-    }).toList();
-    // print('object');
-    return questItemList;
-    // }
+//Tạo sở hữu lượt chơi
+  static Future<int> createCustomerQuest(
+      String customerID, PurchasedQuest pQ) async {
+    int questID = pQ.questId;
+    String paymentID = pQ.id;
+    print("createCustomerQuest " +
+        customerID +
+        "/" +
+        questID.toString() +
+        paymentID);
+    Map body = {
+      'customerId': customerID,
+      'questId': questID,
+      'paymentId': paymentID
+    };
+    var response = await http.post(
+        Uri.parse(
+            "https://citytourist.azurewebsites.net/api/v1/customer-quests"),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json"
+        },
+        body: jsonEncode(body));
+    print('createCustomerQuest StatusCode: ' + response.statusCode.toString());
+    if (response.statusCode == 200) {
+      Map data = jsonDecode(response.body);
+      // Iterable list = dbc;
+      int idCusQuest = data['data']['id'];
+      return Future<int>.value(idCusQuest);
+    }
+    return Future<int>.value(0);
   }
 
-  //Cái này chưa xài đc tại trang api đang lỗi
-  static Future<List<QuestItem2>?> fetchQuestItemData(
-      String questId, var language) async {
-    var response = await http.get(
-        Uri.parse(Api.baseUrl +
-            ApiEndPoints.getQuestItemByQuestId +
-            questId +
-            "?language=" +
-            language.toString()),
+//Load câu đầu lần đầu start quest
+  static Future<CustomerTask> confirmTheFirstStart(
+      int questID, int customerQuestID) async {
+    print("confirmTheFirstStart" +
+        customerQuestID.toString() +
+        "/" +
+        questID.toString());
+    CustomerTask rs;
+    Map body = {'customerQuestId': customerQuestID};
+    var response = await http.post(
+        Uri.parse(
+            "https://citytourist.azurewebsites.net/api/v1/customer-tasks/" +
+                questID.toString()),
         headers: {
-          "Content-Type": "application/json",
-          'Authorization':
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoia2hhdGhpMjYwMTAwQGdtYWlsLmNvbSIsImp0aSI6IjYyMDQ5ODVlLTYxMTUtNDQzOC1hZDVlLTY1M2NjZDZmZDNkZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImtoYXRoaTI2MDEwMEBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL2V4cGlyYXRpb24iOiIwNy8xMi8yMDIyIDA0OjE3OjA3IiwiZXhwIjoxNjU3NTk5NDI3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MjE1IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MjE1In0.EVdcvwUJbm5hhqg-RY21tItehRquGXtcnnQ_3C7Cr2U'
-        });
+          "Accept": "application/json",
+          "content-type": "application/json"
+        },
+        body: jsonEncode(body));
+    print('confirmTheFirstStart StatusCode: ' + response.statusCode.toString());
     if (response.statusCode == 200) {
-      List<QuestItem2> listQuest = new List.empty(growable: true);
-      // final responseData = json.decode(response.body);
-      print("Get Success");
-      Map<String, dynamic> map = json.decode(response.body);
-      List<dynamic> data = map["data"];
-      for (var element in data) {
-        // print(element.toString() + "/n");
-        listQuest.add(QuestItem2.fromJson(element));
-      }
-      // for (var element in listQuest) {
-      //   print(element.id);
-      // }
-      // print('object');
-      return listQuest;
+      Map data = jsonDecode(response.body);
+      rs = CustomerTask.fromJson(data['data']);
+
+      return Future<CustomerTask>.value(rs);
     }
-    print("Get faild");
-    return null;
+    return Future<CustomerTask>.value(null);
   }
+
+  static Future<QuestItem> fetchQuestItem(int questItemId) async {
+    QuestItem rs;
+    var response = await http.get(
+        Uri.parse('https://citytourist.azurewebsites.net/api/v1/quest-items/' +
+            questItemId.toString() +
+            '?language=0'),
+        headers: {"Content-Type": "application/json"});
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      final rs = QuestItem.fromJson(responseData['data']);
+      // print('object');
+      print("fetchQuestItem OK" + rs.content);
+      return Future<QuestItem>.value(rs);
+    } else {
+      print('fail');
+      return Future<QuestItem>.value(null);
+    }
+  }
+  // static void startQuest(String questID,String idPayment,String customer)async{
+  //   Map body={
+  //     'id':''
+  //   };
+  //   var response=await http.post(Uri.parse("https://citytourist.azurewebsites.net/api/v1/customer-tasks/questId=${questID}"),headers:{"Content-Type": "application/json" },body: )
+  // }
 
   Future<QuestItem> fetchDataQuestItem() {
     QuestItem? questItem;
@@ -70,16 +110,17 @@ class PlayService {
   //   return Future<bool>.value(false);
   // }
 
-  Future<bool> checkAnswer(
-      String customerQuestId, String customerReply, String questItemId) async {
+  Future<CustomerTask> checkAnswer(
+      int customerQuestId, String customerReply, int questItemId) async {
+    CustomerTask rs;
     var response = await http.put(
         Uri.parse(Api.baseUrl +
             ApiEndPoints.checkAnswer +
-            customerQuestId +
+            customerQuestId.toString() +
             "?customerReply=" +
             customerReply +
             "&questItemId=" +
-            questItemId),
+            questItemId.toString()),
         headers: {"Content-Type": "application/json"});
     // print(Api.baseUrl +
     //     ApiEndPoints.checkAnswer +
@@ -89,15 +130,83 @@ class PlayService {
     //     "&questItemId=" +
     //     questItemId);
     if (response.statusCode == 200) {
-      // print("OKkkkkkkkkkkkkkkkkkkkkk");
-      // var data = json.decode(response.body);
-      // print(data);
-      return Future<bool>.value(true);
+      print("OKkkkkkkkkkkkkkkkkkkkkk");
+      Map data = jsonDecode(response.body);
+      rs = CustomerTask.fromJson(data['data']);
+      // print(rs.toString());    // print(data);
+      return Future<CustomerTask>.value(rs);
     }
-    return Future<bool>.value(false);
+    return Future<CustomerTask>.value(null);
   }
 
-  Future<List?> buyQuest(var id, String customerId, String questID,
+  Future<CustomerTask> decreasePointSuggestion(int customerQuestId) async {
+    CustomerTask rs;
+    var response = await http.put(
+        Uri.parse(
+            "https://citytourist.azurewebsites.net/api/v1/customer-tasks/decrease-point-suggestion/${customerQuestId}"),
+        headers: {"Content-Type": "application/json"});
+    if (response.statusCode == 200) {
+      Map data = jsonDecode(response.body);
+      rs = CustomerTask.fromJson(data['data']);
+      // print(rs.toString());    // print(data);
+      return Future<CustomerTask>.value(rs);
+    }
+    return Future<CustomerTask>.value(null);
+  }
+
+  Future<int> moveNextQuestItem(int customerQuestId, int questId) async {
+    CustomerTask rs;
+    var response = await http.put(
+        Uri.parse(
+            "https://citytourist.azurewebsites.net/api/v1/customer-tasks/move-next-task?questId=${questId}&customerQuestId=${customerQuestId}"),
+        headers: {"Content-Type": "application/json"});
+    // print(Api.baseUrl +
+    //     ApiEndPoints.checkAnswer +
+    //     customerQuestId +
+    //     "?customerReply=" +
+    //     customerReply +
+    //     "&questItemId=" +
+    //     questItemId);
+    print("moveNextQuestItem :  Status Code:" + response.statusCode.toString());
+    print("moveNextQuestItem :  " + response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("moveNextQuestItem ok");
+      int rs = jsonDecode(response.body);
+      print(rs);
+      // print(rs.toString());    // print(data);
+      return Future<int>.value(rs);
+    } else if (response.statusCode == 400) {
+      return Future<int>.value(-1);
+    }
+    return Future<int>.value(0);
+  }
+
+  Future<String> getSuggestion(int questItemId) async {
+    String rs;
+    var response = await http.get(
+        Uri.parse(
+            "https://citytourist.azurewebsites.net/api/v1/customer-tasks/show-suggestion/${questItemId}"),
+        headers: {"Content-Type": "application/json"});
+    // print(Api.baseUrl +
+    //     ApiEndPoints.checkAnswer +
+    //     customerQuestId +
+    //     "?customerReply=" +
+    //     customerReply +
+    //     "&questItemId=" +
+    //     questItemId);
+    print("getSuggestion :  Status Code:" + response.statusCode.toString());
+    //  print("getSuggestion :  "+response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("getSuggestion ok");
+      rs = jsonDecode(response.body);
+      print(rs);
+      // print(rs.toString());    // print(data);
+      return Future<String>.value(rs);
+    }
+    return Future<String>.value("");
+  }
+
+    Future<List?> buyQuest(var id, String customerId, String questID,
       int quantity, var totalAmout, var discountCode) async {
     List returnData = new List.empty(growable: true);
     // var now = new DateTime.now();
@@ -137,26 +246,6 @@ class PlayService {
     }
     print("Error");
     return returnData;
-  }
-
-  Future<bool> checkPaymentStatus(String paymentId) async {
-    var response = await http.get(
-      Uri.parse(Api.baseUrl +
-          ApiEndPoints.checkPaymentStatus +
-          paymentId +
-          "?language=0"),
-      headers: {"Content-Type": "application/json"},
-    );
-    // print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      print("Get Data ok");
-      if (data["status"] == "success") {
-        return true;
-      }
-      return false;
-    }
-    return Future<bool>.value(false);
   }
 
   Future<bool> customerStartQuest(
@@ -242,18 +331,20 @@ class PlayService {
     return position;
   }
 
-  Future<bool> checkLocation(String questID) async {
+  Future<bool> checkLocation(int questID, String lat, String long) async {
     Position? pos = await getCurrentPosition();
     var lat = pos?.latitude.toString();
     var long = pos?.longitude.toString();
     var response = await http.get(
         Uri.parse(Api.baseUrl +
                 ApiEndPoints.checkUserLocationQuest +
-                questID +
+                questID.toString() +
                 //Cái này để tạm latlong cứng để trả về true
-                "?latitude=10.7801203" +
+                "?latitude=" +
+                lat.toString() +
                 // lat! +
-                "&longitude=106.6995542"
+                "&longitude=" +
+                long.toString()
             // +
             // long!
             ),
@@ -292,35 +383,24 @@ class PlayService {
     return Future<bool>.value(false);
   }
 
-  Future<String> getSuggestion(String questItemId) async {
+  Future<bool> checkPaymentStatus(String paymentId) async {
     var response = await http.get(
-        Uri.parse(Api.baseUrl + ApiEndPoints.getSuggestion + questItemId),
-        headers: {"Content-Type": "application/json"});
-    print(Api.baseUrl + ApiEndPoints.getSuggestion + questItemId);
+      Uri.parse(Api.baseUrl +
+          ApiEndPoints.checkPaymentStatus +
+          paymentId +
+          "?language=0"),
+      headers: {"Content-Type": "application/json"},
+    );
+    // print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
     if (response.statusCode == 200) {
-      // print("OKkkkkkkkkkkkkkkkkkkkkk");
       var data = json.decode(response.body);
-      print(data);
-      return Future<String>.value(data);
+      print("Get Data ok");
+      if (data["status"] == "success") {
+        return true;
+      }
+      return false;
     }
-    return Future<String>.value(null);
-  }
-
-  Future<void> decreasePointSuggestion(String customerQuestId) async {
-    var response = await http.put(
-        Uri.parse(Api.baseUrl +
-            ApiEndPoints.decreasePointSuggestion +
-            customerQuestId),
-        headers: {"Content-Type": "application/json"});
-
-    if (response.statusCode == 200) {
-      print("OKkkkkkkkkkkkkkkkkkkkkk");
-      // var data = json.decode(response.body);
-      // print(data);
-      // return Future<bool>.value(true);
-    }
-    print("Failed");
-    // return Future<bool>.value(false);
+    return Future<bool>.value(false);
   }
 
   Future<bool?> checkImage(String customerQuestId, String questItemId) async {
@@ -348,24 +428,5 @@ class PlayService {
       }
     }
     return Future<bool>.value(false);
-
-    // var response = await http.post(
-    //     Uri.parse(Api.baseUrl + ApiEndPoints.checkImage),
-    //     headers: {"Content-Type": "application/json"});
-    // print(Api.baseUrl + ApiEndPoints.buyQuest);
-    // // print(Api.baseUrl +
-    // //     ApiEndPoints.checkAnswer +
-    // //     customerQuestId +
-    // //     "?customerReply=" +
-    // //     customerReply +
-    // //     "&questItemId=" +
-    // //     questItemId);
-    // if (response.statusCode == 200) {
-    //   // print("OKkkkkkkkkkkkkkkkkkkkkk");
-    //   var data = json.decode(response.body);
-    //   print(data);
-    //   return Future<bool>.value(true);
-    // }
-    // return Future<bool>.value(false);
   }
 }
