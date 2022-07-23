@@ -35,7 +35,7 @@ class LoginService {
           'Authorization': 'Bearer ' + myController.jwtToken.value
         },
       );
-      print(myController.jwtToken.toString());
+      print("JWT TOKEN" + myController.jwtToken.value);
       if (response2.statusCode == 200) {
         final responseData2 = json.decode(response2.body);
         rs = Customer.fromJson(responseData2['data']);

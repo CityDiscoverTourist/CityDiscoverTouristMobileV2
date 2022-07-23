@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:travel_hour/models/customer.dart';
 import 'package:travel_hour/models/customer_task.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
@@ -204,20 +206,27 @@ class PlayService {
     return Future<String>.value("");
   }
 
-  Future<bool> buyQuest(String customerId, String questID) async {
-    var now = new DateTime.now();
-    var dateFormatted = DateFormat("yyyy-MM-ddTHH:mm:ss").format(now);
-    print(dateFormatted);
+    Future<List?> buyQuest(var id, String customerId, String questID,
+      int quantity, var totalAmout, var discountCode) async {
+    List returnData = new List.empty(growable: true);
+    // var now = new DateTime.now();
+    // var dateFormatted = DateFormat("yyyy-MM-ddTHH:mm:ss").format(now);
+    // print(dateFormatted);
     Map mydata = {
-      'createdDate': dateFormatted,
+      'id': id,
+      'quantity': quantity,
+      'totalAmount': totalAmout,
       'customerId': customerId,
+      'isMobile': true,
       'questId': questID
     };
     var body = json.encode(mydata);
-    var response = await http.post(
-        Uri.parse(Api.baseUrl + ApiEndPoints.buyQuest),
-        headers: {"Content-Type": "application/json"},
-        body: body);
+    String httpString = Api.baseUrl + ApiEndPoints.buyQuest;
+    if (discountCode != null) {
+      httpString = httpString + "?discountCode=" + discountCode;
+    }
+    var response = await http.post(Uri.parse(httpString),
+        headers: {"Content-Type": "application/json"}, body: body);
     print(Api.baseUrl + ApiEndPoints.buyQuest);
     // print(Api.baseUrl +
     //     ApiEndPoints.checkAnswer +
@@ -226,13 +235,17 @@ class PlayService {
     //     customerReply +
     //     "&questItemId=" +
     //     questItemId);
+    print(response.body);
     if (response.statusCode == 200) {
-      // print("OKkkkkkkkkkkkkkkkkkkkkk");
+      print("OKkkkkkkkkkkkkkkkkkkkkk");
       var data = json.decode(response.body);
-      print(data);
-      return Future<bool>.value(true);
+      returnData = data["data"];
+      // print(data);
+      print(returnData);
+      return returnData;
     }
-    return Future<bool>.value(false);
+    print("Error");
+    return returnData;
   }
 
   Future<bool> customerStartQuest(
@@ -366,6 +379,53 @@ class PlayService {
     if (response.statusCode == 200) {
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
       return Future<bool>.value(true);
+    }
+    return Future<bool>.value(false);
+  }
+
+  Future<bool> checkPaymentStatus(String paymentId) async {
+    var response = await http.get(
+      Uri.parse(Api.baseUrl +
+          ApiEndPoints.checkPaymentStatus +
+          paymentId +
+          "?language=0"),
+      headers: {"Content-Type": "application/json"},
+    );
+    // print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      print("Get Data ok");
+      if (data["status"] == "success") {
+        return true;
+      }
+      return false;
+    }
+    return Future<bool>.value(false);
+  }
+
+  Future<bool?> checkImage(String customerQuestId, String questItemId) async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? pickedFile = await _picker.pickImage(
+      source: ImageSource.camera,
+    );
+    if (pickedFile != null) {
+      var file = File(pickedFile.path);
+      var request = new http.MultipartRequest(
+          "POST",
+          Uri.parse(
+              "https://citytourist.azurewebsites.net/weather-forecast/demo2?api-version=1"));
+      request.files.add(await http.MultipartFile.fromPath("file", file.path));
+      request.headers["accept"] = "text/plain";
+      request.headers["Content-Type"] = "multipart/form-data";
+      print("Request:" + request.toString());
+      var response = await request.send();
+      print("Status code:" + response.statusCode.toString());
+      if (response.statusCode == 200) {
+        response.stream.transform(utf8.decoder).listen((value) {
+          print(value);
+        });
+        return Future<bool>.value(true);
+      }
     }
     return Future<bool>.value(false);
   }

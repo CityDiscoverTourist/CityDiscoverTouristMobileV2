@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // controller.loginFacebook();
         // playController.buyQuest("1d9f265d-fd25-44de-ab64-14fcc1719e02", "9");
         // playController.customerStartQuest("9", "9");
-        homeController.getQuestDetailByID("9");
+        playController.checkImage("customerQuestId", "questItemId");
         // await sb.signInwithFacebook().then((_) {
         //   if (sb.hasError == true) {
         //     openSnacbar(

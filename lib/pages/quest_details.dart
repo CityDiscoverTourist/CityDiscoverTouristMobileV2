@@ -5,6 +5,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_hour/pages/start_play.dart';
 import 'package:travel_hour/pages/rulepage.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/expanded.dart';
@@ -13,6 +14,7 @@ import 'package:travel_hour/widgets/small_text.dart';
 import '../controllers/home_controller.dart';
 import '../models/quest.dart';
 import '../widgets/custom_cache_image.dart';
+import '../widgets/payment_widget.dart';
 import '../widgets/todo.dart';
 
 class QuestDetails extends StatefulWidget {
@@ -31,6 +33,8 @@ class _QuestDetailsState extends State<QuestDetails> {
 
   @override
   Widget build(BuildContext context) {
+    int quantity = 1;
+    var totalAmout = (widget.data!.price * quantity);
     var myController = Get.find<HomeController>();
     return Scaffold(
       backgroundColor: Colors.white,
@@ -104,10 +108,10 @@ class _QuestDetailsState extends State<QuestDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                         BigText(
-                           text: widget.data!.title,
-                           fontWeight: FontWeight.w600,
-                         ),
+                  BigText(
+                                text: widget.data!.title,
+                                fontWeight: FontWeight.w600,
+                              ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -117,7 +121,7 @@ class _QuestDetailsState extends State<QuestDetails> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                         
+                              
                               SizedBox(
                                 height: 10,
                               ),
@@ -172,7 +176,7 @@ class _QuestDetailsState extends State<QuestDetails> {
                         Container(
                           child: Center(
                               child: BigText(
-                            text: widget.data!.price.toStringAsFixed(00) + " vnđ",
+                           text: widget.data!.price.toStringAsFixed(00) + " vnđ",
                             fontWeight: FontWeight.w700,
                           )),
                           width: MediaQuery.of(context).size.width * 0.25,
@@ -185,18 +189,17 @@ class _QuestDetailsState extends State<QuestDetails> {
                     ),
                     //Information: Description
                     Padding(
-                      padding: EdgeInsets.all(30),
-                      child: 
-                      // Text(
-                      //   widget.data!.description,
-                      //   textAlign: TextAlign.justify,
-                      //   style: TextStyle(
-                      //     fontFamily: 'RobotoMono',
-                      //     fontSize: 16,
-                      //   ),
-                      // ),
-                      ExpandedWidget(text: widget.data!.description)
-                    ),
+                        padding: EdgeInsets.all(30),
+                        child:
+                            // Text(
+                            //   widget.data!.description,
+                            //   textAlign: TextAlign.justify,
+                            //   style: TextStyle(
+                            //     fontFamily: 'RobotoMono',
+                            //     fontSize: 16,
+                            //   ),
+                            // ),
+                            ExpandedWidget(text: widget.data!.description)),
                   ],
                 ),
               ),
@@ -279,7 +282,86 @@ class _QuestDetailsState extends State<QuestDetails> {
               // )
               InkWell(
             onTap: () {
-            // Get.to(RulePage());
+              showModalBottomSheet<void>(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(20),
+                )),
+                isScrollControlled: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return StatefulBuilder(
+                      builder: (BuildContext context, StateSetter mystate) {
+                    return Container(
+                      height: 600,
+                      padding:
+                          const EdgeInsets.fromLTRB(10.0, 70.0, 20.0, 20.0),
+                      child: Column(
+                        children: <Widget>[
+                          PaymentWidget(
+                            quest: widget.data!,
+                            quantity: quantity,
+                            totalAmout: totalAmout,
+                          ),
+                          // Container(
+                          //   padding: EdgeInsets.all(3),
+                          //   decoration: BoxDecoration(
+                          //       borderRadius: BorderRadius.circular(5),
+                          //       color: Theme.of(context).accentColor),
+                          //   child: Row(
+                          //     children: [
+                          //       RaisedButton(
+                          //           onPressed: () async {
+                          //             mystate(() {
+                          //               quantity = quantity - 1;
+                          //             });
+                          //           },
+                          //           child: Icon(
+                          //             Icons.remove,
+                          //             color: Colors.white,
+                          //             size: 16,
+                          //           )),
+                          //       Container(
+                          //         margin: EdgeInsets.symmetric(horizontal: 3),
+                          //         padding: EdgeInsets.symmetric(
+                          //             horizontal: 3, vertical: 2),
+                          //         decoration: BoxDecoration(
+                          //             borderRadius: BorderRadius.circular(3),
+                          //             color: Colors.white),
+                          //         child: Text(
+                          //           quantity.toString(),
+                          //           style: TextStyle(
+                          //               color: Colors.black, fontSize: 16),
+                          //         ),
+                          //       ),
+                          //       RaisedButton(
+                          //           onPressed: () async {
+                          //             mystate(() {
+                          //               quantity = quantity + 1;
+                          //             });
+                          //           },
+                          //           child: Icon(
+                          //             Icons.add,
+                          //             color: Colors.white,
+                          //             size: 16,
+                          //           )),
+                          //     ],
+                          //   ),
+                          // ),
+                          // RaisedButton(
+                          //   child: const Text('Hủy'),
+                          //   onPressed: () => Navigator.pop(context),
+                          // ),
+                          // RaisedButton(
+                          //   child: const Text('Xác nhận thanh toán'),
+                          //   onPressed: () => Navigator.pop(context),
+                          // )
+                        ],
+                      ),
+                    );
+                  });
+                },
+              );
             },
             child: Container(
               width: MediaQuery.of(context).size.width,
