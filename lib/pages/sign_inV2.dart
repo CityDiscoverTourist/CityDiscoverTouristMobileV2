@@ -16,6 +16,7 @@ import 'package:travel_hour/utils/snacbar.dart';
 import 'package:travel_hour/widgets/language.dart';
 
 import '../controllers/play_controller.dart';
+import '../controllers/play_controllerV2.dart';
 
 class LoginScreen extends StatefulWidget {
   final String? tag;
@@ -89,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
   handleFacebookSignIn() async {
     // final sb = context.read<SignInBloc>();
     // LoginController controller = new LoginController();
-    // PlayController playController = new PlayController();
+    PlayControllerV2 playController = new PlayControllerV2();
     HomeController homeController = Get.find<HomeController>();
     setState(() => facebookSignInStarted = true);
     await AppService().checkInternet().then((hasInternet) async {

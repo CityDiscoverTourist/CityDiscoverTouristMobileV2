@@ -30,32 +30,32 @@ import '../pages/sign_in.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class HistoryController extends GetxController {
-  var purchsedQuestList = List<PurchasedQuest>.empty().obs;
+  List purchsedQuestList = List<PurchasedQuest>.empty().obs;
   var historyQuestList = List<Quest>.empty().obs;
-var isLoading=false.obs;
- void onInit() async {
+  var isLoading = false.obs;
+  void onInit() async {
     super.onInit();
-     await getPuschedQuests();
- }
- void onReady(){
-  update();
- }
-
-
-
- getPuschedQuests() async {
-  try{
-    isLoading(true);
- var quest_typeListApi = await PurchasedService.fetchPurchasedQuests(Get.find<LoginControllerV2>().sp.id.toString(),0,
-        Get.find<LoginControllerV2>().jwtToken.value);
-    if (quest_typeListApi != null) {
-      print('Co Roi Ne');
-      purchsedQuestList.assignAll(quest_typeListApi);
-    }
-    return purchsedQuestList;
-  }finally{
-    isLoading(false);
+    await getPuschedQuests();
   }
-    
+
+  void onReady() {
+    update();
+  }
+
+  getPuschedQuests() async {
+    try {
+      isLoading(true);
+      var quest_typeListApi = await PurchasedService.fetchPurchasedQuests(
+          Get.find<LoginControllerV2>().sp.id.toString(),
+          0,
+          Get.find<LoginControllerV2>().jwtToken.value);
+      if (quest_typeListApi != null) {
+        print('Co Roi Ne');
+        purchsedQuestList.assignAll(quest_typeListApi);
+      }
+      return purchsedQuestList;
+    } finally {
+      isLoading(false);
+    }
   }
 }
