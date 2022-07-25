@@ -4,7 +4,9 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/customer.dart';
 import 'package:travel_hour/models/customer_task.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
@@ -81,7 +83,8 @@ class PlayService {
     var response = await http.get(
         Uri.parse('https://citytourist.azurewebsites.net/api/v1/quest-items/' +
             questItemId.toString() +
-            '?language=0'),
+            '?language=' +
+            Get.find<LoginControllerV2>().language),
         headers: {"Content-Type": "application/json"});
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
@@ -206,7 +209,7 @@ class PlayService {
     return Future<String>.value("");
   }
 
-    Future<List?> buyQuest(var id, String customerId, String questID,
+  Future<List?> buyQuest(var id, String customerId, String questID,
       int quantity, var totalAmout, var discountCode) async {
     List returnData = new List.empty(growable: true);
     // var now = new DateTime.now();
@@ -385,10 +388,7 @@ class PlayService {
 
   Future<bool> checkPaymentStatus(String paymentId) async {
     var response = await http.get(
-      Uri.parse(Api.baseUrl +
-          ApiEndPoints.checkPaymentStatus +
-          paymentId +
-          "?language=0"),
+      Uri.parse(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId),
       headers: {"Content-Type": "application/json"},
     );
     // print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);

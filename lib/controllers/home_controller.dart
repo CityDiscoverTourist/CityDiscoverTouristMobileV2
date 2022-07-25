@@ -44,6 +44,7 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    changeLanguage();
     await startData();
     dropdownValue = cityList[1];
     flutterLocalNotificationsPlugin
@@ -89,6 +90,7 @@ class HomeController extends GetxController {
   void onReady() async {
     super.onReady();
     print("[HomeController]-L88-ONREADY :" + jwtToken.value);
+    changeLanguage();
     // googleSign = GoogleSignIn();
     // await ever(isSignIn, handleAuthStateChanged);
     // isSignIn.value = await firebaseAuth.currentUser != null;
@@ -102,7 +104,7 @@ class HomeController extends GetxController {
               print("[HomeController]-L99" +
                   "Text Id City OnChange - " +
                   areaIdChoice.toString()),
-                  print(Get.find<LoginControllerV2>().sp.id),
+              print(Get.find<LoginControllerV2>().sp.id),
               updateData(),
               update(),
             });
@@ -210,7 +212,6 @@ class HomeController extends GetxController {
   void getPuQuestByCustomerID(String customerId) async {
     try {
       isLoading(true);
-      changeLanguage();
       var questListApi =
           await QuestService.fetchPuQuestFeatureData(customerId, language);
       if (questListApi != null) {
@@ -222,33 +223,26 @@ class HomeController extends GetxController {
     }
   }
 
-  void changeLanguage() async {
+  void getQuestDetailByID(String questId) async {
     try {
       isLoading(true);
-      Locale? locale = Get.locale;
-      print(locale);
-      if (locale.toString() == "en") {
-        language.value = 0;
-        print(language);
-        // update();
-      } else {
-        language.value = 1;
-        print(language);
-        // update();
-      }
+      await QuestService.fetchQuestDetail(questId, language.value);
     } finally {
       isLoading(false);
     }
   }
 
-  void getQuestDetailByID(String questId) async {
-    try {
-      isLoading(true);
-      changeLanguage();
+  void changeLanguage() async {
+    Locale? locale = Get.locale;
+    print(locale);
+    if (locale.toString() == "en") {
+      language.value = 0;
       print(language);
-      await QuestService.fetchQuestDetail(questId, language.value);
-    } finally {
-      isLoading(false);
+      // update();
+    } else {
+      language.value = 1;
+      print(language);
+      // update();
     }
   }
 }

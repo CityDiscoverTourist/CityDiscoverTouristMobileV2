@@ -219,7 +219,7 @@ class _ListItem extends StatelessWidget {
                           Container(
                             child: Center(
                                 child: BigText(
-                              text: q!.price.toStringAsFixed(00) + " vnđ",
+                              text: q.price.toStringAsFixed(00) + " vnđ",
                               fontWeight: FontWeight.w700,
                             )),
                             width: MediaQuery.of(context).size.width * 0.25,

@@ -17,6 +17,7 @@ import 'package:travel_hour/widgets/language.dart';
 
 import '../controllers/play_controller.dart';
 import '../controllers/play_controllerV2.dart';
+import 'login_username_password.dart';
 
 class LoginScreen extends StatefulWidget {
   final String? tag;
@@ -90,8 +91,9 @@ class _LoginScreenState extends State<LoginScreen> {
   handleFacebookSignIn() async {
     // final sb = context.read<SignInBloc>();
     // LoginController controller = new LoginController();
-    PlayControllerV2 playController = new PlayControllerV2();
-    HomeController homeController = Get.find<HomeController>();
+    // PlayControllerV2 playController = new PlayControllerV2();
+    // HomeController homeController = Get.find<HomeController>();
+    var controller = Get.find<LoginControllerV2>();
     setState(() => facebookSignInStarted = true);
     await AppService().checkInternet().then((hasInternet) async {
       if (hasInternet == false) {
@@ -100,7 +102,8 @@ class _LoginScreenState extends State<LoginScreen> {
         // controller.loginFacebook();
         // playController.buyQuest("1d9f265d-fd25-44de-ab64-14fcc1719e02", "9");
         // playController.customerStartQuest("9", "9");
-        playController.checkImage("customerQuestId", "questItemId");
+        controller.loginFacebook();
+        // playController.checkImage("customerQuestId", "questItemId");
         // await sb.signInwithFacebook().then((_) {
         //   if (sb.hasError == true) {
         //     openSnacbar(
@@ -353,51 +356,45 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Platform.isAndroid
-                      ? Container()
-                      : Container(
-                          height: 50,
-                          width: MediaQuery.of(context).size.width * 0.80,
-                          child: TextButton(
-                              onPressed: () {
-                                handleAppleSignIn();
-                              },
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.resolveWith(
-                                          (states) => Colors.grey[900]),
-                                  shape: MaterialStateProperty.resolveWith(
-                                      (states) => RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5)))),
-                              child: appleSignInStarted == false
-                                  ? Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          FontAwesome.apple,
-                                          color: Colors.white,
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          'Sign In with Apple',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.white),
-                                        )
-                                      ],
-                                    )
-                                  : Center(
-                                      child: CircularProgressIndicator(
-                                          backgroundColor: Colors.white),
-                                    )),
-                        ),
+                  Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width * 0.80,
+                    child: TextButton(
+                        onPressed: () {
+                          Get.to(UserLoginPage());
+                        },
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.resolveWith(
+                                (states) => Colors.grey[900]),
+                            shape: MaterialStateProperty.resolveWith((states) =>
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)))),
+                        child: appleSignInStarted == false
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    FontAwesome.user,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    'Sign In with UserName/Password',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white),
+                                  )
+                                ],
+                              )
+                            : Center(
+                                child: CircularProgressIndicator(
+                                    backgroundColor: Colors.white),
+                              )),
+                  ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.05)
                 ],
               )),

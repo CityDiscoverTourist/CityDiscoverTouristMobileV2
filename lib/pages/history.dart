@@ -258,9 +258,8 @@ class _BlogList extends StatelessWidget {
                             SizedBox(
                               width: 3,
                             ),
-                            Text(
-                              'create day',
-                              // data!.createdDate.toString(),
+                            Text('create day',
+                                // data!.createdDate.toString(),
                                 style: TextStyle(
                                     fontSize: 13, color: Colors.grey)),
                           ],

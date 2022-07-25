@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:travel_hour/controllers/search_controller.dart';
 import 'package:travel_hour/models/city.dart';
+import 'package:travel_hour/pages/profile.dart';
 import 'package:travel_hour/pages/searchV2.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import '../../config/config.dart';
@@ -35,7 +36,6 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
                   Header(),
                   FeaturedQuest(),
                   QuestTypeScroll(),
-               
                 ],
               ),
             ),
@@ -86,7 +86,7 @@ class Header extends StatelessWidget {
                         ),
                         onChanged: (City? newValue) {
                           controller.dropdownValue = newValue!;
-                          dropdownValue.value=newValue;
+                          dropdownValue.value = newValue;
                           //Get Id City for reload List Quest
                           controller.areaIdChoice.value = newValue.id;
                         },
@@ -113,7 +113,7 @@ class Header extends StatelessWidget {
                     child: Icon(Icons.person, size: 28),
                   ),
                   onTap: () {
-                    // nextScreen(context, ProfilePage());
+                    Get.to(ProfilePage());
                   },
                 )
               ],
@@ -153,7 +153,9 @@ class Header extends StatelessWidget {
                     //       color: Colors.blueGrey[700],
                     //       fontWeight: FontWeight.w500),
                     // ).tr(),
-                    BigText(text: "search places",)
+                    BigText(
+                      text: "search places",
+                    )
                   ],
                 ),
               ),

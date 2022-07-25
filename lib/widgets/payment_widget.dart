@@ -19,6 +19,7 @@ import 'package:uuid/uuid.dart';
 import '../controllers/home_controller.dart';
 import '../controllers/login_controller_V2.dart';
 import '../models/payment.dart';
+import '../pages/quest_play.dart';
 import 'custom_text.dart';
 
 class PaymentWidget extends StatefulWidget {
@@ -346,7 +347,7 @@ class PaymentWidgetState extends State<PaymentWidget>
                     ? Container()
                     : new RaisedButton(
                         child: const Text('Chơi ngay'),
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () => Get.to(QuestsPlayPage()),
                       ),
               ],
             ),

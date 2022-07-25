@@ -346,10 +346,7 @@ class GuestUserUI extends StatelessWidget {
             Feather.chevron_right,
             size: 20,
           ),
-          onTap: () => nextScreenPopup(
-              context,
-              LoginScreen(
-              )),
+          onTap: () => nextScreenPopup(context, LoginScreen()),
         ),
         SizedBox(
           height: 20,
@@ -367,6 +364,11 @@ class UserUI extends StatelessWidget {
     // final sb = context.watch<SignInBloc>();
     var data = Get.arguments;
     var controller = Get.find<LoginControllerV2>();
+    String image =
+        "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000";
+    // if (controller.sp.imagePath != null) {
+    //   image = controller.sp.imagePath!;
+    // }
     // controller.getDataFromSp();
     TextStyle _textStyle = TextStyle(
         fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[900]);
@@ -379,8 +381,7 @@ class UserUI extends StatelessWidget {
               CircleAvatar(
                   radius: 60,
                   backgroundColor: Colors.grey[300],
-                  backgroundImage: CachedNetworkImageProvider(
-                      "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000")),
+                  backgroundImage: CachedNetworkImageProvider(image)),
               // CircleAvatar(
               //     radius: 60,
               //     backgroundColor: Colors.grey[300],
@@ -450,11 +451,11 @@ class UserUI extends StatelessWidget {
               Feather.chevron_right,
               size: 20,
             ),
-            onTap: () => nextScreen(
-                context,
-                EditProfile(
-                    name: controller.sp.userName.toString(),
-                    imageUrl: "controller.sp.name"))),
+            onTap: () => Get.to(EditProfile(
+                name: controller.sp.userName.toString(),
+                address: controller.sp.address.toString(),
+                gender: controller.sp.gender,
+                imageUrl: image))),
         Divider(
           height: 5,
         ),
@@ -498,8 +499,8 @@ class UserUI extends StatelessWidget {
               ),
               TextButton(
                 child: Text('yes'.tr),
-                onPressed: (){
-                Navigator.pop(context);
+                onPressed: () {
+                  Navigator.pop(context);
                   controller.logout();
                 },
               )

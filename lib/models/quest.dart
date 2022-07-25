@@ -4,53 +4,55 @@
 
 import 'dart:convert';
 
-List<Quest> questFromJson(String str) => List<Quest>.from(json.decode(str).map((x) => Quest.fromJson(x)));
+List<Quest> questFromJson(String str) =>
+    List<Quest>.from(json.decode(str).map((x) => Quest.fromJson(x)));
 
-String questToJson(List<Quest> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String questToJson(List<Quest> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Quest {
-    Quest({
-        required this.id,
-        required this.title,
-        required this.description,
-        required this.price,
-        required this.imagePath,
-        required this.estimatedTime,
-        required this.estimatedDistance,
-        required this.availableTime,
-        // required this.createdDate,
-        required this.status,
-        required this.questTypeId,
-        required this.questOwnerId,
-        required this.areaId,
-        required this.countQuestItem,
-        required this.totalFeedback,
-        required this.averageStart,
-    });
+  Quest({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.price,
+    required this.imagePath,
+    required this.estimatedTime,
+    required this.estimatedDistance,
+    required this.availableTime,
+    // required this.createdDate,
+    required this.status,
+    required this.questTypeId,
+    required this.questOwnerId,
+    required this.areaId,
+    required this.countQuestItem,
+    required this.totalFeedback,
+    required this.averageStart,
+  });
 
-    int id;
-    String title;
-    String description;
-    double price;
-    dynamic imagePath;
-    String estimatedTime;
-    String estimatedDistance;
-    String availableTime;
-    // DateTime createdDate;
-    String status;
-    int questTypeId;
-    int? questOwnerId;
-    int areaId;
-    int countQuestItem;
-    int totalFeedback;
-    int? averageStart;
+  int id;
+  String title;
+  String description;
+  double price;
+  dynamic imagePath;
+  String estimatedTime;
+  String estimatedDistance;
+  String? availableTime;
+  // DateTime createdDate;
+  String? status;
+  int questTypeId;
+  int? questOwnerId;
+  int areaId;
+  int countQuestItem;
+  int totalFeedback;
+  int? averageStart;
 
-    factory Quest.fromJson(Map<String, dynamic> json) => Quest(
+  factory Quest.fromJson(Map<String, dynamic> json) => Quest(
         id: json["id"],
         title: json["title"],
         description: json["description"],
         price: json["price"],
-        imagePath: json["imagePath"] ,
+        imagePath: json["imagePath"],
         estimatedTime: json["estimatedTime"],
         estimatedDistance: json["estimatedDistance"],
         availableTime: json["availableTime"],
@@ -62,9 +64,9 @@ class Quest {
         countQuestItem: json["countQuestItem"],
         totalFeedback: json["totalFeedback"],
         averageStart: json["averageStart"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
         "description": description,
@@ -81,5 +83,5 @@ class Quest {
         "countQuestItem": countQuestItem,
         "totalFeedback": totalFeedback,
         "averageStart": averageStart,
-    };
+      };
 }
