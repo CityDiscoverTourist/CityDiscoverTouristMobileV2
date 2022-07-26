@@ -8,6 +8,7 @@ import 'package:travel_hour/controllers/history_controller.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/pages/payment_detail.dart';
+import 'package:travel_hour/pages/qr_scanner.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/pages/rulepage.dart';
 import 'package:travel_hour/widgets/big_text.dart';
@@ -24,71 +25,81 @@ class QuestsPlayPage extends StatelessWidget {
     var controller = Get.find<HistoryController>();
    
 
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.redAccent,
-        title: BigText(
-          text: 'My Quest',
-          color: Colors.white,
-          fontWeight: FontWeight.w700,
+    return WillPopScope(
+       onWillPop: () async {
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+    icon: Icon(Icons.arrow_back, color: Colors.black),
+    onPressed: () => Navigator.of(context).pop(),
+  ), 
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.redAccent,
+          title: BigText(
+            text: 'My Quest',
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+          ),
         ),
-      ),
-      body: Obx((() {
-        if(controller.isLoading.value==false)
-        {print(controller.purchsedQuestList.length);
-        return ListView.builder(
-          itemCount: controller.purchsedQuestList.length,
-          itemBuilder: (_, _currentIndex) {
-            return cardPurchagedQuest(controller.purchsedQuestList[_currentIndex]);
-          },
-        );}
-        else{
-          return SplashStart(content: "Watting",);
-        }
-      })),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.redAccent,
-        child: Icon(
-          Icons.add,
-        ),
-        onPressed: () {
-          showModalBottomSheet<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return Container(
-                height: 200,
-                color: Colors.blueGrey.shade50,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      BigText(text: 'EnterCode'),
-                      TextField(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            child: const Text('Close '),
-                            onPressed: () => Navigator.pop(context),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          ElevatedButton(
-                            child: const Text('Submit'),
-                            onPressed: () => {},
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              );
+        body: Obx((() {
+          if(controller.isLoading.value==false)
+          {print(controller.purchsedQuestList.length);
+          return ListView.builder(
+            itemCount: controller.purchsedQuestList.length,
+            itemBuilder: (_, _currentIndex) {
+              return cardPurchagedQuest(controller.purchsedQuestList[_currentIndex]);
             },
-          );
-        },
+          );}
+          else{
+            return SplashStart(content: "Watting",);
+          }
+        })),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.redAccent,
+          child: Icon(
+            Icons.add,
+          ),
+          onPressed: () {
+            Get.to(QRViewExample());
+            // showModalBottomSheet<void>(
+            //   context: context,
+            //   builder: (BuildContext context) {
+            //     return Container(
+            //       height: 200,
+            //       color: Colors.blueGrey.shade50,
+            //       child: Center(
+            //         child: Column(
+            //           mainAxisAlignment: MainAxisAlignment.center,
+            //           mainAxisSize: MainAxisSize.min,
+            //           children: <Widget>[
+            //             BigText(text: 'EnterCode'),
+            //             TextField(),
+            //             Row(
+            //               mainAxisAlignment: MainAxisAlignment.center,
+            //               children: [
+            //                 ElevatedButton(
+            //                   child: const Text('Close '),
+            //                   onPressed: () => Navigator.pop(context),
+            //                 ),
+            //                 SizedBox(
+            //                   width: 15,
+            //                 ),
+            //                 ElevatedButton(
+            //                   child: const Text('Submit'),
+            //                   onPressed: () => {},
+            //                 )
+            //               ],
+            //             )
+            //           ],
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // );
+          },
+        ),
       ),
     );
   }
@@ -101,7 +112,7 @@ class QuestsPlayPage extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       print('CARD TAP');
-                      Get.to(PaymentDetail());
+                      Get.to(PaymentDetail(purchasedQuest: pQuest ,));
                     },
                     child: Card(
                       child: ListTile(
@@ -116,18 +127,34 @@ class QuestsPlayPage extends StatelessWidget {
                             CountdownTimer(
                               endTime: endTime,
                               widgetBuilder: (_, CurrentRemainingTime? time) {
-                                if (time == null) {
-                                  return Text('Availble');
-                                }
-                                return BigText(
-                                  text:
-                                      '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
-                                  color: Colors.green,
-                                );
-                              },
-                            ),
-                          ],
-                        ),
+                                 if (time == null) {
+                          return Text('Time up');
+                        }
+                        // return BigText(
+                        //   text:
+                        //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
+                        //   color: Colors.green,
+                        // );
+                      else {
+                          return BigText(text: (() {
+                            if (time.days != null) {
+                              return "${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
+                            } else if (time.min == null) {
+                              return "${time.sec}s";
+                            } else if (time.hours == null) {
+                              return "${time.min}m:${time.sec}s";
+                            } else if (time.days == null) {
+                              return "${time.hours}h:${time.min}m:${time.sec}s";
+                            }else{
+                              return "Time up";
+                            }
+
+                          })(),color: Colors.green,);
+                        }
+                      },
+                    ),
+                  ],
+                ),
                         trailing: InkWell(
                           child: const Icon(Icons.play_arrow),
                           onTap: () {

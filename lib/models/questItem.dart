@@ -20,7 +20,7 @@ class QuestItem {
         //  this.createdDate,
         //  this.updatedDate,
         // required this.qrCode,
-        // required this.rightAnswer,
+        required this.rightAnswer,
         required this.answerImageUrl,
         required this.status,
         required this.listImages,
@@ -38,7 +38,7 @@ class QuestItem {
     // DateTime? createdDate;
     // DateTime? updatedDate;
     // String qrCode;
-    // String rightAnswer;
+    String rightAnswer;
     String? answerImageUrl;
     String status;
     List<String> listImages;
@@ -56,7 +56,7 @@ class QuestItem {
         // createdDate: DateTime.parse(json["createdDate"]),
         // updatedDate: DateTime.parse(json["updatedDate"]),
         // qrCode: json["qrCode"],
-        // rightAnswer: json["rightAnswer"],
+        rightAnswer: json["rightAnswer"],
         answerImageUrl: json["answerImageUrl"],
         status: json["status"],
         listImages: List<String>.from(json["listImages"].map((x) => x)),
@@ -75,7 +75,7 @@ class QuestItem {
         // "createdDate": createdDate.toString(),
         // "updatedDate": updatedDate.toString(),
         // "qrCode": qrCode,
-        // "rightAnswer": rightAnswer,
+        "rightAnswer": rightAnswer,
         "answerImageUrl": answerImageUrl,
         "status": status,
         "listImages": List<dynamic>.from(listImages.map((x) => x)),

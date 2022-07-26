@@ -198,8 +198,12 @@ class TodoWidget extends StatelessWidget {
                                   fontSize: 15),
                             ).tr(),
                           ])),
-                  onTap: () =>
-                      {Get.put(Comment_Controller()).idQuest.value=questData!.id, Get.to(CommentsPageV2())}
+                  onTap: () => {
+                    print("TODO :"+questData!.id.toString()),
+                        Get.put(Comment_Controller()).idQuest.value =
+                            questData!.id,
+                        Get.to(CommentsPageV2())
+                      }
                   //  nextScreen(context, CommentsPage(collectionName: 'places', timestamp: questData!.timestamp,)),
                   ),
             ],

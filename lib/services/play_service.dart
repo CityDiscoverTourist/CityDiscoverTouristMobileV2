@@ -84,7 +84,7 @@ class PlayService {
         Uri.parse('https://citytourist.azurewebsites.net/api/v1/quest-items/' +
             questItemId.toString() +
             '?language=' +
-            Get.find<LoginControllerV2>().language),
+            '0'),
         headers: {"Content-Type": "application/json"});
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
@@ -132,6 +132,7 @@ class PlayService {
     //     customerReply +
     //     "&questItemId=" +
     //     questItemId);
+    print("checkAnswer "+response.statusCode.toString());
     if (response.statusCode == 200) {
       print("OKkkkkkkkkkkkkkkkkkkkkk");
       Map data = jsonDecode(response.body);
@@ -140,6 +141,26 @@ class PlayService {
       return Future<CustomerTask>.value(rs);
     }
     return Future<CustomerTask>.value(null);
+  }
+static Future<String> updateEndPoint(int customerQuestId) async {
+    String rs;
+    var response = await http.put(
+        Uri.parse(
+            'https://citytourist.azurewebsites.net/api/v1/customer-quests/update-end-point/${customerQuestId}'),
+        headers: {"Content-Type": "application/json"});
+        print("updateEndPoint Statuscode"+response.statusCode.toString());
+    if (response.statusCode == 200) {
+      // final responseData = json.decode(response.body);
+      // final rs = QuestItem.fromJson(responseData['data']);
+      // print('object');
+      print("updateEndPoint OK");
+      Map data = jsonDecode(response.body);
+      rs = data['data']['endPoint'];
+      return Future<String>.value(rs);
+    } else {
+      print('fail');
+      return Future<String>.value("");
+    }
   }
 
   Future<CustomerTask> decreasePointSuggestion(int customerQuestId) async {

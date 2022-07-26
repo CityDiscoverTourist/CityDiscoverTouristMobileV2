@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
           backgroundColor: Colors.redAccent,
           child: Icon(Icons.play_arrow_sharp),
           onPressed: () {
-            Get.put(HistoryController());
+            Get.lazyPut(()=>HistoryController());
             Get.to(QuestsPlayPage());
           },
         ),
