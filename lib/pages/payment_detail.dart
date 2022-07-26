@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:travel_hour/models/payment.dart';
+import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/models/quest.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
@@ -12,157 +13,164 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 
 class PaymentDetail extends StatelessWidget {
-  final Payment? payment;
-  const PaymentDetail({Key? key, this.payment}) : super(key: key);
+  final PurchasedQuest? purchasedQuest;
+  const PaymentDetail({Key? key, this.purchasedQuest}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 100000;
-    return Scaffold(
-        appBar: AppBar(
-          title: BigText(
-            text: 'Payment Detail',
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
+    return WillPopScope(
+      onWillPop: () async {
+        return true;
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            title: BigText(
+              text: 'Payment Detail',
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
+            centerTitle: true,
+            backgroundColor: Colors.redAccent,
           ),
-          centerTitle: true,
-          backgroundColor: Colors.redAccent,
-        ),
-        body: Padding(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: [
-              SingleChildScrollView(
-                  child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: Colors.deepOrange.shade100,
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          body: Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              children: [
+                SingleChildScrollView(
                     child: Column(
-                      children: [
-                        BigText(
-                          text: "Thien Duong Dam Sen",
-                          size: 28,
-                          fontWeight: FontWeight.w500,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.deepOrange.shade100,
+                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                      child: Column(
+                        children: [
+                          BigText(
+                            text: purchasedQuest!.questName,
+                            size: 28,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          Image.asset('assets/images/logo.png'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  BigText(
+                                    text: "Ma dat quest:",
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  BigText(text: purchasedQuest!.id.toString()),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  BigText(
+                                    text: "Thoi gian: ",
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  CountdownTimer(
+                                    endTime: endTime,
+                                    widgetBuilder:
+                                        (_, CurrentRemainingTime? time) {
+                                      if (time == null) {
+                                        return Text('Availble');
+                                      }
+                                      return BigText(
+                                        text:
+                                            ' ${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
+                                        color: Colors.green,
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                             
+                            ],
+                          ),
+                               Container(
+                                child: QrImage(
+                                  data: purchasedQuest!.id.toString(),
+                                  version: QrVersions.auto,
+                                  size: 200.0,
+                                ),
+                              ),
+                          DottedLine(
+                            dashGradient: [
+                              Colors.red,
+                              Colors.red.withAlpha(0),
+                            ],
+                            dashGapGradient: [
+                              Colors.blue,
+                              Colors.blue.withAlpha(0),
+                            ],
+                            dashLength: 10,
+                            dashGapLength: 10,
+                            lineThickness: 15,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.only(left: 10, right: 10, top: 5),
+                        decoration: BoxDecoration(
+                          color: Colors.deepOrange.shade100,
+                          // borderRadius: BorderRadius.all(Radius.circular(10.0))),
                         ),
-                        Image.asset('assets/images/logo.png'),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        child: Column(
                           children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                BigText(
-                                  text: "Ma dat quest:",
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                BigText(text: "ABCXYZ"),
-                                SizedBox(
-                                  height: 15,
+                                SmallText(
+                                  text: 'Amount:',
+                                  size: 20,
                                 ),
                                 BigText(
-                                  text: "Thoi gian: ",
+                                  text: purchasedQuest!.totalAmount.toString(),
+                                  size: 32,
                                   fontWeight: FontWeight.w600,
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                CountdownTimer(
-                                  endTime: endTime,
-                                  widgetBuilder:
-                                      (_, CurrentRemainingTime? time) {
-                                    if (time == null) {
-                                      return Text('Availble');
-                                    }
-                                    return BigText(
-                                      text:
-                                          ' ${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
-                                      color: Colors.green,
-                                    );
-                                  },
                                 ),
                               ],
                             ),
-                            Container(
-                              child: QrImage(
-                                data: "1234567890",
-                                version: QrVersions.auto,
-                                size: 200.0,
-                              ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                SmallText(
+                                  text: 'Quantity:',
+                                  size: 20,
+                                ),
+                                BigText(
+                                  text: purchasedQuest!.quantity.toString(),
+                                  size: 22,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.blue,
+                                ),
+                              ],
                             ),
                           ],
-                        ),
-                        DottedLine(
-                          dashGradient: [
-                            Colors.red,
-                            Colors.red.withAlpha(0),
-                          ],
-                          dashGapGradient: [
-                            Colors.blue,
-                            Colors.blue.withAlpha(0),
-                          ],
-                          dashLength: 10,
-                          dashGapLength: 10,
-                          lineThickness: 15,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(left: 10, right: 10, top: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.deepOrange.shade100,
-                        // borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              SmallText(
-                                text: 'Amount:',
-                                size: 20,
-                              ),
-                              BigText(
-                                text: '160.000 VND',
-                                size: 32,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              SmallText(
-                                text: 'Code transaction:',
-                                size: 20,
-                              ),
-                              BigText(
-                                text: 'GD187463973',
-                                size: 22,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.blue,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ))
-                ],
-              )),
-              SizedBox(
-                height: 15,
-              ),
-            ],
-          ),
-        ));
+                        )
+                        )
+                  ],
+                )),
+                SizedBox(
+                  height: 15,
+                ),
+              ],
+            ),
+          )),
+    );
   }
 }

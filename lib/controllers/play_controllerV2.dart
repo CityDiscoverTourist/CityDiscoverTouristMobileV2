@@ -58,7 +58,20 @@ class PlayControllerV2 extends GetxController {
   var qItem = List<QuestItem>.empty().obs;
   var index = 0.obs;
   var numQuest;
+  late String endPoint;
 
+  var ruleIndex=1.obs;
+
+ increaseIndexRule(){
+  print(ruleIndex);
+  ruleIndex++;
+  update();
+}
+ decreaseIndexRule(){
+  print(ruleIndex);
+  ruleIndex--;
+  update();
+}
   void changeIsLoading() {
     isLoading(true);
     Future.delayed(Duration(seconds: 3));
@@ -134,9 +147,21 @@ class PlayControllerV2 extends GetxController {
       // correctAns.value = qItem[index.value].ans == currentAns.value;
       Future.delayed(Duration(seconds: 2));
       print(correctAns.value);
-      if (correctAns.value == true) {
-        isShowSuggestion(false);
-        Get.snackbar('Right Ans', 'Congratulations',
+    
+      if (cusTask.countWrongAnswer == 5 || correctAns.value == true) {
+        if (cusTask.countWrongAnswer != 5) {
+          Get.snackbar('Right Ans', 'Congratulations',
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.TOP,
+              icon: Icon(
+                Icons.golf_course,
+                color: Colors.greenAccent,
+              ));
+          //Prepare data for nextQu
+        }else{
+           Get.snackbar('Right Ans: ', '${questItemCurrent.rightAnswer}',
             duration: Duration(seconds: 2),
             backgroundColor: Colors.black,
             colorText: Colors.white,
@@ -145,9 +170,7 @@ class PlayControllerV2 extends GetxController {
               Icons.golf_course,
               color: Colors.greenAccent,
             ));
-        //Prepare data for nextQuestItem
-        print("handleAuthStateChanged - dòng 50 TRUE");
-        //gọi hàm move next
+        }
         int nextQuestItemId = await PlayService()
             .moveNextQuestItem(customerQuestID.value, pQuest.questId);
         print('nextQuestItemId ' + nextQuestItemId.toString());
@@ -160,6 +183,7 @@ class PlayControllerV2 extends GetxController {
           isLoading(false);
           //Check câu cuối
         } else {
+          endPoint = await PlayService.updateEndPoint(customerQuestID.value);
           Get.to(CompletedPage());
         }
 
@@ -167,13 +191,60 @@ class PlayControllerV2 extends GetxController {
         //refeshCurrentAns
         currentAns.value = "";
         update();
-        //Get to next
+      } 
+      // else if (correctAns.value == true) {
+      //   isShowSuggestion(false);
+      //   Get.snackbar('Right Ans', 'Congratulations',
+      //       duration: Duration(seconds: 2),
+      //       backgroundColor: Colors.black,
+      //       colorText: Colors.white,
+      //       snackPosition: SnackPosition.TOP,
+      //       icon: Icon(
+      //         Icons.golf_course,
+      //         color: Colors.greenAccent,
+      //       ));
+      //   //Prepare data for nextQuestItem
+      //   print("handleAuthStateChanged - dòng 50 TRUE");
+      //   //gọi hàm move next
+      //   int nextQuestItemId = await PlayService()
+      //       .moveNextQuestItem(customerQuestID.value, pQuest.questId);
+      //   print('nextQuestItemId ' + nextQuestItemId.toString());
+      //   if (nextQuestItemId != -1) {
+      //     //gọi hàm getQuestItem
+      //     isLoading(true);
+      //     questItemCurrent = await PlayService.fetchQuestItem(nextQuestItemId);
+      //     sugggestion.value =
+      //         await PlayService().getSuggestion(questItemCurrent.id);
+      //     isLoading(false);
+      //     //Check câu cuối
+      //   } else {
+      //     endPoint = await PlayService.updateEndPoint(customerQuestID.value);
+      //     Get.to(CompletedPage());
+      //   }
 
-        // Get.to(IngrogressPage());
-        // } else {
-        // Get.to(CompletedPage());
-        // }
-      } else {
+      //   print(questItemCurrent.id);
+      //   //refeshCurrentAns
+      //   currentAns.value = "";
+      //   update();
+      //   //Get to next
+
+      //   // Get.to(IngrogressPage());
+      //   // } else {
+      //   // Get.to(CompletedPage());
+      //   // }
+      // } 
+      else {
+          if (cusTask.countWrongAnswer == 4) {
+        Get.snackbar('Chi con 1 lan tra loi', 'Try Again',
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.black,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+            icon: Icon(
+              Icons.error,
+              color: Colors.red,
+            ));
+      }else
         print(correctAns.value);
         Get.snackbar('Wrong Ans', 'Try Again',
             duration: Duration(seconds: 2),
