@@ -155,11 +155,16 @@ class PlayControllerV2 extends GetxController {
           //gọi hàm getQuestItem
           isLoading(true);
           questItemCurrent = await PlayService.fetchQuestItem(nextQuestItemId);
+          print("CustomerquestID: "+customerQuestID.toString());
+          print("questItemID: "+questItemCurrent.id.toString());
           sugggestion.value =
               await PlayService().getSuggestion(questItemCurrent.id);
           isLoading(false);
           //Check câu cuối
         } else {
+          //goi api updaeend pointcustomer quest
+          //choi 2 cai lap man
+          await PlayService.updateEndPoint(customerQuestID.value);
           Get.to(CompletedPage());
         }
 
@@ -184,6 +189,10 @@ class PlayControllerV2 extends GetxController {
               Icons.error,
               color: Colors.red,
             ));
+
+//check so lan cau tl
+//chec 2lan man hinh
+
       }
     } finally {
       isLoading(false);
