@@ -60,18 +60,20 @@ class PlayControllerV2 extends GetxController {
   var numQuest;
   late String endPoint;
 
-  var ruleIndex=1.obs;
+  var ruleIndex = 1.obs;
 
- increaseIndexRule(){
-  print(ruleIndex);
-  ruleIndex++;
-  update();
-}
- decreaseIndexRule(){
-  print(ruleIndex);
-  ruleIndex--;
-  update();
-}
+  increaseIndexRule() {
+    print(ruleIndex);
+    ruleIndex++;
+    update();
+  }
+
+  decreaseIndexRule() {
+    print(ruleIndex);
+    ruleIndex--;
+    update();
+  }
+
   void changeIsLoading() {
     isLoading(true);
     Future.delayed(Duration(seconds: 3));
@@ -147,7 +149,7 @@ class PlayControllerV2 extends GetxController {
       // correctAns.value = qItem[index.value].ans == currentAns.value;
       Future.delayed(Duration(seconds: 2));
       print(correctAns.value);
-    
+
       if (cusTask.countWrongAnswer == 5 || correctAns.value == true) {
         if (cusTask.countWrongAnswer != 5) {
           Get.snackbar('Right Ans', 'Congratulations',
@@ -160,16 +162,16 @@ class PlayControllerV2 extends GetxController {
                 color: Colors.greenAccent,
               ));
           //Prepare data for nextQu
-        }else{
-           Get.snackbar('Right Ans: ', '${questItemCurrent.rightAnswer}',
-            duration: Duration(seconds: 2),
-            backgroundColor: Colors.black,
-            colorText: Colors.white,
-            snackPosition: SnackPosition.TOP,
-            icon: Icon(
-              Icons.golf_course,
-              color: Colors.greenAccent,
-            ));
+        } else {
+          Get.snackbar('Right Ans: ', '${questItemCurrent.rightAnswer}',
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.TOP,
+              icon: Icon(
+                Icons.golf_course,
+                color: Colors.greenAccent,
+              ));
         }
         int nextQuestItemId = await PlayService()
             .moveNextQuestItem(customerQuestID.value, pQuest.questId);
@@ -191,7 +193,7 @@ class PlayControllerV2 extends GetxController {
         //refeshCurrentAns
         currentAns.value = "";
         update();
-      } 
+      }
       // else if (correctAns.value == true) {
       //   isShowSuggestion(false);
       //   Get.snackbar('Right Ans', 'Congratulations',
@@ -232,20 +234,20 @@ class PlayControllerV2 extends GetxController {
       //   // } else {
       //   // Get.to(CompletedPage());
       //   // }
-      // } 
+      // }
       else {
-          if (cusTask.countWrongAnswer == 4) {
-        Get.snackbar('Chi con 1 lan tra loi', 'Try Again',
-            duration: Duration(seconds: 2),
-            backgroundColor: Colors.black,
-            colorText: Colors.white,
-            snackPosition: SnackPosition.BOTTOM,
-            icon: Icon(
-              Icons.error,
-              color: Colors.red,
-            ));
-      }else
-        print(correctAns.value);
+        if (cusTask.countWrongAnswer == 4) {
+          Get.snackbar('Chi con 1 lan tra loi', 'Try Again',
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM,
+              icon: Icon(
+                Icons.error,
+                color: Colors.red,
+              ));
+        } else
+          print(correctAns.value);
         Get.snackbar('Wrong Ans', 'Try Again',
             duration: Duration(seconds: 2),
             backgroundColor: Colors.black,
@@ -274,11 +276,13 @@ class PlayControllerV2 extends GetxController {
     }
   }
 
-  void checkImage(String customerQuestId, String questItemId) async {
+  void checkAnswerV2(
+      String customerQuestId, String questItemId, String customerReply) async {
     try {
       isLoading(true);
       // Xài tạm dữ liệu cứng để trả về true
-      await PlayService().checkImage(customerQuestId, questItemId);
+      await PlayService()
+          .checkAnswerV2(customerQuestId, questItemId, customerReply);
     } finally {
       isLoading(false);
     }

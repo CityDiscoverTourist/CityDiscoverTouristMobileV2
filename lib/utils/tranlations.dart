@@ -45,7 +45,7 @@ class Translation extends Translations {
           "no comments found": "No comments found",
           "be the first to comment": "Be the first to comment",
           "recently added places": "Recently Added Places",
-          "search & explore": "Search & Explore Places",
+          "search & explore": "Search & Explore Quest",
           "recent searchs": "Recent Search(s)",
           "search for places": "Search for places",
           "search-description":
@@ -140,7 +140,8 @@ class Translation extends Translations {
           "copy": "Copy",
           "cofirm payment": "Cofirm payment",
           "cofirm": "Confirm",
-          "play now": "Play Now"
+          "play now": "Play Now",
+          "no reward found": "No reward found!"
         },
         'vn': {
           "welcome message":
@@ -184,7 +185,7 @@ class Translation extends Translations {
           "no comments found": "Không tìm thấy nhận xét nào",
           "be the first to comment": "Hãy là người đầu tiên nhận xét",
           "recently added places": "Địa điểm được thêm gần đây",
-          "search & explore": "Tìm kiếm & Khám phá Địa điểm",
+          "search & explore": "Tìm kiếm Quest",
           "recent searchs": "Các Tìm kiếm Gần đây",
           "search for places": "Tìm kiếm địa điểm",
           "search-description":
@@ -281,7 +282,8 @@ class Translation extends Translations {
           "copy": "Sao chép",
           "cofirm payment": "Xác nhận thanh  toán",
           "cofirm": "Xác nhận",
-          "play now": "Chơi ngay"
+          "play now": "Chơi ngay",
+          "no reward found": "Không tìm thấy phần thưởng nào!"
         }
       };
 }
