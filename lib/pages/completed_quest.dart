@@ -16,13 +16,13 @@ class CompletedPage extends GetView<PlayControllerV2> {
     return Scaffold(
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text("Completed Page + "+controller.cusTask.currentPoint.toString()),
+          Text("Completed Page + "+controller.endPoint.toString()),
           ElevatedButton(
             onPressed: () {
               Get.close(0);
               Get.to(RatingQuest());
             },
-            child: Text('Go Home', style: TextStyle(fontSize: 16)),
+            child: Text('Go Rating', style: TextStyle(fontSize: 16)),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.only(
                   left: 40.0, top: 16.0, bottom: 16.0, right: 40.0),
