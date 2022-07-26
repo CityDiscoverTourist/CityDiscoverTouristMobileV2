@@ -11,9 +11,11 @@ import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/customer.dart';
+import 'package:travel_hour/models/reward.dart';
 import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/services/login_service.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:travel_hour/services/reward_service.dart';
 
 import '../models/city.dart';
 import '../models/quest.dart';
@@ -29,6 +31,7 @@ class HomeController extends GetxController {
   var puQuestList = List<Quest>.empty().obs;
   var hisQuestList = List<Quest>.empty().obs;
   var cityList = List<City>.empty().obs;
+  var rewardList = List<Reward>.empty().obs;
   var questTypeList = List<QuestType>.empty().obs;
   var areaIdChoice = 4.obs;
   var indexHomePage = 0.obs;
@@ -126,6 +129,7 @@ class HomeController extends GetxController {
       await fetchQuestFeatureData();
       await fetchQuestTypeData();
       await fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id);
+      await fetchRewardByCustomerId(Get.find<LoginControllerV2>().sp.id);
     } finally {
       isLoading(false);
     }
@@ -239,6 +243,15 @@ class HomeController extends GetxController {
     try {
       isLoading(true);
       await QuestService.fetchPlayedQuestFeatureData(customerId);
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  fetchRewardByCustomerId(String customerId) async {
+    try {
+      isLoading(true);
+      await RewardService.fetchRewardByCustomerId(customerId);
     } finally {
       isLoading(false);
     }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/pages/intro.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 
@@ -32,8 +33,11 @@ class _VoucherPageState extends State<VoucherPage> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: List.generate(text.length, (index) {
-            return VoucherWidget();
+          children: List.generate(Get.find<HomeController>().rewardList.length,
+              (index) {
+            return VoucherWidget(
+              reward: Get.find<HomeController>().rewardList[index],
+            );
           }),
         ),
       ),

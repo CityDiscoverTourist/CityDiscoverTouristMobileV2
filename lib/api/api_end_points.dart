@@ -25,4 +25,6 @@ class ApiEndPoints {
   static const customerStartQuest = "/customer-tasks/";
   static const checkPaymentStatus = "/payments/";
   static const checkImage = "/weather-forecast/demo2?api-version=1";
+  static const getRewardByCustomerId =
+      "/rewards/get-by-customer-id?customerId=";
 }
