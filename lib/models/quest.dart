@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:travel_hour/models/questItem.dart';
+
 List<Quest> questFromJson(String str) =>
     List<Quest>.from(json.decode(str).map((x) => Quest.fromJson(x)));
 
@@ -20,50 +22,67 @@ class Quest {
     required this.estimatedTime,
     required this.estimatedDistance,
     required this.availableTime,
-    // required this.createdDate,
+    required this.createdDate,
+    // this.updatedDate,
     required this.status,
     required this.questTypeId,
     required this.questOwnerId,
     required this.areaId,
     required this.countQuestItem,
+    required this.address,
+    required this.latLong,
     required this.totalFeedback,
-    required this.averageStart,
+    required this.averageStar,
+    // required this.questItems,
+    required this.areaName,
   });
 
   int id;
   String title;
   String description;
   double price;
-  dynamic imagePath;
+  String? imagePath;
   String estimatedTime;
   String estimatedDistance;
-  String? availableTime;
-  // DateTime createdDate;
+  String availableTime;
+  DateTime createdDate;
+  // DateTime? updatedDate;
   String? status;
   int questTypeId;
   int? questOwnerId;
   int areaId;
   int countQuestItem;
+  String? address;
+  String? latLong;
   int totalFeedback;
-  int? averageStart;
+  int averageStar;
+  String? areaName;
+  // List<QuestItem> questItems;
 
   factory Quest.fromJson(Map<String, dynamic> json) => Quest(
         id: json["id"],
         title: json["title"],
         description: json["description"],
         price: json["price"],
-        imagePath: json["imagePath"],
+        imagePath: json["imagePath"] == null ? null : json["imagePath"],
         estimatedTime: json["estimatedTime"],
         estimatedDistance: json["estimatedDistance"],
         availableTime: json["availableTime"],
-        // createdDate: DateTime.parse(json["createdDate"].toString()),
+        createdDate: DateTime.parse(json["createdDate"]),
+        // updatedDate: DateTime.parse(json["updatedDate"]),
         status: json["status"],
         questTypeId: json["questTypeId"],
-        questOwnerId: json["questOwnerId"],
+        questOwnerId:
+            json["questOwnerId"] == null ? null : json["questOwnerId"],
         areaId: json["areaId"],
         countQuestItem: json["countQuestItem"],
+        address: json["address"] == null ? null : json["address"],
+        latLong: json["latLong"] == null ? null : json["latLong"],
         totalFeedback: json["totalFeedback"],
-        averageStart: json["averageStart"],
+        averageStar: json["averageStar"],
+        areaName: json["areaName"],
+        // questItems: List<QuestItem>.from(
+        //     json["questItems"].map((x) => QuestItem.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -71,17 +90,22 @@ class Quest {
         "title": title,
         "description": description,
         "price": price,
-        "imagePath": imagePath,
+        "imagePath": imagePath == null ? null : imagePath,
         "estimatedTime": estimatedTime,
         "estimatedDistance": estimatedDistance,
         "availableTime": availableTime,
-        // "createdDate": createdDate!.toString(),
+        "createdDate": createdDate,
+        // "updatedDate": updatedDate,
         "status": status,
         "questTypeId": questTypeId,
-        "questOwnerId": questOwnerId,
+        "questOwnerId": questOwnerId == null ? null : questOwnerId,
         "areaId": areaId,
         "countQuestItem": countQuestItem,
+        "address": address == null ? null : address,
+        "latLong": latLong == null ? null : latLong,
         "totalFeedback": totalFeedback,
-        "averageStart": averageStart,
+        "averageStar": averageStar,
+        "areaName": areaName,
+        // "questItems": List<dynamic>.from(questItems.map((x) => x.toJson())),
       };
 }

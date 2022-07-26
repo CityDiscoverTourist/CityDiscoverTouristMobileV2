@@ -32,7 +32,7 @@ class HomeController extends GetxController {
   var questTypeList = List<QuestType>.empty().obs;
   var areaIdChoice = 4.obs;
   var indexHomePage = 0.obs;
-  var language = 1.obs;
+  var language = Get.find<LoginControllerV2>().language;
   var jwtToken = "".obs;
 
   var dropdownValue;
@@ -44,7 +44,7 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    changeLanguage();
+    // changeLanguage();
     await startData();
     dropdownValue = cityList[1];
     flutterLocalNotificationsPlugin
@@ -90,7 +90,7 @@ class HomeController extends GetxController {
   void onReady() async {
     super.onReady();
     print("[HomeController]-L88-ONREADY :" + jwtToken.value);
-    changeLanguage();
+    // changeLanguage();
     // googleSign = GoogleSignIn();
     // await ever(isSignIn, handleAuthStateChanged);
     // isSignIn.value = await firebaseAuth.currentUser != null;
@@ -125,6 +125,7 @@ class HomeController extends GetxController {
       await fetchCityData();
       await fetchQuestFeatureData();
       await fetchQuestTypeData();
+      await fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id);
     } finally {
       isLoading(false);
     }
@@ -134,6 +135,8 @@ class HomeController extends GetxController {
     try {
       isLoading(true);
       await fetchQuestFeatureData();
+      await fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id);
+      await fetchQuestTypeData();
     } finally {
       isLoading(false);
     }
@@ -232,28 +235,10 @@ class HomeController extends GetxController {
     }
   }
 
-  void changeLanguage() async {
-    Locale? locale = Get.locale;
-    print(locale);
-    if (locale.toString() == "en") {
-      language.value = 0;
-      print(language);
-      // update();
-    } else {
-      language.value = 1;
-      print(language);
-      // update();
-    }
-  }
-
-  Future<List<Quest>?> fetchPlayingHistory(String customerId) async {
+  fetchPlayingHistory(String customerId) async {
     try {
       isLoading(true);
-      return QuestService.fetchPlayingHistory(customerId, language);
-      // if (questListApi != null) {
-      //   print('Co Roi Ne');
-      //   puQuestList.assignAll(questListApi);
-      // }
+      await QuestService.fetchPlayedQuestFeatureData(customerId);
     } finally {
       isLoading(false);
     }

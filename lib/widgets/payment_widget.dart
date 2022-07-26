@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 import 'package:travel_hour/pages/momo_web_payment.dart';
 import 'package:uuid/uuid.dart';
 
+import '../controllers/history_controller.dart';
 import '../controllers/home_controller.dart';
 import '../controllers/login_controller_V2.dart';
 import '../models/payment.dart';
@@ -134,7 +135,7 @@ class PaymentWidgetState extends State<PaymentWidget>
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: CustomText(
-                  text: "Vật phẩm:",
+                  text: "item".tr,
                   color: Colors.grey,
                 ),
               ),
@@ -155,7 +156,7 @@ class PaymentWidgetState extends State<PaymentWidget>
               ? ListTile(
                   title: CustomText(
                     // text: widget.quest.title.toString(),
-                    text: "Số Lượng",
+                    text: "quantity".tr,
                   ),
                   // subtitle: CustomText(
                   //   text: quantity.toString(),
@@ -231,7 +232,7 @@ class PaymentWidgetState extends State<PaymentWidget>
             keyboardType: TextInputType.emailAddress,
             autofocus: false,
             decoration: InputDecoration(
-              hintText: 'Enter voucher here'.tr,
+              hintText: 'enter voucher here'.tr,
             ),
             controller: voucherCtl,
             // validator: (value) {
@@ -248,7 +249,7 @@ class PaymentWidgetState extends State<PaymentWidget>
           Divider(),
           ListTile(
             title: CustomText(
-              text: "Tổng tiền",
+              text: "total price".tr,
             ),
             trailing: CustomText(
               text: total.toString() + " VND",
@@ -259,11 +260,11 @@ class PaymentWidgetState extends State<PaymentWidget>
           Divider(),
           ListTile(
             title: CustomText(
-              text: "Thông tin thanh toán",
+              text: "payment status".tr,
               color: Colors.grey,
             ),
             trailing: CustomText(
-              text: _paymentStatus.isEmpty ? "CHƯA THANH TOÁN" : _paymentStatus,
+              text: _paymentStatus.isEmpty ? "not yet paid".tr : _paymentStatus,
               color: Colors.green,
             ),
           ),
@@ -273,11 +274,11 @@ class PaymentWidgetState extends State<PaymentWidget>
               ? Container()
               : ListTile(
                   title: CustomText(
-                    text: "Mã chơi : " + playCode,
+                    text: "play code".tr + playCode,
                     // color: Colors.grey,
                   ),
                   trailing: RaisedButton(
-                    child: const Text('Copy'),
+                    child: Text('copy'.tr),
                     onPressed: () {
                       Clipboard.setData(new ClipboardData(text: playCode))
                           .then((_) {
@@ -314,14 +315,14 @@ class PaymentWidgetState extends State<PaymentWidget>
               alignment: MainAxisAlignment.center,
               children: <Widget>[
                 new RaisedButton(
-                  child: const Text('Hủy'),
+                  child: Text('cancel'.tr),
                   onPressed: () => Navigator.pop(context),
                 ),
                 new RaisedButton(
                   // child: const Text('Xác nhận thanh toán'),
                   child: _paymentStatus.isEmpty
-                      ? const Text('Xác nhận thanh toán')
-                      : const Text('Xác nhận'),
+                      ? Text('cofirm payment'.tr)
+                      : Text('cofirm'.tr),
                   onPressed: () async {
                     // MomoPaymentInfo options = MomoPaymentInfo(
                     //     merchantName: "TTNC&TVKT",
@@ -347,7 +348,8 @@ class PaymentWidgetState extends State<PaymentWidget>
                           widget.quest.id.toString(),
                           quantity2,
                           total,
-                          voucherCtl.text);
+                          null);
+                      // Get.to(QuestsPlayPage());
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -368,7 +370,10 @@ class PaymentWidgetState extends State<PaymentWidget>
                     ? Container()
                     : new RaisedButton(
                         child: const Text('Chơi ngay'),
-                        onPressed: () => Get.to(QuestsPlayPage()),
+                        onPressed: () => {
+                          Get.put(HistoryController()),
+                          Get.to(QuestsPlayPage())
+                        },
                       ),
               ],
             ),

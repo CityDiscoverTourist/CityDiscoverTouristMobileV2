@@ -9,7 +9,6 @@ import 'package:travel_hour/pages/guide.dart';
 import 'package:travel_hour/pages/hotel.dart';
 import 'package:travel_hour/pages/restaurant.dart';
 import 'package:travel_hour/utils/next_screen.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 import '../controllers/comment_controller.dart';
 
@@ -27,7 +26,7 @@ class TodoWidget extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w800,
-            )).tr(),
+            )),
         Container(
           margin: EdgeInsets.only(top: 5, bottom: 5),
           height: 3,
@@ -81,7 +80,7 @@ class TodoWidget extends StatelessWidget {
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18),
-                            ).tr(),
+                            ),
                           ])),
                   onTap: () => () {}
                   //  nextScreen(context, GuidePage(d: questData)),
@@ -115,12 +114,12 @@ class TodoWidget extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              questData!.estimatedTime + ' minutes',
+                              questData!.estimatedTime + 'minutes'.tr,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18),
-                            ).tr(),
+                            ),
                           ])),
                   onTap: () => {}),
               InkWell(
@@ -152,12 +151,12 @@ class TodoWidget extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '14',
+                              questData!.countQuestItem.toString(),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18),
-                            ).tr(),
+                            ),
                           ])),
                   onTap: () => {}
                   //  nextScreen(context, RestaurantPage(placeData: questData,)),
@@ -191,15 +190,18 @@ class TodoWidget extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              'user reviews',
+                              'user reviews'.tr,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 15),
-                            ).tr(),
+                            ),
                           ])),
-                  onTap: () =>
-                      {Get.put(Comment_Controller()).idQuest.value=questData!.id, Get.to(CommentsPageV2())}
+                  onTap: () => {
+                        Get.put(Comment_Controller()).idQuest.value =
+                            questData!.id,
+                        Get.to(CommentsPageV2())
+                      }
                   //  nextScreen(context, CommentsPage(collectionName: 'places', timestamp: questData!.timestamp,)),
                   ),
             ],

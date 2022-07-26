@@ -84,7 +84,7 @@ class PlayService {
         Uri.parse('https://citytourist.azurewebsites.net/api/v1/quest-items/' +
             questItemId.toString() +
             '?language=' +
-            Get.find<LoginControllerV2>().language),
+            Get.find<LoginControllerV2>().language.value.toString()),
         headers: {"Content-Type": "application/json"});
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
@@ -132,6 +132,8 @@ class PlayService {
     //     customerReply +
     //     "&questItemId=" +
     //     questItemId);
+    print(response.body);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       print("OKkkkkkkkkkkkkkkkkkkkkk");
       Map data = jsonDecode(response.body);

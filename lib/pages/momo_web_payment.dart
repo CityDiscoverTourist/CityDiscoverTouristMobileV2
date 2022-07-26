@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:get/get.dart';
 import 'package:travel_hour/widgets/payment_widget.dart';
 // import 'package:flutterappmomo/main.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -192,8 +193,8 @@ class _MoMoWebView extends State<MoMoWebView> {
           // hidden: true,
           initialChild: Container(
             color: Colors.redAccent,
-            child: const Center(
-              child: Text('Waiting.....'),
+            child: Center(
+              child: Text('waiting.....'.tr),
             ),
           ),
           // bottomNavigationBar: BottomAppBar(

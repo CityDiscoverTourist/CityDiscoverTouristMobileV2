@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:travel_hour/pages/intro.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 
@@ -27,7 +28,7 @@ class _VoucherPageState extends State<VoucherPage> {
     List<int> text = [1, 2, 3, 4];
     return Scaffold(
       appBar: AppBar(
-        title: Text("Your Reward"),
+        title: Text("your reward".tr),
       ),
       body: SingleChildScrollView(
         child: Column(

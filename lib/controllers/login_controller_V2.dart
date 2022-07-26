@@ -27,16 +27,18 @@ class LoginControllerV2 extends GetxController {
   String deviceId = ""; //*
   //  var homeController=Get.find<HomeController>();
   late Customer sp;
-  var language;
+  var language = 0.obs;
 
   @override
   void onInit() {
     super.onInit();
+    changeLanguage();
   }
 
   @override
   void onReady() async {
     super.onReady();
+    changeLanguage();
     print("[Login V2]-L28-ONREADY :");
     googleSign = GoogleSignIn();
     ever(isSignIn, handleAuthStateChanged);
@@ -184,5 +186,19 @@ class LoginControllerV2 extends GetxController {
       return true;
     }
     return false;
+  }
+
+  void changeLanguage() async {
+    Locale? locale = Get.locale;
+    print(locale);
+    if (locale.toString() == "en") {
+      language.value = 0;
+      print(language);
+      // update();
+    } else {
+      language.value = 1;
+      print(language);
+      // update();
+    }
   }
 }
