@@ -22,9 +22,9 @@ class RulePage extends GetView<PlayControllerV2> {
   RulePage({required this.pQuest, Key? key}) : super(key: key);
 
   List<Widget> listItem = [
-    ScheduleContainer("Moi cau co 300đ '/'",1),
-    ScheduleContainer("Duoc phep tra loi moi cau 5 lan '/'",2),
-    ScheduleContainer("Sai 1 lan -50đ '/' Xài gợi ý -50đ",3)
+    ScheduleContainer("Mỗi câu hỏi bạn sẽ có 300 điểm",1),
+    ScheduleContainer("Bạn sẽ được trả lời tối đa 5 lần cho một câu hỏi"+"/"+"Lần 5 bạn sẽ được hiện đáp án",2),
+    ScheduleContainer("Mỗi lần trả lời sai sẽ bị trừ 50 điểm"+"/"+"Sử dụng gợi ý sẽ bị trừ 75 điểm (1 lần)",3)
   ];
   @override
   Widget build(BuildContext context) {
