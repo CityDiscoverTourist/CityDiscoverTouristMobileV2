@@ -63,8 +63,8 @@ class HomePage extends StatelessWidget {
                   label: 'Home',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.people),
-                  label: 'Users',
+                  icon: Icon(Icons.card_giftcard),
+                  label: 'Reward',
                   // activeColor: Colors.purpleAccent,
                   // textAlign: TextAlign.center,
                 ),

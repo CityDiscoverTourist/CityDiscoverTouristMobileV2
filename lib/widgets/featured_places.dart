@@ -19,6 +19,7 @@ class FeaturedQuest extends StatefulWidget {
 
 class _FeaturedQuestState extends State<FeaturedQuest> {
   var controller = Get.find<HomeController>();
+  int position = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,9 @@ class _FeaturedQuestState extends State<FeaturedQuest> {
                 //  itemCount: 5,
                 onPageChanged: (index) {
                   // ignore: unnecessary_statements
+                  setState(() {
+                    position = index;
+                  });
                   controller.questList[index];
                 },
                 itemBuilder: (BuildContext context, int index) {
@@ -59,9 +63,9 @@ class _FeaturedQuestState extends State<FeaturedQuest> {
             ),
             Center(
               child: DotsIndicator(
-                dotsCount: 15,
+                dotsCount: controller.questList.length,
                 // position: context.watch<FeaturedBloc>().listIndex.toDouble(),
-                position: controller.questList.length.toDouble(),
+                position: position.toDouble(),
                 decorator: DotsDecorator(
                   color: Colors.black26,
                   activeColor: Colors.black,
@@ -110,7 +114,7 @@ class _FeaturedItemList extends StatelessWidget {
                     )),
               ),
               Positioned(
-                height: 120,
+                height: 150,
                 width: w * 0.70,
                 left: w * 0.11,
                 bottom: 10,
