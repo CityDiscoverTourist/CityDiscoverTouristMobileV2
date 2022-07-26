@@ -58,6 +58,7 @@ class PlayControllerV2 extends GetxController {
   var qItem = List<QuestItem>.empty().obs;
   var index = 0.obs;
   var numQuest;
+   late double endPoint;
 
   void changeIsLoading() {
     isLoading(true);
@@ -164,7 +165,7 @@ class PlayControllerV2 extends GetxController {
         } else {
           //goi api updaeend pointcustomer quest
           //choi 2 cai lap man
-          await PlayService.updateEndPoint(customerQuestID.value);
+    endPoint  =   await PlayService.updateEndPoint(customerQuestID.value);
           Get.to(CompletedPage());
         }
 

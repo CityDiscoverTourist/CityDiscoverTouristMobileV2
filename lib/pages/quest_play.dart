@@ -97,7 +97,8 @@ class QuestsPlayPage extends StatelessWidget {
 
   Widget cardPurchagedQuest(PurchasedQuest pQuest) {
     int endTime = pQuest.createdDate.millisecondsSinceEpoch + 172800000;
-    return Row(
+    return 
+     Row(
       children: [
         Icon(Icons.payment),
         Expanded(

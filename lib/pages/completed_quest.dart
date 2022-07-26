@@ -16,7 +16,7 @@ class CompletedPage extends GetView<PlayControllerV2> {
     return Scaffold(
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text("Completed Page + "+controller.cusTask.currentPoint.toString()),
+          Text("Completed Page + "+controller.endPoint.toString()),
           ElevatedButton(
             onPressed: () {
               Get.close(0);

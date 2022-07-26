@@ -95,8 +95,8 @@ class PlayService {
     }
   }
 
-  static Future<CustomerTask> updateEndPoint(int customerQuestId) async {
-    CustomerTask rs;
+  static Future<double> updateEndPoint(int customerQuestId) async {
+    double rs;
     var response = await http.put(
         Uri.parse(
             'https://citytourist.azurewebsites.net/api/v1/customer-quests/update-end-point/${customerQuestId}'),
@@ -108,11 +108,11 @@ class PlayService {
       // print('object');
       print("updateEndPoint OK");
       Map data = jsonDecode(response.body);
-      rs = CustomerTask.fromJson(data['data']);
-      return Future<CustomerTask>.value(rs);
+      rs = data['data']['endPoint'];
+      return Future<double>.value(rs);
     } else {
       print('fail');
-      return Future<CustomerTask>.value(null);
+      return Future<double>.value(-1);
     }
   }
   // static void startQuest(String questID,String idPayment,String customer)async{
