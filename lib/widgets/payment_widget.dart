@@ -49,6 +49,7 @@ class PaymentWidgetState extends State<PaymentWidget>
   var uuid = Uuid();
   static String payUrl = "";
   var playCode;
+  var voucherCtl = TextEditingController();
 
   String partnerCode = 'MOMOXOUE20220626';
   String partnerName = 'City Discover Tourist';
@@ -226,6 +227,25 @@ class PaymentWidgetState extends State<PaymentWidget>
           //             ))
           //         .toList()),
           Divider(),
+          TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            autofocus: false,
+            decoration: InputDecoration(
+              hintText: 'Enter voucher here'.tr,
+            ),
+            controller: voucherCtl,
+            // validator: (value) {
+            //   if (value!.length == 0) return "Address can't be empty";
+            //   return null;
+            // },
+            // onSaved: (String? value) {
+            //   userName = value!;
+            // },
+            onEditingComplete: () {
+              print(voucherCtl.text);
+            },
+          ),
+          Divider(),
           ListTile(
             title: CustomText(
               text: "Tổng tiền",
@@ -235,6 +255,7 @@ class PaymentWidgetState extends State<PaymentWidget>
               color: Colors.green,
             ),
           ),
+
           Divider(),
           ListTile(
             title: CustomText(
@@ -326,7 +347,7 @@ class PaymentWidgetState extends State<PaymentWidget>
                           widget.quest.id.toString(),
                           quantity2,
                           total,
-                          null);
+                          voucherCtl.text);
                       Navigator.push(
                           context,
                           MaterialPageRoute(

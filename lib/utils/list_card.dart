@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/models/place.dart';
 import 'package:travel_hour/models/quest.dart';
+import 'package:travel_hour/pages/quest_details.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 
 class ListCard extends StatelessWidget {
@@ -15,7 +18,12 @@ class ListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Locale locale = Localizations.localeOf(context);
+    var format = NumberFormat.simpleCurrency(locale: locale.toString());
     return InkWell(
+      onTap: () {
+        Get.to(QuestDetails(data: d, tag: tag));
+      },
       child: Stack(
         children: <Widget>[
           Container(
@@ -56,7 +64,7 @@ class ListCard extends StatelessWidget {
                         Row(
                           children: [
                             Icon(
-                              Feather.map_pin,
+                              Feather.star,
                               size: 12,
                               color: Colors.grey,
                             ),
@@ -65,7 +73,7 @@ class ListCard extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                d!.price.toString(),
+                                d!.averageStart.toString(),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -87,30 +95,30 @@ class ListCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Icon(
-                              LineIcons.heart,
-                              size: 18,
-                              color: Colors.orangeAccent,
-                            ),
-                            Text(
-                              // d!.createdDate.toString(),
-                              'create day',
-                              style: TextStyle(
-                                  fontSize: 13, color: Colors.grey[600]),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Icon(
-                              LineIcons.commentAlt,
-                              size: 18,
-                              color: Colors.grey[700],
-                            ),
-                            Text(
-                              d!.areaId.toString(),
-                              style: TextStyle(
-                                  fontSize: 13, color: Colors.grey[600]),
-                            ),
+                            // Icon(
+                            //   LineIcons.heart,
+                            //   size: 18,
+                            //   color: Colors.orangeAccent,
+                            // ),
+                            // Text(
+                            //   d!.status.toString(),
+                            //   // 'create day',
+                            //   style: TextStyle(
+                            //       fontSize: 13, color: Colors.grey[600]),
+                            // ),
+                            // SizedBox(
+                            //   width: 20,
+                            // ),
+                            // Icon(
+                            //   LineIcons.commentAlt,
+                            //   size: 18,
+                            //   color: Colors.grey[700],
+                            // ),
+                            // Text(
+                            //   d!.areaId.toString(),
+                            //   style: TextStyle(
+                            //       fontSize: 13, color: Colors.grey[600]),
+                            // ),
                             Spacer(),
                           ],
                         ),
@@ -130,12 +138,11 @@ class ListCard extends StatelessWidget {
                     height: 120,
                     width: 120,
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: 
-                       d!.imagePath != null
+                      borderRadius: BorderRadius.circular(5),
+                      child: d!.imagePath != null
                           ? CustomCacheImage(imageUrl: d!.imagePath)
                           : Image.asset('assets/images/logo.png'),
-                        )),
+                    )),
               ))
         ],
       ),

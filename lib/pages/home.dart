@@ -12,35 +12,40 @@ import 'package:travel_hour/pages/quest_play.dart';
 
 import 'package:travel_hour/pages/profile.dart';
 import 'package:travel_hour/pages/splashV2.dart';
+import 'package:travel_hour/pages/voucher.dart';
 import '../controllers/home_controller.dart';
 import 'explore.dart';
 import 'history.dart';
 
 class HomePage extends StatelessWidget {
-    HomeController myController =  Get.put(HomeController());
+  HomeController myController = Get.put(HomeController());
   @override
-  Widget build(BuildContext context)  {
-
+  Widget build(BuildContext context) {
     var _currentIndex = myController.indexHomePage;
     final views = [
       Explore(),
-      GuidePage(),
+      VoucherPage(),
       HistoryPage(),
       ProfilePage(),
     ];
     return Scaffold(
         // appBar: AppBar(title: Text("Flutter Demo")),
         body: Obx(() {
-          if(myController.isLoading.value==true){
+          if (myController.isLoading.value == true) {
             // print("true nef");
-            return SplashStart(content: 'Waiting Loading Data...',);
-          }else
-          return views[_currentIndex.value];
+            return SplashStart(
+              content: 'Waiting Loading Data...',
+            );
+          } else
+            return views[_currentIndex.value];
         }),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.redAccent,
           child: Icon(Icons.play_arrow_sharp),
-          onPressed: () {Get.put(HistoryController());Get.to(QuestsPlayPage());},
+          onPressed: () {
+            Get.put(HistoryController());
+            Get.to(QuestsPlayPage());
+          },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: Obx(

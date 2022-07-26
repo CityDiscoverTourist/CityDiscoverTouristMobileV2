@@ -156,6 +156,64 @@ class QuestService {
     return Future<List<Quest>>.value(null);
   }
 
+  static Future<List<Quest>?> fetchPlayingHistory(
+      String customerId, var language) async {
+    // var lang = 0;
+    // if (language == true) {
+    //   lang = 1;
+    // }
+    print(language.toString());
+    var response = await http.get(
+        Uri.parse(Api.baseUrl +
+            ApiEndPoints.getCustomerQuestByCustomerId +
+            customerId),
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+        });
+    print(Api.baseUrl +
+        ApiEndPoints.getCustomerQuestByCustomerId +
+        customerId +
+        "?language=" +
+        language.toString());
+    if (response.statusCode == 200) {
+      List<Quest> listQuest = new List.empty(growable: true);
+      // print("OKkkkkkkkkkkkkkkkkkkkkk");
+      // var data = json.decode(response.body);
+      Map<String, dynamic> map = json.decode(response.body);
+      List<dynamic> data = map["data"];
+      for (var element in data) {
+        var response2 = await http.get(
+            Uri.parse(Api.baseUrl +
+                ApiEndPoints.getQuestById +
+                element["questId"].toString() +
+                "?language=" +
+                language.toString()),
+            headers: {
+              "Content-Type": "application/json",
+              'Authorization':
+                  'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+            });
+        print(Api.baseUrl +
+            ApiEndPoints.getQuestById +
+            element["questId"].toString());
+        if (response2.statusCode == 200 && element["isFinished"] == false) {
+          var responseData2 = json.decode(response2.body);
+          Quest quest = Quest.fromJson(responseData2["data"]);
+          if (element["createdDate"] != null) {
+            // quest.createdDate = DateTime.tryParse(element["createdDate"])!;
+          }
+          listQuest.add(quest);
+          print(quest.description);
+        }
+      }
+      // print(data);
+      return Future<List<Quest>>.value(listQuest);
+    }
+    return Future<List<Quest>>.value(null);
+  }
+
   static Future<List<Quest>?> fetchPlayedQuestFeatureData(
       String customerId) async {
     var myController = Get.find<LoginControllerV2>();

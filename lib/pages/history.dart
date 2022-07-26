@@ -6,6 +6,7 @@ import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 import 'package:travel_hour/blocs/bookmark_bloc.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/blog.dart';
 import 'package:travel_hour/models/quest.dart';
 import 'package:travel_hour/pages/blog_details.dart';
@@ -26,6 +27,16 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage>
     with AutomaticKeepAliveClientMixin {
+  var controller = Get.find<HomeController>();
+  static List<Quest> list = List.empty(growable: true);
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(milliseconds: 3000)).then((_) async => list =
+        (await controller
+            .fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id))!);
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -39,47 +50,48 @@ class _HistoryPageState extends State<HistoryPage>
         backgroundColor: Colors.grey[100],
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Text('bookmarks'.tr),
+          title: Text('Play History'.tr),
           centerTitle: false,
           titleSpacing: 20,
-          bottom: TabBar(
-              labelPadding: EdgeInsets.only(left: 10, right: 10),
-              indicatorColor: Theme.of(context).primaryColor,
-              isScrollable: false,
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey[500],
-              indicatorWeight: 0,
-              indicatorSize: TabBarIndicatorSize.tab,
-              labelStyle: TextStyle(
-                  fontFamily: 'Manrope',
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600),
-              indicator: MD2Indicator(
-                indicatorHeight: 3,
-                indicatorSize: MD2IndicatorSize.normal,
-                indicatorColor: Theme.of(context).primaryColor,
-              ),
-              tabs: [
-                Tab(
-                  child: Container(
-                    padding: EdgeInsets.only(left: 15, right: 15),
-                    alignment: Alignment.centerLeft,
-                    child: Text('saved places'.tr),
-                  ),
-                ),
-                Tab(
-                  child: Container(
-                    padding: EdgeInsets.only(left: 15, right: 15),
-                    alignment: Alignment.centerLeft,
-                    child: Text('saved blogs'.tr),
-                  ),
-                )
-              ]),
+          // bottom: TabBar(
+          //     labelPadding: EdgeInsets.only(left: 10, right: 10),
+          //     indicatorColor: Theme.of(context).primaryColor,
+          //     isScrollable: false,
+          //     labelColor: Colors.black,
+          //     unselectedLabelColor: Colors.grey[500],
+          //     indicatorWeight: 0,
+          //     indicatorSize: TabBarIndicatorSize.tab,
+          //     labelStyle: TextStyle(
+          //         fontFamily: 'Manrope',
+          //         fontSize: 15,
+          //         fontWeight: FontWeight.w600),
+          //     indicator: MD2Indicator(
+          //       indicatorHeight: 3,
+          //       indicatorSize: MD2IndicatorSize.normal,
+          //       indicatorColor: Theme.of(context).primaryColor,
+          //     ),
+          //     tabs: [
+          //       Tab(
+          //         child: Container(
+          //           padding: EdgeInsets.only(left: 15, right: 15),
+          //           alignment: Alignment.centerLeft,
+          //           child: Text('saved places'.tr),
+          //         ),
+          //       ),
+          //       Tab(
+          //         child: Container(
+          //           padding: EdgeInsets.only(left: 15, right: 15),
+          //           alignment: Alignment.centerLeft,
+          //           child: Text('saved blogs'.tr),
+          //         ),
+          //       )
+          //     ]),
         ),
-        body: TabBarView(children: <Widget>[
-          BookmarkedPlaces(),
-          BookmarkedBlogs(),
-        ]),
+        // body: TabBarView(children: <Widget>[
+        //   BookmarkedPlaces(),
+        //   BookmarkedBlogs(),
+        // ]),
+        body: BookmarkedPlaces(),
       ),
     );
   }
@@ -112,8 +124,8 @@ class _BookmarkedPlacesState extends State<BookmarkedPlaces>
             if (controller.questList.length == 0)
               return EmptyPage(
                 icon: Feather.bookmark,
-                message: 'no places found'.tr,
-                message1: 'save your favourite places here'.tr,
+                message: 'no playing history found'.tr,
+                message1: ''.tr,
               );
             else
               return ListView.separated(

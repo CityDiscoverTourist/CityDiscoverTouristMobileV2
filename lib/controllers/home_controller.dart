@@ -245,4 +245,17 @@ class HomeController extends GetxController {
       // update();
     }
   }
+
+  Future<List<Quest>?> fetchPlayingHistory(String customerId) async {
+    try {
+      isLoading(true);
+      return QuestService.fetchPlayingHistory(customerId, language);
+      // if (questListApi != null) {
+      //   print('Co Roi Ne');
+      //   puQuestList.assignAll(questListApi);
+      // }
+    } finally {
+      isLoading(false);
+    }
+  }
 }
