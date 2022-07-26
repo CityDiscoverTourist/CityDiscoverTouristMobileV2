@@ -22,29 +22,31 @@ class QuestsPlayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Get.find<HistoryController>();
-   
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.redAccent,
         title: BigText(
-          text: 'My Quest',
+          text: 'my quest'.tr,
           color: Colors.white,
           fontWeight: FontWeight.w700,
         ),
       ),
       body: Obx((() {
-        if(controller.isLoading.value==false)
-        {print(controller.purchsedQuestList.length);
-        return ListView.builder(
-          itemCount: controller.purchsedQuestList.length,
-          itemBuilder: (_, _currentIndex) {
-            return cardPurchagedQuest(controller.purchsedQuestList[_currentIndex]);
-          },
-        );}
-        else{
-          return SplashStart(content: "Watting",);
+        if (controller.isLoading.value == false) {
+          print(controller.purchsedQuestList.length);
+          return ListView.builder(
+            itemCount: controller.purchsedQuestList.length,
+            itemBuilder: (_, _currentIndex) {
+              return cardPurchagedQuest(
+                  controller.purchsedQuestList[_currentIndex]);
+            },
+          );
+        } else {
+          return SplashStart(
+            content: "Watting",
+          );
         }
       })),
       floatingActionButton: FloatingActionButton(
@@ -92,54 +94,57 @@ class QuestsPlayPage extends StatelessWidget {
       ),
     );
   }
-  Widget cardPurchagedQuest(PurchasedQuest pQuest){
-     int endTime = pQuest.createdDate.millisecondsSinceEpoch+172800000;
+
+  Widget cardPurchagedQuest(PurchasedQuest pQuest) {
+    int endTime = pQuest.createdDate.millisecondsSinceEpoch + 172800000;
     return Row(
-              children: [
-                Icon(Icons.payment),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      print('CARD TAP');
-                      Get.to(PaymentDetail());
-                    },
-                    child: Card(
-                      child: ListTile(
-                        title: BigText(
-                            text: pQuest.questName),
-                        subtitle: Column(
-                          children: [
-                            SmallText(text: pQuest.id+"/"+pQuest.questId.toString()),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            CountdownTimer(
-                              endTime: endTime,
-                              widgetBuilder: (_, CurrentRemainingTime? time) {
-                                if (time == null) {
-                                  return Text('Availble');
-                                }
-                                return BigText(
-                                  text:
-                                      '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
-                                  color: Colors.green,
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                        trailing: InkWell(
-                          child: const Icon(Icons.play_arrow),
-                          onTap: () {
-                            print('ICON TAP');
-                            Get.to(RulePage(pQuest: pQuest,));
-                          },
-                        ),
-                      ),
+      children: [
+        Icon(Icons.payment),
+        Expanded(
+          child: InkWell(
+            onTap: () {
+              print('CARD TAP');
+              Get.to(PaymentDetail());
+            },
+            child: Card(
+              child: ListTile(
+                title: BigText(text: pQuest.questName),
+                subtitle: Column(
+                  children: [
+                    SmallText(
+                        text: pQuest.id + "/" + pQuest.questId.toString()),
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                )
-              ],
-            );
+                    CountdownTimer(
+                      endTime: endTime,
+                      widgetBuilder: (_, CurrentRemainingTime? time) {
+                        if (time == null) {
+                          return Text('Availble');
+                        }
+                        return BigText(
+                          text:
+                              '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
+                          color: Colors.green,
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                trailing: InkWell(
+                  child: const Icon(Icons.play_arrow),
+                  onTap: () {
+                    print('ICON TAP');
+                    Get.to(RulePage(
+                      pQuest: pQuest,
+                    ));
+                  },
+                ),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
   }
 }

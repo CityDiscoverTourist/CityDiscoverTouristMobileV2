@@ -19,6 +19,7 @@ class FeaturedQuest extends StatefulWidget {
 
 class _FeaturedQuestState extends State<FeaturedQuest> {
   var controller = Get.find<HomeController>();
+  int position = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,9 @@ class _FeaturedQuestState extends State<FeaturedQuest> {
                 //  itemCount: 5,
                 onPageChanged: (index) {
                   // ignore: unnecessary_statements
+                  setState(() {
+                    position = index;
+                  });
                   controller.questList[index];
                 },
                 itemBuilder: (BuildContext context, int index) {
@@ -59,9 +63,9 @@ class _FeaturedQuestState extends State<FeaturedQuest> {
             ),
             Center(
               child: DotsIndicator(
-                dotsCount: 15,
+                dotsCount: controller.questList.length,
                 // position: context.watch<FeaturedBloc>().listIndex.toDouble(),
-                position: controller.questList.length.toDouble(),
+                position: position.toDouble(),
                 decorator: DotsDecorator(
                   color: Colors.black26,
                   activeColor: Colors.black,
@@ -110,7 +114,7 @@ class _FeaturedItemList extends StatelessWidget {
                     )),
               ),
               Positioned(
-                height: 120,
+                height: 180,
                 width: w * 0.70,
                 left: w * 0.11,
                 bottom: 10,
@@ -144,7 +148,7 @@ class _FeaturedItemList extends StatelessWidget {
                           children: [
                             Expanded(
                               child: RatingBarIndicator(
-                                rating: 3.5,
+                                rating: q.averageStar.toDouble(),
                                 itemBuilder: (context, index) => Icon(
                                   Icons.star,
                                   color: Colors.amber,
@@ -154,14 +158,17 @@ class _FeaturedItemList extends StatelessWidget {
                                 direction: Axis.horizontal,
                               ),
                             ),
-                            Text('3.5',
+                            Text(q.averageStar.toString(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.grey)),
                             SizedBox(
                               width: 10,
                             ),
-                            Text('523 comments',
+                            Text(
+                                q.totalFeedback.toString() +
+                                    " " +
+                                    "comments".tr,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.grey)),
@@ -180,10 +187,10 @@ class _FeaturedItemList extends StatelessWidget {
                               child: Text(
                                 // d.location!,
                                 // q.description,
-                                'Công viên nước đầm sen',
+                                q.address!,
                                 style: TextStyle(
-                                    fontSize: 13, fontWeight: FontWeight.w400),
-                                maxLines: 1,
+                                    fontSize: 12, fontWeight: FontWeight.w400),
+                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             )
@@ -203,7 +210,7 @@ class _FeaturedItemList extends StatelessWidget {
                                 color: Colors.orange,
                               ),
                               Text(
-                                q.estimatedTime + ' minutes',
+                                q.estimatedTime + 'minutes'.tr,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,

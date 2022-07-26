@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
+import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/pages/profile.dart';
 
 import '../controllers/language_controller.dart';
+import '../pages/splashV2.dart';
 
 class LanguagePopup extends StatefulWidget {
   const LanguagePopup({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class _LanguagePopupState extends State<LanguagePopup> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text('select language').tr(),
+        title: Text('select language'.tr),
       ),
       body: ListView.builder(
         padding: EdgeInsets.all(15),
@@ -45,16 +46,17 @@ class _LanguagePopupState extends State<LanguagePopup> {
           ),
           onTap: () async {
             if (d == 'English') {
-              // context.setLocale(Locale('en'));
               languageController.changeLanguage('en');
+              Get.find<LoginControllerV2>().language.value = 0;
+              Get.find<HomeController>().updateData();
             } else if (d == 'Spanish') {
-              context.setLocale(Locale('es'));
+              // context.setLocale(Locale('es'));
             } else if (d == 'Arabic') {
-              // context.setLocale(Locale('ar'));
               languageController.changeLanguage('ar');
             } else if (d == 'Vietnamese') {
-              // context.setLocale(Locale('vn'));
+              Get.find<LoginControllerV2>().language.value = 1;
               languageController.changeLanguage('vn');
+              Get.find<HomeController>().updateData();
             }
 
             Navigator.pop(context);

@@ -11,9 +11,11 @@ import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/customer.dart';
+import 'package:travel_hour/models/reward.dart';
 import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/services/login_service.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:travel_hour/services/reward_service.dart';
 
 import '../models/city.dart';
 import '../models/quest.dart';
@@ -29,10 +31,11 @@ class HomeController extends GetxController {
   var puQuestList = List<Quest>.empty().obs;
   var hisQuestList = List<Quest>.empty().obs;
   var cityList = List<City>.empty().obs;
+  var rewardList = List<Reward>.empty().obs;
   var questTypeList = List<QuestType>.empty().obs;
   var areaIdChoice = 4.obs;
   var indexHomePage = 0.obs;
-  var language = 1.obs;
+  var language = Get.find<LoginControllerV2>().language;
   var jwtToken = "".obs;
 
   var dropdownValue;
@@ -44,6 +47,7 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    // changeLanguage();
     await startData();
     dropdownValue = cityList[1];
     flutterLocalNotificationsPlugin
@@ -89,6 +93,7 @@ class HomeController extends GetxController {
   void onReady() async {
     super.onReady();
     print("[HomeController]-L88-ONREADY :" + jwtToken.value);
+    // changeLanguage();
     // googleSign = GoogleSignIn();
     // await ever(isSignIn, handleAuthStateChanged);
     // isSignIn.value = await firebaseAuth.currentUser != null;
@@ -102,7 +107,7 @@ class HomeController extends GetxController {
               print("[HomeController]-L99" +
                   "Text Id City OnChange - " +
                   areaIdChoice.toString()),
-                  print(Get.find<LoginControllerV2>().sp.id),
+              print(Get.find<LoginControllerV2>().sp.id),
               updateData(),
               update(),
             });
@@ -123,6 +128,8 @@ class HomeController extends GetxController {
       await fetchCityData();
       await fetchQuestFeatureData();
       await fetchQuestTypeData();
+      await fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id);
+      await fetchRewardByCustomerId(Get.find<LoginControllerV2>().sp.id);
     } finally {
       isLoading(false);
     }
@@ -132,6 +139,8 @@ class HomeController extends GetxController {
     try {
       isLoading(true);
       await fetchQuestFeatureData();
+      await fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id);
+      await fetchQuestTypeData();
     } finally {
       isLoading(false);
     }
@@ -210,7 +219,6 @@ class HomeController extends GetxController {
   void getPuQuestByCustomerID(String customerId) async {
     try {
       isLoading(true);
-      changeLanguage();
       var questListApi =
           await QuestService.fetchPuQuestFeatureData(customerId, language);
       if (questListApi != null) {
@@ -222,31 +230,28 @@ class HomeController extends GetxController {
     }
   }
 
-  void changeLanguage() async {
+  void getQuestDetailByID(String questId) async {
     try {
       isLoading(true);
-      Locale? locale = Get.locale;
-      print(locale);
-      if (locale.toString() == "en") {
-        language.value = 0;
-        print(language);
-        // update();
-      } else {
-        language.value = 1;
-        print(language);
-        // update();
-      }
+      await QuestService.fetchQuestDetail(questId, language.value);
     } finally {
       isLoading(false);
     }
   }
 
-  void getQuestDetailByID(String questId) async {
+  fetchPlayingHistory(String customerId) async {
     try {
       isLoading(true);
-      changeLanguage();
-      print(language);
-      await QuestService.fetchQuestDetail(questId, language.value);
+      await QuestService.fetchPlayedQuestFeatureData(customerId);
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  fetchRewardByCustomerId(String customerId) async {
+    try {
+      isLoading(true);
+      await RewardService.fetchRewardByCustomerId(customerId);
     } finally {
       isLoading(false);
     }

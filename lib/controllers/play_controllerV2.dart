@@ -234,6 +234,8 @@ class PlayControllerV2 extends GetxController {
 //Add Customer to Quest
   onInitPlayQuest() async {
     //tạo quyền sở hữu lượt chơi cho customer
+    // customerQuestID.value = await PlayService.createCustomerQuest(
+    //     Get.find<LoginControllerV2>().sp.id, pQuest);
     customerQuestID.value = await PlayService.createCustomerQuest(
         Get.find<LoginControllerV2>().sp.id, pQuest);
     if (customerQuestID.value != 0) {

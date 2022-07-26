@@ -6,7 +6,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:travel_hour/pages/quest_details.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 
@@ -143,7 +142,7 @@ class _ListItem extends StatelessWidget {
                         children: [
                           Expanded(
                             child: RatingBarIndicator(
-                              rating: 3.5,
+                              rating: q.averageStar.toDouble(),
                               itemBuilder: (context, index) => Icon(
                                 Icons.star,
                                 color: Colors.amber,
@@ -156,14 +155,14 @@ class _ListItem extends StatelessWidget {
                           SizedBox(
                             width: 5,
                           ),
-                          Text('3.5',
+                          Text(q.averageStar.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.grey)),
                           SizedBox(
                             width: 10,
                           ),
-                          Text('523 comments',
+                          Text(q.totalFeedback.toString() + 'comments'.tr,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.grey)),
@@ -200,7 +199,7 @@ class _ListItem extends StatelessWidget {
                             color: Colors.orange,
                           ),
                           BigText(
-                            text: q.estimatedTime + ' minutes',
+                            text: q.estimatedTime + 'minutes'.tr,
                             size: 16,
                           ),
                           SizedBox(
@@ -219,7 +218,7 @@ class _ListItem extends StatelessWidget {
                           Container(
                             child: Center(
                                 child: BigText(
-                              text: q!.price.toStringAsFixed(00) + " vnđ",
+                              text: q.price.toStringAsFixed(00) + " vnđ",
                               fontWeight: FontWeight.w700,
                             )),
                             width: MediaQuery.of(context).size.width * 0.25,
