@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:travel_hour/controllers/login_controller_V2.dart';
-import 'package:travel_hour/pages/register.dart';
 
-class UserLoginPage extends StatefulWidget {
-  static String tag = 'login-page';
+import '../controllers/login_controller_V2.dart';
+
+class RegisterPage extends StatefulWidget {
+  static String tag = 'register-page';
 
   @override
   State<StatefulWidget> createState() {
-    return new _UserLoginPageState();
+    return new _RegisterPageState();
   }
 }
 
-class _UserLoginPageState extends State<UserLoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   GlobalKey<FormState> _key = new GlobalKey();
   bool _validate = false;
-  String userName = "";
-  String _password = "";
   bool _obscureText = true;
+  bool _obscureText2 = true;
   var nameCtrl = TextEditingController();
   var passCtrl = TextEditingController();
-  var forgotPassCtrl = TextEditingController();
+  var conPassCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +78,9 @@ class _UserLoginPageState extends State<UserLoginPage> {
               return null;
             }
           },
-          onSaved: (String? value) {
-            userName = value!;
-          },
+          // onSaved: (String? value) {
+          //   userName = value!;
+          // },
         ),
         new SizedBox(height: 20.0),
         new TextFormField(
@@ -91,7 +90,6 @@ class _UserLoginPageState extends State<UserLoginPage> {
           keyboardType: TextInputType.text,
           decoration: InputDecoration(
             hintText: 'password'.tr,
-            errorMaxLines: 2,
             contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
@@ -121,6 +119,42 @@ class _UserLoginPageState extends State<UserLoginPage> {
             }
             return null;
           },
+          // onSaved: (String? value) {
+          //   _password = value!;
+          // },
+        ),
+        new SizedBox(height: 20.0),
+        new TextFormField(
+          autofocus: false,
+          controller: conPassCtrl,
+          obscureText: _obscureText2,
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+            hintText: 'cofirm password'.tr,
+            contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+            suffixIcon: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _obscureText2 = !_obscureText2;
+                });
+              },
+              child: Icon(
+                _obscureText2 ? Icons.visibility : Icons.visibility_off,
+                semanticLabel:
+                    _obscureText2 ? 'show password' : 'hide password',
+              ),
+            ),
+          ),
+          validator: (value) {
+            if (value == "") {
+              return "cofirm password is required".tr;
+            } else if (value != passCtrl.text) {
+              return "password and cofirm password must be the same!".tr;
+            }
+            return null;
+          },
         ),
         new SizedBox(height: 15.0),
         new Padding(
@@ -132,72 +166,22 @@ class _UserLoginPageState extends State<UserLoginPage> {
             onPressed: _sendToServer,
             padding: EdgeInsets.all(12),
             color: Colors.lightBlueAccent,
-            child: Text('log in'.tr, style: TextStyle(color: Colors.white)),
+            child: Text('register'.tr, style: TextStyle(color: Colors.white)),
           ),
-        ),
-        new FlatButton(
-          child: Text(
-            'forgot password?'.tr,
-            style: TextStyle(color: Colors.black54),
-          ),
-          onPressed: _showForgotPasswordDialog,
-        ),
-        new FlatButton(
-          onPressed: _sendToRegisterPage,
-          child: Text('not a member? sign up now'.tr,
-              style: TextStyle(color: Colors.black54)),
         ),
       ],
     );
   }
 
-  _sendToRegisterPage() {
-    ///Go to register page
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => RegisterPage()));
-  }
-
   _sendToServer() {
     if (_key.currentState!.validate()) {
       var controller = Get.find<LoginControllerV2>();
-      controller.loginUsernamePassword(nameCtrl.text, passCtrl.text);
+      controller.register(nameCtrl.text, passCtrl.text);
     } else {
+      ///validation error
       setState(() {
-        print(_key.currentState!.validate());
         _validate = true;
       });
     }
-  }
-
-  Future<Null> _showForgotPasswordDialog() async {
-    await showDialog<String>(
-        context: context,
-        builder: (BuildContext context) {
-          return new AlertDialog(
-            title: Text('please enter your email'.tr),
-            contentPadding: EdgeInsets.all(5.0),
-            content: new TextField(
-              decoration: new InputDecoration(hintText: "email".tr),
-              onChanged: (String value) {
-                userName = value;
-              },
-            ),
-            actions: <Widget>[
-              new FlatButton(
-                child: new Text("cofirm".tr),
-                onPressed: () async {
-                  print(userName);
-                  var controller = Get.find<LoginControllerV2>();
-                  controller.forgotPassword(forgotPassCtrl.text);
-                  Navigator.pop(context);
-                },
-              ),
-              new FlatButton(
-                child: new Text("cancel".tr),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          );
-        });
   }
 }

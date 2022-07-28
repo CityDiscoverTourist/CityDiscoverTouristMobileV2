@@ -141,7 +141,36 @@ class Translation extends Translations {
           "cofirm payment": "Cofirm payment",
           "cofirm": "Confirm",
           "play now": "Play Now",
-          "no reward found": "No reward found!"
+          "no reward found": "No reward found!",
+          "change password": "Change Password",
+          "enter old password": "Enter old password",
+          "old password can't be empty": "Old password can't be empty",
+          "enter new password": "Enter new password",
+          "new password can't be empty": "New password can't be empty",
+          "cofirm new password": "Cofirm new password",
+          "new password and cofirm password must be the same!":
+              "New password and Cofirm password must be the same!",
+          "sign in with google": "Sign In with Google",
+          "sign in with facebook": "Sign In with Facebook",
+          "sign in with user": "Sign In with Username/Password",
+          "email": "Email",
+          "email is required": "Email is Required",
+          "invalid email": "Invalid Email",
+          "password": "Password",
+          "password is required": "Password is Required",
+          "password must minimum six characters":
+              "Password must minimum six characters",
+          "password at least one uppercase letter, one lowercase letter, one specical character and one number":
+              "Password at least one uppercase letter, one lowercase letter, one specical character and one number",
+          "log in": "Log In",
+          "forgot password?": "Forgot password?",
+          "not a member? sign up now": "Not a member? Sign up now",
+          "please enter your email": "Please enter your Email",
+          "cofirm password": "Cofirm password",
+          "cofirm password is required": "Cofirm password is Required",
+          "password and cofirm password must be the same!":
+              "Password and Cofirm password must be the same!",
+          "register": "Register",
         },
         'vn': {
           "welcome message":
@@ -283,7 +312,37 @@ class Translation extends Translations {
           "cofirm payment": "Xác nhận thanh  toán",
           "cofirm": "Xác nhận",
           "play now": "Chơi ngay",
-          "no reward found": "Không tìm thấy phần thưởng nào!"
+          "no reward found": "Không tìm thấy phần thưởng nào!",
+          "change password": "Đổi mật khẩu",
+          "enter old password": "Nhập mật khẩu củ",
+          "old password can't be empty": "Mật khẩu củ không thể để trống",
+          "enter new password": "Nhập mật khẩu mới",
+          "new password can't be empty": "Mật khẩu mới không thể để trống",
+          "cofirm new password": "Nhập lại mật khẩu mới",
+          "new password and cofirm password must be the same!":
+              "Mật khẩu mới và Xác nhận phải giống nhay",
+          "sign in with google": "Đăng nhập với Google",
+          "sign in with facebook": "Đăng nhập với Facebook",
+          "sign in with user": "Đăng nhập với Tài khoản",
+          "email": "Email",
+          "email is required": "Email không được để trống",
+          "invalid email": "Sai định dạng email",
+          "password": "Mật Khẩu",
+          "password is required": "Mật khẩu không được để trống",
+          "password must minimum six characters":
+              "Mật khẩu cần ít nhất 6 kí tự",
+          "password at least one uppercase letter, one lowercase letter, one specical character and one number":
+              "Mật khẩu phải có 1 chữ cái in hoa, 1 chữ cái thường, 1 ký tự đặc biệt và một số",
+          "log in": "Đăng nhập",
+          "forgot password?": "Quên mật khẩu?",
+          "not a member? sign up now": "Không phải thành viên? Đăng ký ngay",
+          "please enter your email": "Vui lòng nhập email của bạn",
+          "cofirm password": "Xác nhận mật khẩu",
+          "cofirm password is required":
+              "Xác nhận mật khẩu không được để trống",
+          "password and cofirm password must be the same!":
+              "Mật khẩu và xác nhận phải giống nhau!",
+          "register": "Đăng ký",
         }
       };
 }
