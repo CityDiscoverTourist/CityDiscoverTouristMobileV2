@@ -415,11 +415,15 @@ class PlayService {
       Uri.parse(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId),
       headers: {"Content-Type": "application/json"},
     );
-    // print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
+    // print(Api.baseUrl +
+    //     ApiEndPoints.checkPaymentStatus +
+    //     "59e16d56-8de5-4a8f-877d-76471bdc261e");
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
-      print("Get Data ok");
-      if (data["status"] == "success") {
+
+      // print("Get Data ok");
+      // print(data["data"]["status"]);
+      if (data["data"]["status"] == "success") {
         return true;
       }
       return false;
