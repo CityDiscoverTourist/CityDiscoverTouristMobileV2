@@ -127,8 +127,12 @@ class _QuestDetailsState extends State<QuestDetails> {
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                     widget.data!.averageStar!=null||widget.data!.averageStar!=0?SmallText(text: widget.data!.averageStar!.toString()):SmallText(text: "5"),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
                                   RatingBarIndicator(
-                                    rating: widget.data!.averageStar.toDouble(),
+                                    rating: widget.data!.averageStar!=null||widget.data!.averageStar!=0?widget.data!.averageStar!.toDouble():5,
                                     itemBuilder: (context, index) => Icon(
                                       Icons.star,
                                       color: Colors.amber,
@@ -140,16 +144,7 @@ class _QuestDetailsState extends State<QuestDetails> {
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  SmallText(
-                                      text:
-                                          widget.data!.averageStar.toString()),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  SmallText(
-                                      text: widget.data!.totalFeedback
-                                              .toString() +
-                                          ' comments'),
+                                  SmallText(text: widget.data!.totalFeedback.toString()+' comments'),
                                 ],
                               ),
                               Container(
@@ -384,7 +379,7 @@ class _QuestDetailsState extends State<QuestDetails> {
                   gradient: LinearGradient(
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft,
-                    colors: [Colors.orange, Colors.white, Colors.blue],
+                    colors: [Colors.white, Colors.redAccent, Colors.white],
                   ),
                   borderRadius: BorderRadius.circular(10)),
             ),

@@ -1,3 +1,5 @@
+import 'package:travel_hour/pages/change_password.dart';
+
 class ApiEndPoints {
   // static const products = "products";
   // static const popularMovies = "movie/popular";
@@ -27,4 +29,8 @@ class ApiEndPoints {
   static const checkImage = "/weather-forecast/demo2?api-version=1";
   static const getRewardByCustomerId =
       "/rewards/get-by-customer-id?customerId=";
+  static const loginUsenamePassword = "/auths/login";
+  static const register = "/auths/register-account";
+  static const forgotPassword = "/auths/forgot-password";
+  static const ChangePassword = "/customers/update-password";
 }

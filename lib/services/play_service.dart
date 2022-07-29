@@ -18,7 +18,7 @@ import '../api/api_end_points.dart';
 
 class PlayService {
 //Tạo sở hữu lượt chơi
-  static Future<int> createCustomerQuest(
+  static Future<String> createCustomerQuest(
       String customerID, PurchasedQuest pQ) async {
     int questID = pQ.questId;
     String paymentID = pQ.id;
@@ -43,11 +43,15 @@ class PlayService {
     print('createCustomerQuest StatusCode: ' + response.statusCode.toString());
     if (response.statusCode == 200) {
       Map data = jsonDecode(response.body);
-      // Iterable list = dbc;
+
       int idCusQuest = data['data']['id'];
-      return Future<int>.value(idCusQuest);
+      return Future<String>.value(idCusQuest.toString());
+    } else if (response.statusCode == 400) {
+      Map data = jsonDecode(response.body);
+      String rs = data["message"];
+      return Future<String>.value(rs);
     }
-    return Future<int>.value(0);
+    return Future<String>.value("");
   }
 
 //Load câu đầu lần đầu start quest
@@ -132,25 +136,26 @@ class PlayService {
     //     customerReply +
     //     "&questItemId=" +
     //     questItemId);
-    print(response.body);
-    print(response.statusCode);
-    print("checkAnswer "+response.statusCode.toString());
+    print("checkAnswer " + response.statusCode.toString());
     if (response.statusCode == 200) {
       print("OKkkkkkkkkkkkkkkkkkkkkk");
       Map data = jsonDecode(response.body);
       rs = CustomerTask.fromJson(data['data']);
       // print(rs.toString());    // print(data);
+      print("checkAnswer " + rs.countWrongAnswer.toString());
+      print("checkAnswer " + rs.countWrongAnswer.toString());
       return Future<CustomerTask>.value(rs);
     }
     return Future<CustomerTask>.value(null);
   }
-static Future<String> updateEndPoint(int customerQuestId) async {
+
+  static Future<String> updateEndPoint(int customerQuestId) async {
     String rs;
     var response = await http.put(
         Uri.parse(
             'https://citytourist.azurewebsites.net/api/v1/customer-quests/update-end-point/${customerQuestId}'),
         headers: {"Content-Type": "application/json"});
-        print("updateEndPoint Statuscode"+response.statusCode.toString());
+    print("updateEndPoint Statuscode" + response.statusCode.toString());
     if (response.statusCode == 200) {
       // final responseData = json.decode(response.body);
       // final rs = QuestItem.fromJson(responseData['data']);
@@ -180,7 +185,7 @@ static Future<String> updateEndPoint(int customerQuestId) async {
     return Future<CustomerTask>.value(null);
   }
 
-  Future<int> moveNextQuestItem(int customerQuestId, int questId) async {
+  Future<String> moveNextQuestItem(int customerQuestId, int questId) async {
     CustomerTask rs;
     var response = await http.put(
         Uri.parse(
@@ -200,11 +205,11 @@ static Future<String> updateEndPoint(int customerQuestId) async {
       int rs = jsonDecode(response.body);
       print(rs);
       // print(rs.toString());    // print(data);
-      return Future<int>.value(rs);
+      return Future<String>.value(rs.toString());
     } else if (response.statusCode == 400) {
-      return Future<int>.value(-1);
+      return Future<String>.value("-1");
     }
-    return Future<int>.value(0);
+    return Future<String>.value("0");
   }
 
   Future<String> getSuggestion(int questItemId) async {
@@ -414,11 +419,15 @@ static Future<String> updateEndPoint(int customerQuestId) async {
       Uri.parse(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId),
       headers: {"Content-Type": "application/json"},
     );
-    // print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
+    // print(Api.baseUrl +
+    //     ApiEndPoints.checkPaymentStatus +
+    //     "59e16d56-8de5-4a8f-877d-76471bdc261e");
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
-      print("Get Data ok");
-      if (data["status"] == "success") {
+
+      // print("Get Data ok");
+      // print(data["data"]["status"]);
+      if (data["data"]["status"] == "success") {
         return true;
       }
       return false;
@@ -426,18 +435,19 @@ static Future<String> updateEndPoint(int customerQuestId) async {
     return Future<bool>.value(false);
   }
 
-  Future<bool?> checkImage(String customerQuestId, String questItemId) async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? pickedFile = await _picker.pickImage(
-      source: ImageSource.camera,
-    );
-    if (pickedFile != null) {
-      var file = File(pickedFile.path);
-      var request = new http.MultipartRequest(
-          "POST",
-          Uri.parse(
-              "https://citytourist.azurewebsites.net/weather-forecast/demo2?api-version=1"));
-      request.files.add(await http.MultipartFile.fromPath("file", file.path));
+  Future<CustomerTask?> checkAnswerV2(
+      String customerQuestId, String questItemId, String customerReply) async {
+    String requestUrl;
+    CustomerTask? rs;
+    if (customerReply != null) {
+      requestUrl = Api.baseUrl +
+          ApiEndPoints.checkAnswer +
+          customerQuestId.toString() +
+          "?customerReply=" +
+          customerReply +
+          "&questItemId=" +
+          questItemId.toString();
+      var request = new http.MultipartRequest("PUT", Uri.parse(requestUrl));
       request.headers["accept"] = "text/plain";
       request.headers["Content-Type"] = "multipart/form-data";
       print("Request:" + request.toString());
@@ -445,11 +455,45 @@ static Future<String> updateEndPoint(int customerQuestId) async {
       print("Status code:" + response.statusCode.toString());
       if (response.statusCode == 200) {
         response.stream.transform(utf8.decoder).listen((value) {
-          print(value);
+          Map<String, dynamic> result = jsonDecode(value);
+          // print(result["data"]);
+          // Get.find<LoginControllerV2>().sp = Customer.fromJson(result["data"]);
+          rs = CustomerTask.fromJson(result["data"]);
         });
-        return Future<bool>.value(true);
+        return Future<CustomerTask>.value(rs);
+      }
+    } else {
+      requestUrl = Api.baseUrl +
+          ApiEndPoints.checkAnswer +
+          customerQuestId.toString() +
+          "&questItemId=" +
+          questItemId.toString();
+
+      final ImagePicker _picker = ImagePicker();
+      final XFile? pickedFile = await _picker.pickImage(
+        source: ImageSource.camera,
+      );
+      if (pickedFile != null) {
+        var file = File(pickedFile.path);
+        var request = new http.MultipartRequest("PUT", Uri.parse(requestUrl));
+        request.files.add(await http.MultipartFile.fromPath("file", file.path));
+        request.headers["accept"] = "text/plain";
+        request.headers["Content-Type"] = "multipart/form-data";
+        print("Request:" + request.toString());
+        var response = await request.send();
+        print("Status code:" + response.statusCode.toString());
+        if (response.statusCode == 200) {
+          response.stream.transform(utf8.decoder).listen((value) {
+            Map<String, dynamic> result = jsonDecode(value);
+            // print(result["data"]);
+            // Get.find<LoginControllerV2>().sp = Customer.fromJson(result["data"]);
+            rs = CustomerTask.fromJson(result["data"]);
+          });
+          return Future<CustomerTask>.value(rs);
+        }
       }
     }
-    return Future<bool>.value(false);
+
+    return Future<CustomerTask>.value(null);
   }
 }

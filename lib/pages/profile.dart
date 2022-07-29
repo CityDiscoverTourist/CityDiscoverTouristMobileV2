@@ -12,6 +12,7 @@ import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/controllers/login_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
+import 'package:travel_hour/pages/change_password.dart';
 import 'package:travel_hour/pages/edit_profile.dart';
 import 'package:travel_hour/pages/notifications.dart';
 import 'package:travel_hour/pages/sign_in.dart';
@@ -366,9 +367,9 @@ class UserUI extends StatelessWidget {
     var controller = Get.find<LoginControllerV2>();
     String image =
         "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000";
-    // if (controller.sp.imagePath != null) {
-    //   image = controller.sp.imagePath!;
-    // }
+    if (controller.sp.imagePath != null) {
+      image = controller.sp.imagePath!;
+    }
     // controller.getDataFromSp();
     TextStyle _textStyle = TextStyle(
         fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey[900]);
@@ -456,6 +457,24 @@ class UserUI extends StatelessWidget {
                 address: controller.sp.address.toString(),
                 gender: controller.sp.gender,
                 imageUrl: image))),
+        ListTile(
+            title: Text(
+              'change password'.tr,
+              style: _textStyle,
+            ),
+            leading: Container(
+              height: 30,
+              width: 30,
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 98, 67, 223),
+                  borderRadius: BorderRadius.circular(5)),
+              child: Icon(Feather.edit_3, size: 20, color: Colors.white),
+            ),
+            trailing: Icon(
+              Feather.chevron_right,
+              size: 20,
+            ),
+            onTap: () => Get.to(ChangePassword())),
         Divider(
           height: 5,
         ),

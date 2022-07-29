@@ -11,7 +11,6 @@ import 'package:travel_hour/utils/empty.dart';
 import 'package:travel_hour/utils/list_card.dart';
 import 'package:travel_hour/utils/loading_cards.dart';
 import 'package:travel_hour/utils/snacbar.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class SearchPageV2 extends StatelessWidget {
   var controllerS = Get.find<SearchController>();
@@ -72,7 +71,7 @@ class SearchPageV2 extends StatelessWidget {
             fontSize: 16, color: Colors.grey[800], fontWeight: FontWeight.w500),
         decoration: InputDecoration(
           border: InputBorder.none,
-          hintText: "search & explore",
+          hintText: "search & explore".tr,
           hintStyle: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,

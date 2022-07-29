@@ -18,7 +18,7 @@ class PaymentDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 100000;
+      int endTime = purchasedQuest!.createdDate.millisecondsSinceEpoch + 172800000;
     return WillPopScope(
       onWillPop: () async {
         return true;
@@ -77,20 +77,37 @@ class PaymentDetail extends StatelessWidget {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  CountdownTimer(
-                                    endTime: endTime,
-                                    widgetBuilder:
-                                        (_, CurrentRemainingTime? time) {
-                                      if (time == null) {
-                                        return Text('Availble');
-                                      }
-                                      return BigText(
-                                        text:
-                                            ' ${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
-                                        color: Colors.green,
-                                      );
-                                    },
-                                  ),
+                                   CountdownTimer(
+                        endTime: endTime,
+                        widgetBuilder: (_, CurrentRemainingTime? time) {
+                          if (time == null) {
+                            return Text('Time up');
+                          }
+                          // return BigText(
+                          //   text:
+                          //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
+                          //   color: Colors.green,
+                          // );
+                          else {
+                            return BigText(
+                              text: (() {
+                                if (time.days != null) {
+                                  return "${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
+                                } else if (time.min == null) {
+                                  return "${time.sec}s";
+                                } else if (time.hours == null) {
+                                  return "${time.min}m:${time.sec}s";
+                                } else if (time.days == null) {
+                                  return "${time.hours}h:${time.min}m:${time.sec}s";
+                                } else {
+                                  return "Time up";
+                                }
+                              })(),
+                              color: Colors.green,
+                            );
+                          }
+                        },
+                      ),
                                 ],
                               ),
                              

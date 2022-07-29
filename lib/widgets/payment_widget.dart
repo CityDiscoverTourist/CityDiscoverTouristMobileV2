@@ -73,6 +73,10 @@ class PaymentWidgetState extends State<PaymentWidget>
           setState(() {
             _paymentStatus = "Thanh toan thanh cong";
           });
+        } else {
+          setState(() {
+            _paymentStatus = "";
+          });
         }
         break;
       case AppLifecycleState.inactive:
@@ -86,6 +90,9 @@ class PaymentWidgetState extends State<PaymentWidget>
       case AppLifecycleState.detached:
         // --
         print('App in Detached');
+        setState(() {
+          _paymentStatus = "";
+        });
         break;
     }
   }
@@ -316,7 +323,10 @@ class PaymentWidgetState extends State<PaymentWidget>
               children: <Widget>[
                 new RaisedButton(
                   child: Text('cancel'.tr),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () {
+                    _paymentStatus = "";
+                    Navigator.pop(context);
+                  },
                 ),
                 new RaisedButton(
                   // child: const Text('Xác nhận thanh toán'),

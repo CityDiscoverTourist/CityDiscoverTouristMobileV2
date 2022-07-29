@@ -17,11 +17,12 @@ class PurchasedQuest {
         required this.status,
         required this.createdDate,
         required this.customerId,
-        required this.customerEmail,
+        // required this.customerEmail,
         required this.isValid,
         required this.questId,
         required this.questName,
         required this.questDescription,
+        this.imagePath
     });
 
     String id;
@@ -31,11 +32,13 @@ class PurchasedQuest {
     String status;
     DateTime createdDate;
     String customerId;
-    String customerEmail;
+    // String customerEmail;
     bool isValid;
     int questId;
     String questName;
     String questDescription;
+  dynamic imagePath;
+
 
     factory PurchasedQuest.fromJson(Map<String, dynamic> json) => PurchasedQuest(
         id: json["id"],
@@ -45,11 +48,12 @@ class PurchasedQuest {
         status: json["status"],
         createdDate: DateTime.parse(json["createdDate"]),
         customerId: json["customerId"],
-        customerEmail: json["customerEmail"],
+        // customerEmail: json["customerEmail"],
         isValid: json["isValid"],
         questId: json["questId"],
         questName: json["questName"],
         questDescription: json["questDescription"],
+        imagePath: json["imagePath"]
     );
 
     Map<String, dynamic> toJson() => {
@@ -60,10 +64,11 @@ class PurchasedQuest {
         "status": status,
         "createdDate": createdDate.toIso8601String(),
         "customerId": customerId,
-        "customerEmail": customerEmail,
+        // "customerEmail": customerEmail,
         "isValid": isValid,
         "questId": questId,
         "questName": questName,
         "questDescription": questDescription,
+        "imagePath":imagePath
     };
 }

@@ -14,7 +14,7 @@ class PurchasedService {
     // WelcomeController homeController = Get.find<WelcomeController>();
     print(customerId+"+");
     var response = await http.get(
-        Uri.parse('https://citytourist.azurewebsites.net/api/v1/payments?Status=Success&CustomerId=${customerId}&language=${language.toString()}'),
+        Uri.parse('https://citytourist.azurewebsites.net/api/v1/payments/get-by-customer-id?Status=Success&CustomerId=${customerId}&IsValid=true'),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",
@@ -25,12 +25,12 @@ class PurchasedService {
     Map data = jsonDecode(response.body);
     // Iterable list = dbc;
     Iterable list = data['data'];
-    final bookingsAccept = list.cast<Map<String, dynamic>>();
-    final listOfBookings_Accept = await bookingsAccept.map<PurchasedQuest>((json) {
+    final questPurchasedList = list.cast<Map<String, dynamic>>();
+    final listOfQuestPurchased = await questPurchasedList.map<PurchasedQuest>((json) {
       return PurchasedQuest.fromJson(json);
     }).toList();
     // print('object');
-    return listOfBookings_Accept;
+    return listOfQuestPurchased;
     // }
   }
 }

@@ -82,7 +82,7 @@ class QuestService {
     var response = await http.get(
         Uri.parse(
             'https://citytourist.azurewebsites.net/api/v1/quests?Name=${name}&language=' +
-                "0"),
+                Get.find<LoginControllerV2>().language.value.toString()),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json"
