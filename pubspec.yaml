@@ -84,8 +84,8 @@ dependencies:
   coupon_uikit: ^0.0.1
   carousel_slider: ^4.0.0
   animations:
-  
-
+  smooth_star_rating_null_safety: ^1.0.4+2
+  stop_watch_timer: ^1.5.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

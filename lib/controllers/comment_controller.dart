@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:travel_hour/controllers/history_controller.dart';
+import 'package:travel_hour/controllers/play_controllerV2.dart';
 import 'package:travel_hour/models/comment.dart';
 import 'package:travel_hour/services/comment_service.dart';
 
@@ -17,7 +19,7 @@ class CommentController extends GetxController {
   //
   var indexPage = 0.obs;
   //
-  var idQuest=0.obs;
+  var idQuest = 0.obs;
   var isMoreLoading = false.obs;
   //Kiểm tra có data hay không
   var hasData = false.obs;
@@ -58,7 +60,11 @@ class CommentController extends GetxController {
       print("object HELLOOO");
       //Dòng này bỏ vô test hiệu ứng đợi vì dg dùng data fake nên ko test dc
       await Future.delayed(Duration(seconds: 2));
-      var commentApi = await CommentService.fetchCommentsData(indexPage.value,Get.find<LoginControllerV2>().jwtToken.value,Get.find<LoginControllerV2>().sp.id,idQuest.value);
+      var commentApi = await CommentService.fetchCommentsData(
+          indexPage.value,
+          Get.find<LoginControllerV2>().jwtToken.value,
+          Get.find<LoginControllerV2>().sp.id,
+          idQuest.value);
       if (commentApi != null) {
         // hasData(true);
         print("COMMENT_CONTROLLER: Have data Comment");
@@ -78,21 +84,31 @@ class CommentController extends GetxController {
     }
   }
 
-  handleSubmit(String commentStr, BuildContext context) async {
-    if (commentStr.isEmpty) {
-      print('Comment is empty');
-    } else {
-      await AppService().checkInternet().then((hasInternet) {
-        if (hasInternet == false) {
-          openToast(context, 'no internet');
-        } else {
-          print("Handld Sm");
-          comment.value = commentStr;
-          //PushComment
-          CommentService.pushComment(comment.value);
-          refeshData();
-        }
-      });
+  handleSubmit(
+      String commentStr, BuildContext context, int customerQuestID) async {
+    try {
+      isLoading(true);
+      if (commentStr.isEmpty) {
+        print('Comment is empty');
+      } else {
+        await AppService().checkInternet().then((hasInternet) async {
+          if (hasInternet == false) {
+            openToast(context, 'no internet');
+          } else {
+            print("Handld Sm");
+            comment.value = commentStr;
+
+            //PushComment
+            await CommentService.pushComment(
+                comment.value, customerQuestID, rating.value);
+            // refeshData();
+          }
+        });
+      }
+    } finally {
+      Get.delete<PlayControllerV2>();
+      Get.delete<HistoryController>();
+      isLoading(false);
     }
   }
 }

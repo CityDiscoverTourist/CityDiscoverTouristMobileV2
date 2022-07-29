@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:travel_hour/controllers/comment_controller.dart';
 import 'package:travel_hour/controllers/history_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/pages/completed_quest.dart';
+import 'package:travel_hour/pages/completed_questV2.dart';
 import 'package:travel_hour/pages/description_questitem.dart';
 import 'package:travel_hour/pages/rulepage.dart';
 import 'package:travel_hour/services/play_service.dart';
@@ -48,6 +51,10 @@ class PlayControllerV2 extends GetxController {
   var checkLocation = false.obs;
   //Widget change when typeQuestItem change
   late Widget BodyType;
+  final StopWatchTimer _stopWatchTimer = StopWatchTimer(
+    mode: StopWatchMode.countUp,
+  );
+  final isHours = true;
 
   //Test List
   var qItem = List<QuestItem>.empty().obs;
@@ -57,7 +64,7 @@ class PlayControllerV2 extends GetxController {
   var checkErr = "".obs;
 
   var ruleIndex = 1.obs;
-
+  var displayTime = "".obs;
   increaseIndexRule() {
     print(ruleIndex);
     ruleIndex++;
@@ -104,6 +111,7 @@ class PlayControllerV2 extends GetxController {
     onInitPlayQuest();
     super.onReady();
     update();
+    _stopWatchTimer.onExecute.add(StopWatchExecute.start);
     ever(clickAns, handleAuthStateChanged);
     ever(isLoadQuestItem, (_) {
       if (isLoadQuestItem.value == true) {
@@ -118,7 +126,6 @@ class PlayControllerV2 extends GetxController {
         }
       }
     });
-  
   }
 
   @override
@@ -176,36 +183,7 @@ class PlayControllerV2 extends GetxController {
         }
       }
     } else {}
-
-    // void checkAnswer(){
-    //     // String customerQuestId, String customerReply, String questItemId) async {
-    //   try {
-    //     isLoading(true);
-    //     // Xài tạm dữ liệu cứng để trả về true
-    //     // correctAns.value =
-    //     //     await PlayService().checkAnswer("3", "stringgggdd", "42");
-    //       if(currentAns.value==questItemCurrent.rightAnswer){
-    //       correctAns.value=true;
-    //     }else{correctAns(false);}
-    //   } finally {
-    //     isLoading(false);
-    //   }
-    // }
-
-    // PlayService().
-
-    //Lay latlong bo vo
-    // var checkLocationStartQuest = false.obs;
-    // checkLocationStartQuest.value = PlayService()
-    //     .checkLocation(idQuest.value, "1873774", "6626262") as bool;
-    // if (checkLocationStartQuest.value != false) {
-    //   //Api sta
-
-    // }else{
-
-    // }
   }
-
 
 //[HandleButtonAnswer]
 //When user click submit answer
@@ -260,8 +238,14 @@ class PlayControllerV2 extends GetxController {
           update();
           //Check câu cuối
         } else {
+          _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+
+          _stopWatchTimer.rawTime.listen((value) => displayTime.value =
+              StopWatchTimer.getDisplayTime(value, milliSecond: false)
+                  .toString());
           endPoint = await PlayService.updateEndPoint(customerQuestID.value);
-          Get.to(CompletedPage());
+          Get.lazyPut(()=>CommentController());
+          Get.to(CompletedPageV2());
         }
         print(questItemCurrent.id);
         //refeshCurrentAns
@@ -341,5 +325,4 @@ class PlayControllerV2 extends GetxController {
   Future<bool> checkPaymentStatus(var paymentId) async {
     return await PlayService().checkPaymentStatus(paymentId);
   }
-
 }

@@ -4,11 +4,13 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/controllers/search_controller.dart';
 import 'package:travel_hour/models/city.dart';
 import 'package:travel_hour/pages/profile.dart';
 import 'package:travel_hour/pages/searchV2.dart';
 import 'package:travel_hour/widgets/big_text.dart';
+import 'package:travel_hour/widgets/custom_cache_image.dart';
 import '../../config/config.dart';
 import '../controllers/home_controller.dart';
 
@@ -103,14 +105,14 @@ class Header extends StatelessWidget {
                 ),
                 Spacer(),
                 InkWell(
-                  child: Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(Icons.person, size: 28),
+                  child: CircleAvatar(
+                    radius: 30.0,
+                    backgroundImage: NetworkImage(Get.find<LoginControllerV2>()
+                        .firebaseAuth
+                        .currentUser!
+                        .photoURL
+                        .toString()),
+                    backgroundColor: Colors.transparent,
                   ),
                   onTap: () {
                     Get.to(ProfilePage());

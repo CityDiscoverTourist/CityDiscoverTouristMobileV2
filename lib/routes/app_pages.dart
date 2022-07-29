@@ -1,3 +1,4 @@
+import 'package:travel_hour/pages/completed_questV2.dart';
 import 'package:travel_hour/pages/history.dart';
 import 'package:travel_hour/pages/sign_inV2.dart';
 import 'package:travel_hour/pages/profile.dart';
@@ -49,6 +50,11 @@ class AppPages {
       GetPage(
           name: KMomoPaymentScreen,
           page: () => MomoPaymentPage(),
+          // binding: HomeBinding()
+          ),
+          GetPage(
+          name: KCompletedPage,
+          page: () => CompletedPageV2(),
           // binding: HomeBinding()
           ),
     ];
