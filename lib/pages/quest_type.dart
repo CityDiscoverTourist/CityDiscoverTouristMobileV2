@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import '../controllers/home_controller.dart';
@@ -31,15 +30,15 @@ class _QuestTypePageState extends State<QuestTypePage>
         backgroundColor: Color(0xFFFF9C00),
         centerTitle: false,
         automaticallyImplyLeading: false,
-        title:  BigText(
-                text: "Các thể loại",
-                fontWeight: FontWeight.w900,color: Colors.white,
-              ),
+        title: BigText(
+          text: "quest type".tr,
+          fontWeight: FontWeight.w900,
+          color: Colors.white,
+        ),
         elevation: 0,
       ),
       body: RefreshIndicator(
-        child:
-            ListView.separated(
+        child: ListView.separated(
           padding: EdgeInsets.all(15),
           controller: controller,
           physics: AlwaysScrollableScrollPhysics(),
@@ -51,11 +50,9 @@ class _QuestTypePageState extends State<QuestTypePage>
           // shrinkWrap: true,
           itemBuilder: (_, int index) {
             return _ItemList(d: myController.questTypeList[index]);
-         
           },
         ),
-        onRefresh: () async {
-        },
+        onRefresh: () async {},
       ),
     );
   }
@@ -101,8 +98,9 @@ class _ItemList extends StatelessWidget {
                 )
               ],
             )),
-        onTap: () =>
-            Get.to(MoreQuestPage(title: d.name, color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0)))
-        );
+        onTap: () => Get.to(MoreQuestPage(
+            title: d.name,
+            color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                .withOpacity(1.0))));
   }
 }

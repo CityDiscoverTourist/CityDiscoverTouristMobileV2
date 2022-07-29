@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
           if (myController.isLoading.value == true) {
             // print("true nef");
             return SplashStart(
-              content: 'Waiting Loading Data...',
+              content: 'waiting loading data...'.tr,
             );
           } else
             return views[_currentIndex.value];
@@ -60,24 +60,24 @@ class HomePage extends StatelessWidget {
               destinations: <NavigationDestination>[
                 NavigationDestination(
                   icon: Icon(Icons.home),
-                  label: 'Home',
+                  label: 'home'.tr,
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.card_giftcard),
-                  label: 'Reward',
+                  label: 'reward'.tr,
                   // activeColor: Colors.purpleAccent,
                   // textAlign: TextAlign.center,
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.history_sharp),
-                  label: 'History ',
+                  label: 'history'.tr,
 
                   // activeColor: Colors.pink,
                   // textAlign: TextAlign.center,
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.account_circle),
-                  label: 'Profile',
+                  label: 'profile'.tr,
                 ),
               ],
             );

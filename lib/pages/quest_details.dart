@@ -108,10 +108,10 @@ class _QuestDetailsState extends State<QuestDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                  BigText(
-                                text: widget.data!.title,
-                                fontWeight: FontWeight.w600,
-                              ),
+                    BigText(
+                      text: widget.data!.title,
+                      fontWeight: FontWeight.w600,
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -121,9 +121,8 @@ class _QuestDetailsState extends State<QuestDetails> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              
                               SizedBox(
-                                height: 10,
+                                height: 30,
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,9 +142,8 @@ class _QuestDetailsState extends State<QuestDetails> {
                                     direction: Axis.horizontal,
                                   ),
                                   SizedBox(
-                                    width: 10,
+                                    width: 5,
                                   ),
-                              
                                   SmallText(text: widget.data!.totalFeedback.toString()+' comments'),
                                 ],
                               ),
@@ -165,26 +163,30 @@ class _QuestDetailsState extends State<QuestDetails> {
                                     color: Colors.grey,
                                   ),
                                   SmallText(
-                                    text: 'Công viên nước đầm sen',
+                                    text: widget.data!.address.toString(),
                                   )
                                 ],
                               ),
                             ],
                           ),
                         ),
-                        Spacer(),
+                        // Devider(),
+                        Divider(),
                         //Infomation: price
-                        Container(
-                          child: Center(
-                              child: BigText(
-                           text: widget.data!.price.toStringAsFixed(00) + " vnđ",
-                            fontWeight: FontWeight.w700,
-                          )),
-                          width: MediaQuery.of(context).size.width * 0.25,
-                          height: 35,
-                          decoration: BoxDecoration(
-                              color: Color(0xFFFF9C00),
-                              borderRadius: BorderRadius.circular(10)),
+                        Expanded(
+                          child: Container(
+                            child: Center(
+                                child: BigText(
+                              text: widget.data!.price.toStringAsFixed(00) +
+                                  " vnđ",
+                              fontWeight: FontWeight.w700,
+                            )),
+                            width: MediaQuery.of(context).size.width * 0.25,
+                            height: 35,
+                            decoration: BoxDecoration(
+                                color: Color(0xFFFF9C00),
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
                         ),
                       ],
                     ),
@@ -369,7 +371,7 @@ class _QuestDetailsState extends State<QuestDetails> {
               height: MediaQuery.of(context).size.height * 0.075,
               child: Center(
                   child: BigText(
-                text: "BUY",
+                text: "buy".tr,
                 fontWeight: FontWeight.w900,
               )),
               decoration: BoxDecoration(

@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:get/get.dart';
@@ -29,7 +28,7 @@ class QuestTypeScroll extends StatelessWidget {
           child: Row(
             children: <Widget>[
               BigText(
-                text: "Các thể loại",
+                text: "quest type".tr,
                 fontWeight: FontWeight.w600,
               ),
               Spacer(),
@@ -72,41 +71,50 @@ class _ItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        child: 
-        Stack(children: [
-        Container(
-          margin: EdgeInsets.only(left: 0, right: 10, top: 5, bottom: 20),
-          width: MediaQuery.of(context).size.width * 0.40,
-          decoration: BoxDecoration(
-              color: Colors.grey[300], borderRadius: BorderRadius.circular(25)),
-          child: Stack(
-            children: [
-              Hero(
-                tag: 'popular${q.id}',
-                child: ClipRRect(
+        child: Stack(children: [
+          Container(
+            margin: EdgeInsets.only(left: 0, right: 10, top: 5, bottom: 20),
+            width: MediaQuery.of(context).size.width * 0.40,
+            decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: BorderRadius.circular(25)),
+            child: Stack(
+              children: [
+                Hero(
+                  tag: 'popular${q.id}',
+                  child: ClipRRect(
                     borderRadius: BorderRadius.circular(30),
-                    child: q.imagePath!=null?CustomCacheImage(imageUrl: q.imagePath):Image.asset('assets/images/logo.png'),
+                    child: q.imagePath != null
+                        ? CustomCacheImage(imageUrl: q.imagePath)
+                        : Image.asset('assets/images/logo.png'),
                     //  child: Image.network(q.imagePath,fit: BoxFit.fill,),
-                    ),
-              ),
-            ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
           Positioned(
-                 bottom: 0,
-                 left: 0,
-                 right: 0,
-                 child: Container(
-                  child: Align(alignment:Alignment.center,child: BigText(text: q.name,fontWeight: FontWeight.w600,)),
-                    margin:
-                        EdgeInsets.only(left: 0, right: 10, top: 5, bottom: 5),
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    decoration: BoxDecoration(
-                        color:Color(0xFFFF9C00),
-                        borderRadius: BorderRadius.circular(20))),
-               ),
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+                child: Align(
+                    alignment: Alignment.center,
+                    child: BigText(
+                      text: q.name,
+                      fontWeight: FontWeight.w600,
+                    )),
+                margin: EdgeInsets.only(left: 0, right: 10, top: 5, bottom: 5),
+                width: MediaQuery.of(context).size.width * 0.2,
+                height: MediaQuery.of(context).size.height * 0.05,
+                decoration: BoxDecoration(
+                    color: Color(0xFFFF9C00),
+                    borderRadius: BorderRadius.circular(20))),
+          ),
         ]),
-        onTap: () => Get.to(MoreQuestPage(title: q.name, color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0))));
+        onTap: () => Get.to(MoreQuestPage(
+            title: q.name,
+            color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                .withOpacity(1.0))));
   }
 }

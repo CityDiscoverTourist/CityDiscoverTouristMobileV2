@@ -2,9 +2,12 @@ import 'dart:math';
 
 import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:travel_hour/models/reward.dart';
 
 class VoucherWidget extends StatefulWidget {
-  const VoucherWidget({Key? key}) : super(key: key);
+  final Reward reward;
+  const VoucherWidget({Key? key, required this.reward}) : super(key: key);
 
   @override
   State<VoucherWidget> createState() => _VoucherWidgetState();
@@ -36,9 +39,9 @@ class _VoucherWidgetState extends State<VoucherWidget> {
       ),
       firstChild: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Text(
-            'CHIRISTMAS SALES',
+            widget.reward.name,
             style: TextStyle(
               color: Colors.white54,
               fontSize: 20,
@@ -47,7 +50,7 @@ class _VoucherWidgetState extends State<VoucherWidget> {
           ),
           SizedBox(height: 10),
           Text(
-            '16%',
+            widget.reward.percentDiscount.toString() + '%',
             style: TextStyle(
               color: Colors.white,
               fontSize: 56,
@@ -55,7 +58,7 @@ class _VoucherWidgetState extends State<VoucherWidget> {
             ),
           ),
           Text(
-            'OFF',
+            widget.reward.expiredDate.toString(),
             style: TextStyle(
               color: Colors.white,
               fontSize: 26,
@@ -86,7 +89,13 @@ class _VoucherWidgetState extends State<VoucherWidget> {
               Colors.white,
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Clipboard.setData(new ClipboardData(text: widget.reward.code))
+                .then((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Copied to your clipboard !')));
+            });
+          },
           child: const Text(
             'Copy Code',
             style: TextStyle(
