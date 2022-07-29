@@ -306,7 +306,7 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
                               size: 20,
                             ),
                             onPressed: () {
-                              myController.handleSubmit(textCtrl.text, context);
+                              myController.handleSubmit(textCtrl.text, context,3);
                               textCtrl.clear();
                             },
                           )),
