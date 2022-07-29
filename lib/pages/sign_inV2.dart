@@ -201,17 +201,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ))),
-          IconButton(
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(0),
-            iconSize: 22,
-            icon: Icon(
-              Icons.language,
-            ),
-            onPressed: () {
-              nextScreenPopup(context, LanguagePopup());
-            },
-          ),
+          // IconButton(
+          //   alignment: Alignment.center,
+          //   padding: EdgeInsets.all(0),
+          //   iconSize: 22,
+          //   icon: Icon(
+          //     Icons.language,
+          //   ),
+          //   onPressed: () {
+          //     nextScreenPopup(context, LanguagePopup());
+          //   },
+          // ),
         ],
       ),
       body: Column(
@@ -298,7 +298,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     width: 10,
                                   ),
                                   Text(
-                                    'Sign In with Google',
+                                    'sign in with google'.tr,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
@@ -340,7 +340,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     width: 10,
                                   ),
                                   Text(
-                                    'Sign In with Facebook',
+                                    'sign in with facebook'.tr,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
@@ -382,7 +382,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     width: 10,
                                   ),
                                   Text(
-                                    'Sign In with UserName/Password',
+                                    'sign in with user'.tr,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,

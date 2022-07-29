@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:travel_hour/controllers/home_controller.dart';
 
 import '../api/api.dart';
 import '../api/api_end_points.dart';
@@ -81,7 +82,7 @@ class QuestService {
     var response = await http.get(
         Uri.parse(
             'https://citytourist.azurewebsites.net/api/v1/quests?Name=${name}&language=' +
-                Get.find<LoginControllerV2>().language),
+                Get.find<LoginControllerV2>().language.value.toString()),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json"
@@ -172,11 +173,7 @@ class QuestService {
           'Authorization':
               'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         });
-    print(Api.baseUrl +
-        ApiEndPoints.getCustomerQuestByCustomerId +
-        customerId +
-        "?language=" +
-        language.toString());
+    print(Api.baseUrl + ApiEndPoints.getCustomerQuestByCustomerId + customerId);
     if (response.statusCode == 200) {
       List<Quest> listQuest = new List.empty(growable: true);
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
@@ -187,9 +184,7 @@ class QuestService {
         var response2 = await http.get(
             Uri.parse(Api.baseUrl +
                 ApiEndPoints.getQuestById +
-                element["questId"].toString() +
-                "?language=" +
-                language.toString()),
+                element["questId"].toString()),
             headers: {
               "Content-Type": "application/json",
               'Authorization':
@@ -205,10 +200,11 @@ class QuestService {
             // quest.createdDate = DateTime.tryParse(element["createdDate"])!;
           }
           listQuest.add(quest);
-          print(quest.description);
+          // print(quest.description);
         }
       }
       // print(data);
+      // Get.find<HomeController>().hisQuestList.value = listQuest;
       return Future<List<Quest>>.value(listQuest);
     }
     return Future<List<Quest>>.value(null);
@@ -222,7 +218,7 @@ class QuestService {
             ApiEndPoints.getCustomerQuestByCustomerId +
             customerId),
         headers: {"Content-Type": "application/json"});
-    print(Api.baseUrl + ApiEndPoints.getSuggestion + customerId);
+    // print(Api.baseUrl + ApiEndPoints.getSuggestion + customerId);
     if (response.statusCode == 200) {
       List<Quest> listQuest = new List.empty(growable: true);
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
@@ -233,25 +229,25 @@ class QuestService {
         var response2 = await http.get(
             Uri.parse(Api.baseUrl +
                 ApiEndPoints.getQuestById +
-                element["questId"].toString()),
+                element["questId"].toString() +
+                "?language=" +
+                Get.find<LoginControllerV2>().language.value.toString()),
             headers: {
               "Content-Type": "application/json",
               'Authorization': 'Bearer ' + myController.jwtToken.value
             });
-        print(Api.baseUrl +
-            ApiEndPoints.getQuestById +
-            element["questId"].toString());
+        // print(Api.baseUrl +
+        //     ApiEndPoints.getQuestById +
+        //     element["questId"].toString());
         if (response2.statusCode == 200 && element["isFinished"] == true) {
           var responseData2 = json.decode(response2.body);
           Quest quest = Quest.fromJson(responseData2["data"]);
-          if (element["createdDate"] != null) {
-            // quest.createdDate = DateTime.tryParse(element["createdDate"])!;
-          }
           listQuest.add(quest);
           // print(quest.createdDate);
         }
       }
       // print(data);
+      Get.find<HomeController>().hisQuestList.value = listQuest;
       return Future<List<Quest>>.value(listQuest);
     }
     return Future<List<Quest>>.value(null);

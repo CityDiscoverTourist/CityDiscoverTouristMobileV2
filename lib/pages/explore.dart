@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:travel_hour/controllers/search_controller.dart';
 import 'package:travel_hour/models/city.dart';
@@ -154,7 +153,7 @@ class Header extends StatelessWidget {
                     //       fontWeight: FontWeight.w500),
                     // ).tr(),
                     BigText(
-                      text: "search places",
+                      text: "search places".tr,
                     )
                   ],
                 ),

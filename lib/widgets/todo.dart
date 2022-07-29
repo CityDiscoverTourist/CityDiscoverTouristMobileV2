@@ -9,7 +9,6 @@ import 'package:travel_hour/pages/guide.dart';
 import 'package:travel_hour/pages/hotel.dart';
 import 'package:travel_hour/pages/restaurant.dart';
 import 'package:travel_hour/utils/next_screen.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 
@@ -29,7 +28,7 @@ class TodoWidget extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w800,
-            )).tr(),
+            )),
         Container(
           margin: EdgeInsets.only(top: 5, bottom: 5),
           height: 3,
@@ -123,7 +122,7 @@ class TodoWidget extends StatelessWidget {
                             ),
                             BigText(
                               text:
-                              questData!.estimatedTime.toString() + ' phút',color: Colors.white,
+                              questData!.estimatedTime.toString() + 'minutes'.tr,color: Colors.white,
                             ),
                           ])),
                   onTap: () => {}),
@@ -194,11 +193,10 @@ class TodoWidget extends StatelessWidget {
                                 LineIcons.comments,
                                 size: 30,
                               ),
-                            ),
-                           
+                            ),                 
                             BigText(
                               text:
-                              'Đánh giá',color: Colors.white,
+                              'user reviews'.tr,color: Colors.white,
                             ),
                           ])),
                   onTap: () => {

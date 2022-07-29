@@ -88,7 +88,7 @@ class PlayService {
         Uri.parse('https://citytourist.azurewebsites.net/api/v1/quest-items/' +
             questItemId.toString() +
             '?language=' +
-            '0'),
+            Get.find<LoginControllerV2>().language.value.toString()),
         headers: {"Content-Type": "application/json"});
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
@@ -419,11 +419,15 @@ class PlayService {
       Uri.parse(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId),
       headers: {"Content-Type": "application/json"},
     );
-    // print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
+    // print(Api.baseUrl +
+    //     ApiEndPoints.checkPaymentStatus +
+    //     "59e16d56-8de5-4a8f-877d-76471bdc261e");
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
-      print("Get Data ok");
-      if (data["status"] == "success") {
+
+      // print("Get Data ok");
+      // print(data["data"]["status"]);
+      if (data["data"]["status"] == "success") {
         return true;
       }
       return false;
@@ -431,18 +435,19 @@ class PlayService {
     return Future<bool>.value(false);
   }
 
-  Future<bool?> checkImage(String customerQuestId, String questItemId) async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? pickedFile = await _picker.pickImage(
-      source: ImageSource.camera,
-    );
-    if (pickedFile != null) {
-      var file = File(pickedFile.path);
-      var request = new http.MultipartRequest(
-          "POST",
-          Uri.parse(
-              "https://citytourist.azurewebsites.net/weather-forecast/demo2?api-version=1"));
-      request.files.add(await http.MultipartFile.fromPath("file", file.path));
+  Future<CustomerTask?> checkAnswerV2(
+      String customerQuestId, String questItemId, String customerReply) async {
+    String requestUrl;
+    CustomerTask? rs;
+    if (customerReply != null) {
+      requestUrl = Api.baseUrl +
+          ApiEndPoints.checkAnswer +
+          customerQuestId.toString() +
+          "?customerReply=" +
+          customerReply +
+          "&questItemId=" +
+          questItemId.toString();
+      var request = new http.MultipartRequest("PUT", Uri.parse(requestUrl));
       request.headers["accept"] = "text/plain";
       request.headers["Content-Type"] = "multipart/form-data";
       print("Request:" + request.toString());
@@ -450,11 +455,45 @@ class PlayService {
       print("Status code:" + response.statusCode.toString());
       if (response.statusCode == 200) {
         response.stream.transform(utf8.decoder).listen((value) {
-          print(value);
+          Map<String, dynamic> result = jsonDecode(value);
+          // print(result["data"]);
+          // Get.find<LoginControllerV2>().sp = Customer.fromJson(result["data"]);
+          rs = CustomerTask.fromJson(result["data"]);
         });
-        return Future<bool>.value(true);
+        return Future<CustomerTask>.value(rs);
+      }
+    } else {
+      requestUrl = Api.baseUrl +
+          ApiEndPoints.checkAnswer +
+          customerQuestId.toString() +
+          "&questItemId=" +
+          questItemId.toString();
+
+      final ImagePicker _picker = ImagePicker();
+      final XFile? pickedFile = await _picker.pickImage(
+        source: ImageSource.camera,
+      );
+      if (pickedFile != null) {
+        var file = File(pickedFile.path);
+        var request = new http.MultipartRequest("PUT", Uri.parse(requestUrl));
+        request.files.add(await http.MultipartFile.fromPath("file", file.path));
+        request.headers["accept"] = "text/plain";
+        request.headers["Content-Type"] = "multipart/form-data";
+        print("Request:" + request.toString());
+        var response = await request.send();
+        print("Status code:" + response.statusCode.toString());
+        if (response.statusCode == 200) {
+          response.stream.transform(utf8.decoder).listen((value) {
+            Map<String, dynamic> result = jsonDecode(value);
+            // print(result["data"]);
+            // Get.find<LoginControllerV2>().sp = Customer.fromJson(result["data"]);
+            rs = CustomerTask.fromJson(result["data"]);
+          });
+          return Future<CustomerTask>.value(rs);
+        }
       }
     }
-    return Future<bool>.value(false);
+
+    return Future<CustomerTask>.value(null);
   }
 }

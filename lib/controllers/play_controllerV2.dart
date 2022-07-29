@@ -314,15 +314,15 @@ class PlayControllerV2 extends GetxController {
     }
   }
 
-  void checkImage(String customerQuestId, String questItemId) async {
-    try {
-      isLoading(true);
-      // Xài tạm dữ liệu cứng để trả về true
-      await PlayService().checkImage(customerQuestId, questItemId);
-    } finally {
-      isLoading(false);
-    }
-  }
+  // void checkImage(String customerQuestId, String questItemId) async {
+  //   try {
+  //     isLoading(true);
+  //     // Xài tạm dữ liệu cứng để trả về true
+  //     await PlayService().checkImage(customerQuestId, questItemId);
+  //   } finally {
+  //     isLoading(false);
+  //   }
+  // }
 
   Future<List?> buyQuest(var id, String customerId, String questID,
       int quantity, var totalAmout, var discountCode) async {
