@@ -3,9 +3,13 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:travel_hour/controllers/history_controller.dart';
 import 'package:travel_hour/pages/home.dart';
+import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/small_text.dart';
+
+import '../controllers/play_controllerV2.dart';
 
 class RatingQuest extends StatelessWidget {
   const RatingQuest({Key? key}) : super(key: key);
@@ -88,38 +92,14 @@ class RatingQuest extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Text("Dich Vu Tot"),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.grey[300]),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Text("Quest Rat Hay"),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.grey[300]),
-                    ),
+                    exampleComment("Quest Rat Hay"),
+                    exampleComment("Quest Rat Hay"),
                   ],
                 ),
                 Row(
                   children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Text("Dich Vu Tot"),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.grey[300]),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Text("Dich Vu Tot"),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.grey[300]),
-                    ),
+                   exampleComment("Quest Rat Hay"),
+                    exampleComment("Quest Rat Hay"),
                   ],
                 ),
                 SizedBox(
@@ -143,16 +123,37 @@ class RatingQuest extends StatelessWidget {
               ]),
             ),
             InkWell(
-              onTap: (){Get.to(HomePage());},
+              onTap: () {
+                Get.delete<PlayControllerV2>();
+                Get.delete<HistoryController>();
+                Get.toNamed(KWelcomeScreen);
+              },
               child: Container(
                 width: double.infinity,
                 height: 50,
                 color: Colors.redAccent,
-                child: Center(child: BigText(text: "Submit",fontWeight: FontWeight.w800,color: Colors.white,)),),
+                child: Center(
+                    child: BigText(
+                  text: "Submit",
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                )),
+              ),
             )
           ],
         ),
       ),
+    );
+  }
+
+  Container exampleComment(String commentContent) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: SmallText(
+        text: commentContent,
+      ),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20), color: Colors.grey[300]),
     );
   }
 }

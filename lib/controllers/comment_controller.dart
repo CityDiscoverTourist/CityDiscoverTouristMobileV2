@@ -8,7 +8,7 @@ import '../services/app_service.dart';
 import '../utils/toast.dart';
 import 'login_controller_V2.dart';
 
-class Comment_Controller extends GetxController {
+class CommentController extends GetxController {
   var dataComment = List<Comment>.empty().obs;
   //Lưu vị trí của comment cuối của danh sách limit
   var lastVisible = 0.obs;
@@ -64,6 +64,7 @@ class Comment_Controller extends GetxController {
         print("COMMENT_CONTROLLER: Have data Comment");
         if (dataComment.isEmpty || lastVisible.value == 0) {
           dataComment.assignAll(commentApi);
+          print("If 1 nè");
         } //Nếu không thì nhét hết vô
         else {
           dataComment = RxList.from(dataComment)..addAll(commentApi);
@@ -85,6 +86,7 @@ class Comment_Controller extends GetxController {
         if (hasInternet == false) {
           openToast(context, 'no internet');
         } else {
+          print("Handld Sm");
           comment.value = commentStr;
           //PushComment
           CommentService.pushComment(comment.value);

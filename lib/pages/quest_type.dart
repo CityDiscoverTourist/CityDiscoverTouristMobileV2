@@ -84,9 +84,10 @@ class _ItemList extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(5),
-                      child: CustomCacheImage(
-                        imageUrl: d.imagePath,
-                      )),
+               child: d.imagePath != null
+                          ? CustomCacheImage(imageUrl: d.imagePath)
+                          : Image.asset('assets/images/logo.png'),
+                      ),
                 ),
                 Align(
                   alignment: Alignment.center,

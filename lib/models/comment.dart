@@ -14,7 +14,7 @@ class Comment {
         required this.customerId,
         required this.name,
         this.imagePath,
-        required this.feedBack,
+        this.feedBack,
         required this.rating,
         required this.createdDate,
     });
@@ -23,7 +23,7 @@ class Comment {
     String customerId;
     String name;
     dynamic imagePath;
-    String feedBack;
+    String? feedBack;
     int rating;
     DateTime createdDate;
 

@@ -10,6 +10,8 @@ import 'package:travel_hour/pages/hotel.dart';
 import 'package:travel_hour/pages/restaurant.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:travel_hour/widgets/big_text.dart';
+import 'package:travel_hour/widgets/small_text.dart';
 
 import '../controllers/comment_controller.dart';
 
@@ -75,13 +77,14 @@ class TodoWidget extends StatelessWidget {
                                 size: 30,
                               ),
                             ),
-                            Text(
-                              questData!.estimatedDistance.toString() + ' km',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18),
-                            ).tr(),
+                              SmallText(
+                              text:
+                              'Tổng quãng đường: ',color: Colors.white,
+                            ),
+                            BigText(
+                              text:
+                              questData!.estimatedDistance.toString() + ' km',color: Colors.white,
+                            ),
                           ])),
                   onTap: () => () {}
                   //  nextScreen(context, GuidePage(d: questData)),
@@ -114,13 +117,14 @@ class TodoWidget extends StatelessWidget {
                                 size: 30,
                               ),
                             ),
-                            Text(
-                              questData!.estimatedTime + ' minutes',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18),
-                            ).tr(),
+                             SmallText(
+                              text:
+                              'Tổng thời gian: ',color: Colors.white,
+                            ),
+                            BigText(
+                              text:
+                              questData!.estimatedTime.toString() + ' phút',color: Colors.white,
+                            ),
                           ])),
                   onTap: () => {}),
               InkWell(
@@ -151,13 +155,14 @@ class TodoWidget extends StatelessWidget {
                                 size: 30,
                               ),
                             ),
-                            Text(
-                              '14',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18),
-                            ).tr(),
+                           SmallText(
+                              text:
+                              'Số lượng câu đố: ',color: Colors.white,
+                            ),
+                            BigText(
+                              text:
+                              questData!.countQuestItem.toString() ,color: Colors.white,
+                            ),
                           ])),
                   onTap: () => {}
                   //  nextScreen(context, RestaurantPage(placeData: questData,)),
@@ -190,17 +195,15 @@ class TodoWidget extends StatelessWidget {
                                 size: 30,
                               ),
                             ),
-                            Text(
-                              'user reviews',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15),
-                            ).tr(),
+                           
+                            BigText(
+                              text:
+                              'Đánh giá',color: Colors.white,
+                            ),
                           ])),
                   onTap: () => {
                     print("TODO :"+questData!.id.toString()),
-                        Get.put(Comment_Controller()).idQuest.value =
+                        Get.put(CommentController()).idQuest.value =
                             questData!.id,
                         Get.to(CommentsPageV2())
                       }

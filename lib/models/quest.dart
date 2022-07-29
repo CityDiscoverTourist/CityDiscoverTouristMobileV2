@@ -27,7 +27,7 @@ class Quest {
     required this.areaId,
     required this.countQuestItem,
     required this.totalFeedback,
-    required this.averageStart,
+    required this.averageStar,
   });
 
   int id;
@@ -45,7 +45,7 @@ class Quest {
   int areaId;
   int countQuestItem;
   int totalFeedback;
-  int? averageStart;
+  int? averageStar;
 
   factory Quest.fromJson(Map<String, dynamic> json) => Quest(
         id: json["id"],
@@ -63,7 +63,7 @@ class Quest {
         areaId: json["areaId"],
         countQuestItem: json["countQuestItem"],
         totalFeedback: json["totalFeedback"],
-        averageStart: json["averageStart"],
+        averageStar: json["averageStar"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -82,6 +82,6 @@ class Quest {
         "areaId": areaId,
         "countQuestItem": countQuestItem,
         "totalFeedback": totalFeedback,
-        "averageStart": averageStart,
+        "averageStar": averageStar,
       };
 }

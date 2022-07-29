@@ -73,7 +73,7 @@ class ListCard extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                d!.averageStart.toString(),
+                                d!.averageStar.toString(),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
