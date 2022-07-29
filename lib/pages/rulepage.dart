@@ -8,6 +8,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/controllers/play_controller.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/pages/answer_questitem.dart';
+import 'package:travel_hour/pages/description_questitem.dart';
 import 'package:travel_hour/pages/home.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/schedule_container.dart';
@@ -18,17 +19,29 @@ import 'package:animations/animations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class RulePage extends GetView<PlayControllerV2> {
-  PurchasedQuest pQuest;
-  RulePage({required this.pQuest, Key? key}) : super(key: key);
+  // PurchasedQuest pQuest;
+  RulePage(
+      {
+      // required this.pQuest,
+      Key? key})
+      : super(key: key);
 
   List<Widget> listItem = [
-    ScheduleContainer("Moi cau co 300đ '/'",1),
-    ScheduleContainer("Duoc phep tra loi moi cau 5 lan '/'",2),
-    ScheduleContainer("Sai 1 lan -50đ '/' Xài gợi ý -50đ",3)
+    ScheduleContainer("Mỗi câu hỏi bạn sẽ có 300 điểm", 1),
+    ScheduleContainer(
+        "Bạn sẽ được trả lời tối đa 5 lần cho một câu hỏi" +
+            "/" +
+            "Lần 5 bạn sẽ được hiện đáp án",
+        2),
+    ScheduleContainer(
+        "Mỗi lần trả lời sai sẽ bị trừ 50 điểm" +
+            "/" +
+            "Sử dụng gợi ý sẽ bị trừ 75 điểm (1 lần)",
+        3)
   ];
   @override
   Widget build(BuildContext context) {
-    Get.put(PlayControllerV2()).pQuest = pQuest;
+    // Get.put(PlayControllerV2()).pQuest = pQuest;
     const transitionType = ContainerTransitionType.fade;
     return Scaffold(
       appBar: AppBar(
@@ -54,19 +67,20 @@ class RulePage extends GetView<PlayControllerV2> {
           ),
           Center(
             child: TextButton(
-  style: ButtonStyle(
-    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-  ),
-  onPressed: () {
-     var controller = Get.find<PlayControllerV2>();
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
+              onPressed: () {
+                var controller = Get.find<PlayControllerV2>();
                 print('RULE PAGE' +
                     controller.questItemCurrent.description.toString());
-                    controller.changeIsLoading();
-                Get.to(AnswerPage());
+                controller.changeIsLoading();
+                Get.to(DescriptionPage());
+                // Get.to(AnswerPage());
                 print("HCM HCM HCM");
-   },
-  child: Text('Start'),
-),
+              },
+              child: Text('Start'),
+            ),
           )
           // Center(
           //   child: Obx(

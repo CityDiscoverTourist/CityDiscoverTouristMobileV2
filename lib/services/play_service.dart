@@ -18,7 +18,7 @@ import '../api/api_end_points.dart';
 
 class PlayService {
 //Tạo sở hữu lượt chơi
-  static Future<int> createCustomerQuest(
+  static Future<String> createCustomerQuest(
       String customerID, PurchasedQuest pQ) async {
     int questID = pQ.questId;
     String paymentID = pQ.id;
@@ -43,11 +43,15 @@ class PlayService {
     print('createCustomerQuest StatusCode: ' + response.statusCode.toString());
     if (response.statusCode == 200) {
       Map data = jsonDecode(response.body);
-      // Iterable list = dbc;
+
       int idCusQuest = data['data']['id'];
-      return Future<int>.value(idCusQuest);
+      return Future<String>.value(idCusQuest.toString());
+    } else if (response.statusCode == 400) {
+      Map data = jsonDecode(response.body);
+      String rs = data["message"];
+      return Future<String>.value(rs);
     }
-    return Future<int>.value(0);
+    return Future<String>.value("");
   }
 
 //Load câu đầu lần đầu start quest
@@ -132,14 +136,14 @@ class PlayService {
     //     customerReply +
     //     "&questItemId=" +
     //     questItemId);
-    print(response.body);
-    print(response.statusCode);
     print("checkAnswer " + response.statusCode.toString());
     if (response.statusCode == 200) {
       print("OKkkkkkkkkkkkkkkkkkkkkk");
       Map data = jsonDecode(response.body);
       rs = CustomerTask.fromJson(data['data']);
       // print(rs.toString());    // print(data);
+      print("checkAnswer " + rs.countWrongAnswer.toString());
+      print("checkAnswer " + rs.countWrongAnswer.toString());
       return Future<CustomerTask>.value(rs);
     }
     return Future<CustomerTask>.value(null);
@@ -181,7 +185,7 @@ class PlayService {
     return Future<CustomerTask>.value(null);
   }
 
-  Future<int> moveNextQuestItem(int customerQuestId, int questId) async {
+  Future<String> moveNextQuestItem(int customerQuestId, int questId) async {
     CustomerTask rs;
     var response = await http.put(
         Uri.parse(
@@ -201,11 +205,11 @@ class PlayService {
       int rs = jsonDecode(response.body);
       print(rs);
       // print(rs.toString());    // print(data);
-      return Future<int>.value(rs);
+      return Future<String>.value(rs.toString());
     } else if (response.statusCode == 400) {
-      return Future<int>.value(-1);
+      return Future<String>.value("-1");
     }
-    return Future<int>.value(0);
+    return Future<String>.value("0");
   }
 
   Future<String> getSuggestion(int questItemId) async {

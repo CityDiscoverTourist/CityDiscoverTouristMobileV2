@@ -12,6 +12,7 @@ import 'package:travel_hour/blocs/comments_bloc.dart';
 import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/controllers/comment_controller.dart';
 import 'package:travel_hour/models/comment.dart';
+import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/services/comment_service.dart';
 import 'package:travel_hour/utils/dialog.dart';
@@ -20,6 +21,7 @@ import 'package:travel_hour/utils/loading_cards.dart';
 import 'package:travel_hour/utils/sign_in_dialog.dart';
 import 'package:travel_hour/utils/toast.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:travel_hour/widgets/big_text.dart';
 
 import '../widgets/custom_cache_image.dart';
 
@@ -34,7 +36,7 @@ class CommentsPageV2 extends StatefulWidget {
 
 class _CommentsPageV2State extends State<CommentsPageV2> {
   ScrollController? controller;
-  var myController = Get.find<Comment_Controller>();
+  var myController = Get.find<CommentController>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var textCtrl = TextEditingController();
   bool? _hasData;
@@ -209,42 +211,52 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
           Expanded(
             child: Obx(
               () {
-                return RefreshIndicator(
-                    child: myController.lastVisible.value == 0
-                        ? LoadingCard(height: 100)
-                        : ListView.separated(
-                            padding: EdgeInsets.all(15),
-                            controller: controller,
-                            physics: AlwaysScrollableScrollPhysics(),
-                            itemCount: myController.dataComment.length + 1,
-                            separatorBuilder:
-                                (BuildContext context, int index) => SizedBox(
-                              height: 10,
-                            ),
-                            itemBuilder: (_, int index) {
-                              if (index < myController.dataComment.length) {
-                                return reviewList(
-                                    myController.dataComment[index]);
-                              }
-
-                              return Opacity(
-                                opacity:
-                                    myController.isLoading.value ? 1.0 : 0.0,
-                                child: myController.lastVisible.value == 0
-                                    ? LoadingCard(height: 100)
-                                    : Center(
-                                        child: SizedBox(
-                                            width: 60.0,
-                                            height: 60.0,
-                                            child:
-                                                new CupertinoActivityIndicator()),
-                                      ),
-                              );
-                            },
+                if (myController.isLoading.isTrue) {
+                  return SplashStart();
+                } else {
+                  if (myController.dataComment.length == 0) {
+                    print("Rỗng");
+                    return Text("Rỗng");
+                  } else {
+                    return RefreshIndicator(
+                        child:
+                            //  myController.lastVisible.value == 0
+                            // ? LoadingCard(height: 100)
+                            // :
+                            ListView.separated(
+                          padding: EdgeInsets.all(15),
+                          controller: controller,
+                          physics: AlwaysScrollableScrollPhysics(),
+                          itemCount: myController.dataComment.length + 1,
+                          separatorBuilder: (BuildContext context, int index) =>
+                              SizedBox(
+                            height: 10,
                           ),
-                    onRefresh: () async {
-                      myController.refeshData();
-                    });
+                          itemBuilder: (_, int index) {
+                            if (index < myController.dataComment.length) {
+                              return reviewList(
+                                  myController.dataComment[index]);
+                            }
+
+                            return Opacity(
+                              opacity: myController.isLoading.value ? 1.0 : 0.0,
+                              child: myController.lastVisible.value == 0
+                                  ? LoadingCard(height: 100)
+                                  : Center(
+                                      child: SizedBox(
+                                          width: 60.0,
+                                          height: 60.0,
+                                          child:
+                                              new CupertinoActivityIndicator()),
+                                    ),
+                            );
+                          },
+                        ),
+                        onRefresh: () async {
+                          myController.refeshData();
+                        });
+                  }
+                }
               },
             ),
           ),
@@ -272,9 +284,8 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
                       color: Colors.amber,
                     ),
                     onRatingUpdate: (rating) {
-                      myController.rating.value=rating.toInt();
-                      print(rating+  myController.rating.value);
-
+                      myController.rating.value = rating.toInt();
+                      print("Comments_V2:"+myController.rating.value.toString());
                     },
                   ),
                   Container(
@@ -330,42 +341,51 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
 
             // d.imageUrl!=null?CachedNetworkImage(imageUrl: d.imageUrl):Image.asset('assets/images/logo.png'),
           ),
-          title: Row(
-            children: <Widget>[
-              Text(
-                d.name,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(d.createdDate.toString(),
-                  style: TextStyle(
-                      color: Colors.grey[500],
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500)),
-              RatingBarIndicator(
-                rating: d.rating.toDouble(),
-                itemBuilder: (context, index) => Icon(
-                  Icons.star,
-                  color: Colors.amber,
+          title: Align(
+            alignment: Alignment.topLeft,
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: [
+                    Text(
+                      d.name,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    RatingBarIndicator(
+                      rating: d.rating.toDouble(),
+                      itemBuilder: (context, index) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      itemCount: 5,
+                      itemSize: 10.0,
+                      direction: Axis.horizontal,
+                    ),
+                  ],
                 ),
-                itemCount: 5,
-                itemSize: 10.0,
-                direction: Axis.horizontal,
-              ),
-            ],
+                SizedBox(
+                  height: 5,
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(d.createdDate.toString(),
+                      style: TextStyle(
+                          color: Colors.grey[500],
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500)),
+                ),
+              ],
+            ),
           ),
-          subtitle: Text(
-            d.feedBack,
-            style: TextStyle(
-                fontSize: 15,
-                color: Colors.black54,
-                fontWeight: FontWeight.w500),
-          ),
+          subtitle: d.feedBack != null
+              ? BigText(text: d.feedBack.toString())
+              : BigText(text: "Non feedback"),
           onLongPress: () {
             // openPopupDialog(d);
           },

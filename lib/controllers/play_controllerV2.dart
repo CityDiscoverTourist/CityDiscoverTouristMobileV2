@@ -1,26 +1,21 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:travel_hour/controllers/home_controller.dart';
+import 'package:travel_hour/controllers/history_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
-import 'package:travel_hour/pages/answer_questitem.dart';
 import 'package:travel_hour/pages/completed_quest.dart';
-import 'package:travel_hour/pages/ingroress.dart';
+import 'package:travel_hour/pages/description_questitem.dart';
+import 'package:travel_hour/pages/rulepage.dart';
 import 'package:travel_hour/services/play_service.dart';
-import 'package:http/http.dart' as http;
 
-import '../api/api.dart';
-import '../api/api_end_points.dart';
 import '../models/customer_task.dart';
 import '../models/quest.dart';
 import '../models/questItem.dart';
 
 class PlayControllerV2 extends GetxController {
   //Bool check status show SplashPage await result from API
+  var isDisableTextField = false.obs;
   var isLoading = false.obs;
 
   late PurchasedQuest pQuest;
@@ -59,6 +54,7 @@ class PlayControllerV2 extends GetxController {
   var index = 0.obs;
   var numQuest;
   late String endPoint;
+  var checkErr = "".obs;
 
   var ruleIndex = 1.obs;
 
@@ -108,7 +104,6 @@ class PlayControllerV2 extends GetxController {
     onInitPlayQuest();
     super.onReady();
     update();
-
     ever(clickAns, handleAuthStateChanged);
     ever(isLoadQuestItem, (_) {
       if (isLoadQuestItem.value == true) {
@@ -123,6 +118,7 @@ class PlayControllerV2 extends GetxController {
         }
       }
     });
+  
   }
 
   @override
@@ -130,125 +126,16 @@ class PlayControllerV2 extends GetxController {
     super.onClose();
   }
 
-//handleAuthStateChanged
-  void handleAuthStateChanged(clickAns) async {
-    //Check câu trả lời
-    try {
-      isLoading(true);
-      print('handleAuthStateChanged ' +
-          customerQuestID.value.toString() +
-          "/" +
-          currentAns.value +
-          "/" +
-          questItemCurrent.id.toString());
-      cusTask = await PlayService().checkAnswer(
-          customerQuestID.value, currentAns.value, questItemCurrent.id);
-      correctAns.value = cusTask.isFinished;
+//Add Customer to Quest
+  onInitPlayQuest() async {
+    checkErr.value = await PlayService.createCustomerQuest(
+        Get.find<LoginControllerV2>().sp.id, pQuest);
 
-      print('handleAuthStateChanged ' + customerQuestID.toString());
-      // correctAns.value = qItem[index.value].ans == currentAns.value;
-      Future.delayed(Duration(seconds: 2));
-      print(correctAns.value);
-
-      if (cusTask.countWrongAnswer == 5 || correctAns.value == true) {
-        if (cusTask.countWrongAnswer != 5) {
-          Get.snackbar('Right Ans', 'Congratulations',
-              duration: Duration(seconds: 2),
-              backgroundColor: Colors.black,
-              colorText: Colors.white,
-              snackPosition: SnackPosition.TOP,
-              icon: Icon(
-                Icons.golf_course,
-                color: Colors.greenAccent,
-              ));
-          //Prepare data for nextQu
-        } else {
-          Get.snackbar('Right Ans: ', '${questItemCurrent.rightAnswer}',
-              duration: Duration(seconds: 2),
-              backgroundColor: Colors.black,
-              colorText: Colors.white,
-              snackPosition: SnackPosition.TOP,
-              icon: Icon(
-                Icons.golf_course,
-                color: Colors.greenAccent,
-              ));
-        }
-        int nextQuestItemId = await PlayService()
-            .moveNextQuestItem(customerQuestID.value, pQuest.questId);
-        print('nextQuestItemId ' + nextQuestItemId.toString());
-        if (nextQuestItemId != -1) {
-          //gọi hàm getQuestItem
-          isLoading(true);
-          questItemCurrent = await PlayService.fetchQuestItem(nextQuestItemId);
-          sugggestion.value =
-              await PlayService().getSuggestion(questItemCurrent.id);
-          isLoading(false);
-          //Check câu cuối
-        } else {
-          endPoint = await PlayService.updateEndPoint(customerQuestID.value);
-          Get.to(CompletedPage());
-        }
-
-        print(questItemCurrent.id);
-        //refeshCurrentAns
-        currentAns.value = "";
-        update();
-      }
-      // else if (correctAns.value == true) {
-      //   isShowSuggestion(false);
-      //   Get.snackbar('Right Ans', 'Congratulations',
-      //       duration: Duration(seconds: 2),
-      //       backgroundColor: Colors.black,
-      //       colorText: Colors.white,
-      //       snackPosition: SnackPosition.TOP,
-      //       icon: Icon(
-      //         Icons.golf_course,
-      //         color: Colors.greenAccent,
-      //       ));
-      //   //Prepare data for nextQuestItem
-      //   print("handleAuthStateChanged - dòng 50 TRUE");
-      //   //gọi hàm move next
-      //   int nextQuestItemId = await PlayService()
-      //       .moveNextQuestItem(customerQuestID.value, pQuest.questId);
-      //   print('nextQuestItemId ' + nextQuestItemId.toString());
-      //   if (nextQuestItemId != -1) {
-      //     //gọi hàm getQuestItem
-      //     isLoading(true);
-      //     questItemCurrent = await PlayService.fetchQuestItem(nextQuestItemId);
-      //     sugggestion.value =
-      //         await PlayService().getSuggestion(questItemCurrent.id);
-      //     isLoading(false);
-      //     //Check câu cuối
-      //   } else {
-      //     endPoint = await PlayService.updateEndPoint(customerQuestID.value);
-      //     Get.to(CompletedPage());
-      //   }
-
-      //   print(questItemCurrent.id);
-      //   //refeshCurrentAns
-      //   currentAns.value = "";
-      //   update();
-      //   //Get to next
-
-      //   // Get.to(IngrogressPage());
-      //   // } else {
-      //   // Get.to(CompletedPage());
-      //   // }
-      // }
-      else {
-        if (cusTask.countWrongAnswer == 4) {
-          Get.snackbar('Chi con 1 lan tra loi', 'Try Again',
-              duration: Duration(seconds: 2),
-              backgroundColor: Colors.black,
-              colorText: Colors.white,
-              snackPosition: SnackPosition.BOTTOM,
-              icon: Icon(
-                Icons.error,
-                color: Colors.red,
-              ));
-        } else
-          print(correctAns.value);
-        Get.snackbar('Wrong Ans', 'Try Again',
+    if (checkErr.value.isNotEmpty) {
+      if (checkErr.value == "Previous quest is not finished") {
+        print("Lỗi chưa kết thúc");
+        Get.snackbar('Lỗi',
+            'Quest Chưa Kết Thúc. Vui Lòng liên hệ tổng đài để được hỗ trợ',
             duration: Duration(seconds: 2),
             backgroundColor: Colors.black,
             colorText: Colors.white,
@@ -257,77 +144,39 @@ class PlayControllerV2 extends GetxController {
               Icons.error,
               color: Colors.red,
             ));
+        Get.delete<PlayControllerV2>();
+        Get.find<HistoryController>().getPuschedQuests();
+      } else if (checkErr.value == "Ticket quantity is not enough") {
+        print("Lỗi chưa kết thúc");
+        Get.snackbar('Lỗi', 'Vé lỗi',
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.black,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+            icon: Icon(
+              Icons.error,
+              color: Colors.red,
+            ));
+        Get.delete<PlayControllerV2>();
       }
-    } finally {
-      isLoading(false);
-    }
-  }
-
-  void showSuggestion() async {
-    if (isShowSuggestion.value == false) {
-      try {
-        isLoading(true);
-        cusTask =
-            await PlayService().decreasePointSuggestion(customerQuestID.value);
-        isShowSuggestion(true);
-      } finally {
-        isLoading(false);
-      }
-    }
-  }
-
-  void checkAnswerV2(
-      String customerQuestId, String questItemId, String customerReply) async {
-    try {
-      isLoading(true);
-      // Xài tạm dữ liệu cứng để trả về true
-      await PlayService()
-          .checkAnswerV2(customerQuestId, questItemId, customerReply);
-    } finally {
-      isLoading(false);
-    }
-  }
-
-  Future<List?> buyQuest(var id, String customerId, String questID,
-      int quantity, var totalAmout, var discountCode) async {
-    try {
-      isLoading(true);
-      // Xài tạm dữ liệu cứng để trả về true
-      // await PlayService()
-      //     .buyQuest(customerId, questID, quantity, totalAmout, discountCode);
-      return PlayService().buyQuest(
-          id, customerId, questID, quantity, totalAmout, discountCode);
-    } finally {
-      isLoading(false);
-    }
-  }
-
-  Future<bool> checkPaymentStatus(var paymentId) async {
-    return await PlayService().checkPaymentStatus(paymentId);
-  }
-
-//Add Customer to Quest
-  onInitPlayQuest() async {
-    //tạo quyền sở hữu lượt chơi cho customer
-    // customerQuestID.value = await PlayService.createCustomerQuest(
-    //     Get.find<LoginControllerV2>().sp.id, pQuest);
-    customerQuestID.value = await PlayService.createCustomerQuest(
-        Get.find<LoginControllerV2>().sp.id, pQuest);
-    if (customerQuestID.value != 0) {
-      print('onInitPlayQuest: No Empty');
       //Xác nhận đã StartQuest
-      cusTask = await PlayService.confirmTheFirstStart(
-          pQuest.questId, customerQuestID.value);
-      if (cusTask != null) {
-        print('Ok');
-        questItemCurrent =
-            await PlayService.fetchQuestItem(cusTask.questItemId);
-        if (questItemCurrent != null) {
-          sugggestion.value =
-              await PlayService().getSuggestion(questItemCurrent.id);
+      else {
+        Get.to(RulePage());
+        customerQuestID.value = int.parse(checkErr.value);
+        cusTask = await PlayService.confirmTheFirstStart(
+            pQuest.questId, customerQuestID.value);
+        if (cusTask != null) {
+          print('Ok');
+          questItemCurrent =
+              await PlayService.fetchQuestItem(cusTask.questItemId);
+          if (questItemCurrent != null) {
+            sugggestion.value =
+                await PlayService().getSuggestion(questItemCurrent.id);
+          }
         }
       }
-    }
+    } else {}
+
     // void checkAnswer(){
     //     // String customerQuestId, String customerReply, String questItemId) async {
     //   try {
@@ -356,4 +205,141 @@ class PlayControllerV2 extends GetxController {
 
     // }
   }
+
+
+//[HandleButtonAnswer]
+//When user click submit answer
+//Check
+  void handleAuthStateChanged(clickAns) async {
+    //Check câu trả lời
+    try {
+      isLoading(true);
+      print('handleAuthStateChanged ' +
+          customerQuestID.value.toString() +
+          "/" +
+          currentAns.value +
+          "/" +
+          questItemCurrent.id.toString());
+      cusTask = await PlayService().checkAnswer(
+          customerQuestID.value, currentAns.value, questItemCurrent.id);
+      correctAns.value = cusTask.isFinished;
+
+      print('handleAuthStateChanged ' + customerQuestID.toString());
+      // correctAns.value = qItem[index.value].ans == currentAns.value;
+      Future.delayed(Duration(seconds: 2));
+      print(correctAns.value);
+
+      if (correctAns.value == true) {
+        // if (cusTask.countWrongAnswer != 4) {
+        Get.snackbar('Right Ans', 'Congratulations',
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.black,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.TOP,
+            icon: Icon(
+              Icons.golf_course,
+              color: Colors.greenAccent,
+            ));
+        //Prepare data for nextQu
+
+        // }
+        checkErr.value = await PlayService()
+            .moveNextQuestItem(customerQuestID.value, pQuest.questId);
+        int nextQuestItemId = int.parse(checkErr.value);
+        print('CheckErr ' + checkErr.toString());
+
+        if (nextQuestItemId != -1) {
+          //gọi hàm getQuestItem
+          isLoading(true);
+          isDisableTextField(false);
+          questItemCurrent = await PlayService.fetchQuestItem(nextQuestItemId);
+          sugggestion.value =
+              await PlayService().getSuggestion(questItemCurrent.id);
+          isLoading(false);
+          Get.to(DescriptionPage());
+          update();
+          //Check câu cuối
+        } else {
+          endPoint = await PlayService.updateEndPoint(customerQuestID.value);
+          Get.to(CompletedPage());
+        }
+        print(questItemCurrent.id);
+        //refeshCurrentAns
+        currentAns.value = "";
+        update();
+      } else {
+        if (cusTask.countWrongAnswer == 4) {
+          //show dap an
+          isDisableTextField(true);
+          currentAns.value = questItemCurrent.rightAnswer;
+          update();
+        } else if (cusTask.countWrongAnswer == 3) {
+          Get.snackbar('Chi con 1 lan tra loi', 'Try Again',
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM,
+              icon: Icon(
+                Icons.error,
+                color: Colors.red,
+              ));
+        } else {
+          print(correctAns.value);
+          Get.snackbar('Wrong Ans', 'Try Again',
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM,
+              icon: Icon(
+                Icons.error,
+                color: Colors.red,
+              ));
+        }
+      }
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  void showSuggestion() async {
+    if (isShowSuggestion.value == false) {
+      try {
+        isLoading(true);
+        cusTask =
+            await PlayService().decreasePointSuggestion(customerQuestID.value);
+        isShowSuggestion(true);
+      } finally {
+        isLoading(false);
+      }
+    }
+  }
+
+  // void checkImage(String customerQuestId, String questItemId) async {
+  //   try {
+  //     isLoading(true);
+  //     // Xài tạm dữ liệu cứng để trả về true
+  //     await PlayService().checkImage(customerQuestId, questItemId);
+  //   } finally {
+  //     isLoading(false);
+  //   }
+  // }
+
+  Future<List?> buyQuest(var id, String customerId, String questID,
+      int quantity, var totalAmout, var discountCode) async {
+    try {
+      isLoading(true);
+      // Xài tạm dữ liệu cứng để trả về true
+      // await PlayService()
+      //     .buyQuest(customerId, questID, quantity, totalAmout, discountCode);
+      return PlayService().buyQuest(
+          id, customerId, questID, quantity, totalAmout, discountCode);
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<bool> checkPaymentStatus(var paymentId) async {
+    return await PlayService().checkPaymentStatus(paymentId);
+  }
+
 }
