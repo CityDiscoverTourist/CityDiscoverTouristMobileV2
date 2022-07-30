@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/blocs/search_bloc.dart';
+// import 'package:travel_hour/blocs/search_bloc.dart';
 import 'package:travel_hour/controllers/search_controller.dart';
 import 'package:travel_hour/pages/quest_details.dart';
 import 'package:travel_hour/pages/splashV2.dart';

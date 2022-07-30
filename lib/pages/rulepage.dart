@@ -27,16 +27,16 @@ class RulePage extends GetView<PlayControllerV2> {
       : super(key: key);
 
   List<Widget> listItem = [
-    ScheduleContainer("Mỗi câu hỏi bạn sẽ có 300 điểm", 1),
+    ScheduleContainer("each question you will get 300 points".tr, 1),
     ScheduleContainer(
-        "Bạn sẽ được trả lời tối đa 5 lần cho một câu hỏi" +
+        "you will be answered up to 5 times for a question".tr +
             "/" +
-            "Lần 5 bạn sẽ được hiện đáp án",
+            "the 5th time you will be shown the answer".tr,
         2),
     ScheduleContainer(
-        "Mỗi lần trả lời sai sẽ bị trừ 50 điểm" +
+        "for each wrong answer, 50 points will be deducted".tr +
             "/" +
-            "Sử dụng gợi ý sẽ bị trừ 75 điểm (1 lần)",
+            "using seggestion will be deducted 75 points (1 time)".tr,
         3)
   ];
   @override
@@ -47,7 +47,7 @@ class RulePage extends GetView<PlayControllerV2> {
       appBar: AppBar(
         backgroundColor: Colors.amberAccent,
         title: BigText(
-          text: "RulePage",
+          text: "rulepage".tr,
           fontWeight: FontWeight.w700,
         ),
         centerTitle: true,
@@ -79,7 +79,7 @@ class RulePage extends GetView<PlayControllerV2> {
                 // Get.to(AnswerPage());
                 print("HCM HCM HCM");
               },
-              child: Text('Start'),
+              child: Text('get started'.tr),
             ),
           )
           // Center(

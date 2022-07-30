@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/blocs/sign_in_bloc.dart';
+// import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/pages/sign_in.dart';
 import 'package:travel_hour/pages/home.dart';
@@ -12,7 +12,8 @@ import '../widgets/big_text.dart';
 
 class SplashStart extends StatefulWidget {
   final String content;
-  SplashStart({Key? key, this.content='City Discover Tourist'}) : super(key: key);
+  SplashStart({Key? key, this.content = 'City Discover Tourist'})
+      : super(key: key);
 
   _SplashStartState createState() => _SplashStartState();
 }
@@ -73,7 +74,11 @@ class _SplashStartState extends State<SplashStart>
               )),
         ),
         Center(
-          child: BigText(text: widget.content,size: 16,fontWeight: FontWeight.w700,),
+          child: BigText(
+            text: widget.content,
+            size: 16,
+            fontWeight: FontWeight.w700,
+          ),
         )
       ],
     ));

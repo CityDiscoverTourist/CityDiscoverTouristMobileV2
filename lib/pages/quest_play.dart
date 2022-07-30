@@ -36,7 +36,7 @@ class QuestsPlayPage extends StatelessWidget {
           automaticallyImplyLeading: false,
           backgroundColor: Colors.redAccent,
           title: BigText(
-            text: 'My Quest',
+            text: 'my quest'.tr,
             color: Colors.white,
             fontWeight: FontWeight.w700,
           ),
@@ -66,7 +66,7 @@ class QuestsPlayPage extends StatelessWidget {
             );
           } else {
             return SplashStart(
-              content: "Watting",
+              content: "waiting.....".tr,
             );
           }
         })),
@@ -147,10 +147,12 @@ class QuestsPlayPage extends StatelessWidget {
                         ),
                 ),
                 ListTile(
-                  title: BigText(text: pQuest.questName,fontWeight: FontWeight.w600,),
+                  title: BigText(
+                    text: pQuest.questName,
+                    fontWeight: FontWeight.w600,
+                  ),
                   subtitle: Column(
                     children: [
-                      
                       Align(
                         alignment: Alignment.topLeft,
                         child: CountdownTimer(
@@ -168,15 +170,19 @@ class QuestsPlayPage extends StatelessWidget {
                               return BigText(
                                 text: (() {
                                   if (time.days != null) {
-                                    return "Thời gian còn lại: ${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
+                                    return "time remaining".tr +
+                                        " ${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
                                   } else if (time.min == null) {
-                                    return "Thời gian còn lại: ${time.sec}s";
+                                    return "time remaining".tr +
+                                        " ${time.sec}s";
                                   } else if (time.hours == null) {
-                                    return "Thời gian còn lại: ${time.min}m:${time.sec}s";
+                                    return "time remaining".tr +
+                                        "${time.min}m:${time.sec}s";
                                   } else if (time.days == null) {
-                                    return "Thời gian còn lại: ${time.hours}h:${time.min}m:${time.sec}s";
+                                    return "time remaining".tr +
+                                        " ${time.hours}h:${time.min}m:${time.sec}s";
                                   } else {
-                                    return "Time up";
+                                    return "time up".tr;
                                   }
                                 })(),
                                 color: Colors.green,
@@ -215,10 +221,10 @@ class QuestsPlayPage extends StatelessWidget {
   showAlertDialog(BuildContext context, PurchasedQuest pQuest) {
     // Create button
     Widget okButton = FlatButton(
-      child: Text("Đồng ý"),
+      child: Text("ok".tr),
       onPressed: () {
-         Get.put(PlayControllerV2()).pQuest = pQuest;
-         Navigator.of(context).pop();
+        Get.put(PlayControllerV2()).pQuest = pQuest;
+        Navigator.of(context).pop();
         // Get.to(RulePage(
         //   pQuest: pQuest,
         // ));
@@ -227,7 +233,7 @@ class QuestsPlayPage extends StatelessWidget {
       },
     );
     Widget cancelButton = FlatButton(
-      child: Text("Hủy"),
+      child: Text("cancel".tr),
       onPressed: () {
         Navigator.of(context).pop();
       },
@@ -235,9 +241,10 @@ class QuestsPlayPage extends StatelessWidget {
 
     // Create AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Xác nhận"),
+      title: Text("cofirm".tr),
       content: Text(
-          "Quest đã vào chơi không được sử dụng lại. Bạn có muốn xác nhận?"),
+          "quests that have entered the game cannot be reused. do you want to confirm?"
+              .tr),
       actions: [okButton, cancelButton],
     );
 

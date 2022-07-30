@@ -94,7 +94,7 @@ class AnswerPage extends StatelessWidget {
                   ),
                   Center(
                     child: BigText(
-                        text: 'NUM OF QUESTION ' +
+                        text: 'NUM OF QUESTION '.tr +
                             controller.questItemCurrent.id.toString()),
                   ),
                   SizedBox(
@@ -121,13 +121,14 @@ class AnswerPage extends StatelessWidget {
                                         // Obx(() =>
                                         TextField(
                                       controller: myController,
-                                      
                                       readOnly:
                                           controller.isDisableTextField.value,
                                       decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                          labelText:   controller.isDisableTextField.isTrue?controller.currentAns.value:''
-                                      ),
+                                          border: OutlineInputBorder(),
+                                          labelText: controller
+                                                  .isDisableTextField.isTrue
+                                              ? controller.currentAns.value
+                                              : ''),
                                     ),
                                     // ),
                                   ),
@@ -144,7 +145,7 @@ class AnswerPage extends StatelessWidget {
                                             // }
                                             controller.clickAnswer();
                                           },
-                                          child: Text('Submit',
+                                          child: Text('submit'.tr,
                                               style: TextStyle(fontSize: 16)),
                                           style: ElevatedButton.styleFrom(
                                             padding: const EdgeInsets.only(
@@ -171,7 +172,7 @@ class AnswerPage extends StatelessWidget {
                                             // }
                                             controller.clickAnswer();
                                           },
-                                          child: Text('Submit',
+                                          child: Text('submit'.tr,
                                               style: TextStyle(fontSize: 16)),
                                           style: ElevatedButton.styleFrom(
                                             padding: const EdgeInsets.only(
@@ -201,7 +202,7 @@ class AnswerPage extends StatelessWidget {
   showAlertDialog(BuildContext context, String sugg) {
     // Create button
     Widget okButton = FlatButton(
-      child: Text("OK"),
+      child: Text("ok".tr),
       onPressed: () {
         // Get.to(RulePage(
         //   pQuest: pQuest,
@@ -219,7 +220,7 @@ class AnswerPage extends StatelessWidget {
 
     // Create AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Suggestion"),
+      title: Text("suggestion".tr),
       content: BigText(
         text: sugg,
       ),

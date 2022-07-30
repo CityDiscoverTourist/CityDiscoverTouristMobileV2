@@ -8,7 +8,7 @@ import 'package:gender_picker/source/gender_picker.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/blocs/sign_in_bloc.dart';
+// import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/snacbar.dart';
@@ -66,20 +66,20 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
-  Future uploadPicture() async {
-    final SignInBloc sb = context.read<SignInBloc>();
-    Reference storageReference =
-        FirebaseStorage.instance.ref().child('Profile Pictures/${sb.uid}');
-    UploadTask uploadTask = storageReference.putFile(imageFile!);
+  // Future uploadPicture() async {
+  //   // final SignInBloc sb = context.read<SignInBloc>();
+  //   // Reference storageReference =
+  //   //     FirebaseStorage.instance.ref().child('Profile Pictures/${sb.uid}');
+  //   UploadTask uploadTask = storageReference.putFile(imageFile!);
 
-    await uploadTask.whenComplete(() async {
-      var _url = await storageReference.getDownloadURL();
-      var _imageUrl = _url.toString();
-      setState(() {
-        imageUrl = _imageUrl;
-      });
-    });
-  }
+  //   await uploadTask.whenComplete(() async {
+  //     var _url = await storageReference.getDownloadURL();
+  //     var _imageUrl = _url.toString();
+  //     setState(() {
+  //       imageUrl = _imageUrl;
+  //     });
+  //   });
+  // }
 
   Future handleUpdateData() async {
     // final sb = context.read<SignInBloc>();

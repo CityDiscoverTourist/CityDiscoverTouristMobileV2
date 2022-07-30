@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:travel_hour/models/reward.dart';
 
 class VoucherWidget extends StatefulWidget {
@@ -96,8 +97,8 @@ class _VoucherWidgetState extends State<VoucherWidget> {
                   SnackBar(content: Text('Copied to your clipboard !')));
             });
           },
-          child: const Text(
-            'Copy Code',
+          child: Text(
+            'copy code'.tr,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
