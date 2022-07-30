@@ -200,6 +200,10 @@ class PlayControllerV2 extends GetxController {
           questItemCurrent.id.toString());
       cusTask = await PlayService().checkAnswer(
           customerQuestID.value, currentAns.value, questItemCurrent.id);
+      // cusTask = await PlayService().checkAnswerV2(
+      //     customerQuestID.value.toString(),
+      //     questItemCurrent.id.toString(),
+      //     currentAns.value);
       correctAns.value = cusTask.isFinished;
 
       print('handleAuthStateChanged ' + customerQuestID.toString());
@@ -244,7 +248,7 @@ class PlayControllerV2 extends GetxController {
               StopWatchTimer.getDisplayTime(value, milliSecond: false)
                   .toString());
           endPoint = await PlayService.updateEndPoint(customerQuestID.value);
-          Get.lazyPut(()=>CommentController());
+          Get.lazyPut(() => CommentController());
           Get.to(CompletedPageV2());
         }
         print(questItemCurrent.id);

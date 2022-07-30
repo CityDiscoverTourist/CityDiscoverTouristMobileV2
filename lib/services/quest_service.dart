@@ -85,7 +85,9 @@ class QuestService {
                 Get.find<LoginControllerV2>().language.value.toString()),
         headers: {
           "Accept": "application/json",
-          "content-type": "application/json"
+          "content-type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         });
     print("fetchQuestFeatureDataV2 - 79 questService.dart: "
         '${response.statusCode}');
