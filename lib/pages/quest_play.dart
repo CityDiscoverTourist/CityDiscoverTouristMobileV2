@@ -159,7 +159,7 @@ class QuestsPlayPage extends StatelessWidget {
                           endTime: endTime,
                           widgetBuilder: (_, CurrentRemainingTime? time) {
                             if (time == null) {
-                              return Text('Time up');
+                              return Text('time up'.tr);
                             }
                             // return BigText(
                             //   text:
@@ -203,6 +203,9 @@ class QuestsPlayPage extends StatelessWidget {
             top: 0,
             child: InkWell(
               onTap: () {
+                // if(Get.find<PlayControllerV2>().checkLocation() == false){
+
+                // }
                 showAlertDialog(context, pQuest);
               },
               child: CircleAvatar(

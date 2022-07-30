@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
+import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/quest.dart';
 import 'package:travel_hour/utils/empty.dart';
 import 'package:travel_hour/utils/list_card.dart';
@@ -38,96 +39,143 @@ class _HistoryPageState extends State<HistoryPage>
       length: 2,
       initialIndex: 0,
       child: Scaffold(
-        backgroundColor: Colors.grey[100],
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text('playing history'.tr),
-          centerTitle: false,
-          titleSpacing: 20,
-          // bottom: TabBar(
-          //     labelPadding: EdgeInsets.only(left: 10, right: 10),
-          //     indicatorColor: Theme.of(context).primaryColor,
-          //     isScrollable: false,
-          //     labelColor: Colors.black,
-          //     unselectedLabelColor: Colors.grey[500],
-          //     indicatorWeight: 0,
-          //     indicatorSize: TabBarIndicatorSize.tab,
-          //     labelStyle: TextStyle(
-          //         fontFamily: 'Manrope',
-          //         fontSize: 15,
-          //         fontWeight: FontWeight.w600),
-          //     indicator: MD2Indicator(
-          //       indicatorHeight: 3,
-          //       indicatorSize: MD2IndicatorSize.normal,
-          //       indicatorColor: Theme.of(context).primaryColor,
-          //     ),
-          //     tabs: [
-          //       Tab(
-          //         child: Container(
-          //           padding: EdgeInsets.only(left: 15, right: 15),
-          //           alignment: Alignment.centerLeft,
-          //           child: Text('saved places'.tr),
-          //         ),
-          //       ),
-          //       Tab(
-          //         child: Container(
-          //           padding: EdgeInsets.only(left: 15, right: 15),
-          //           alignment: Alignment.centerLeft,
-          //           child: Text('saved blogs'.tr),
-          //         ),
-          //       )
-          //     ]),
-        ),
-        // body: TabBarView(children: <Widget>[
-        //   BookmarkedPlaces(),
-        //   BookmarkedBlogs(),
-        // ]),
-        body: Container(
-          child: FutureBuilder(
-            // future: context.watch<BookmarkBloc>().getPlaceData(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (list.isNotEmpty) {
-                if (list.length == 0)
-                  return EmptyPage(
-                    icon: Feather.bookmark,
-                    message: 'no playing history found'.tr,
-                    message1: ''.tr,
-                  );
-                else
-                  return ListView.separated(
-                    padding: EdgeInsets.all(5),
-                    itemCount: list.length,
-                    separatorBuilder: (context, index) => SizedBox(
-                      height: 5,
-                    ),
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListCard(
-                        d: list[index],
-                        tag: "bookmark$index",
-                        color: Colors.white,
-                      );
-                    },
-                  );
-              }
-              return ListView.separated(
-                padding: EdgeInsets.all(15),
-                itemCount: 5,
-                separatorBuilder: (BuildContext context, int index) => SizedBox(
-                  height: 10,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  return LoadingCard(height: 150);
-                },
-              );
-            },
+          backgroundColor: Colors.grey[100],
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Text('playing history'.tr),
+            centerTitle: false,
+            titleSpacing: 20,
+            // bottom: TabBar(
+            //     labelPadding: EdgeInsets.only(left: 10, right: 10),
+            //     indicatorColor: Theme.of(context).primaryColor,
+            //     isScrollable: false,
+            //     labelColor: Colors.black,
+            //     unselectedLabelColor: Colors.grey[500],
+            //     indicatorWeight: 0,
+            //     indicatorSize: TabBarIndicatorSize.tab,
+            //     labelStyle: TextStyle(
+            //         fontFamily: 'Manrope',
+            //         fontSize: 15,
+            //         fontWeight: FontWeight.w600),
+            //     indicator: MD2Indicator(
+            //       indicatorHeight: 3,
+            //       indicatorSize: MD2IndicatorSize.normal,
+            //       indicatorColor: Theme.of(context).primaryColor,
+            //     ),
+            //     tabs: [
+            //       Tab(
+            //         child: Container(
+            //           padding: EdgeInsets.only(left: 15, right: 15),
+            //           alignment: Alignment.centerLeft,
+            //           child: Text('saved places'.tr),
+            //         ),
+            //       ),
+            //       Tab(
+            //         child: Container(
+            //           padding: EdgeInsets.only(left: 15, right: 15),
+            //           alignment: Alignment.centerLeft,
+            //           child: Text('saved blogs'.tr),
+            //         ),
+            //       )
+            //     ]),
           ),
-        ),
-      ),
+          // body: TabBarView(children: <Widget>[
+          //   BookmarkedPlaces(),
+          //   BookmarkedBlogs(),
+          // ]),
+          body: RefreshIndicator(
+              child: Container(
+                child: FutureBuilder(
+                  // future: context.watch<BookmarkBloc>().getPlaceData(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (list.isNotEmpty) {
+                      if (list.length == 0)
+                        return EmptyPage(
+                          icon: Feather.bookmark,
+                          message: 'no playing history found'.tr,
+                          message1: ''.tr,
+                        );
+                      else
+                        return ListView.separated(
+                          padding: EdgeInsets.all(5),
+                          itemCount: list.length,
+                          separatorBuilder: (context, index) => SizedBox(
+                            height: 5,
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListCard(
+                              d: list[index],
+                              tag: "bookmark$index",
+                              color: Colors.white,
+                            );
+                          },
+                        );
+                    }
+                    return ListView.separated(
+                      padding: EdgeInsets.all(15),
+                      itemCount: 5,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          SizedBox(
+                        height: 10,
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        return LoadingCard(height: 150);
+                      },
+                    );
+                  },
+                ),
+              ),
+              onRefresh: _onRefresh)
+          // Container(
+          //   child: FutureBuilder(
+          //     // future: context.watch<BookmarkBloc>().getPlaceData(),
+          //     builder: (BuildContext context, AsyncSnapshot snapshot) {
+          //       if (list.isNotEmpty) {
+          //         if (list.length == 0)
+          //           return EmptyPage(
+          //             icon: Feather.bookmark,
+          //             message: 'no playing history found'.tr,
+          //             message1: ''.tr,
+          //           );
+          //         else
+          //           return ListView.separated(
+          //             padding: EdgeInsets.all(5),
+          //             itemCount: list.length,
+          //             separatorBuilder: (context, index) => SizedBox(
+          //               height: 5,
+          //             ),
+          //             itemBuilder: (BuildContext context, int index) {
+          //               return ListCard(
+          //                 d: list[index],
+          //                 tag: "bookmark$index",
+          //                 color: Colors.white,
+          //               );
+          //             },
+          //           );
+          //       }
+          //       return ListView.separated(
+          //         padding: EdgeInsets.all(15),
+          //         itemCount: 5,
+          //         separatorBuilder: (BuildContext context, int index) => SizedBox(
+          //           height: 10,
+          //         ),
+          //         itemBuilder: (BuildContext context, int index) {
+          //           return LoadingCard(height: 150);
+          //         },
+          //       );
+          //     },
+          //   ),
+          // ),
+          ),
     );
   }
 
   @override
   bool get wantKeepAlive => true;
+  Future<void> _onRefresh() async {
+    list = Get.find<HomeController>()
+        .fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id);
+  }
 }
 
 // class BookmarkedPlaces extends StatefulWidget {

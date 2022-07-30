@@ -15,6 +15,7 @@ import 'package:http/http.dart' as http;
 
 import '../api/api.dart';
 import '../api/api_end_points.dart';
+import '../common/customFullScreenDialog.dart';
 
 class PlayService {
 //Tạo sở hữu lượt chơi
@@ -37,7 +38,9 @@ class PlayService {
             "https://citytourist.azurewebsites.net/api/v1/customer-quests"),
         headers: {
           "Accept": "application/json",
-          "content-type": "application/json"
+          "content-type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         },
         body: jsonEncode(body));
     print('createCustomerQuest StatusCode: ' + response.statusCode.toString());
@@ -69,7 +72,9 @@ class PlayService {
                 questID.toString()),
         headers: {
           "Accept": "application/json",
-          "content-type": "application/json"
+          "content-type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         },
         body: jsonEncode(body));
     print('confirmTheFirstStart StatusCode: ' + response.statusCode.toString());
@@ -89,7 +94,11 @@ class PlayService {
             questItemId.toString() +
             '?language=' +
             Get.find<LoginControllerV2>().language.value.toString()),
-        headers: {"Content-Type": "application/json"});
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+        });
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       final rs = QuestItem.fromJson(responseData['data']);
@@ -128,7 +137,11 @@ class PlayService {
             customerReply +
             "&questItemId=" +
             questItemId.toString()),
-        headers: {"Content-Type": "application/json"});
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+        });
     // print(Api.baseUrl +
     //     ApiEndPoints.checkAnswer +
     //     customerQuestId +
@@ -154,7 +167,11 @@ class PlayService {
     var response = await http.put(
         Uri.parse(
             'https://citytourist.azurewebsites.net/api/v1/customer-quests/update-end-point/${customerQuestId}'),
-        headers: {"Content-Type": "application/json"});
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+        });
     print("updateEndPoint Statuscode" + response.statusCode.toString());
     if (response.statusCode == 200) {
       // final responseData = json.decode(response.body);
@@ -175,7 +192,11 @@ class PlayService {
     var response = await http.put(
         Uri.parse(
             "https://citytourist.azurewebsites.net/api/v1/customer-tasks/decrease-point-suggestion/${customerQuestId}"),
-        headers: {"Content-Type": "application/json"});
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+        });
     if (response.statusCode == 200) {
       Map data = jsonDecode(response.body);
       rs = CustomerTask.fromJson(data['data']);
@@ -190,7 +211,11 @@ class PlayService {
     var response = await http.put(
         Uri.parse(
             "https://citytourist.azurewebsites.net/api/v1/customer-tasks/move-next-task?questId=${questId}&customerQuestId=${customerQuestId}"),
-        headers: {"Content-Type": "application/json"});
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+        });
     // print(Api.baseUrl +
     //     ApiEndPoints.checkAnswer +
     //     customerQuestId +
@@ -217,7 +242,11 @@ class PlayService {
     var response = await http.get(
         Uri.parse(
             "https://citytourist.azurewebsites.net/api/v1/customer-tasks/show-suggestion/${questItemId}"),
-        headers: {"Content-Type": "application/json"});
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+        });
     // print(Api.baseUrl +
     //     ApiEndPoints.checkAnswer +
     //     customerQuestId +
@@ -239,6 +268,7 @@ class PlayService {
 
   Future<List?> buyQuest(var id, String customerId, String questID,
       int quantity, var totalAmout, var discountCode) async {
+    CustomFullScreenDialog.showDialog();
     List returnData = new List.empty(growable: true);
     // var now = new DateTime.now();
     // var dateFormatted = DateFormat("yyyy-MM-ddTHH:mm:ss").format(now);
@@ -257,7 +287,12 @@ class PlayService {
       httpString = httpString + "?discountCode=" + discountCode;
     }
     var response = await http.post(Uri.parse(httpString),
-        headers: {"Content-Type": "application/json"}, body: body);
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+        },
+        body: body);
     print(Api.baseUrl + ApiEndPoints.buyQuest);
     // print(Api.baseUrl +
     //     ApiEndPoints.checkAnswer +
@@ -273,6 +308,7 @@ class PlayService {
       returnData = data["data"];
       // print(data);
       print(returnData);
+      CustomFullScreenDialog.cancelDialog();
       return returnData;
     }
     print("Error");
@@ -291,7 +327,11 @@ class PlayService {
     var body = json.encode(mydata);
     var response = await http.post(
         Uri.parse(Api.baseUrl + ApiEndPoints.customerStartQuest + questID),
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+        },
         body: body);
     print(Api.baseUrl + ApiEndPoints.buyQuest);
     // print(Api.baseUrl +
@@ -379,7 +419,11 @@ class PlayService {
             // +
             // long!
             ),
-        headers: {"Content-Type": "application/json"});
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+        });
 
     if (response.statusCode == 200) {
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
@@ -405,7 +449,11 @@ class PlayService {
             // +
             // long!
             ),
-        headers: {"Content-Type": "application/json"});
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+        });
 
     if (response.statusCode == 200) {
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
@@ -415,9 +463,14 @@ class PlayService {
   }
 
   Future<bool> checkPaymentStatus(String paymentId) async {
+    CustomFullScreenDialog.showDialog();
     var response = await http.get(
       Uri.parse(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId),
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization':
+            'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+      },
     );
     // print(Api.baseUrl +
     //     ApiEndPoints.checkPaymentStatus +
@@ -428,18 +481,22 @@ class PlayService {
       // print("Get Data ok");
       // print(data["data"]["status"]);
       if (data["data"]["status"] == "success") {
+        CustomFullScreenDialog.cancelDialog();
         return true;
       }
+      CustomFullScreenDialog.cancelDialog();
       return false;
     }
+    CustomFullScreenDialog.cancelDialog();
     return Future<bool>.value(false);
   }
 
-  Future<CustomerTask?> checkAnswerV2(
+  Future<CustomerTask> checkAnswerV2(
       String customerQuestId, String questItemId, String customerReply) async {
     String requestUrl;
     CustomerTask? rs;
-    if (customerReply != null) {
+    print("CheckAnswerV2:" + customerReply);
+    if (customerReply != "") {
       requestUrl = Api.baseUrl +
           ApiEndPoints.checkAnswer +
           customerQuestId.toString() +
@@ -450,13 +507,15 @@ class PlayService {
       var request = new http.MultipartRequest("PUT", Uri.parse(requestUrl));
       request.headers["accept"] = "text/plain";
       request.headers["Content-Type"] = "multipart/form-data";
+      request.headers["Authorization"] =
+          "Bearer " + Get.find<LoginControllerV2>().jwtToken.value;
       print("Request:" + request.toString());
       var response = await request.send();
       print("Status code:" + response.statusCode.toString());
       if (response.statusCode == 200) {
         response.stream.transform(utf8.decoder).listen((value) {
           Map<String, dynamic> result = jsonDecode(value);
-          // print(result["data"]);
+          print(result["data"]);
           // Get.find<LoginControllerV2>().sp = Customer.fromJson(result["data"]);
           rs = CustomerTask.fromJson(result["data"]);
         });
@@ -479,6 +538,8 @@ class PlayService {
         request.files.add(await http.MultipartFile.fromPath("file", file.path));
         request.headers["accept"] = "text/plain";
         request.headers["Content-Type"] = "multipart/form-data";
+        request.headers["Authorization"] =
+            "Bearer " + Get.find<LoginControllerV2>().jwtToken.value;
         print("Request:" + request.toString());
         var response = await request.send();
         print("Status code:" + response.statusCode.toString());
