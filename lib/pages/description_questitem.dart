@@ -18,8 +18,8 @@ class DescriptionPage extends GetView<PlayControllerV2> {
     return Scaffold(
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text("Progress Page + "+controller.questItemCurrent.description),
-            Center(
+          Text("progress page ".tr + controller.questItemCurrent.description),
+          Center(
             child: TextButton(
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
@@ -33,7 +33,7 @@ class DescriptionPage extends GetView<PlayControllerV2> {
                 Get.to(AnswerPage());
                 print("HCM HCM HCM");
               },
-              child: Text('Start'),
+              child: Text('get started'.tr),
             ),
           )
         ]),

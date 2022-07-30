@@ -171,6 +171,32 @@ class Translation extends Translations {
           "password and cofirm password must be the same!":
               "Password and Cofirm password must be the same!",
           "register": "Register",
+          "time up": "Time up",
+          "time remaining": "Time remaining:",
+          "ok": "OK",
+          "quests that have entered the game cannot be reused. do you want to confirm?":
+              "Quests that have entered the game cannot be reused. Do you want to confirm?",
+          "copy code": "Copy Code",
+          "each question you will get 300 points":
+              "Each question you will get 300 points",
+          "you will be answered up to 5 times for a question":
+              "You will be answered up to 5 times for a question",
+          "the 5th time you will be shown the answer":
+              "The 5th time you will be shown the answer",
+          "for each wrong answer, 50 points will be deducted":
+              "For each wrong answer, 50 points will be deducted",
+          "using seggestion will be deducted 75 points (1 time)":
+              "Using suggestion will be deducted 75 points (1 time)",
+          "rulepage": "RulePage",
+          "progress page ": "Progress Page ",
+          "NUM OF QUESTION ": "NUM OF QUESTION ",
+          "submit": "Submit",
+          "suggestion": "Suggestion",
+          "you should know": "You should know",
+          "total distance:": "Total distance: ",
+          "total time:": "Total time: ",
+          "number of question:": "Number of question: ",
+          "don't have any comments": "Don't have any comments"
         },
         'vn': {
           "welcome message":
@@ -343,6 +369,32 @@ class Translation extends Translations {
           "password and cofirm password must be the same!":
               "Mật khẩu và xác nhận phải giống nhau!",
           "register": "Đăng ký",
+          "time up": "Hết giờ",
+          "time remaining": "Thời gian còn lại:",
+          "ok": "Đống ý",
+          "quests that have entered the game cannot be reused. do you want to confirm?":
+              "Quest đã vào chơi không được sử dụng lại. Bạn có muốn xác nhận?",
+          "copy code": "Sao chép mã",
+          "each question you will get 300 points":
+              "Mỗi câu hỏi bạn sẽ có 300 điểm",
+          "you will be answered up to 5 times for a question":
+              "Bạn sẽ được trả lời tối đa 5 lần cho một câu hỏi",
+          "the 5th time you will be shown the answer":
+              "Lần 5 bạn sẽ được hiện đáp án",
+          "for each wrong answer, 50 points will be deducted":
+              "Mỗi lần trả lời sai sẽ bị trừ 50 điểm",
+          "using seggestion will be deducted 75 points (1 time)":
+              "Sử dụng gợi ý sẽ bị trừ 75 điểm (1 lần)",
+          "rulepage": "Trang quy tắc",
+          "progress page ": "Trang tiến trình ",
+          "NUM OF QUESTION ": "SỐ CÂU HỎI ",
+          "submit": "Trả lời",
+          "suggestion": "Gợi ý",
+          "you should know": "Bạn nên biết",
+          "total distance:": "Tổng quãng đường: ",
+          "total time:": "Tổng thời gian: ",
+          "number of question:": "Số lượng câu đó: ",
+          "don't have any comments": "Không có comment nào"
         }
       };
 }

@@ -8,8 +8,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/blocs/comments_bloc.dart';
-import 'package:travel_hour/blocs/sign_in_bloc.dart';
+// import 'package:travel_hour/blocs/comments_bloc.dart';
+// import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/controllers/comment_controller.dart';
 import 'package:travel_hour/models/comment.dart';
 import 'package:travel_hour/pages/splashV2.dart';
@@ -20,7 +20,6 @@ import 'package:travel_hour/utils/empty.dart';
 import 'package:travel_hour/utils/loading_cards.dart';
 import 'package:travel_hour/utils/sign_in_dialog.dart';
 import 'package:travel_hour/utils/toast.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 
 import '../widgets/custom_cache_image.dart';
@@ -194,7 +193,7 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text('comments').tr(),
+        title: Text('comments'.tr),
         titleSpacing: 0,
         actions: [
           IconButton(
@@ -216,7 +215,11 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
                 } else {
                   if (myController.dataComment.length == 0) {
                     print("Rỗng");
-                    return Text("Rỗng");
+                    return EmptyPage(
+                      icon: Icons.comment,
+                      message: "don't have any comments".tr,
+                      message1: ''.tr,
+                    );
                   } else {
                     return RefreshIndicator(
                         child:
@@ -285,7 +288,8 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
                     ),
                     onRatingUpdate: (rating) {
                       myController.rating.value = rating.toInt();
-                      print("Comments_V2:"+myController.rating.value.toString());
+                      print("Comments_V2:" +
+                          myController.rating.value.toString());
                     },
                   ),
                   Container(
@@ -306,7 +310,8 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
                               size: 20,
                             ),
                             onPressed: () {
-                              myController.handleSubmit(textCtrl.text, context,3);
+                              myController.handleSubmit(
+                                  textCtrl.text, context, 3);
                               textCtrl.clear();
                             },
                           )),

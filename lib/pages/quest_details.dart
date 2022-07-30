@@ -127,12 +127,20 @@ class _QuestDetailsState extends State<QuestDetails> {
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                     widget.data!.averageStar!=null||widget.data!.averageStar!=0?SmallText(text: widget.data!.averageStar!.toString()):SmallText(text: "5"),
+                                  widget.data!.averageStar != null ||
+                                          widget.data!.averageStar != 0
+                                      ? SmallText(
+                                          text: widget.data!.averageStar!
+                                              .toString())
+                                      : SmallText(text: "5"),
                                   SizedBox(
                                     width: 10,
                                   ),
                                   RatingBarIndicator(
-                                    rating: widget.data!.averageStar!=null||widget.data!.averageStar!=0?widget.data!.averageStar!.toDouble():5,
+                                    rating: widget.data!.averageStar != null ||
+                                            widget.data!.averageStar != 0
+                                        ? widget.data!.averageStar!.toDouble()
+                                        : 5,
                                     itemBuilder: (context, index) => Icon(
                                       Icons.star,
                                       color: Colors.amber,
@@ -144,7 +152,11 @@ class _QuestDetailsState extends State<QuestDetails> {
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  SmallText(text: widget.data!.totalFeedback.toString()+' comments'),
+                                  SmallText(
+                                      text: widget.data!.totalFeedback
+                                              .toString() +
+                                          ' ' +
+                                          'comments'.tr),
                                 ],
                               ),
                               Container(

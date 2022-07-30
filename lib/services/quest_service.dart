@@ -217,7 +217,10 @@ class QuestService {
         Uri.parse(Api.baseUrl +
             ApiEndPoints.getCustomerQuestByCustomerId +
             customerId),
-        headers: {"Content-Type": "application/json"});
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer ' + myController.jwtToken.value
+        });
     // print(Api.baseUrl + ApiEndPoints.getSuggestion + customerId);
     if (response.statusCode == 200) {
       List<Quest> listQuest = new List.empty(growable: true);
@@ -238,7 +241,9 @@ class QuestService {
             });
         // print(Api.baseUrl +
         //     ApiEndPoints.getQuestById +
-        //     element["questId"].toString());
+        //     element["questId"].toString() +
+        //     "?language=" +
+        //     Get.find<LoginControllerV2>().language.value.toString());
         if (response2.statusCode == 200 && element["isFinished"] == true) {
           var responseData2 = json.decode(response2.body);
           Quest quest = Quest.fromJson(responseData2["data"]);

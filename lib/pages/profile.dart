@@ -7,14 +7,14 @@ import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:travel_hour/blocs/notification_bloc.dart';
-import 'package:travel_hour/blocs/sign_in_bloc.dart';
+// import 'package:travel_hour/blocs/notification_bloc.dart';
+// import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/controllers/login_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/pages/change_password.dart';
 import 'package:travel_hour/pages/edit_profile.dart';
-import 'package:travel_hour/pages/notifications.dart';
+// import 'package:travel_hour/pages/notifications.dart';
 import 'package:travel_hour/pages/sign_in.dart';
 import 'package:travel_hour/pages/sign_inV2.dart';
 import 'package:travel_hour/routes/app_routes.dart';
@@ -95,11 +95,11 @@ class _ProfilePageState extends State<ProfilePage>
         appBar: AppBar(
           title: Text('profile'.tr),
           centerTitle: false,
-          actions: [
-            IconButton(
-                icon: Icon(LineIcons.bell, size: 25),
-                onPressed: () => nextScreen(context, NotificationsPage()))
-          ],
+          // actions: [
+          //   IconButton(
+          //       icon: Icon(LineIcons.bell, size: 25),
+          //       onPressed: () => nextScreen(context, NotificationsPage()))
+          // ],
         ),
         // key: scaffoldKey,
         // bottomNavigationBar: AnimatedBottomNavigationBar(
@@ -189,21 +189,23 @@ class _ProfilePageState extends State<ProfilePage>
             ),
 
             ListTile(
-              title: Text('rate this app'.tr, style: _textStyle),
-              leading: Container(
-                height: 30,
-                width: 30,
-                decoration: BoxDecoration(
-                    color: Colors.orangeAccent,
-                    borderRadius: BorderRadius.circular(5)),
-                child: Icon(Feather.star, size: 20, color: Colors.white),
-              ),
-              trailing: Icon(
-                Feather.chevron_right,
-                size: 20,
-              ),
-              onTap: () async => AppService().launchAppReview(context),
-            ),
+                title: Text('rate this app'.tr, style: _textStyle),
+                leading: Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                      color: Colors.orangeAccent,
+                      borderRadius: BorderRadius.circular(5)),
+                  child: Icon(Feather.star, size: 20, color: Colors.white),
+                ),
+                trailing: Icon(
+                  Feather.chevron_right,
+                  size: 20,
+                ),
+                onTap: null
+                // () async
+                // => AppService().launchAppReview(context),
+                ),
 
             Divider(
               height: 5,

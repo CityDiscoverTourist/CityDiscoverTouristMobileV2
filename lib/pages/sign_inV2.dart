@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_hour/blocs/sign_in_bloc.dart';
+// import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/controllers/login_controller.dart';
@@ -34,8 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
   handleSkip() {
-    final sb = context.read<SignInBloc>();
-    sb.setGuestUser();
+    // final sb = context.read<SignInBloc>();
+    // sb.setGuestUser();
     nextScreen(context, DonePage());
   }
 
@@ -137,45 +137,45 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  handleAppleSignIn() async {
-    final sb = context.read<SignInBloc>();
-    setState(() => appleSignInStarted = true);
-    await AppService().checkInternet().then((hasInternet) async {
-      if (hasInternet == false) {
-        openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
-      } else {
-        await sb.signInWithApple().then((_) {
-          if (sb.hasError == true) {
-            openSnacbar(
-                scaffoldKey, 'something is wrong. please try again.'.tr);
-            setState(() => appleSignInStarted = false);
-          } else {
-            sb.checkUserExists().then((value) {
-              if (value == true) {
-                sb.getUserDatafromFirebase(sb.uid).then((value) => sb
-                    .saveDataToSP()
-                    .then((value) => sb.guestSignout())
-                    .then((value) => sb.setSignIn().then((value) {
-                          setState(() => appleSignInStarted = false);
-                          afterSignIn();
-                        })));
-              } else {
-                sb.getJoiningDate().then((value) => sb
-                    .saveToFirebase()
-                    .then((value) => sb.increaseUserCount())
-                    .then((value) => sb.saveDataToSP().then((value) => sb
-                        .guestSignout()
-                        .then((value) => sb.setSignIn().then((value) {
-                              setState(() => appleSignInStarted = false);
-                              afterSignIn();
-                            })))));
-              }
-            });
-          }
-        });
-      }
-    });
-  }
+  // handleAppleSignIn() async {
+  //   final sb = context.read<SignInBloc>();
+  //   setState(() => appleSignInStarted = true);
+  //   await AppService().checkInternet().then((hasInternet) async {
+  //     if (hasInternet == false) {
+  //       openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
+  //     } else {
+  //       await sb.signInWithApple().then((_) {
+  //         if (sb.hasError == true) {
+  //           openSnacbar(
+  //               scaffoldKey, 'something is wrong. please try again.'.tr);
+  //           setState(() => appleSignInStarted = false);
+  //         } else {
+  //           sb.checkUserExists().then((value) {
+  //             if (value == true) {
+  //               sb.getUserDatafromFirebase(sb.uid).then((value) => sb
+  //                   .saveDataToSP()
+  //                   .then((value) => sb.guestSignout())
+  //                   .then((value) => sb.setSignIn().then((value) {
+  //                         setState(() => appleSignInStarted = false);
+  //                         afterSignIn();
+  //                       })));
+  //             } else {
+  //               sb.getJoiningDate().then((value) => sb
+  //                   .saveToFirebase()
+  //                   .then((value) => sb.increaseUserCount())
+  //                   .then((value) => sb.saveDataToSP().then((value) => sb
+  //                       .guestSignout()
+  //                       .then((value) => sb.setSignIn().then((value) {
+  //                             setState(() => appleSignInStarted = false);
+  //                             afterSignIn();
+  //                           })))));
+  //             }
+  //           });
+  //         }
+  //       });
+  //     }
+  //   });
+  // }
 
   afterSignIn() {
     if (widget.tag == null) {

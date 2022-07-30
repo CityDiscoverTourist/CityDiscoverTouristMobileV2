@@ -7,7 +7,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geo/geo.dart' as geo;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:travel_hour/blocs/ads_bloc.dart';
+// import 'package:travel_hour/blocs/ads_bloc.dart';
 import 'package:travel_hour/models/colors.dart';
 import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/models/place.dart';
