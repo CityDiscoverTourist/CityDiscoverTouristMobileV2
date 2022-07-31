@@ -8,13 +8,13 @@ class Config {
   // final String mapAPIKey = 'AIzaSyCJ_xAkp6ULrF29-zSxBi4LUV57OKmdVsI';
   final String countryName = 'Việt Nam';
   final String splashIcon = 'assets/images/splash.png';
-  final String supportEmail = 'YOUR_EMAIL';
+  final String supportEmail = 'dathaha2000@gmail.com';
   final String privacyPolicyUrl =
       'https://www.freeprivacypolicy.com/privacy/view/053321284ad71cfd5531cf60284de614';
   final String iOSAppId = '000000';
 
-  final String yourWebsiteUrl = 'https://www.mrb-lab.com';
-  final String facebookPageUrl = 'https://www.facebook.com/mrblab24';
+  final String yourWebsiteUrl = 'https://www.citydiscovery.tech/';
+  final String facebookPageUrl = 'https://www.facebook.com/';
   final String youtubeChannelUrl =
       'https://www.youtube.com/channel/UCnNr2eppWVVo-NpRIy1ra7A';
 

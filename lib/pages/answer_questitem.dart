@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -111,7 +112,18 @@ class AnswerPage extends StatelessWidget {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(controller.questItemCurrent.content),
+                          controller.questItemCurrent.questItemTypeId == 2
+                              ? SingleChildScrollView(
+                                  child: Column(children: [
+                                  Text(
+                                      "Bạn hãy tìm và chụp ảnh của giống với ảnh bên dưới nhé(Vui lòng cho app sử dụng camera của bạn)"),
+                                  Image.network(
+                                      controller.questItemCurrent.listImages[1],
+                                      width: 400,
+                                      height: 400,
+                                      fit: BoxFit.fill)
+                                ]))
+                              : Text(controller.questItemCurrent.content),
                           SizedBox(height: 30),
                           Obx(() => Column(
                                 children: [
@@ -119,17 +131,24 @@ class AnswerPage extends StatelessWidget {
                                     padding: const EdgeInsets.all(20.0),
                                     child:
                                         // Obx(() =>
-                                        TextField(
-                                      controller: myController,
-                                      readOnly:
-                                          controller.isDisableTextField.value,
-                                      decoration: InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          labelText: controller
-                                                  .isDisableTextField.isTrue
-                                              ? controller.currentAns.value
-                                              : ''),
-                                    ),
+                                        controller.questItemCurrent
+                                                    .questItemTypeId ==
+                                                2
+                                            ? Container()
+                                            : TextField(
+                                                controller: myController,
+                                                readOnly: controller
+                                                    .isDisableTextField.value,
+                                                decoration: InputDecoration(
+                                                    border:
+                                                        OutlineInputBorder(),
+                                                    labelText: controller
+                                                            .isDisableTextField
+                                                            .isTrue
+                                                        ? controller
+                                                            .currentAns.value
+                                                        : ''),
+                                              ),
                                     // ),
                                   ),
                                   controller.isDisableTextField.isTrue

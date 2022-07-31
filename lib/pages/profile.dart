@@ -127,23 +127,23 @@ class _ProfilePageState extends State<ProfilePage>
             SizedBox(
               height: 15,
             ),
-            ListTile(
-              title: Text('get notifications'.tr, style: _textStyle),
-              leading: Container(
-                height: 30,
-                width: 30,
-                decoration: BoxDecoration(
-                    color: Colors.deepPurpleAccent,
-                    borderRadius: BorderRadius.circular(5)),
-                child: Icon(Feather.bell, size: 20, color: Colors.white),
-              ),
-              // trailing: Switch(
-              //     activeColor: Theme.of(context).primaryColor,
-              //     value: context.watch<NotificationBloc>().subscribed!,
-              //     onChanged: (bool) {
-              //       context.read<NotificationBloc>().fcmSubscribe(bool);
-              //     }),
-            ),
+            // ListTile(
+            //   title: Text('get notifications'.tr, style: _textStyle),
+            //   leading: Container(
+            //     height: 30,
+            //     width: 30,
+            //     decoration: BoxDecoration(
+            //         color: Colors.deepPurpleAccent,
+            //         borderRadius: BorderRadius.circular(5)),
+            //     child: Icon(Feather.bell, size: 20, color: Colors.white),
+            //   ),
+            //   // trailing: Switch(
+            //   //     activeColor: Theme.of(context).primaryColor,
+            //   //     value: context.watch<NotificationBloc>().subscribed!,
+            //   //     onChanged: (bool) {
+            //   //       context.read<NotificationBloc>().fcmSubscribe(bool);
+            //   //     }),
+            // ),
             Divider(
               height: 5,
             ),

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -7,7 +6,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
-import 'package:travel_hour/models/customer.dart';
 import 'package:travel_hour/models/customer_task.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/models/questItem.dart';
@@ -283,7 +281,7 @@ class PlayService {
     };
     var body = json.encode(mydata);
     String httpString = Api.baseUrl + ApiEndPoints.buyQuest;
-    if (discountCode != null) {
+    if (discountCode != "") {
       httpString = httpString + "?discountCode=" + discountCode;
     }
     var response = await http.post(Uri.parse(httpString),
@@ -463,7 +461,7 @@ class PlayService {
   }
 
   Future<bool> checkPaymentStatus(String paymentId) async {
-    CustomFullScreenDialog.showDialog();
+    // CustomFullScreenDialog.showDialog();
     var response = await http.get(
       Uri.parse(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId),
       headers: {
@@ -472,22 +470,20 @@ class PlayService {
             'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
       },
     );
-    // print(Api.baseUrl +
-    //     ApiEndPoints.checkPaymentStatus +
-    //     "59e16d56-8de5-4a8f-877d-76471bdc261e");
+    print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
 
       // print("Get Data ok");
       // print(data["data"]["status"]);
-      if (data["data"]["status"] == "success") {
-        CustomFullScreenDialog.cancelDialog();
+      if (data["data"]["status"].toLowerCase() == "success") {
+        // CustomFullScreenDialog.cancelDialog();
         return true;
       }
-      CustomFullScreenDialog.cancelDialog();
+      // CustomFullScreenDialog.cancelDialog();
       return false;
     }
-    CustomFullScreenDialog.cancelDialog();
+    // CustomFullScreenDialog.cancelDialog();
     return Future<bool>.value(false);
   }
 
@@ -495,7 +491,9 @@ class PlayService {
       String customerQuestId, String questItemId, String customerReply) async {
     String requestUrl;
     CustomerTask? rs;
-    print("CheckAnswerV2:" + customerReply);
+    print("customerQuestId:" + customerQuestId);
+    print("questItemId:" + questItemId);
+    print("customerReply:" + customerReply);
     if (customerReply != "") {
       requestUrl = Api.baseUrl +
           ApiEndPoints.checkAnswer +
@@ -513,48 +511,78 @@ class PlayService {
       var response = await request.send();
       print("Status code:" + response.statusCode.toString());
       if (response.statusCode == 200) {
-        response.stream.transform(utf8.decoder).listen((value) {
-          Map<String, dynamic> result = jsonDecode(value);
-          print(result["data"]);
-          // Get.find<LoginControllerV2>().sp = Customer.fromJson(result["data"]);
-          rs = CustomerTask.fromJson(result["data"]);
-        });
+        String reply = await response.stream.transform(utf8.decoder).join();
+        Map<String, dynamic> result = jsonDecode(reply);
+        print(result["data"]);
+        rs = CustomerTask.fromJson(result["data"]);
         return Future<CustomerTask>.value(rs);
       }
     } else {
-      requestUrl = Api.baseUrl +
-          ApiEndPoints.checkAnswer +
-          customerQuestId.toString() +
-          "&questItemId=" +
-          questItemId.toString();
-
+      // requestUrl = Api.baseUrl +
+      //     ApiEndPoints.checkAnswer +
+      //     customerQuestId.toString() +
+      //     "?customerReply=" +
+      //     "1" +
+      //     "&questItemId=" +
+      //     questItemId.toString();
+      requestUrl =
+          "https://citytourist.azurewebsites.net/weather-forecast/demo2?api-version=1";
+      // final ImagePicker imagePicker = ImagePicker();
+      // List<XFile>? imageFileList = [];
+      // final List<XFile>? selectedImages = await imagePicker.pickMultiImage(
+      //     maxHeight: 480, maxWidth: 640, imageQuality: 50);
+      // if (selectedImages!.isNotEmpty) {
+      //   imageFileList.addAll(selectedImages);
+      // }
       final ImagePicker _picker = ImagePicker();
+      print(requestUrl);
+      //maxHeight: 2560, maxWidth: 1152
       final XFile? pickedFile = await _picker.pickImage(
-        source: ImageSource.camera,
-      );
+          source: ImageSource.camera, maxHeight: 2560, maxWidth: 1152);
       if (pickedFile != null) {
-        var file = File(pickedFile.path);
-        var request = new http.MultipartRequest("PUT", Uri.parse(requestUrl));
-        request.files.add(await http.MultipartFile.fromPath("file", file.path));
+        final LostDataResponse response2 = await _picker.retrieveLostData();
+        File file = File(pickedFile.path);
+        if (file != null) {
+          print("Not ok");
+        } else {
+          print("Ok");
+        }
+        print("Path" + pickedFile.path);
+        var request = new http.MultipartRequest("POST", Uri.parse(requestUrl));
+        // request.files
+        //     .add(await http.MultipartFile.fromPath("files", file.path));
         request.headers["accept"] = "text/plain";
         request.headers["Content-Type"] = "multipart/form-data";
         request.headers["Authorization"] =
             "Bearer " + Get.find<LoginControllerV2>().jwtToken.value;
         print("Request:" + request.toString());
-        var response = await request.send();
+        if (response2.files != null) {
+          final XFile file2 = response2.files as XFile;
+          print(file2.path);
+          request.files
+              .add(await http.MultipartFile.fromPath("file", file2.path));
+        } else {
+          var pic = await http.MultipartFile.fromPath("file", file.path);
+          request.files.add(pic);
+        }
+        // for (var element in imageFileList) {
+        //   var file2 = File(element.path);
+        //   request.files
+        //       .add(await http.MultipartFile.fromPath("files", file2.path));
+        // }
+        var response = await request.send().timeout(Duration(minutes: 15));
         print("Status code:" + response.statusCode.toString());
+        String reply = await response.stream.transform(utf8.decoder).join();
+        print(reply);
         if (response.statusCode == 200) {
-          response.stream.transform(utf8.decoder).listen((value) {
-            Map<String, dynamic> result = jsonDecode(value);
-            // print(result["data"]);
-            // Get.find<LoginControllerV2>().sp = Customer.fromJson(result["data"]);
-            rs = CustomerTask.fromJson(result["data"]);
-          });
+          // String reply = await response.stream.transform(utf8.decoder).join();
+          Map<String, dynamic> result = jsonDecode(reply);
+          print(result["data"]);
+          rs = CustomerTask.fromJson(result["data"]);
           return Future<CustomerTask>.value(rs);
         }
       }
     }
-
     return Future<CustomerTask>.value(null);
   }
 }

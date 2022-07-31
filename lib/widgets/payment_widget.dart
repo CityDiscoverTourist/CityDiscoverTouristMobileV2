@@ -76,6 +76,7 @@ class PaymentWidgetState extends State<PaymentWidget>
         } else {
           setState(() {
             _paymentStatus = "";
+            playCode = uuid.v4();
           });
         }
         break;
@@ -358,7 +359,7 @@ class PaymentWidgetState extends State<PaymentWidget>
                           widget.quest.id.toString(),
                           quantity2,
                           total,
-                          null);
+                          voucherCtl.text);
                       // Get.to(QuestsPlayPage());
                       Navigator.push(
                           context,
