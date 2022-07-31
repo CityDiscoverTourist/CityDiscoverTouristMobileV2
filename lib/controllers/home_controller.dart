@@ -141,6 +141,7 @@ class HomeController extends GetxController {
       await fetchQuestFeatureData();
       await fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id);
       await fetchQuestTypeData();
+      // await fetchQuestTypeData();
     } finally {
       isLoading(false);
     }

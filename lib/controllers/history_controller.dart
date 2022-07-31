@@ -47,7 +47,7 @@ class HistoryController extends GetxController {
       isLoading(true);
       var quest_typeListApi = await PurchasedService.fetchPurchasedQuests(
           Get.find<LoginControllerV2>().sp.id.toString(),
-          0,
+          Get.find<LoginControllerV2>().language.value,
           Get.find<LoginControllerV2>().jwtToken.value);
       if (quest_typeListApi != null) {
         print('Co Roi Ne');

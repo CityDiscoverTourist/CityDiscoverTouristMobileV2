@@ -196,7 +196,27 @@ class Translation extends Translations {
           "total distance:": "Total distance: ",
           "total time:": "Total time: ",
           "number of question:": "Number of question: ",
-          "don't have any comments": "Don't have any comments"
+          "don't have any comments": "Don't have any comments",
+          "Customer not found": "Customer not found",
+          "success": "Success",
+          "check you email to get new password":
+              "Check you email to get new password",
+          "error": "Error",
+          "error change password": "Error change password",
+          "success change password": "Success change password",
+          "User already exists": "User already exists",
+          "error register": "Error register",
+          "please confim you email before login!":
+              "Please confim you email before login!",
+          "user not exist or wrong username and password":
+              "User not exist or wrong username and password",
+          "only 1 answer left": "Only 1 answer left",
+          "wrong answer": "Wrong Answer",
+          "right answer": "Right Answer",
+          "congratulations": "Congratulations",
+          "error ticket": "Error ticket",
+          "previous quest not over. please contact the hotline for support":
+              "Previous Quest Not Over. Please contact the hotline for support"
         },
         'vn': {
           "welcome message":
@@ -394,7 +414,27 @@ class Translation extends Translations {
           "total distance:": "Tổng quãng đường: ",
           "total time:": "Tổng thời gian: ",
           "number of question:": "Số lượng câu đó: ",
-          "don't have any comments": "Không có comment nào"
+          "don't have any comments": "Không có comment nào",
+          "Customer not found": "Người dùng không tồn tại",
+          "success": "Thành công",
+          "check you email to get new password":
+              "Kiểm tra mail của bạn để nhận mật khẩu mới",
+          "error": "Lỗi",
+          "error change password": "Lỗi khi đổi mật khẩu",
+          "success change password": "Đổi mật khẩu thành công",
+          "User already exists": "Người dùng đã tồn tại",
+          "error register": "Lỗi khi đăng ký",
+          "please confim you email before login!":
+              "Vui lòng xác nhận tài khoản của bạn qua mail trước khi đăng nhập!",
+          "user not exist or wrong username and password":
+              "Người dùng không tông tại hoặc sai tài khoản/mật khẩu",
+          "only 1 answer left": "Chỉ còn 1 lần trả lời",
+          "wrong answer": "Trả lời sai",
+          "right answer": "Trả lời đúng",
+          "congratulations": "Chúc mừng!",
+          "error ticket": "Vé lỗi",
+          "previous quest not over. please contact the hotline for support":
+              "Quest trước chưa được hoàn thành vui lòng liên hệ hotline để hỗ trợ",
         }
       };
 }

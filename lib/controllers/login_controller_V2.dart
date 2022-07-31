@@ -7,12 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:travel_hour/common/customFullScreenDialog.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/models/customer.dart';
 import 'package:travel_hour/pages/register.dart';
 import 'package:travel_hour/pages/sign_inV2.dart';
+import 'package:travel_hour/pages/splashV2.dart';
 
 import '../api/api.dart';
 import '../api/api_end_points.dart';
@@ -32,6 +34,7 @@ class LoginControllerV2 extends GetxController {
   late Customer sp;
   var language = 0.obs;
   var loginByNamePass = false.obs;
+  SharedPreferences? sharedPreferences;
 
   @override
   void onInit() {
@@ -43,25 +46,41 @@ class LoginControllerV2 extends GetxController {
   void onReady() async {
     super.onReady();
     changeLanguage();
+    sharedPreferences = await SharedPreferences.getInstance();
     print("[Login V2]-L28-ONREADY :");
-    googleSign = GoogleSignIn();
     ever(isSignIn, handleAuthStateChanged);
-    isSignIn.value = firebaseAuth.currentUser != null;
-    firebaseAuth.authStateChanges().listen((event) {
-      isSignIn.value = event != null;
-    });
+    if (sharedPreferences!.containsKey("loginFace")) {
+      isSignIn.value = true;
+    } else if (sharedPreferences!.containsKey("loginAccount")) {
+      isSignIn.value = true;
+    } else {
+      googleSign = GoogleSignIn();
+      isSignIn.value = firebaseAuth.currentUser != null;
+      firebaseAuth.authStateChanges().listen((event) {
+        isSignIn.value = event != null;
+      });
+    }
   }
 
   void handleAuthStateChanged(isLoggedIn) async {
     print("[LoginController V2]-L162-DeviceID:" + deviceId);
     if (isLoggedIn) {
+      sharedPreferences = await SharedPreferences.getInstance();
       print("[LoginControllerV2]-L164: ");
-      sp = await LoginService().apiCheckLogin(
-          await firebaseAuth.currentUser!.getIdToken(), deviceId);
+      if (sharedPreferences!.containsKey("loginFace")) {
+        String? token = sharedPreferences!.getString("resource");
+        sp = await LoginService().checkFacebookLogin(token!);
+      } else if (sharedPreferences!.containsKey("loginAccount")) {
+        String? userName = sharedPreferences!.getString("userName");
+        String? password = sharedPreferences!.getString("password");
+        loginUsernamePassword(userName!, password!);
+      } else {
+        sp = await LoginService().apiCheckLogin(
+            await firebaseAuth.currentUser!.getIdToken(), deviceId);
+      }
+
       if (sp != null) {
         //  Get.put(HomeController(),permanent: true);
-        Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
-      } else if (loginByNamePass == true) {
         Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
       } else {
         await googleSign.disconnect();
@@ -91,10 +110,13 @@ class LoginControllerV2 extends GetxController {
   }
 
   void logout() async {
-    if (loginByNamePass.value == false) {
+    if (!sharedPreferences!.containsKey("loginAccount") ||
+        sharedPreferences!.containsKey("loginFace")) {
       await GoogleSignIn().signOut();
       await firebaseAuth.signOut();
     }
+    sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences?.clear();
     Get.offAll(LoginScreen());
   }
 
@@ -106,7 +128,7 @@ class LoginControllerV2 extends GetxController {
 
     final AuthCredential credential =
         FacebookAuthProvider.credential(accessToken!.token);
-    print(accessToken.token);
+    // print(accessToken.token);
     Map data2 = {'resource': accessToken.token};
     var body = json.encode(data2);
     var response = await http.post(
@@ -116,7 +138,7 @@ class LoginControllerV2 extends GetxController {
             accessToken.token),
         headers: {"Content-Type": "application/json"},
         body: body);
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       var response2 = await http.get(
@@ -130,6 +152,10 @@ class LoginControllerV2 extends GetxController {
         final responseData2 = json.decode(response2.body);
         sp = Customer.fromJson(responseData2['data']);
         jwtToken.value = responseData['jwtToken'];
+        sharedPreferences = await SharedPreferences.getInstance();
+        sharedPreferences?.setString('resource', accessToken.token);
+        sharedPreferences?.setBool('loginFace', true);
+        if (sharedPreferences!.containsKey("loginFace")) {}
         // print(sp);
         Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
       }
@@ -137,13 +163,17 @@ class LoginControllerV2 extends GetxController {
   }
 
   void loginUsernamePassword(String userName, String password) async {
+    // if (!sharedPreferences!.containsKey("loginAccount")) {
+    //   CustomFullScreenDialog.showDialog();
+    // }
+
     Map data2 = {'email': userName, 'password': password};
     var body = json.encode(data2);
     var response = await http.post(
         Uri.parse(Api.baseUrl + ApiEndPoints.loginUsenamePassword),
         headers: {"Content-Type": "application/json"},
         body: body);
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       var response2 = await http.get(
@@ -158,32 +188,51 @@ class LoginControllerV2 extends GetxController {
         sp = Customer.fromJson(responseData2['data']);
         jwtToken.value = responseData['jwtToken'];
         // print(sp);
+        sharedPreferences = await SharedPreferences.getInstance();
+        sharedPreferences?.setString('userName', userName);
+        sharedPreferences?.setString('password', password);
+        sharedPreferences?.setBool('loginAccount', true);
+        // if (!sharedPreferences!.containsKey("loginAccount")) {
+        //   CustomFullScreenDialog.cancelDialog();
+        // }
         Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
-      } else {
-        Get.snackbar(responseData["message"], 'Error Login',
-            duration: Duration(seconds: 5),
-            backgroundColor: Colors.black,
-            colorText: Colors.white,
-            snackPosition: SnackPosition.BOTTOM,
-            icon: Icon(
-              Icons.error,
-              color: Colors.red,
-            ));
       }
+    } else {
+      final responseData = json.decode(response.body);
+      // if (!sharedPreferences!.containsKey("loginAccount")) {
+      //   CustomFullScreenDialog.cancelDialog();
+      // }
+      Get.snackbar(
+          "error".tr, 'user not exist or wrong username and password'.tr,
+          duration: Duration(seconds: 5),
+          backgroundColor: Colors.black,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+          icon: Icon(
+            Icons.error,
+            color: Colors.red,
+          ));
     }
+    // if (!sharedPreferences!.containsKey("loginAccount")) {
+    //   CustomFullScreenDialog.cancelDialog();
+    // }
   }
 
   void register(String userName, String password) async {
+    // CustomFullScreenDialog.showDialog();
     Map data2 = {'email': userName, 'password': password};
     var body = json.encode(data2);
     var response = await http.post(
         Uri.parse(Api.baseUrl + ApiEndPoints.register),
         headers: {"Content-Type": "application/json"},
         body: body);
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200) {
-      final responseData = json.decode(response.body);
-      Get.snackbar(responseData["message"], 'Success register',
+      // final responseData = json.decode(response.body);
+      // print("Ok nè");
+      // print(responseData);
+      // CustomFullScreenDialog.cancelDialog();
+      Get.snackbar("success".tr, 'please confim you email before login!'.tr,
           duration: Duration(seconds: 5),
           backgroundColor: Colors.black,
           colorText: Colors.white,
@@ -193,20 +242,22 @@ class LoginControllerV2 extends GetxController {
             color: Colors.green,
           ));
       Get.to(UserLoginPage());
-    } else if (response.statusCode == 400) {
+    } else {
       final responseData = json.decode(response.body);
-      if (responseData["message"] == "User already exists") {
-        Get.snackbar(responseData["message"], 'Error register',
-            duration: Duration(seconds: 5),
-            backgroundColor: Colors.black,
-            colorText: Colors.white,
-            snackPosition: SnackPosition.BOTTOM,
-            icon: Icon(
-              Icons.error,
-              color: Colors.red,
-            ));
-      }
+      // print("Hellos");
+      // print(responseData);
+      // CustomFullScreenDialog.cancelDialog();
+      Get.snackbar(responseData["message"].tr, 'error register'.tr,
+          duration: Duration(seconds: 5),
+          backgroundColor: Colors.black,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+          icon: Icon(
+            Icons.error,
+            color: Colors.red,
+          ));
     }
+    // CustomFullScreenDialog.cancelDialog();
   }
 
   Future<bool> changePassword(String oldPassword, String newPassword) async {
@@ -225,11 +276,11 @@ class LoginControllerV2 extends GetxController {
                   'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
             },
             body: body);
-    print(data2);
-    print(response.statusCode);
+    // print(data2);
+    // print(response.statusCode);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
-      Get.snackbar(responseData["message"], 'Success change password',
+      Get.snackbar("success".tr, 'success change password'.tr,
           duration: Duration(seconds: 5),
           backgroundColor: Colors.black,
           colorText: Colors.white,
@@ -242,7 +293,7 @@ class LoginControllerV2 extends GetxController {
     } else if (response.statusCode == 400) {
       final responseData = json.decode(response.body);
       // if (responseData["message"] == "User already exists") {
-      Get.snackbar(responseData["message"], 'Error change password',
+      Get.snackbar("error".tr, 'error change password'.tr,
           duration: Duration(seconds: 5),
           backgroundColor: Colors.black,
           colorText: Colors.white,
@@ -263,7 +314,7 @@ class LoginControllerV2 extends GetxController {
       headers: {"Content-Type": "application/json"},
     );
     if (response.statusCode == 200) {
-      Get.snackbar("Success", 'Check you email to get new password',
+      Get.snackbar("success".tr, 'check you email to get new password'.tr,
           duration: Duration(seconds: 5),
           backgroundColor: Colors.black,
           colorText: Colors.white,

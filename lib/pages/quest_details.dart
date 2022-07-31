@@ -130,7 +130,7 @@ class _QuestDetailsState extends State<QuestDetails> {
                                   widget.data!.averageStar != null ||
                                           widget.data!.averageStar != 0
                                       ? SmallText(
-                                          text: widget.data!.averageStar!
+                                          text: widget.data!.averageStar
                                               .toString())
                                       : SmallText(text: "5"),
                                   SizedBox(
@@ -139,7 +139,7 @@ class _QuestDetailsState extends State<QuestDetails> {
                                   RatingBarIndicator(
                                     rating: widget.data!.averageStar != null ||
                                             widget.data!.averageStar != 0
-                                        ? widget.data!.averageStar!.toDouble()
+                                        ? widget.data!.averageStar.toDouble()
                                         : 5,
                                     itemBuilder: (context, index) => Icon(
                                       Icons.star,
@@ -417,9 +417,15 @@ class _QuestDetailsState extends State<QuestDetails> {
             dotSpacing: 15,
             boxFit: BoxFit.cover,
             images: [
-              CustomCacheImage(imageUrl: widget.data!.imagePath),
-              CustomCacheImage(imageUrl: widget.data!.imagePath),
-              CustomCacheImage(imageUrl: widget.data!.imagePath),
+              widget.data!.imagePath != null
+                  ? CustomCacheImage(imageUrl: widget.data!.imagePath)
+                  : Image.asset('assets/images/logo.png'),
+              widget.data!.imagePath != null
+                  ? CustomCacheImage(imageUrl: widget.data!.imagePath)
+                  : Image.asset('assets/images/logo.png'),
+              widget.data!.imagePath != null
+                  ? CustomCacheImage(imageUrl: widget.data!.imagePath)
+                  : Image.asset('assets/images/logo.png'),
             ]),
       ),
     );

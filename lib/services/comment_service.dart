@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/comment.dart';
 import 'package:travel_hour/models/questItem.dart';
 import 'package:http/http.dart' as http;
@@ -37,7 +39,8 @@ class CommentService {
     return dataComment;
   }
 
-  static Future<bool> pushComment(String comment, int? customerQuestID,int rating) async {
+  static Future<bool> pushComment(
+      String comment, int? customerQuestID, int rating) async {
     Map body = {
       "feedBack": comment,
       "rating": rating,
@@ -47,12 +50,13 @@ class CommentService {
             "https://citytourist.azurewebsites.net/api/v1/customer-quests/feed-back/${customerQuestID}"),
         headers: {
           "Accept": "application/json",
-          "content-type": "application/json"
+          "content-type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         },
         body: jsonEncode(body));
     print('confirmTheFirstStart StatusCode: ' + response.statusCode.toString());
     if (response.statusCode == 200) {
-
       return Future<bool>.value(true);
     }
     return Future<bool>.value(false);
