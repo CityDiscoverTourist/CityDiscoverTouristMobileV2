@@ -475,8 +475,8 @@ class PlayService {
       var data = json.decode(response.body);
 
       // print("Get Data ok");
-      // print(data["data"]["status"]);
-      if (data["data"]["status"].toLowerCase() == "success") {
+      print(data["data"]);
+      if (data["data"]["status"] == "Success") {
         // CustomFullScreenDialog.cancelDialog();
         return true;
       }

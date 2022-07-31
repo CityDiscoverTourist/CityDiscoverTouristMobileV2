@@ -235,25 +235,27 @@ class PaymentWidgetState extends State<PaymentWidget>
           //               ),
           //             ))
           //         .toList()),
-          Divider(),
-          TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            autofocus: false,
-            decoration: InputDecoration(
-              hintText: 'enter voucher here'.tr,
-            ),
-            controller: voucherCtl,
-            // validator: (value) {
-            //   if (value!.length == 0) return "Address can't be empty";
-            //   return null;
-            // },
-            // onSaved: (String? value) {
-            //   userName = value!;
-            // },
-            onEditingComplete: () {
-              print(voucherCtl.text);
-            },
-          ),
+          _paymentStatus.isEmpty ? Container() : Divider(),
+          _paymentStatus.isEmpty
+              ? Container()
+              : TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  autofocus: false,
+                  decoration: InputDecoration(
+                    hintText: 'enter voucher here'.tr,
+                  ),
+                  controller: voucherCtl,
+                  // validator: (value) {
+                  //   if (value!.length == 0) return "Address can't be empty";
+                  //   return null;
+                  // },
+                  // onSaved: (String? value) {
+                  //   userName = value!;
+                  // },
+                  onEditingComplete: () {
+                    print(voucherCtl.text);
+                  },
+                ),
           Divider(),
           ListTile(
             title: CustomText(
@@ -361,6 +363,7 @@ class PaymentWidgetState extends State<PaymentWidget>
                           total,
                           voucherCtl.text);
                       // Get.to(QuestsPlayPage());
+                      print(map!.first);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
