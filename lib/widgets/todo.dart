@@ -201,8 +201,9 @@ class TodoWidget extends StatelessWidget {
                               color: Colors.white,
                             ),
                           ])),
-                  onTap: () => {
+                  onTap: () async=> {
                         print("TODO :" + questData!.id.toString()),
+                    
                         Get.put(CommentController()).idQuest.value =
                             questData!.id,
                         Get.to(CommentsPageV2())
