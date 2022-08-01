@@ -5,11 +5,13 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:travel_hour/controllers/play_controller.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/pages/answer_questitem.dart';
 import 'package:travel_hour/pages/description_questitem.dart';
 import 'package:travel_hour/pages/home.dart';
+import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/schedule_container.dart';
 
@@ -18,14 +20,23 @@ import '../widgets/custom_cache_image.dart';
 import 'package:animations/animations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class RulePage extends GetView<PlayControllerV2> {
-  // PurchasedQuest pQuest;
-  RulePage(
-      {
-      // required this.pQuest,
-      Key? key})
-      : super(key: key);
+class RulePage extends StatefulWidget {
+  const RulePage({Key? key}) : super(key: key);
+  @override
+  State<RulePage> createState() => _RulePageState();
+}
 
+class _RulePageState extends State<RulePage> {
+  late ValueNotifier<int> strikeNotifier;
+  late CarouselController buttonCarouselController;
+  late FixedExtentScrollController controller;
+// late ListWheelScrollView
+  // PurchasedQuest pQuest;
+  GlobalKey _one = GlobalKey();
+  GlobalKey _two = GlobalKey();
+  GlobalKey _three = GlobalKey();
+  GlobalKey _four = GlobalKey();
+  GlobalKey _five = GlobalKey();
   List<Widget> listItem = [
     ScheduleContainer("each question you will get 300 points".tr, 1),
     ScheduleContainer(
@@ -39,279 +50,197 @@ class RulePage extends GetView<PlayControllerV2> {
             "using seggestion will be deducted 75 points (1 time)".tr,
         3)
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    strikeNotifier = ValueNotifier(0);
+    controller = FixedExtentScrollController();
+    buttonCarouselController = CarouselController();
+
+    //Start showcase view after current widget frames are drawn.
+    //NOTE: remove ambiguate function if you are using
+    //flutter version greater than 3.x and direct use WidgetsBinding.instance
+    // WidgetsBinding.instance.addPostFrameCallback(
+    //   (_) => ShowCaseWidget.of(context)
+    //       .startShowCase([_one, _two, _three, _four, _five]),
+    // );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Get.put(PlayControllerV2()).pQuest = pQuest;
+    // var controller=Get.find<PlayControllerV2>();
+    // WidgetsBinding.instance.addPostFrameCallback((_) =>ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four, _five]));
+    final List _items = [
+      "Cách tính điểm".tr,
+      "each question you will get 300 points".tr,
+      "you will be answered up to 5 times for a question".tr,
+      "the 5th time you will be shown the answer".tr,
+      "for each wrong answer, 50 points will be deducted".tr,
+      "using seggestion will be deducted 75 points (1 time)".tr,
+      // 'Monkey',
+      // 'Chicken',
+      // 'Flamingo'
+    ];
+    int _selectedItemIndex = 0;
     const transitionType = ContainerTransitionType.fade;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: Colors.redAccent,
         title: BigText(
           text: "rulepage".tr,
           fontWeight: FontWeight.w700,
+          color: Colors.white,
         ),
         centerTitle: true,
         automaticallyImplyLeading: false,
+        // actions: [
+        //   Showcase(
+        //     key: _one,
+        //     description: 'Lướt sang phải để xem thêm bạn nhé!',
+        //     child: Icon(Icons.info),
+        //   )
+        // ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CarouselSlider.builder(
-            itemCount: listItem.length,
-            itemBuilder: (context, index, realIndex) => listItem[index],
-            options: CarouselOptions(
-              height: MediaQuery.of(context).size.height * 0.7,
-              enableInfiniteScroll: false,
-              enlargeCenterPage: true,
+      floatingActionButton: ValueListenableBuilder(
+          valueListenable: strikeNotifier,
+          builder: (_, check, widget) {
+            if (check == 0) {
+              return FloatingActionButton(
+                backgroundColor: Colors.redAccent,
+                child: Icon(Icons.arrow_forward),
+                onPressed: () {
+                  if (_selectedItemIndex != _items.length - 1) {
+                    final nextIndex = controller.selectedItem + 1;
+                    controller.animateToItem(nextIndex,
+                        duration: Duration(milliseconds: 200),
+                        curve: Curves.easeInOut);
+                  }
+                },
+              );
+            }
+            if (check == 1) {
+              return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.only(left: 30.0),
+                        child: FloatingActionButton(
+                          backgroundColor: Colors.redAccent,
+                          child: Icon(Icons.arrow_back),
+                          onPressed: () {
+                            // if(_selectedItemIndex!=_items.length-1){
+                            final nextIndex = controller.selectedItem - 1;
+                            controller.animateToItem(nextIndex,
+                                duration: Duration(milliseconds: 200),
+                                curve: Curves.easeInOut);
+                            // }
+                          },
+                        )),
+                    FloatingActionButton(
+                      backgroundColor: Colors.redAccent,
+                      child: Icon(Icons.arrow_forward),
+                      onPressed: () {
+                        if (_selectedItemIndex != _items.length - 1) {
+                          final nextIndex = controller.selectedItem + 1;
+                          controller.animateToItem(nextIndex,
+                              duration: Duration(milliseconds: 200),
+                              curve: Curves.easeInOut);
+                        }
+                      },
+                    )
+                  ]);
+            } else {
+              return FloatingActionButton(
+                backgroundColor: Colors.redAccent,
+                child: Text('Start'),
+                onPressed: () {
+                  if (_selectedItemIndex != _items.length - 1) {
+                    final nextIndex = controller.selectedItem + 1;
+                    controller.animateToItem(nextIndex,
+                        duration: Duration(milliseconds: 200),
+                        curve: Curves.easeInOut);
+                  }
+                },
+              );
+            }
+          }),
+      // _check!=true?FloatingActionButton(
+      //   child: Icon(Icons.arrow_forward),
+      //   onPressed: () {
+      //     if(_selectedItemIndex!=_items.length-1){
+      //     final nextIndex=controller.selectedItem+1;
+      //     controller.animateToItem(nextIndex,duration: Duration(seconds: 1),curve: Curves.easeInOut);
+      //     }
+      //   },
+      // )
+
+      body: Column(children: [
+        // display selected item
+        // Container(
+        //     width: double.infinity,
+        //     padding: const EdgeInsets.symmetric(vertical: 50),
+        //     color: Colors.grey.shade800,
+        //     alignment: Alignment.center,
+        //     child: Text(
+        //       _items[_selectedItemIndex],
+        //       style: const TextStyle(fontSize: 32, color: Colors.white),
+        //     )),
+        // implement the List Wheel Scroll View
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            width: double.infinity,
+            color: Colors.white,
+            child: ListWheelScrollView(
+              controller: controller,
+              offAxisFraction: 1.5,
+              itemExtent: 100,
+              diameterRatio: 1.8,
+              onSelectedItemChanged: (int index) {
+                print(index);
+                // update the UI on selected item changes
+                setState(() {
+                  _selectedItemIndex = index;
+                  if (_selectedItemIndex > 0) {
+                    strikeNotifier.value = 1;
+                    print("hehe");
+                  }
+                  if (_selectedItemIndex == _items.length - 1) {
+                    print("false");
+                    strikeNotifier.value = -1;
+                  }
+                  if (_selectedItemIndex == 0) {
+                    print("false");
+                    strikeNotifier.value = 0;
+                  }
+                });
+              },
+              // children of the list
+              children: _items
+                  .map((e) => SizedBox(
+                        width: double.infinity,
+                        height: 400.0,
+                        child: Card(
+                          // make selected item background color is differ from the rest
+                          color: e == "Cách tính điểm"
+                              ? Colors.redAccent
+                              : Colors.indigo,
+                          child: Center(
+                            child: BigText(
+                              text: e,
+                              size: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ))
+                  .toList(),
             ),
           ),
-          Center(
-            child: TextButton(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-              ),
-              onPressed: () {
-                var controller = Get.find<PlayControllerV2>();
-                print('RULE PAGE' +
-                    controller.questItemCurrent.description.toString());
-                controller.changeIsLoading();
-                Get.to(DescriptionPage());
-                // Get.to(AnswerPage());
-                print("HCM HCM HCM");
-              },
-              child: Text('get started'.tr),
-            ),
-          )
-          // Center(
-          //   child: Obx(
-          //     () {
-          //       if (controller.ruleIndex.value == 1) {
-          //         return Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             Spacer(),
-          //             Expanded(
-          //                 child: InkWell(
-          //                     onTap: controller.increaseIndexRule(),
-          //                     child: Text("Next")))
-          //           ],
-          //         );
-          //       } else if (controller.ruleIndex.value == 3) {
-          //         return Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //           children: [
-          //             Expanded(
-          //                 child: InkWell(
-          //                     onTap: controller.decreaseIndexRule(),
-          //                     child: Text("Previous"))),
-          //             Text("Finish")
-          //           ],
-          //         );
-          //       } else {
-          //         return Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //           children: [ Expanded(
-          //                 child: InkWell(
-          //                     onTap: controller.decreaseIndexRule(),
-          //                     child: Text("Previous"))), Expanded(
-          //                 child: InkWell(
-          //                     onTap: controller.increaseIndexRule(),
-          //                     child: Text("Next")))],
-          //         );
-          //       }
-          //       return Text("");
-          //     },
-          //   ),
-          // )
-        ],
-      ),
+        ),
+      ]),
     );
   }
-  //   return Scaffold(
-  //       backgroundColor: Colors.blueGrey.shade50,
-  //       appBar: AppBar(
-  //         backgroundColor: Colors.amberAccent,
-  //         title: BigText(
-  //           text: "RulePage",
-  //           fontWeight: FontWeight.w700,
-  //         ),
-  //         centerTitle: true,
-  //         automaticallyImplyLeading: false,
-  //       ),
-  //       body: Stack(children: [
-  //         Column(
-  //           children: [
-  //             SingleChildScrollView(
-  //               child: Container(
-  //                   child: Column(
-  //                 children: [
-  //                   Container(
-  //                     height: 200,
-  //                     width: double.infinity,
-  //                     child: CustomCacheImage(
-  //                         imageUrl:
-  //                             "https://statics.vntrip.vn/data-v2/data-guide/img_content/1470302452_anh-5.jpg"),
-  //                   ),
-  //                   SizedBox(
-  //                     height: 10,
-  //                   ),
-  //                   Row(
-  //                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //                       children: [
-  //                         Container(
-  //                           width: 190,
-  //                           height: 200,
-  //                           child: Column(
-  //                             children: [
-  //                               Container(
-  //                                 width: 190,
-  //                                 height: 95,
-  //                                 decoration: BoxDecoration(
-  //                                   color: Colors.blue,
-  //                                   gradient: LinearGradient(
-  //                                     begin: Alignment.topRight,
-  //                                     end: Alignment.bottomLeft,
-  //                                     colors: [
-  //                                       Colors.white,
-  //                                       Colors.purpleAccent,
-  //                                     ],
-  //                                   ),
-  //                                   borderRadius: BorderRadius.circular(10.0),
-  //                                 ),
-  //                                 child: Center(
-  //                                     child: BigText(
-  //                                   text: "1200 điểm",
-  //                                   fontWeight: FontWeight.w900,
-  //                                 )),
-  //                               ),
-  //                               SizedBox(
-  //                                 height: 10,
-  //                               ),
-  //                               Container(
-  //                                   width: 190,
-  //                                   height: 95,
-  //                                   decoration: BoxDecoration(
-  //                                     color: Colors.blue,
-  //                                     gradient: LinearGradient(
-  //                                       begin: Alignment.topRight,
-  //                                       end: Alignment.bottomLeft,
-  //                                       colors: [
-  //                                         Colors.amberAccent,
-  //                                         Colors.white
-  //                                       ],
-  //                                     ),
-  //                                     borderRadius: BorderRadius.circular(10.0),
-  //                                   ),
-  //                                   child: Column(
-  //                                     children: [
-  //                                       Row(
-  //                                         mainAxisAlignment:
-  //                                             MainAxisAlignment.spaceAround,
-  //                                         children: [
-  //                                           Icon(
-  //                                             Feather.clock,
-  //                                             color: Colors.black,
-  //                                             size: 25,
-  //                                           ),
-  //                                           BigText(text: "20 min")
-  //                                         ],
-  //                                       ),
-  //                                       SizedBox(
-  //                                         height: 10,
-  //                                       ),
-  //                                       Row(
-  //                                         mainAxisAlignment:
-  //                                             MainAxisAlignment.spaceAround,
-  //                                         children: [
-  //                                           Icon(
-  //                                             LineIcons.walking,
-  //                                             color: Colors.black,
-  //                                             size: 25,
-  //                                           ),
-  //                                           BigText(text: "20 kilomiters")
-  //                                         ],
-  //                                       ),
-  //                                     ],
-  //                                   )),
-  //                             ],
-  //                           ),
-  //                         ),
-  //                         SizedBox(
-  //                           width: 10,
-  //                         ),
-  //                         Container(
-  //                           width: 190,
-  //                           height: 200,
-  //                           decoration: BoxDecoration(
-  //                             gradient: LinearGradient(
-  //                               begin: Alignment.topRight,
-  //                               end: Alignment.bottomLeft,
-  //                               colors: [Colors.white, Colors.blue],
-  //                             ),
-  //                             borderRadius: BorderRadius.circular(10.0),
-  //                           ),
-  //                           child: Align(
-  //                               alignment: Alignment.topCenter,
-  //                               child: BigText(
-  //                                 text: 'Luật chơi',
-  //                                 fontWeight: FontWeight.w800,
-  //                               )),
-  //                         ),
-  //                       ]),
-  //                 ],
-  //               )),
-  //             ),
-  //           ],
-  //         ),
-  //         Positioned(
-  //           bottom: 0,
-  //           child: InkWell(
-  //             onTap: () {
-  //               var controller = Get.find<PlayControllerV2>();
-  //               print('RULE PAGE' +
-  //                   controller.questItemCurrent.description.toString());
-  //                   controller.changeIsLoading();
-  //               Get.to(AnswerPage());
-  //               print("HCM HCM HCM");
-  //               // Get.to(AnswerPage());
-  //             },
-  //             child: Container(
-  //               width: MediaQuery.of(context).size.width,
-  //               height: MediaQuery.of(context).size.height * 0.075,
-  //               child: Center(
-  //                   child: BigText(
-  //                 text: "Start",
-  //                 fontWeight: FontWeight.w900,
-  //               )),
-  //               decoration: BoxDecoration(
-  //                   color: Color(0xFFFF9C00),
-  //                   gradient: LinearGradient(
-  //                     begin: Alignment.topRight,
-  //                     end: Alignment.bottomLeft,
-  //                     colors: [Colors.orange, Colors.white, Colors.blue],
-  //                   ),
-  //                   borderRadius: BorderRadius.circular(10)),
-  //             ),
-  //           ),
-  //         ),
-  //       ]));
-  // }
 }
-//  Center(
-//         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-//         ElevatedButton(
-//           onPressed: () {
-//             Get.put(PlayController());
-//             Get.to(AnswerPage());
-//           },
-//           child: Text('Start', style: TextStyle(fontSize: 16)),
-//           style: ElevatedButton.styleFrom(
-//             padding: const EdgeInsets.only(
-//                 left: 40.0, top: 16.0, bottom: 16.0, right: 40.0),
-//             shape: RoundedRectangleBorder(
-//               borderRadius: BorderRadius.circular(12), // <-- Radius
-//             ),
-//           ),
-//         ),
-//     ]),
-//       ),
