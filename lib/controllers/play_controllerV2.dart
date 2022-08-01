@@ -235,6 +235,7 @@ var description;
         print('CheckErr ' + checkErr.toString());
 
         if (nextQuestItemId != -1) {
+            Get.to(DescriptionAns());
           //gọi hàm getQuestItem
           isLoading(true);
           isDisableTextField(false);
@@ -245,7 +246,7 @@ var description;
           sugggestion.value =
               await PlayService().getSuggestion(questItemCurrent.id);
           isLoading(false);
-          Get.to(DescriptionAns());
+        
           update();
           //Check câu cuối
         } else {
