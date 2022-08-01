@@ -19,7 +19,7 @@ class QuestItem {
     required this.duration,
     //  this.createdDate,
     //  this.updatedDate,
-    // required this.qrCode,
+    required this.story,
     required this.rightAnswer,
     required this.answerImageUrl,
     required this.status,
@@ -37,7 +37,7 @@ class QuestItem {
   int duration;
   // DateTime? createdDate;
   // DateTime? updatedDate;
-  // String qrCode;
+  String story;
   String? rightAnswer;
   String? answerImageUrl;
   String status;
@@ -55,7 +55,7 @@ class QuestItem {
         duration: json["duration"],
         // createdDate: DateTime.parse(json["createdDate"]),
         // updatedDate: DateTime.parse(json["updatedDate"]),
-        // qrCode: json["qrCode"],
+        story: json["story"],
         rightAnswer: json["rightAnswer"],
         answerImageUrl: json["answerImageUrl"],
         status: json["status"],
@@ -74,7 +74,7 @@ class QuestItem {
         "duration": duration,
         // "createdDate": createdDate.toString(),
         // "updatedDate": updatedDate.toString(),
-        // "qrCode": qrCode,
+        "story": story,
         "rightAnswer": rightAnswer,
         "answerImageUrl": answerImageUrl,
         "status": status,

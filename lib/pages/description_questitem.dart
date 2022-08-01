@@ -7,6 +7,7 @@ import 'package:travel_hour/controllers/play_controller.dart';
 import 'package:travel_hour/controllers/play_controllerV2.dart';
 import 'package:travel_hour/pages/home.dart';
 import 'package:travel_hour/pages/rating_quest.dart';
+import 'package:travel_hour/pages/story_description.dart';
 
 import 'answer_questitem.dart';
 
@@ -30,7 +31,7 @@ class DescriptionPage extends GetView<PlayControllerV2> {
                 //     controller.questItemCurrent.description.toString());
                 // controller.changeIsLoading();
                 // Get.to(DescriptionPage());
-                Get.to(AnswerPage());
+                Get.to(StoryDescription()); 
                 print("HCM HCM HCM");
               },
               child: Text('get started'.tr),

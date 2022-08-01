@@ -227,7 +227,7 @@ class AnswerPage extends StatelessWidget {
         //   pQuest: pQuest,
         // ));
         //  vao trang huong dan
-        // Navigator.of(context).pop();
+        Navigator.of(context).pop();
       },
     );
     // Widget cancelButton = FlatButton(

@@ -55,7 +55,7 @@ class PlayControllerV2 extends GetxController {
     mode: StopWatchMode.countUp,
   );
   final isHours = true;
-
+var description;
   //Test List
   var qItem = List<QuestItem>.empty().obs;
   var index = 0.obs;
@@ -178,6 +178,7 @@ class PlayControllerV2 extends GetxController {
           print('Ok');
           questItemCurrent =
               await PlayService.fetchQuestItem(cusTask.questItemId);
+          description=questItemCurrent.description;
           if (questItemCurrent != null) {
             sugggestion.value =
                 await PlayService().getSuggestion(questItemCurrent.id);
@@ -237,6 +238,9 @@ class PlayControllerV2 extends GetxController {
           isLoading(true);
           isDisableTextField(false);
           questItemCurrent = await PlayService.fetchQuestItem(nextQuestItemId);
+
+          description=questItemCurrent.description;
+          
           sugggestion.value =
               await PlayService().getSuggestion(questItemCurrent.id);
           isLoading(false);

@@ -11,6 +11,7 @@ import 'package:travel_hour/pages/answer_questitem.dart';
 import 'package:travel_hour/pages/description_questitem.dart';
 import 'package:travel_hour/pages/home.dart';
 import 'package:travel_hour/pages/splashV2.dart';
+import 'package:travel_hour/pages/story_description.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/schedule_container.dart';
 
@@ -154,12 +155,7 @@ class _RulePageState extends State<RulePage> {
                 backgroundColor: Colors.redAccent,
                 child: Text('Start'),
                 onPressed: () {
-                  if (_selectedItemIndex != _items.length - 1) {
-                    final nextIndex = controller.selectedItem + 1;
-                    controller.animateToItem(nextIndex,
-                        duration: Duration(milliseconds: 200),
-                        curve: Curves.easeInOut);
-                  }
+                 Get.to(StoryDescription());
                 },
               );
             }
