@@ -16,6 +16,7 @@ import '../models/customer_task.dart';
 import '../models/quest.dart';
 import '../models/questItem.dart';
 
+
 class PlayControllerV2 extends GetxController {
   //Bool check status show SplashPage await result from API
   var isDisableTextField = false.obs;
@@ -240,11 +241,11 @@ var description;
           questItemCurrent = await PlayService.fetchQuestItem(nextQuestItemId);
 
           description=questItemCurrent.description;
-          
+
           sugggestion.value =
               await PlayService().getSuggestion(questItemCurrent.id);
           isLoading(false);
-          Get.to(DescriptionPage());
+          Get.to(DescriptionAns());
           update();
           //Check câu cuối
         } else {
