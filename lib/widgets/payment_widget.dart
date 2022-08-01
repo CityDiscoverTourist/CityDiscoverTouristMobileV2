@@ -235,10 +235,9 @@ class PaymentWidgetState extends State<PaymentWidget>
           //               ),
           //             ))
           //         .toList()),
-          _paymentStatus.isEmpty ? Container() : Divider(),
+          _paymentStatus.isEmpty ? Divider() : Container(),
           _paymentStatus.isEmpty
-              ? Container()
-              : TextFormField(
+              ? TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   autofocus: false,
                   decoration: InputDecoration(
@@ -255,7 +254,8 @@ class PaymentWidgetState extends State<PaymentWidget>
                   onEditingComplete: () {
                     print(voucherCtl.text);
                   },
-                ),
+                )
+              : Container(),
           Divider(),
           ListTile(
             title: CustomText(
@@ -363,7 +363,7 @@ class PaymentWidgetState extends State<PaymentWidget>
                           total,
                           voucherCtl.text);
                       // Get.to(QuestsPlayPage());
-                      print(map!.first);
+                      // print(map!.first);
                       Navigator.push(
                           context,
                           MaterialPageRoute(

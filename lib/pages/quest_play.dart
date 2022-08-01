@@ -15,8 +15,11 @@ import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../common/customFullScreenDialog.dart';
 import '../controllers/play_controllerV2.dart';
+import '../models/quest.dart';
 
 class QuestsPlayPage extends StatelessWidget {
   const QuestsPlayPage({Key? key}) : super(key: key);
@@ -202,11 +205,18 @@ class QuestsPlayPage extends StatelessWidget {
             right: 0,
             top: 0,
             child: InkWell(
-              onTap: () {
+              onTap: () async {
                 // if(Get.find<PlayControllerV2>().checkLocation() == false){
 
                 // }
-                showAlertDialog(context, pQuest);
+                PlayControllerV2 playController = new PlayControllerV2();
+                bool check = await playController
+                    .checkUserLocation(pQuest.questId.toString());
+                if (check == true) {
+                  showAlertDialog(context, pQuest);
+                } else {
+                  showAlertDialogCheckLocation(context, pQuest);
+                }
               },
               child: CircleAvatar(
                 backgroundColor: Colors.redAccent,
@@ -248,6 +258,64 @@ class QuestsPlayPage extends StatelessWidget {
       content: Text(
           "quests that have entered the game cannot be reused. do you want to confirm?"
               .tr),
+      actions: [okButton, cancelButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showAlertDialogCheckLocation(
+      BuildContext context, PurchasedQuest pQuest) async {
+    // Create button
+    CustomFullScreenDialog.showDialog();
+    Quest? quest;
+    String address = "";
+    var controller = Get.find<HomeController>();
+    quest = await controller.getQuestDetailByID(pQuest.questId.toString());
+    address = quest!.address.toString();
+    String googleMapslocationUrl =
+        "https://www.google.com/maps/search/?api=1&query=" +
+            quest.latLong.toString();
+    String encodedURl = Uri.encodeFull(googleMapslocationUrl);
+    print(googleMapslocationUrl);
+    CustomFullScreenDialog.cancelDialog();
+    Widget okButton = FlatButton(
+      child: Text("open map".tr),
+      onPressed: () async {
+        Navigator.of(context).pop();
+        if (await canLaunch(encodedURl)) {
+          await launch(encodedURl);
+        } else {
+          print('Could not launch $encodedURl');
+          throw 'Could not launch $encodedURl';
+        }
+        // Get.to(RulePage(
+        //   pQuest: pQuest,
+        // ));
+        //  vao trang huong dan
+        // Navigator.of(context).pop();
+      },
+    );
+    Widget cancelButton = FlatButton(
+      child: Text("cancel".tr),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("cofirm".tr),
+      content: Text("please go to this address to start the quest:".tr +
+          "\n" +
+          "\n" +
+          address),
       actions: [okButton, cancelButton],
     );
 
