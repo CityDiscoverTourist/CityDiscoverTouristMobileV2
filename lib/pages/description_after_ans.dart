@@ -6,7 +6,6 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:showcaseview/showcaseview.dart';
 import 'package:travel_hour/controllers/play_controller.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/pages/answer_questitem.dart';
