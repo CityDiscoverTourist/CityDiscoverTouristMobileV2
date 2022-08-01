@@ -19,7 +19,7 @@ import '../controllers/play_controllerV2.dart';
 import '../widgets/custom_cache_image.dart';
 import 'package:animations/animations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
+//DescriptionAns
 class DescriptionAns extends StatefulWidget {
   @override
   _DescriptionAnsState createState() {
@@ -28,9 +28,11 @@ class DescriptionAns extends StatefulWidget {
 }
 
 class _DescriptionAnsState extends State<DescriptionAns> {
+   late PlayControllerV2 controller;
   @override
   void initState() {
     super.initState();
+     controller =Get.find<PlayControllerV2>() ;
    
   }
    static const htmlData = """
