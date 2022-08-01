@@ -42,6 +42,7 @@ class QuestItem2 {
   int itemId;
   DateTime? createdDate;
   String? answerImageUrl;
+  // String story;
 
   factory QuestItem2.fromJson(Map<String, dynamic> json) => QuestItem2(
         id: json["id"],

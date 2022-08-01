@@ -12,7 +12,7 @@ class Comment {
     Comment({
         required this.id,
         required this.customerId,
-        required this.name,
+         this.name,
         this.imagePath,
         this.feedBack,
         required this.rating,
@@ -21,7 +21,7 @@ class Comment {
 
     int id;
     String customerId;
-    String name;
+    String? name;
     dynamic imagePath;
     String? feedBack;
     int rating;

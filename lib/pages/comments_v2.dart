@@ -208,7 +208,8 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
       body: Column(
         children: [
           Expanded(
-            child: Obx(
+            child: 
+            Obx(
               () {
                 if (myController.isLoading.isTrue) {
                   return SplashStart();
@@ -273,7 +274,8 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
               padding: EdgeInsets.only(top: 8, bottom: 10, right: 20, left: 20),
               width: double.infinity,
               color: Colors.white,
-              child: Column(
+              child: 
+              Column(
                 children: [
                   RatingBar.builder(
                     initialRating: 5,
@@ -353,7 +355,7 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
                 Row(
                   children: [
                     Text(
-                      d.name,
+                      d.name.toString(),
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 13,

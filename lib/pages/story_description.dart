@@ -12,7 +12,6 @@ import 'package:travel_hour/pages/answer_questitem.dart';
 import 'package:travel_hour/pages/description_questitem.dart';
 import 'package:travel_hour/pages/home.dart';
 import 'package:travel_hour/pages/splashV2.dart';
-import 'package:travel_hour/pages/story_description.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/schedule_container.dart';
 
@@ -21,14 +20,14 @@ import '../widgets/custom_cache_image.dart';
 import 'package:animations/animations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class DescriptionAns extends StatefulWidget {
+class StoryDescription extends StatefulWidget {
   @override
-  _DescriptionAnsState createState() {
-    return _DescriptionAnsState();
+  _StoryDescriptionState createState() {
+    return _StoryDescriptionState();
   }
 }
 
-class _DescriptionAnsState extends State<DescriptionAns> {
+class _StoryDescriptionState extends State<StoryDescription> {
   late PlayControllerV2 controller;
   @override
   void initState() {
@@ -50,7 +49,7 @@ class _DescriptionAnsState extends State<DescriptionAns> {
         children: [
           SingleChildScrollView(
             child: Html(
-                data: controller.description,
+                data: controller.questItemCurrent.story,
               // customRender: {
               //     'flutter' : (RenderContext context, Widget child, attributes, _){
               //       return FlutterLogo(
@@ -92,7 +91,7 @@ class _DescriptionAnsState extends State<DescriptionAns> {
             ),
           ),
           SafeArea(child: TextButton(child: Text('Next'),onPressed: (){
-            Get.to(StoryDescription());
+            Get.to(AnswerPage());
           },))
         ],
       ),

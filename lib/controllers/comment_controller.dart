@@ -26,7 +26,8 @@ class CommentController extends GetxController {
   //Biến Comment và rating
   var rating = 1.obs;
   var comment = "".obs;
-
+ var isCommented=false.obs;
+ var myComment;
   @override
   void onInit() async {
     super.onInit();
@@ -58,8 +59,7 @@ class CommentController extends GetxController {
       print(indexPage.value);
       // }
       print("object HELLOOO");
-      //Dòng này bỏ vô test hiệu ứng đợi vì dg dùng data fake nên ko test dc
-      await Future.delayed(Duration(seconds: 2));
+      // await Future.delayed(Duration(seconds: 2));
       var commentApi = await CommentService.fetchCommentsData(
           indexPage.value,
           Get.find<LoginControllerV2>().jwtToken.value,
@@ -68,6 +68,10 @@ class CommentController extends GetxController {
       if (commentApi != null) {
         // hasData(true);
         print("COMMENT_CONTROLLER: Have data Comment");
+            myComment= await CommentService.fetchCommentByCustomerId(Get.find<LoginControllerV2>().jwtToken.value,  Get.find<LoginControllerV2>().sp.id, idQuest.value);
+      if(myComment!=null){
+        isCommented(true);
+      }
         if (dataComment.isEmpty || lastVisible.value == 0) {
           dataComment.assignAll(commentApi);
           print("If 1 nè");
