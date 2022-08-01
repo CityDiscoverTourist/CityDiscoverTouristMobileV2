@@ -231,10 +231,11 @@ class HomeController extends GetxController {
     }
   }
 
-  void getQuestDetailByID(String questId) async {
+  Future<Quest?> getQuestDetailByID(String questId) async {
     try {
       isLoading(true);
-      await QuestService.fetchQuestDetail(questId, language.value);
+      return await QuestService.fetchQuestDetail(
+          questId, Get.find<LoginControllerV2>().language.value);
     } finally {
       isLoading(false);
     }

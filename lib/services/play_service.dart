@@ -5,11 +5,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/customer_task.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/models/questItem.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
 
 import '../api/api.dart';
 import '../api/api_end_points.dart';
@@ -400,14 +402,17 @@ class PlayService {
     return position;
   }
 
-  Future<bool> checkLocation(int questID, String lat, String long) async {
+  Future<bool> checkLocation(String questID) async {
+    // CustomFullScreenDialog.showDialog();
     Position? pos = await getCurrentPosition();
     var lat = pos?.latitude.toString();
     var long = pos?.longitude.toString();
+    print("lat : " + lat!);
+    print("long : " + long!);
     var response = await http.get(
         Uri.parse(Api.baseUrl +
                 ApiEndPoints.checkUserLocationQuest +
-                questID.toString() +
+                questID +
                 //Cái này để tạm latlong cứng để trả về true
                 "?latitude=" +
                 lat.toString() +
@@ -427,8 +432,12 @@ class PlayService {
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
       // var data = json.decode(response.body);
       // print(data);
+      print("True");
+      // CustomFullScreenDialog.showDialog();
       return Future<bool>.value(true);
     }
+    // CustomFullScreenDialog.showDialog();
+    print("False");
     return Future<bool>.value(false);
   }
 
@@ -518,15 +527,15 @@ class PlayService {
         return Future<CustomerTask>.value(rs);
       }
     } else {
-      // requestUrl = Api.baseUrl +
-      //     ApiEndPoints.checkAnswer +
-      //     customerQuestId.toString() +
-      //     "?customerReply=" +
-      //     "1" +
-      //     "&questItemId=" +
-      //     questItemId.toString();
-      requestUrl =
-          "https://citytourist.azurewebsites.net/weather-forecast/demo2?api-version=1";
+      requestUrl = Api.baseUrl +
+          ApiEndPoints.checkAnswer +
+          customerQuestId.toString() +
+          "?customerReply=" +
+          "1" +
+          "&questItemId=" +
+          questItemId.toString();
+      // requestUrl =
+      //     "https://citytourist.azurewebsites.net/weather-forecast/demo2?api-version=1";
       // final ImagePicker imagePicker = ImagePicker();
       // List<XFile>? imageFileList = [];
       // final List<XFile>? selectedImages = await imagePicker.pickMultiImage(
@@ -536,9 +545,10 @@ class PlayService {
       // }
       final ImagePicker _picker = ImagePicker();
       print(requestUrl);
+
       //maxHeight: 2560, maxWidth: 1152
-      final XFile? pickedFile = await _picker.pickImage(
-          source: ImageSource.camera, maxHeight: 2560, maxWidth: 1152);
+      final XFile? pickedFile =
+          await _picker.pickImage(source: ImageSource.camera, maxHeight: 3052);
       if (pickedFile != null) {
         final LostDataResponse response2 = await _picker.retrieveLostData();
         File file = File(pickedFile.path);
@@ -548,7 +558,7 @@ class PlayService {
           print("Ok");
         }
         print("Path" + pickedFile.path);
-        var request = new http.MultipartRequest("POST", Uri.parse(requestUrl));
+        var request = new http.MultipartRequest("PUT", Uri.parse(requestUrl));
         // request.files
         //     .add(await http.MultipartFile.fromPath("files", file.path));
         request.headers["accept"] = "text/plain";
@@ -560,10 +570,12 @@ class PlayService {
           final XFile file2 = response2.files as XFile;
           print(file2.path);
           request.files
-              .add(await http.MultipartFile.fromPath("file", file2.path));
+              .add(await http.MultipartFile.fromPath("files", file2.path));
+          print(request.files);
         } else {
-          var pic = await http.MultipartFile.fromPath("file", file.path);
+          var pic = await http.MultipartFile.fromPath("files", file.path);
           request.files.add(pic);
+          print(request.files.first.filename);
         }
         // for (var element in imageFileList) {
         //   var file2 = File(element.path);

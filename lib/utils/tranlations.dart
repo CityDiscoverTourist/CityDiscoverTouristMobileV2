@@ -216,7 +216,10 @@ class Translation extends Translations {
           "congratulations": "Congratulations",
           "error ticket": "Error ticket",
           "previous quest not over. please contact the hotline for support":
-              "Previous Quest Not Over. Please contact the hotline for support"
+              "Previous Quest Not Over. Please contact the hotline for support",
+          "please go to this address to start the quest:":
+              "Please go to this address to start the Quest:",
+          "open map": "Open Google map"
         },
         'vn': {
           "welcome message":
@@ -435,6 +438,9 @@ class Translation extends Translations {
           "error ticket": "Vé lỗi",
           "previous quest not over. please contact the hotline for support":
               "Quest trước chưa được hoàn thành vui lòng liên hệ hotline để hỗ trợ",
+          "please go to this address to start the quest:":
+              "Bạn vui lòng đến địa chỉ này để bắt đầu quest Quest:",
+          "open map": "Mở Google map"
         }
       };
 }

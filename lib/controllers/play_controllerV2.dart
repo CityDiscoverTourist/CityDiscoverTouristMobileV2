@@ -333,4 +333,8 @@ class PlayControllerV2 extends GetxController {
   Future<bool> checkPaymentStatus(var paymentId) async {
     return await PlayService().checkPaymentStatus(paymentId);
   }
+
+  Future<bool> checkUserLocation(String questID) async {
+    return await PlayService().checkLocation(questID);
+  }
 }
