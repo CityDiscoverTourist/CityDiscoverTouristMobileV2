@@ -219,7 +219,12 @@ class Translation extends Translations {
               "Previous Quest Not Over. Please contact the hotline for support",
           "please go to this address to start the quest:":
               "Please go to this address to start the Quest:",
-          "open map": "Open Google map"
+          "open map": "Open Google map",
+          "complete quest: ": "Complete quest: ",
+          "time": "Time",
+          "point": "Point",
+          "how is your trip?": "How is your trip?",
+          "rating quest": "Rating quest",
         },
         'vn': {
           "welcome message":
@@ -440,7 +445,12 @@ class Translation extends Translations {
               "Quest trước chưa được hoàn thành vui lòng liên hệ hotline để hỗ trợ",
           "please go to this address to start the quest:":
               "Bạn vui lòng đến địa chỉ này để bắt đầu quest Quest:",
-          "open map": "Mở Google map"
+          "open map": "Mở Google map",
+          "complete quest: ": "Hoàn thành quest: ",
+          "time": "Thời gia",
+          "point": "Điểm",
+          "how is your trip?": "Trải nghiệm của bạn thế nào?",
+          "rating quest": "Đánh giá chất lượng quest",
         }
       };
 }

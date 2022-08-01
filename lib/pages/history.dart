@@ -173,7 +173,7 @@ class _HistoryPageState extends State<HistoryPage>
   @override
   bool get wantKeepAlive => true;
   Future<void> _onRefresh() async {
-    list = Get.find<HomeController>()
+    Get.find<HomeController>()
         .fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id);
   }
 }
