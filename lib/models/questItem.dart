@@ -9,43 +9,43 @@ QuestItem questItemFromJson(String str) => QuestItem.fromJson(json.decode(str));
 String questItemToJson(QuestItem data) => json.encode(data.toJson());
 
 class QuestItem {
-    QuestItem({
-        required this.id,
-        required this.questItemTypeId,
-        required this.locationId,
-        required this.questId,
-        required this.content,
-        required this.description,
-        required this.duration,
-        //  this.createdDate,
-        //  this.updatedDate,
-        // required this.qrCode,
-        required this.rightAnswer,
-        required this.answerImageUrl,
-        required this.status,
-        required this.listImages,
-        // required this.suggestions,
-        required this.itemId,
-    });
+  QuestItem({
+    required this.id,
+    required this.questItemTypeId,
+    required this.locationId,
+    required this.questId,
+    required this.content,
+    required this.description,
+    required this.duration,
+    //  this.createdDate,
+    //  this.updatedDate,
+    // required this.qrCode,
+    required this.rightAnswer,
+    required this.answerImageUrl,
+    required this.status,
+    required this.listImages,
+    // required this.suggestions,
+    required this.itemId,
+  });
 
-    int id;
-    int questItemTypeId;
-    int locationId;
-    int questId;
-    String content;
-    String description;
-    int duration;
-    // DateTime? createdDate;
-    // DateTime? updatedDate;
-    // String qrCode;
-    String rightAnswer;
-    String? answerImageUrl;
-    String status;
-    List<String> listImages;
-    // List<Suggestion> suggestions;
-    int itemId;
+  int id;
+  int questItemTypeId;
+  int locationId;
+  int questId;
+  String content;
+  String description;
+  int duration;
+  // DateTime? createdDate;
+  // DateTime? updatedDate;
+  // String qrCode;
+  String? rightAnswer;
+  String? answerImageUrl;
+  String status;
+  List<String> listImages;
+  // List<Suggestion> suggestions;
+  int itemId;
 
-    factory QuestItem.fromJson(Map<String, dynamic> json) => QuestItem(
+  factory QuestItem.fromJson(Map<String, dynamic> json) => QuestItem(
         id: json["id"],
         questItemTypeId: json["questItemTypeId"],
         locationId: json["locationId"],
@@ -62,9 +62,9 @@ class QuestItem {
         listImages: List<String>.from(json["listImages"].map((x) => x)),
         // suggestions: List<Suggestion>.from(json["suggestions"].map((x) => Suggestion.fromJson(x))),
         itemId: json["itemId"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "questItemTypeId": questItemTypeId,
         "locationId": locationId,
@@ -81,6 +81,5 @@ class QuestItem {
         "listImages": List<dynamic>.from(listImages.map((x) => x)),
         // "suggestions": List<dynamic>.from(suggestions.map((x) => x.toJson())),
         "itemId": itemId,
-    };
+      };
 }
-

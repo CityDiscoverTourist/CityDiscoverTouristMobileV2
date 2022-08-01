@@ -9,6 +9,7 @@ import 'package:travel_hour/models/customer.dart';
 
 import '../api/api.dart';
 import '../api/api_end_points.dart';
+import '../common/customFullScreenDialog.dart';
 
 class LoginService {
   final user = FirebaseAuth.instance.currentUser;
@@ -25,7 +26,7 @@ class LoginService {
 
       final responseData = json.decode(response.body);
       myController.jwtToken.value = responseData['jwtToken'];
-      print("HOME CONTROLLER: "+myController.jwtToken.value.toString());
+      print("HOME CONTROLLER: " + myController.jwtToken.value.toString());
       // print("JWT: "+responseData['jwtToken']);
       var response2 = await http.get(
         Uri.parse(
@@ -46,5 +47,39 @@ class LoginService {
         return Future<Customer>.value(null);
     } else
       return Future<Customer>.value(null);
+  }
+
+  Future<Customer> checkFacebookLogin(String accessToken) async {
+    Customer rs;
+    var myController = Get.find<LoginControllerV2>();
+    Map data2 = {'resource': accessToken};
+    var body = json.encode(data2);
+    var response = await http.post(
+        Uri.parse(Api.baseUrl +
+            ApiEndPoints.loginFacebook +
+            '?resource=' +
+            accessToken),
+        headers: {"Content-Type": "application/json"},
+        body: body);
+    // print(response.body);
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      var response2 = await http.get(
+          Uri.parse(
+              Api.baseUrl + ApiEndPoints.customer + responseData['accountId']),
+          headers: {
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + responseData['jwtToken']
+          });
+      if (response2.statusCode == 200) {
+        final responseData2 = json.decode(response2.body);
+        rs = Customer.fromJson(responseData2['data']);
+        myController.jwtToken.value = responseData['jwtToken'];
+        // print(sp);
+        // Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
+        return Future<Customer>.value(rs);
+      }
+    }
+    return Future<Customer>.value(null);
   }
 }

@@ -141,8 +141,10 @@ class PlayControllerV2 extends GetxController {
     if (checkErr.value.isNotEmpty) {
       if (checkErr.value == "Previous quest is not finished") {
         print("Lỗi chưa kết thúc");
-        Get.snackbar('Lỗi',
-            'Quest Chưa Kết Thúc. Vui Lòng liên hệ tổng đài để được hỗ trợ',
+        Get.snackbar(
+            'error'.tr,
+            'previous quest not over. please contact the hotline for support'
+                .tr,
             duration: Duration(seconds: 2),
             backgroundColor: Colors.black,
             colorText: Colors.white,
@@ -155,7 +157,7 @@ class PlayControllerV2 extends GetxController {
         Get.find<HistoryController>().getPuschedQuests();
       } else if (checkErr.value == "Ticket quantity is not enough") {
         print("Lỗi chưa kết thúc");
-        Get.snackbar('Lỗi', 'Vé lỗi',
+        Get.snackbar('error'.tr, 'error ticket'.tr,
             duration: Duration(seconds: 2),
             backgroundColor: Colors.black,
             colorText: Colors.white,
@@ -198,12 +200,12 @@ class PlayControllerV2 extends GetxController {
           currentAns.value +
           "/" +
           questItemCurrent.id.toString());
-      cusTask = await PlayService().checkAnswer(
-          customerQuestID.value, currentAns.value, questItemCurrent.id);
-      // cusTask = await PlayService().checkAnswerV2(
-      //     customerQuestID.value.toString(),
-      //     questItemCurrent.id.toString(),
-      //     currentAns.value);
+      // cusTask = await PlayService().checkAnswer(
+      //     customerQuestID.value, currentAns.value, questItemCurrent.id);
+      cusTask = await PlayService().checkAnswerV2(
+          customerQuestID.value.toString(),
+          questItemCurrent.id.toString(),
+          currentAns.value);
       correctAns.value = cusTask.isFinished;
 
       print('handleAuthStateChanged ' + customerQuestID.toString());
@@ -213,7 +215,7 @@ class PlayControllerV2 extends GetxController {
 
       if (correctAns.value == true) {
         // if (cusTask.countWrongAnswer != 4) {
-        Get.snackbar('Right Ans', 'Congratulations',
+        Get.snackbar('right answer'.tr, 'congratulations'.tr,
             duration: Duration(seconds: 2),
             backgroundColor: Colors.black,
             colorText: Colors.white,
@@ -259,10 +261,12 @@ class PlayControllerV2 extends GetxController {
         if (cusTask.countWrongAnswer == 4) {
           //show dap an
           isDisableTextField(true);
-          currentAns.value = questItemCurrent.rightAnswer;
+          if (questItemCurrent.questItemTypeId == 1) {
+            currentAns.value = questItemCurrent.rightAnswer!;
+          }
           update();
         } else if (cusTask.countWrongAnswer == 3) {
-          Get.snackbar('Chi con 1 lan tra loi', 'Try Again',
+          Get.snackbar('only 1 answer left'.tr, 'try again'.tr,
               duration: Duration(seconds: 2),
               backgroundColor: Colors.black,
               colorText: Colors.white,
@@ -273,7 +277,7 @@ class PlayControllerV2 extends GetxController {
               ));
         } else {
           print(correctAns.value);
-          Get.snackbar('Wrong Ans', 'Try Again',
+          Get.snackbar('wrong answer'.tr, 'try again'.tr,
               duration: Duration(seconds: 2),
               backgroundColor: Colors.black,
               colorText: Colors.white,
@@ -328,5 +332,9 @@ class PlayControllerV2 extends GetxController {
 
   Future<bool> checkPaymentStatus(var paymentId) async {
     return await PlayService().checkPaymentStatus(paymentId);
+  }
+
+  Future<bool> checkUserLocation(String questID) async {
+    return await PlayService().checkLocation(questID);
   }
 }

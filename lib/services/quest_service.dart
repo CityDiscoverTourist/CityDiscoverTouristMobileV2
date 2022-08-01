@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:travel_hour/common/customFullScreenDialog.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
 
 import '../api/api.dart';
@@ -266,7 +267,8 @@ class QuestService {
     //   lang = 1;
     // }
     // print(language.toString());
-    var myController = Get.find<LoginControllerV2>();
+
+    // var myController = Get.find<LoginControllerV2>();
     // print(myController.jwtToken.value);
     var response = await http.get(
         Uri.parse(Api.baseUrl +
@@ -276,19 +278,23 @@ class QuestService {
             language.toString()),
         headers: {
           "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + myController.jwtToken.value
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         });
     // print(Api.baseUrl +
     //     ApiEndPoints.getQuestById +
     //     questId +
     //     "?language=" +
     //     language.toString());
+    // print(response.body);
     if (response.statusCode == 200) {
       var responseData = json.decode(response.body);
       Quest quest = Quest.fromJson(responseData["data"]);
-      print(quest.description);
+      // print(quest.description);
+      // CustomFullScreenDialog.cancelDialog();
       return quest;
     }
+    // CustomFullScreenDialog.cancelDialog();
     return null;
   }
 }

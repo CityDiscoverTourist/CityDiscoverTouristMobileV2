@@ -76,6 +76,7 @@ class PaymentWidgetState extends State<PaymentWidget>
         } else {
           setState(() {
             _paymentStatus = "";
+            playCode = uuid.v4();
           });
         }
         break;
@@ -234,25 +235,27 @@ class PaymentWidgetState extends State<PaymentWidget>
           //               ),
           //             ))
           //         .toList()),
-          Divider(),
-          TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            autofocus: false,
-            decoration: InputDecoration(
-              hintText: 'enter voucher here'.tr,
-            ),
-            controller: voucherCtl,
-            // validator: (value) {
-            //   if (value!.length == 0) return "Address can't be empty";
-            //   return null;
-            // },
-            // onSaved: (String? value) {
-            //   userName = value!;
-            // },
-            onEditingComplete: () {
-              print(voucherCtl.text);
-            },
-          ),
+          _paymentStatus.isEmpty ? Divider() : Container(),
+          _paymentStatus.isEmpty
+              ? TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  autofocus: false,
+                  decoration: InputDecoration(
+                    hintText: 'enter voucher here'.tr,
+                  ),
+                  controller: voucherCtl,
+                  // validator: (value) {
+                  //   if (value!.length == 0) return "Address can't be empty";
+                  //   return null;
+                  // },
+                  // onSaved: (String? value) {
+                  //   userName = value!;
+                  // },
+                  onEditingComplete: () {
+                    print(voucherCtl.text);
+                  },
+                )
+              : Container(),
           Divider(),
           ListTile(
             title: CustomText(
@@ -358,8 +361,9 @@ class PaymentWidgetState extends State<PaymentWidget>
                           widget.quest.id.toString(),
                           quantity2,
                           total,
-                          null);
+                          voucherCtl.text);
                       // Get.to(QuestsPlayPage());
+                      // print(map!.first);
                       Navigator.push(
                           context,
                           MaterialPageRoute(

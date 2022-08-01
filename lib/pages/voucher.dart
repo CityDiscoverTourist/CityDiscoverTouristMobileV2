@@ -8,6 +8,7 @@ import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/pages/intro.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 
+import '../controllers/login_controller_V2.dart';
 import '../utils/empty.dart';
 import '../widgets/voucher_widget.dart';
 
@@ -26,29 +27,36 @@ class _VoucherPageState extends State<VoucherPage> {
     //     .then((_) => nextScreenReplace(context, IntroPage()));
   }
 
+  Future<void> _onRefresh() async {
+    Get.find<HomeController>()
+        .fetchRewardByCustomerId(Get.find<LoginControllerV2>().sp.id);
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<int> text = [1, 2, 3, 4];
     return Scaffold(
-      appBar: AppBar(
-        title: Text("your reward".tr),
-      ),
-      body: SingleChildScrollView(
-        child: Get.find<HomeController>().rewardList.isEmpty
-            ? EmptyPage(
-                icon: Icons.card_giftcard,
-                message: 'no reward found'.tr,
-                message1: ''.tr,
-              )
-            : Column(
-                children: List.generate(
-                    Get.find<HomeController>().rewardList.length, (index) {
-                  return VoucherWidget(
-                    reward: Get.find<HomeController>().rewardList[index],
-                  );
-                }),
-              ),
-      ),
-    );
+        appBar: AppBar(
+          title: Text("your reward".tr),
+        ),
+        body: RefreshIndicator(
+          onRefresh: _onRefresh,
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Get.find<HomeController>().rewardList.isEmpty
+                ? EmptyPage(
+                    icon: Icons.card_giftcard,
+                    message: 'no reward found'.tr,
+                    message1: ''.tr,
+                  )
+                : Column(
+                    children: List.generate(
+                        Get.find<HomeController>().rewardList.length, (index) {
+                      return VoucherWidget(
+                        reward: Get.find<HomeController>().rewardList[index],
+                      );
+                    }),
+                  ),
+          ),
+        ));
   }
 }

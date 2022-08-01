@@ -50,7 +50,6 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
 
 class Header extends StatelessWidget {
   const Header({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     var controller = Get.find<HomeController>();
@@ -106,11 +105,14 @@ class Header extends StatelessWidget {
                 InkWell(
                   child: CircleAvatar(
                     radius: 30.0,
-                    backgroundImage: NetworkImage(Get.find<LoginControllerV2>()
-                        .firebaseAuth
-                        .currentUser!
-                        .photoURL
-                        .toString()),
+                    backgroundImage: Get.find<LoginControllerV2>()
+                                .sp
+                                .imagePath !=
+                            null
+                        ? NetworkImage(
+                            Get.find<LoginControllerV2>().sp.imagePath!)
+                        : NetworkImage(
+                            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"),
                     backgroundColor: Colors.transparent,
                   ),
                   onTap: () {
