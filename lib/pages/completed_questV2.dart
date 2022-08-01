@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:travel_hour/controllers/comment_controller.dart';
+import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/controllers/play_controllerV2.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/widgets/big_text.dart';
@@ -28,16 +29,15 @@ class CompletedPageV2 extends StatefulWidget {
 }
 
 class CompletedPageV2State extends State<CompletedPageV2> {
+  var controller = Get.find<PlayControllerV2>();
+  var commentController = Get.find<CommentController>();
+  var textCtrl = TextEditingController();
+  double ratingStar = 4;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var controller=Get.find<PlayControllerV2>();
-    var commentController = Get.find<CommentController>();
-    var textCtrl = TextEditingController();
     return Scaffold(
-        body: 
-       
-        SingleChildScrollView(
+        body: SingleChildScrollView(
             child: Stack(
       children: [
         AppHeader(),
@@ -60,18 +60,26 @@ class CompletedPageV2State extends State<CompletedPageV2> {
                 height: 60,
               ),
               ClipOval(
-                child: Image.asset(
-                  'assets/images/logo.png',
-                  width: 150,
-                  height: 150,
-                  fit: BoxFit.cover,
-                ),
+                child: Get.find<LoginControllerV2>().sp.imagePath != null
+                    ? Image.network(
+                        Get.find<LoginControllerV2>().sp.imagePath.toString(),
+                        width: 150,
+                        height: 150,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        'assets/images/logo.png',
+                        width: 150,
+                        height: 150,
+                        fit: BoxFit.cover,
+                      ),
               ),
               SizedBox(
                 height: 20,
               ),
-              SmallText(text: "City Tour Quest 1"),
-              BigText(text: controller.pQuest.questName),
+              // SmallText(text: "completed quest"),
+              BigText(
+                  text: "complete quest: ".tr + controller.pQuest.questName),
               Divider(
                 color: Colors.black,
               ),
@@ -79,9 +87,11 @@ class CompletedPageV2State extends State<CompletedPageV2> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   PlayInfo(
-                      title: "Thời gian", value: controller.displayTime.value),
-                  PlayInfo(title: "Điểm", value: controller.endPoint),
-                  PlayInfo(title: "Tỷ lệ", value: "75%")
+                      title: "time".tr, value: controller.displayTime.value),
+                  PlayInfo(
+                      title: "point".tr,
+                      value: controller.cusTask.currentPoint.toString()),
+                  // PlayInfo(title: "Tỷ lệ", value: "75%")
                 ],
               ),
               Divider(
@@ -90,23 +100,24 @@ class CompletedPageV2State extends State<CompletedPageV2> {
               SizedBox(
                 height: 20,
               ),
-              SmallText(text: "Trí Cường"),
+              SmallText(text: Get.find<LoginControllerV2>().sp.userName),
               BigText(
-                text: "How is your trip?",
+                text: "how is your trip?".tr,
                 fontWeight: FontWeight.bold,
                 size: 24,
               ),
               SmoothStarRating(
                   allowHalfRating: false,
-                  onRatingChanged: (v) {
-                    // rating = v;
-                    // setState(() {});
+                  onRatingChanged: (v) async {
+                    setState(() {
+                      ratingStar = v;
+                    });
                     commentController.rating.value = v.toInt();
                     print("Comments_V2:" +
                         commentController.rating.value.toString());
                   },
                   starCount: 5,
-                  // rating: 4,
+                  rating: ratingStar,
                   size: 40.0,
                   // filledIconData: Icons.blur_off,
                   // halfFilledIconData: Icons.blur_on,
@@ -127,11 +138,13 @@ class CompletedPageV2State extends State<CompletedPageV2> {
                     ]),
                 child: Form(
                   child: TextFormField(
-                    // onChanged: ((value) => {textCtrl.text=value}),
                     controller: textCtrl,
-                    textInputAction: TextInputAction.newline,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 2,
+                    keyboardType: TextInputType.text,
+                    autofocus: false,
+                    onFieldSubmitted: (value) {
+                      textCtrl.text = value;
+                      commentController.comment.value = value;
+                    },
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Đánh giá chất lượng',
@@ -144,7 +157,7 @@ class CompletedPageV2State extends State<CompletedPageV2> {
               ),
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                 BigText(
-                  text: 'Submit',
+                  text: 'submit'.tr,
                   fontWeight: FontWeight.bold,
                   color: Colors.redAccent,
                 ),
@@ -161,8 +174,10 @@ class CompletedPageV2State extends State<CompletedPageV2> {
                     icon: Icon(Icons.arrow_forward),
                     onPressed: () async {
                       await commentController.handleSubmit(
-                          textCtrl.text, context,Get.find<PlayControllerV2>().customerQuestID.value);
-                    
+                          textCtrl.text,
+                          context,
+                          Get.find<PlayControllerV2>().customerQuestID.value);
+
                       Get.toNamed(KWelcomeScreen);
                     },
                     color: Colors.white,

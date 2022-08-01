@@ -548,7 +548,7 @@ class PlayService {
 
       //maxHeight: 2560, maxWidth: 1152
       final XFile? pickedFile =
-          await _picker.pickImage(source: ImageSource.camera, maxHeight: 3052);
+          await _picker.pickImage(source: ImageSource.camera);
       if (pickedFile != null) {
         final LostDataResponse response2 = await _picker.retrieveLostData();
         File file = File(pickedFile.path);
