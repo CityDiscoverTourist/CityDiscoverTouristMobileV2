@@ -496,14 +496,14 @@ class PlayService {
     return Future<bool>.value(false);
   }
 
-  Future<CustomerTask> checkAnswerV2(
-      String customerQuestId, String questItemId, String customerReply) async {
+  Future<CustomerTask> checkAnswerV2(String customerQuestId, String questItemId,
+      String customerReply, int questTypeId) async {
     String requestUrl;
     CustomerTask? rs;
     print("customerQuestId:" + customerQuestId);
     print("questItemId:" + questItemId);
     print("customerReply:" + customerReply);
-    if (customerReply != "") {
+    if (questTypeId == 1) {
       requestUrl = Api.baseUrl +
           ApiEndPoints.checkAnswer +
           customerQuestId.toString() +

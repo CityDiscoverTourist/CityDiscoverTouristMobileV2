@@ -16,7 +16,6 @@ import '../models/customer_task.dart';
 import '../models/quest.dart';
 import '../models/questItem.dart';
 
-
 class PlayControllerV2 extends GetxController {
   //Bool check status show SplashPage await result from API
   var isDisableTextField = false.obs;
@@ -56,7 +55,7 @@ class PlayControllerV2 extends GetxController {
     mode: StopWatchMode.countUp,
   );
   final isHours = true;
-var description;
+  var description;
   //Test List
   var qItem = List<QuestItem>.empty().obs;
   var index = 0.obs;
@@ -179,7 +178,7 @@ var description;
           print('Ok');
           questItemCurrent =
               await PlayService.fetchQuestItem(cusTask.questItemId);
-          description=questItemCurrent.description;
+          description = questItemCurrent.description;
           if (questItemCurrent != null) {
             sugggestion.value =
                 await PlayService().getSuggestion(questItemCurrent.id);
@@ -207,7 +206,8 @@ var description;
       cusTask = await PlayService().checkAnswerV2(
           customerQuestID.value.toString(),
           questItemCurrent.id.toString(),
-          currentAns.value);
+          currentAns.value,
+          questCurrent!.questTypeId);
       correctAns.value = cusTask.isFinished;
 
       print('handleAuthStateChanged ' + customerQuestID.toString());
@@ -241,7 +241,7 @@ var description;
           isDisableTextField(false);
           questItemCurrent = await PlayService.fetchQuestItem(nextQuestItemId);
 
-          description=questItemCurrent.description;
+          description = questItemCurrent.description;
 
           sugggestion.value =
               await PlayService().getSuggestion(questItemCurrent.id);
