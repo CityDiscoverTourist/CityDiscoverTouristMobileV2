@@ -159,7 +159,7 @@ class Translation extends Translations {
           "password": "Password",
           "password is required": "Password is Required",
           "password must minimum six characters":
-              "Password must minimum six characters",
+              "Password must minimum eight characters",
           "password at least one uppercase letter, one lowercase letter, one specical character and one number":
               "Password at least one uppercase letter, one lowercase letter, one specical character and one number",
           "log in": "Log In",
@@ -204,7 +204,7 @@ class Translation extends Translations {
           "error": "Error",
           "error change password": "Error change password",
           "success change password": "Success change password",
-          "User already exists": "User already exists",
+          "user already exists": "User already exists",
           "error register": "Error register",
           "please confim you email before login!":
               "Please confim you email before login!",
@@ -225,6 +225,8 @@ class Translation extends Translations {
           "point": "Point",
           "how is your trip?": "How is your trip?",
           "rating quest": "Rating quest",
+          "discount code is not valid": "Discount code is not valid",
+          "voucher is wrong format": "Voucher is wrong format",
         },
         'vn': {
           "welcome message":
@@ -384,7 +386,7 @@ class Translation extends Translations {
           "password": "Mật Khẩu",
           "password is required": "Mật khẩu không được để trống",
           "password must minimum six characters":
-              "Mật khẩu cần ít nhất 6 kí tự",
+              "Mật khẩu cần ít nhất 8 kí tự",
           "password at least one uppercase letter, one lowercase letter, one specical character and one number":
               "Mật khẩu phải có 1 chữ cái in hoa, 1 chữ cái thường, 1 ký tự đặc biệt và một số",
           "log in": "Đăng nhập",
@@ -430,7 +432,7 @@ class Translation extends Translations {
           "error": "Lỗi",
           "error change password": "Lỗi khi đổi mật khẩu",
           "success change password": "Đổi mật khẩu thành công",
-          "User already exists": "Người dùng đã tồn tại",
+          "user already exists": "Người dùng đã tồn tại",
           "error register": "Lỗi khi đăng ký",
           "please confim you email before login!":
               "Vui lòng xác nhận tài khoản của bạn qua mail trước khi đăng nhập!",
@@ -451,6 +453,8 @@ class Translation extends Translations {
           "point": "Điểm",
           "how is your trip?": "Trải nghiệm của bạn thế nào?",
           "rating quest": "Đánh giá chất lượng quest",
+          "discount code is not valid": "Mã giảm giá không hợp lệ",
+          "voucher is wrong format": "Mã giảm giá sai định dạng",
         }
       };
 }

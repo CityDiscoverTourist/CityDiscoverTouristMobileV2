@@ -247,15 +247,17 @@ class LoginControllerV2 extends GetxController {
       // print("Hellos");
       // print(responseData);
       // CustomFullScreenDialog.cancelDialog();
-      Get.snackbar(responseData["message"].tr, 'error register'.tr,
-          duration: Duration(seconds: 5),
-          backgroundColor: Colors.black,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-          icon: Icon(
-            Icons.error,
-            color: Colors.red,
-          ));
+      if (responseData["message"] == "User already exists") {
+        Get.snackbar("user already exists".tr, 'error register'.tr,
+            duration: Duration(seconds: 5),
+            backgroundColor: Colors.black,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+            icon: Icon(
+              Icons.error,
+              color: Colors.red,
+            ));
+      }
     }
     // CustomFullScreenDialog.cancelDialog();
   }

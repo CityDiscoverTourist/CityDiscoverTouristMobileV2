@@ -107,11 +107,11 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           validator: (value) {
             String patttern =
-                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$';
+                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
             RegExp regExp = new RegExp(patttern);
             if (value == "") {
               return "password is required".tr;
-            } else if (value!.length < 6) {
+            } else if (value!.length < 8) {
               return "password must minimum six characters".tr;
             } else if (!regExp.hasMatch(value)) {
               return "password at least one uppercase letter, one lowercase letter, one specical character and one number"

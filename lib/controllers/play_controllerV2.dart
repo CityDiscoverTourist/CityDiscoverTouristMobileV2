@@ -207,7 +207,8 @@ class PlayControllerV2 extends GetxController {
           customerQuestID.value.toString(),
           questItemCurrent.id.toString(),
           currentAns.value,
-          questCurrent!.questTypeId);
+          questItemCurrent.questItemTypeId,
+          cusTask.countWrongAnswer);
       correctAns.value = cusTask.isFinished;
 
       print('handleAuthStateChanged ' + customerQuestID.toString());

@@ -51,6 +51,7 @@ class PaymentWidgetState extends State<PaymentWidget>
   static String payUrl = "";
   var playCode;
   var voucherCtl = TextEditingController();
+  GlobalKey<FormState> _key = new GlobalKey();
 
   String partnerCode = 'MOMOXOUE20220626';
   String partnerName = 'City Discover Tourist';
@@ -63,6 +64,7 @@ class PaymentWidgetState extends State<PaymentWidget>
       case AppLifecycleState.resumed:
         // --
         print('App in Resumed');
+        await Future.delayed(Duration(seconds: 2));
         // var controller = Get.find<PlayController>();
         PlayControllerV2 controller = new PlayControllerV2();
         // ignore: unrelated_type_equality_checks
@@ -121,6 +123,8 @@ class PaymentWidgetState extends State<PaymentWidget>
   Widget build(BuildContext context) {
     var quest;
     final key = new GlobalKey<ScaffoldState>();
+    bool disable = false;
+    bool disable2 = false;
     // print("CustomerId:" + Get.find<HomeController>().sp.id);
     // print("QuestID:" + widget.quest.id.toString());
     // print("Quantoty:" + quantity2.toString());
@@ -179,18 +183,46 @@ class PaymentWidgetState extends State<PaymentWidget>
                     ),
                     child: Row(
                       children: [
-                        RaisedButton(
+                        Expanded(
+                          child: RaisedButton(
                             onPressed: () async {
-                              setState(() {
-                                quantity2 = quantity2 - 1;
-                                total = quantity2 * widget.quest.price;
-                              });
+                              if (disable == false) {
+                                if (quantity2 == 1) {
+                                  disable = true;
+                                } else {
+                                  setState(() {
+                                    quantity2 = quantity2 - 1;
+                                    total = quantity2 * widget.quest.price;
+                                  });
+                                }
+                              }
                             },
                             child: Icon(
                               Icons.remove,
                               color: Colors.white,
                               size: 13,
-                            )),
+                            ),
+                          ),
+                        ),
+                        // RaisedButton(
+                        //   onPressed: () async {
+                        //     if (disable == false) {
+                        //       if (quantity2 == 1) {
+                        //         disable = true;
+                        //       } else {
+                        //         setState(() {
+                        //           quantity2 = quantity2 - 1;
+                        //           total = quantity2 * widget.quest.price;
+                        //         });
+                        //       }
+                        //     }
+                        //   },
+                        //   child: Icon(
+                        //     Icons.remove,
+                        //     color: Colors.white,
+                        //     size: 13,
+                        //   ),
+                        // ),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 3),
                           padding:
@@ -205,10 +237,20 @@ class PaymentWidgetState extends State<PaymentWidget>
                         ),
                         RaisedButton(
                             onPressed: () async {
-                              setState(() {
-                                quantity2 = quantity2 + 1;
-                                total = quantity2 * widget.quest.price;
-                              });
+                              if (disable2 == false) {
+                                if (quantity2 == 99) {
+                                  disable2 = true;
+                                } else {
+                                  setState(() {
+                                    quantity2 = quantity2 + 1;
+                                    total = quantity2 * widget.quest.price;
+                                  });
+                                }
+                              }
+                              // setState(() {
+                              //   quantity2 = quantity2 + 1;
+                              //   total = quantity2 * widget.quest.price;
+                              // });
                             },
                             child: Icon(
                               Icons.add,
@@ -237,23 +279,35 @@ class PaymentWidgetState extends State<PaymentWidget>
           //         .toList()),
           _paymentStatus.isEmpty ? Divider() : Container(),
           _paymentStatus.isEmpty
-              ? TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  autofocus: false,
-                  decoration: InputDecoration(
-                    hintText: 'enter voucher here'.tr,
+              ? Form(
+                  key: _key,
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    autofocus: false,
+                    decoration: InputDecoration(
+                      hintText: 'enter voucher here'.tr,
+                    ),
+                    controller: voucherCtl,
+                    validator: (value) {
+                      // String patttern =
+                      //     r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$';
+                      RegExp regExp = new RegExp(
+                          "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
+                      if (value!.isEmpty) {
+                        return null;
+                      } else if (!regExp.hasMatch(value)) {
+                        return "voucher is wrong format".tr;
+                      }
+                      return null;
+                    },
+                    // onSaved: (String? value) {
+                    //   userName = value!;
+                    // },
+                    // onEditingComplete: () {
+                    //   FocusManager.instance.primaryFocus?.unfocus();
+                    //   print("Voucher:" + voucherCtl.text);
+                    // },
                   ),
-                  controller: voucherCtl,
-                  // validator: (value) {
-                  //   if (value!.length == 0) return "Address can't be empty";
-                  //   return null;
-                  // },
-                  // onSaved: (String? value) {
-                  //   userName = value!;
-                  // },
-                  onEditingComplete: () {
-                    print(voucherCtl.text);
-                  },
                 )
               : Container(),
           Divider(),
@@ -292,8 +346,8 @@ class PaymentWidgetState extends State<PaymentWidget>
                     onPressed: () {
                       Clipboard.setData(new ClipboardData(text: playCode))
                           .then((_) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Copied to your clipboard !')));
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(content: Text('copy'.tr)));
                       });
                     },
                   ),
@@ -336,49 +390,34 @@ class PaymentWidgetState extends State<PaymentWidget>
                   child: _paymentStatus.isEmpty
                       ? Text('cofirm payment'.tr)
                       : Text('cofirm'.tr),
-                  onPressed: () async {
-                    // MomoPaymentInfo options = MomoPaymentInfo(
-                    //     merchantName: "TTNC&TVKT",
-                    //     appScheme: "MOMOXOUE20220626",
-                    //     merchantCode: 'MOMOXOUE20220626',
-                    //     partnerCode: 'MOMOXOUE20220626',
-                    //     amount: total.round(),
-                    //     orderId: '41e879aa-859c-4bda-b77b-37b7e07c6674',
-                    //     orderLabel: 'Mua Quest' + widget.quest.title,
-                    //     merchantNameLabel: "Mua Quest",
-                    //     fee: 0,
-                    //     description: 'Thanh toán mua Quest',
-                    //     username: 'Ciity Discover Tourist',
-                    //     partner: 'merchant',
-                    //     // extra: "{\"key1\":\"value1\",\"key2\":\"value2\"}",
-                    //     isTestMode: true);
-                    if (_paymentStatus.isEmpty) {
-                      PlayControllerV2 controller = new PlayControllerV2();
+                  onPressed: _paymentStatus.isEmpty
+                      ? _sendToServer
+                      : () {
+                          Navigator.pop(context);
+                        },
+                  // () async {
+                  // MomoPaymentInfo options = MomoPaymentInfo(
+                  //     merchantName: "TTNC&TVKT",
+                  //     appScheme: "MOMOXOUE20220626",
+                  //     merchantCode: 'MOMOXOUE20220626',
+                  //     partnerCode: 'MOMOXOUE20220626',
+                  //     amount: total.round(),
+                  //     orderId: '41e879aa-859c-4bda-b77b-37b7e07c6674',
+                  //     orderLabel: 'Mua Quest' + widget.quest.title,
+                  //     merchantNameLabel: "Mua Quest",
+                  //     fee: 0,
+                  //     description: 'Thanh toán mua Quest',
+                  //     username: 'Ciity Discover Tourist',
+                  //     partner: 'merchant',
+                  //     // extra: "{\"key1\":\"value1\",\"key2\":\"value2\"}",
+                  //     isTestMode: true);
 
-                      List? map = await controller.buyQuest(
-                          playCode,
-                          Get.find<LoginControllerV2>().sp.id,
-                          widget.quest.id.toString(),
-                          quantity2,
-                          total,
-                          voucherCtl.text);
-                      // Get.to(QuestsPlayPage());
-                      // print(map!.first);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MoMoWebView(
-                                    url: map!.first,
-                                  )));
-                    } else {
-                      Navigator.pop(context);
-                    }
-                    // try {
-                    //   _momoPay.open(options);
-                    // } catch (e) {
-                    //   debugPrint(e.toString());
-                    // }
-                  },
+                  // try {
+                  //   _momoPay.open(options);
+                  // } catch (e) {
+                  //   debugPrint(e.toString());
+                  // }
+                  // },
                 ),
                 _paymentStatus.isEmpty
                     ? Container()
@@ -463,5 +502,43 @@ class PaymentWidgetState extends State<PaymentWidget>
     Fluttertoast.showToast(
         msg: "THẤT BẠI: " + response.message.toString(),
         toastLength: Toast.LENGTH_SHORT);
+  }
+
+  _sendToServer() async {
+    if (_key.currentState!.validate()) {
+      if (_paymentStatus.isEmpty) {
+        PlayControllerV2 controller = new PlayControllerV2();
+        List? map = await controller.buyQuest(
+            playCode,
+            Get.find<LoginControllerV2>().sp.id,
+            widget.quest.id.toString(),
+            quantity2,
+            total,
+            voucherCtl.text);
+        if (map != null) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MoMoWebView(
+                        url: map.first,
+                      )));
+        } else {
+          Get.snackbar("discount code is not valid".tr, 'try again'.tr,
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM,
+              icon: Icon(
+                Icons.error,
+                color: Colors.red,
+              ));
+        }
+      }
+    } else {
+      setState(() {
+        print(_key.currentState!.validate());
+        // _validate = true;
+      });
+    }
   }
 }

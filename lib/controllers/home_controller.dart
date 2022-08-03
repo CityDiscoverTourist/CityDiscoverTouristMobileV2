@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,7 @@ import 'package:travel_hour/services/reward_service.dart';
 import '../models/city.dart';
 import '../models/quest.dart';
 import '../models/quest_type.dart';
+import '../pages/splashV2.dart';
 import '../services/city_service.dart';
 import '../services/quest_service.dart';
 import '../services/questtype_service.dart';
@@ -129,7 +129,7 @@ class HomeController extends GetxController {
       await fetchQuestFeatureData();
       await fetchQuestTypeData();
       await fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id);
-      await fetchRewardByCustomerId(Get.find<LoginControllerV2>().sp.id);
+      // await fetchRewardByCustomerId(Get.find<LoginControllerV2>().sp.id);
     } finally {
       isLoading(false);
     }
@@ -243,16 +243,22 @@ class HomeController extends GetxController {
 
   fetchPlayingHistory(String customerId) async {
     try {
-      isLoading(true);
+      // isLoading(true);
+
       await QuestService.fetchPlayedQuestFeatureData(customerId);
     } finally {
-      isLoading(false);
+      // isLoading(false);
     }
   }
 
   fetchRewardByCustomerId(String customerId) async {
     try {
-      isLoading(true);
+      // if (isLoading.value == false) {
+      //   isLoading.value = true;
+      // }
+      SplashStart(
+        content: 'waiting loading data...'.tr,
+      );
       await RewardService.fetchRewardByCustomerId(customerId);
     } finally {
       isLoading(false);

@@ -118,6 +118,7 @@ class _QuestDetailsState extends State<QuestDetails> {
                       children: [
                         //Infomation : title, rating, comments,first location
                         Container(
+                          width: MediaQuery.of(context).size.width * 0.6,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -174,9 +175,14 @@ class _QuestDetailsState extends State<QuestDetails> {
                                     size: 16,
                                     color: Colors.grey,
                                   ),
-                                  SmallText(
-                                    text: widget.data!.address.toString(),
-                                  )
+                                  Expanded(
+                                    child: SmallText(
+                                      text: widget.data!.address.toString(),
+                                    ),
+                                  ),
+                                  // SmallText(
+                                  //   text: widget.data!.address.toString(),
+                                  // )
                                 ],
                               ),
                             ],
