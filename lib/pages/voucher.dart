@@ -28,11 +28,21 @@ class _VoucherPageState extends State<VoucherPage> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _onRefresh();
+      _onCreate();
     });
   }
 
   Future<void> _onRefresh() async {
+    CustomFullScreenDialog.showDialog();
+    await Get.find<HomeController>()
+        .fetchRewardByCustomerId(Get.find<LoginControllerV2>().sp.id);
+    setState(() {
+      CustomFullScreenDialog.cancelDialog();
+      list = Get.find<HomeController>().rewardList;
+    });
+  }
+
+  Future<void> _onCreate() async {
     if (Get.find<HomeController>().rewardList.isNotEmpty) {
       setState(() {
         list = Get.find<HomeController>().rewardList;

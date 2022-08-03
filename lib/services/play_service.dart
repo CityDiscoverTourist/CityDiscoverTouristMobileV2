@@ -502,6 +502,7 @@ class PlayService {
     print("customerQuestId:" + customerQuestId);
     print("questItemId:" + questItemId);
     print("customerReply:" + customerReply);
+    print("questTypeId:" + questTypeId.toString());
     if (questTypeId == 2) {
       requestUrl = Api.baseUrl +
           ApiEndPoints.checkAnswer +
@@ -519,22 +520,20 @@ class PlayService {
       // if (selectedImages!.isNotEmpty) {
       //   imageFileList.addAll(selectedImages);
       // }
-      if (countWrongAnswer == 4) {
+      if (countWrongAnswer != 4) {
         final ImagePicker _picker = ImagePicker();
         print(requestUrl);
-
-        //maxHeight: 2560, maxWidth: 1152
         final XFile? pickedFile =
             await _picker.pickImage(source: ImageSource.camera);
         if (pickedFile != null) {
           final LostDataResponse response2 = await _picker.retrieveLostData();
           File file = File(pickedFile.path);
-          if (file != null) {
-            print("Not ok");
-          } else {
-            print("Ok");
-          }
-          print("Path" + pickedFile.path);
+          // if (file != null) {
+          //   print("Not ok");
+          // } else {
+          //   print("Ok");
+          // }
+          // print("Path" + pickedFile.path);
           var request = new http.MultipartRequest("PUT", Uri.parse(requestUrl));
           // request.files
           //     .add(await http.MultipartFile.fromPath("files", file.path));
@@ -542,17 +541,17 @@ class PlayService {
           request.headers["Content-Type"] = "multipart/form-data";
           request.headers["Authorization"] =
               "Bearer " + Get.find<LoginControllerV2>().jwtToken.value;
-          print("Request:" + request.toString());
+          // print("Request:" + request.toString());
           if (response2.files != null) {
             final XFile file2 = response2.files as XFile;
-            print(file2.path);
+            // print(file2.path);
             request.files
                 .add(await http.MultipartFile.fromPath("files", file2.path));
-            print(request.files);
+            // print(request.files);
           } else {
             var pic = await http.MultipartFile.fromPath("files", file.path);
             request.files.add(pic);
-            print(request.files.first.filename);
+            // print(request.files.first.filename);
           }
           // for (var element in imageFileList) {
           //   var file2 = File(element.path);
@@ -562,7 +561,7 @@ class PlayService {
           var response = await request.send().timeout(Duration(minutes: 15));
           print("Status code:" + response.statusCode.toString());
           String reply = await response.stream.transform(utf8.decoder).join();
-          print(reply);
+          // print(reply);
           if (response.statusCode == 200) {
             // String reply = await response.stream.transform(utf8.decoder).join();
             Map<String, dynamic> result = jsonDecode(reply);
@@ -571,36 +570,8 @@ class PlayService {
             return Future<CustomerTask>.value(rs);
           }
         }
-      }
-      print(requestUrl);
-      File file =
-          File(Get.find<PlayControllerV2>().questItemCurrent.listImages.first);
-      if (file != null) {
-        print("Not ok");
       } else {
-        print("Ok");
-      }
-      print("Path" + file.path);
-      var request = new http.MultipartRequest("PUT", Uri.parse(requestUrl));
-      // request.files
-      //     .add(await http.MultipartFile.fromPath("files", file.path));
-      request.headers["accept"] = "text/plain";
-      request.headers["Content-Type"] = "multipart/form-data";
-      request.headers["Authorization"] =
-          "Bearer " + Get.find<LoginControllerV2>().jwtToken.value;
-      print("Request:" + request.toString());
-      var pic = await http.MultipartFile.fromPath("files", file.path);
-      request.files.add(pic);
-      print(request.files.first.filename);
-      var response = await request.send().timeout(Duration(minutes: 15));
-      print("Status code:" + response.statusCode.toString());
-      String reply = await response.stream.transform(utf8.decoder).join();
-      print(reply);
-      if (response.statusCode == 200) {
-        Map<String, dynamic> result = jsonDecode(reply);
-        print(result["data"]);
-        rs = CustomerTask.fromJson(result["data"]);
-        return Future<CustomerTask>.value(rs);
+        //call api finish Quest
       }
     } else {
       requestUrl = Api.baseUrl +

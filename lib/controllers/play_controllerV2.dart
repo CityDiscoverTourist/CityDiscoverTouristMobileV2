@@ -267,7 +267,7 @@ class PlayControllerV2 extends GetxController {
         if (cusTask.countWrongAnswer == 4) {
           //show dap an
           isDisableTextField(true);
-          if (questItemCurrent.questItemTypeId == 1) {
+          if (questItemCurrent.questItemTypeId != 2) {
             currentAns.value = questItemCurrent.rightAnswer!;
           }
           update();
