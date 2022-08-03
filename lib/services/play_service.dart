@@ -1,12 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
+// import 'package:easy_localization/easy_localization.dart' hide AssetLoader;
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
+import 'package:travel_hour/controllers/play_controllerV2.dart';
 import 'package:travel_hour/models/customer_task.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/models/questItem.dart';
@@ -281,6 +285,7 @@ class PlayService {
       'isMobile': true,
       'questId': questID
     };
+    print(mydata);
     var body = json.encode(mydata);
     String httpString = Api.baseUrl + ApiEndPoints.buyQuest;
     if (discountCode != "") {
@@ -294,13 +299,6 @@ class PlayService {
         },
         body: body);
     print(Api.baseUrl + ApiEndPoints.buyQuest);
-    // print(Api.baseUrl +
-    //     ApiEndPoints.checkAnswer +
-    //     customerQuestId +
-    //     "?customerReply=" +
-    //     customerReply +
-    //     "&questItemId=" +
-    //     questItemId);
     print(response.body);
     if (response.statusCode == 200) {
       print("OKkkkkkkkkkkkkkkkkkkkkk");
@@ -312,7 +310,8 @@ class PlayService {
       return returnData;
     }
     print("Error");
-    return returnData;
+    CustomFullScreenDialog.cancelDialog();
+    return null;
   }
 
   Future<bool> customerStartQuest(
@@ -497,13 +496,84 @@ class PlayService {
   }
 
   Future<CustomerTask> checkAnswerV2(String customerQuestId, String questItemId,
-      String customerReply, int questTypeId) async {
+      String customerReply, int questTypeId, int countWrongAnswer) async {
     String requestUrl;
     CustomerTask? rs;
     print("customerQuestId:" + customerQuestId);
     print("questItemId:" + questItemId);
     print("customerReply:" + customerReply);
-    if (questTypeId == 1) {
+    print("questTypeId:" + questTypeId.toString());
+    if (questTypeId == 2) {
+      requestUrl = Api.baseUrl +
+          ApiEndPoints.checkAnswer +
+          customerQuestId.toString() +
+          "?customerReply=" +
+          "1" +
+          "&questItemId=" +
+          questItemId.toString();
+      // requestUrl =
+      //     "https://citytourist.azurewebsites.net/weather-forecast/demo2?api-version=1";
+      // final ImagePicker imagePicker = ImagePicker();
+      // List<XFile>? imageFileList = [];
+      // final List<XFile>? selectedImages = await imagePicker.pickMultiImage(
+      //     maxHeight: 480, maxWidth: 640, imageQuality: 50);
+      // if (selectedImages!.isNotEmpty) {
+      //   imageFileList.addAll(selectedImages);
+      // }
+      if (countWrongAnswer != 4) {
+        final ImagePicker _picker = ImagePicker();
+        print(requestUrl);
+        final XFile? pickedFile =
+            await _picker.pickImage(source: ImageSource.camera);
+        if (pickedFile != null) {
+          final LostDataResponse response2 = await _picker.retrieveLostData();
+          File file = File(pickedFile.path);
+          // if (file != null) {
+          //   print("Not ok");
+          // } else {
+          //   print("Ok");
+          // }
+          // print("Path" + pickedFile.path);
+          var request = new http.MultipartRequest("PUT", Uri.parse(requestUrl));
+          // request.files
+          //     .add(await http.MultipartFile.fromPath("files", file.path));
+          request.headers["accept"] = "text/plain";
+          request.headers["Content-Type"] = "multipart/form-data";
+          request.headers["Authorization"] =
+              "Bearer " + Get.find<LoginControllerV2>().jwtToken.value;
+          // print("Request:" + request.toString());
+          if (response2.files != null) {
+            final XFile file2 = response2.files as XFile;
+            // print(file2.path);
+            request.files
+                .add(await http.MultipartFile.fromPath("files", file2.path));
+            // print(request.files);
+          } else {
+            var pic = await http.MultipartFile.fromPath("files", file.path);
+            request.files.add(pic);
+            // print(request.files.first.filename);
+          }
+          // for (var element in imageFileList) {
+          //   var file2 = File(element.path);
+          //   request.files
+          //       .add(await http.MultipartFile.fromPath("files", file2.path));
+          // }
+          var response = await request.send().timeout(Duration(minutes: 15));
+          print("Status code:" + response.statusCode.toString());
+          String reply = await response.stream.transform(utf8.decoder).join();
+          // print(reply);
+          if (response.statusCode == 200) {
+            // String reply = await response.stream.transform(utf8.decoder).join();
+            Map<String, dynamic> result = jsonDecode(reply);
+            print(result["data"]);
+            rs = CustomerTask.fromJson(result["data"]);
+            return Future<CustomerTask>.value(rs);
+          }
+        }
+      } else {
+        //call api finish Quest
+      }
+    } else {
       requestUrl = Api.baseUrl +
           ApiEndPoints.checkAnswer +
           customerQuestId.toString() +
@@ -525,74 +595,6 @@ class PlayService {
         print(result["data"]);
         rs = CustomerTask.fromJson(result["data"]);
         return Future<CustomerTask>.value(rs);
-      }
-    } else {
-      requestUrl = Api.baseUrl +
-          ApiEndPoints.checkAnswer +
-          customerQuestId.toString() +
-          "?customerReply=" +
-          "1" +
-          "&questItemId=" +
-          questItemId.toString();
-      // requestUrl =
-      //     "https://citytourist.azurewebsites.net/weather-forecast/demo2?api-version=1";
-      // final ImagePicker imagePicker = ImagePicker();
-      // List<XFile>? imageFileList = [];
-      // final List<XFile>? selectedImages = await imagePicker.pickMultiImage(
-      //     maxHeight: 480, maxWidth: 640, imageQuality: 50);
-      // if (selectedImages!.isNotEmpty) {
-      //   imageFileList.addAll(selectedImages);
-      // }
-      final ImagePicker _picker = ImagePicker();
-      print(requestUrl);
-
-      //maxHeight: 2560, maxWidth: 1152
-      final XFile? pickedFile =
-          await _picker.pickImage(source: ImageSource.camera);
-      if (pickedFile != null) {
-        final LostDataResponse response2 = await _picker.retrieveLostData();
-        File file = File(pickedFile.path);
-        if (file != null) {
-          print("Not ok");
-        } else {
-          print("Ok");
-        }
-        print("Path" + pickedFile.path);
-        var request = new http.MultipartRequest("PUT", Uri.parse(requestUrl));
-        // request.files
-        //     .add(await http.MultipartFile.fromPath("files", file.path));
-        request.headers["accept"] = "text/plain";
-        request.headers["Content-Type"] = "multipart/form-data";
-        request.headers["Authorization"] =
-            "Bearer " + Get.find<LoginControllerV2>().jwtToken.value;
-        print("Request:" + request.toString());
-        if (response2.files != null) {
-          final XFile file2 = response2.files as XFile;
-          print(file2.path);
-          request.files
-              .add(await http.MultipartFile.fromPath("files", file2.path));
-          print(request.files);
-        } else {
-          var pic = await http.MultipartFile.fromPath("files", file.path);
-          request.files.add(pic);
-          print(request.files.first.filename);
-        }
-        // for (var element in imageFileList) {
-        //   var file2 = File(element.path);
-        //   request.files
-        //       .add(await http.MultipartFile.fromPath("files", file2.path));
-        // }
-        var response = await request.send().timeout(Duration(minutes: 15));
-        print("Status code:" + response.statusCode.toString());
-        String reply = await response.stream.transform(utf8.decoder).join();
-        print(reply);
-        if (response.statusCode == 200) {
-          // String reply = await response.stream.transform(utf8.decoder).join();
-          Map<String, dynamic> result = jsonDecode(reply);
-          print(result["data"]);
-          rs = CustomerTask.fromJson(result["data"]);
-          return Future<CustomerTask>.value(rs);
-        }
       }
     }
     return Future<CustomerTask>.value(null);

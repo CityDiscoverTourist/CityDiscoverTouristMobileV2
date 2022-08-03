@@ -147,7 +147,7 @@ class CompletedPageV2State extends State<CompletedPageV2> {
                     },
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Đánh giá chất lượng',
+                        hintText: 'rating quest'.tr,
                         hintStyle: TextStyle(color: Colors.grey)),
                   ),
                 ),
