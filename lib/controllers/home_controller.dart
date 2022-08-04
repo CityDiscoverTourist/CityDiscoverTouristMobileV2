@@ -50,42 +50,43 @@ class HomeController extends GetxController {
     // changeLanguage();
     await startData();
     dropdownValue = cityList[1];
-    flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
-    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-    final FirebaseMessaging _fcm = FirebaseMessaging.instance;
-    _fcm.getToken().then((token) => {
-          print('[HomeController]-L57-The token ID||' + token!),
-          deviceId = token
-        });
+    deviceId = Get.find<LoginControllerV2>().deviceId;
+    // flutterLocalNotificationsPlugin
+    //     .resolvePlatformSpecificImplementation<
+    //         AndroidFlutterLocalNotificationsPlugin>()
+    //     ?.createNotificationChannel(channel);
+    // FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    //   alert: true,
+    //   badge: true,
+    //   sound: true,
+    // );
+    // final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+    // _fcm.getToken().then((token) => {
+    //       print('[HomeController]-L57-The token ID||' + token!),
+    //       deviceId = token
+    //     });
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // ignore: avoid_print
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null) {
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channelDescription: channel.description,
-                color: Colors.blue,
-                playSound: true,
-                icon: '@mipmap/ic_launcher',
-              ),
-            ));
-      }
-    });
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //   // ignore: avoid_print
+    //   RemoteNotification? notification = message.notification;
+    //   AndroidNotification? android = message.notification?.android;
+    //   if (notification != null && android != null) {
+    //     flutterLocalNotificationsPlugin.show(
+    //         notification.hashCode,
+    //         notification.title,
+    //         notification.body,
+    //         NotificationDetails(
+    //           android: AndroidNotificationDetails(
+    //             channel.id,
+    //             channel.name,
+    //             channelDescription: channel.description,
+    //             color: Colors.blue,
+    //             playSound: true,
+    //             icon: '@mipmap/ic_launcher',
+    //           ),
+    //         ));
+    //   }
+    // });
     // isStartTest(true);
   }
 
@@ -161,16 +162,16 @@ class HomeController extends GetxController {
     // }
   }
 
-  static const AndroidNotificationChannel channel = AndroidNotificationChannel(
-      'high_importance_channel', // id
-      'High Importance Notifications', // title
-      description:
-          'This channel is used for important notifications.', // description
-      importance: Importance.high,
-      playSound: true);
+  // static const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  //     'high_importance_channel', // id
+  //     'High Importance Notifications', // title
+  //     description:
+  //         'This channel is used for important notifications.', // description
+  //     importance: Importance.high,
+  //     playSound: true);
 
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
 
   fetchCityData() async {
     // try {
@@ -243,11 +244,11 @@ class HomeController extends GetxController {
 
   fetchPlayingHistory(String customerId) async {
     try {
-      // isLoading(true);
+      isLoading(true);
 
       await QuestService.fetchPlayedQuestFeatureData(customerId);
     } finally {
-      // isLoading(false);
+      isLoading(false);
     }
   }
 

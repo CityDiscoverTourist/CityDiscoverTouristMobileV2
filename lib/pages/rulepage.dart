@@ -76,6 +76,8 @@ class _RulePageState extends State<RulePage> {
       "each question you will get 300 points".tr,
       "you will be answered up to 5 times for a question".tr,
       "the 5th time you will be shown the answer".tr,
+      "with image scan quest if you answer 5th time wrong you will be move to next task"
+          .tr,
       "for each wrong answer, 50 points will be deducted".tr,
       "using seggestion will be deducted 75 points (1 time)".tr,
       // 'Monkey',
@@ -153,9 +155,9 @@ class _RulePageState extends State<RulePage> {
             } else {
               return FloatingActionButton(
                 backgroundColor: Colors.redAccent,
-                child: Text('Start'),
+                child: Text('get started'.tr),
                 onPressed: () {
-                 Get.to(StoryDescription());
+                  Get.to(StoryDescription());
                 },
               );
             }

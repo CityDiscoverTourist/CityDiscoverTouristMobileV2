@@ -3,8 +3,10 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,6 +42,42 @@ class LoginControllerV2 extends GetxController {
   void onInit() {
     super.onInit();
     changeLanguage();
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+    _fcm.getToken().then((token) => {
+          print('[HomeController]-L57-The token ID||' + token!),
+          deviceId = token
+        });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // ignore: avoid_print
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+              ),
+            ));
+      }
+    });
   }
 
   @override
@@ -62,6 +100,17 @@ class LoginControllerV2 extends GetxController {
     }
   }
 
+  static const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'high_importance_channel', // id
+      'High Importance Notifications', // title
+      description:
+          'This channel is used for important notifications.', // description
+      importance: Importance.high,
+      playSound: true);
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
   void handleAuthStateChanged(isLoggedIn) async {
     print("[LoginController V2]-L162-DeviceID:" + deviceId);
     if (isLoggedIn) {
@@ -69,7 +118,7 @@ class LoginControllerV2 extends GetxController {
       print("[LoginControllerV2]-L164: ");
       if (sharedPreferences!.containsKey("loginFace")) {
         String? token = sharedPreferences!.getString("resource");
-        sp = await LoginService().checkFacebookLogin(token!);
+        sp = await LoginService().checkFacebookLogin(token!, deviceId);
       } else if (sharedPreferences!.containsKey("loginAccount")) {
         String? userName = sharedPreferences!.getString("userName");
         String? password = sharedPreferences!.getString("password");
@@ -125,7 +174,7 @@ class LoginControllerV2 extends GetxController {
     final LoginResult facebookLoginResult = await FacebookAuth.instance
         .login(permissions: ['email', 'public_profile']);
     final accessToken = await FacebookAuth.instance.accessToken;
-
+    print("DeviceId In Facebook:" + deviceId);
     final AuthCredential credential =
         FacebookAuthProvider.credential(accessToken!.token);
     // print(accessToken.token);
@@ -135,7 +184,9 @@ class LoginControllerV2 extends GetxController {
         Uri.parse(Api.baseUrl +
             ApiEndPoints.loginFacebook +
             '?resource=' +
-            accessToken.token),
+            accessToken.token +
+            "&deviceId=" +
+            deviceId),
         headers: {"Content-Type": "application/json"},
         body: body);
     // print(response.body);
@@ -159,7 +210,7 @@ class LoginControllerV2 extends GetxController {
         // print(sp);
         Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
       }
-    }
+    } else {}
   }
 
   void loginUsernamePassword(String userName, String password) async {
@@ -167,7 +218,7 @@ class LoginControllerV2 extends GetxController {
     //   CustomFullScreenDialog.showDialog();
     // }
 
-    Map data2 = {'email': userName, 'password': password};
+    Map data2 = {'email': userName, 'password': password, "deviceId": deviceId};
     var body = json.encode(data2);
     var response = await http.post(
         Uri.parse(Api.baseUrl + ApiEndPoints.loginUsenamePassword),

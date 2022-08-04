@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
   handleSkip() {
     // final sb = context.read<SignInBloc>();
     // sb.setGuestUser();
-    nextScreen(context, DonePage());
+    // nextScreen(context, DonePage());
   }
 
   // handleGoogleSignIn() async {
@@ -179,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   afterSignIn() {
     if (widget.tag == null) {
-      nextScreen(context, DonePage());
+      // nextScreen(context, DonePage());
     } else {
       Navigator.pop(context);
     }

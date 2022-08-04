@@ -17,10 +17,11 @@ class LoginService {
   Future<Customer> apiCheckLogin(String token, String deviceId) async {
     Customer rs;
     var myController = Get.find<LoginControllerV2>();
-    Map data2 = {'tokenId': token};
+    Map data2 = {'tokenId': token, "deviceId": deviceId};
     var body = json.encode(data2);
     var response = await http.post(Uri.parse(Api.baseUrl + ApiEndPoints.login),
         headers: {"Content-Type": "application/json"}, body: body);
+    // print(response.body);
     if (response.statusCode == 200) {
       // String email = firebaseUser.email!;
 
@@ -36,7 +37,7 @@ class LoginService {
           'Authorization': 'Bearer ' + myController.jwtToken.value
         },
       );
-      print("JWT TOKEN" + myController.jwtToken.value);
+      // print("JWT TOKEN" + myController.jwtToken.value);
       if (response2.statusCode == 200) {
         final responseData2 = json.decode(response2.body);
         rs = Customer.fromJson(responseData2['data']);
@@ -49,7 +50,8 @@ class LoginService {
       return Future<Customer>.value(null);
   }
 
-  Future<Customer> checkFacebookLogin(String accessToken) async {
+  Future<Customer> checkFacebookLogin(
+      String accessToken, String deviceId) async {
     Customer rs;
     var myController = Get.find<LoginControllerV2>();
     Map data2 = {'resource': accessToken};
@@ -58,7 +60,9 @@ class LoginService {
         Uri.parse(Api.baseUrl +
             ApiEndPoints.loginFacebook +
             '?resource=' +
-            accessToken),
+            accessToken +
+            "&deviceId=" +
+            deviceId),
         headers: {"Content-Type": "application/json"},
         body: body);
     // print(response.body);

@@ -6,7 +6,6 @@ import 'package:travel_hour/controllers/comment_controller.dart';
 import 'package:travel_hour/controllers/history_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
-import 'package:travel_hour/pages/completed_quest.dart';
 import 'package:travel_hour/pages/completed_questV2.dart';
 import 'package:travel_hour/pages/description_questitem.dart';
 import 'package:travel_hour/pages/rulepage.dart';
@@ -31,6 +30,7 @@ class PlayControllerV2 extends GetxController {
   late QuestItem questItemCurrent;
   var sugggestion = "".obs;
   var isShowSuggestion = false.obs;
+  var isSkip = false.obs;
   //Handle button submit Answer in Answer_questItem Page
   var clickAns = false.obs;
   //Bool check status when Answer Correct
@@ -208,7 +208,8 @@ class PlayControllerV2 extends GetxController {
           questItemCurrent.id.toString(),
           currentAns.value,
           questItemCurrent.questItemTypeId,
-          cusTask.countWrongAnswer);
+          isSkip.value,
+          cusTask.id);
       correctAns.value = cusTask.isFinished;
 
       print('handleAuthStateChanged ' + customerQuestID.toString());
@@ -218,15 +219,39 @@ class PlayControllerV2 extends GetxController {
 
       if (correctAns.value == true) {
         // if (cusTask.countWrongAnswer != 4) {
-        Get.snackbar('right answer'.tr, 'congratulations'.tr,
-            duration: Duration(seconds: 2),
-            backgroundColor: Colors.black,
-            colorText: Colors.white,
-            snackPosition: SnackPosition.TOP,
-            icon: Icon(
-              Icons.golf_course,
-              color: Colors.greenAccent,
-            ));
+        if (isSkip.value) {
+          Get.snackbar('skip success'.tr, 'try again next time'.tr,
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.TOP,
+              icon: Icon(
+                Icons.golf_course,
+                color: Colors.greenAccent,
+              ));
+          isSkip.value = false;
+        } else if (cusTask.countWrongAnswer == 4 &&
+            questItemCurrent.questItemTypeId == 2) {
+          Get.snackbar('wrong answer'.tr, 'you will be move to next task'.tr,
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.TOP,
+              icon: Icon(
+                Icons.golf_course,
+                color: Colors.red,
+              ));
+        } else {
+          Get.snackbar('right answer'.tr, 'congratulations'.tr,
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.TOP,
+              icon: Icon(
+                Icons.golf_course,
+                color: Colors.greenAccent,
+              ));
+        }
         //Prepare data for nextQu
 
         // }
@@ -266,12 +291,24 @@ class PlayControllerV2 extends GetxController {
       } else {
         if (cusTask.countWrongAnswer == 4) {
           //show dap an
-          isDisableTextField(true);
-          if (questItemCurrent.questItemTypeId != 2) {
+          if (questItemCurrent.questItemTypeId == 2) {
+            Get.snackbar('only 1 answer left'.tr, 'try again'.tr,
+                duration: Duration(seconds: 2),
+                backgroundColor: Colors.black,
+                colorText: Colors.white,
+                snackPosition: SnackPosition.BOTTOM,
+                icon: Icon(
+                  Icons.error,
+                  color: Colors.red,
+                ));
+          } else {
+            isDisableTextField(true);
             currentAns.value = questItemCurrent.rightAnswer!;
+
+            update();
           }
-          update();
-        } else if (cusTask.countWrongAnswer == 3) {
+        } else if (cusTask.countWrongAnswer == 3 &&
+            questItemCurrent.questItemTypeId != 2) {
           Get.snackbar('only 1 answer left'.tr, 'try again'.tr,
               duration: Duration(seconds: 2),
               backgroundColor: Colors.black,

@@ -9,7 +9,6 @@ import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/controllers/play_controllerV2.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/widgets/big_text.dart';
-import 'package:travel_hour/widgets/rounded_button.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 
 import '../controllers/history_controller.dart';

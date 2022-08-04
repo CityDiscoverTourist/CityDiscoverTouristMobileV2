@@ -124,7 +124,9 @@ class _ListItem extends StatelessWidget {
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(5),
                               topRight: Radius.circular(5)),
-                          child: CustomCacheImage(imageUrl: q.imagePath)),
+                          child: q.imagePath != null
+                              ? CustomCacheImage(imageUrl: q.imagePath)
+                              : Image.asset('assets/images/logo.png')),
                     )),
                 Container(
                   padding: EdgeInsets.all(20),

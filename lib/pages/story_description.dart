@@ -84,7 +84,7 @@ class _StoryDescriptionState extends State<StoryDescription> {
           ),
           SafeArea(
               child: TextButton(
-            child: Text('Next'),
+            child: Text('next'.tr),
             onPressed: () {
               Get.to(AnswerPage());
             },

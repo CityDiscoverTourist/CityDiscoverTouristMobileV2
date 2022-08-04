@@ -62,15 +62,49 @@ class AnswerPage extends StatelessWidget {
                         ),
                       ),
                       Positioned(
+                          left: 10,
+                          top: 40,
+                          child: Column(
+                            children: <Widget>[
+                              IconButton(
+                                  icon: Icon(
+                                    Icons.skip_next,
+                                  ),
+                                  onPressed: () {
+                                    showAlertDialogCofirmSkip(context);
+                                  }),
+                              Text('skip question'.tr)
+                            ],
+                          )),
+                      Positioned(
                           right: 10,
                           top: 40,
-                          child: InkWell(
-                              onTap: () {
-                                controller.showSuggestion();
-                                showAlertDialog(
-                                    context, controller.sugggestion.value);
-                              },
-                              child: Icon(Icons.notifications))),
+                          child: Column(
+                            children: <Widget>[
+                              IconButton(
+                                  icon: Icon(
+                                    Icons.notifications,
+                                  ),
+                                  onPressed: () {
+                                    controller.showSuggestion();
+                                    showAlertDialog(
+                                        context, controller.sugggestion.value);
+                                  }),
+                              Text('show suggestion'.tr)
+                            ],
+                          )),
+                      // Positioned(
+                      //     right: 10,
+                      //     top: 40,
+                      //     child: InkWell(
+                      //         onTap: () {
+                      //           controller.showSuggestion();
+                      //           showAlertDialog(
+                      //               context, controller.sugggestion.value);
+                      //         },
+                      //         child: Icon(
+                      //           Icons.notifications,
+                      //         ))),
                       Padding(
                         padding: const EdgeInsets.only(top: 70.0),
                         child: Center(
@@ -247,6 +281,37 @@ class AnswerPage extends StatelessWidget {
     );
 
     // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showAlertDialogCofirmSkip(BuildContext context) async {
+    // Create button
+    Widget okButton = FlatButton(
+      child: Text("ok".tr),
+      onPressed: () async {
+        Get.find<PlayControllerV2>().isSkip.value = true;
+        Get.find<PlayControllerV2>().clickAnswer();
+        Navigator.of(context).pop();
+      },
+    );
+    Widget cancelButton = FlatButton(
+      child: Text("cancel".tr),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("cofirm".tr),
+      content: Text("do you want to skip this question?".tr),
+      actions: [okButton, cancelButton],
+    );
     showDialog(
       context: context,
       builder: (BuildContext context) {

@@ -19,6 +19,7 @@ import '../controllers/play_controllerV2.dart';
 import '../widgets/custom_cache_image.dart';
 import 'package:animations/animations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
 //DescriptionAns
 class DescriptionAns extends StatefulWidget {
   @override
@@ -28,14 +29,14 @@ class DescriptionAns extends StatefulWidget {
 }
 
 class _DescriptionAnsState extends State<DescriptionAns> {
-   late PlayControllerV2 controller;
+  late PlayControllerV2 controller;
   @override
   void initState() {
     super.initState();
-     controller =Get.find<PlayControllerV2>() ;
-   
+    controller = Get.find<PlayControllerV2>();
   }
-   static const htmlData = """
+
+  static const htmlData = """
 <h1>Header 1</h1>
 <h2>Header 2</h2>
 <h3>Header 3</h3>
@@ -129,12 +130,12 @@ class _DescriptionAnsState extends State<DescriptionAns> {
     // WidgetsBinding.instance.addPostFrameCallback((_) =>ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four, _five]));
 
     return Scaffold(
-    appBar: AppBar(
-        title: Text('Html Demo'),
+      appBar: AppBar(
+        title: Text('description page'.tr),
       ),
       body: SingleChildScrollView(
         child: Html(
-            data: htmlData,
+          data: htmlData,
           // customRender: {
           //     'flutter' : (RenderContext context, Widget child, attributes, _){
           //       return FlutterLogo(
@@ -145,24 +146,16 @@ class _DescriptionAnsState extends State<DescriptionAns> {
           //     }
           // },
           style: {
-              'html' : Style(
-                backgroundColor: Colors.white12
-              ),
-            'table': Style(
-              backgroundColor: Colors.grey.shade200
-            ),
+            'html': Style(backgroundColor: Colors.white12),
+            'table': Style(backgroundColor: Colors.grey.shade200),
             'td': Style(
               backgroundColor: Colors.grey.shade400,
               padding: EdgeInsets.all(10),
             ),
-            'th': Style(
-              padding: EdgeInsets.all(10),
-              color: Colors.black
-            ),
+            'th': Style(padding: EdgeInsets.all(10), color: Colors.black),
             'tr': Style(
-              backgroundColor: Colors.grey.shade300,
-              border: Border(bottom: BorderSide(color: Colors.greenAccent))
-            ),
+                backgroundColor: Colors.grey.shade300,
+                border: Border(bottom: BorderSide(color: Colors.greenAccent))),
           },
           // onLinkTap: (url){
           //     print('Open the url $url......');
