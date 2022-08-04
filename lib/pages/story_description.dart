@@ -32,9 +32,8 @@ class _StoryDescriptionState extends State<StoryDescription> {
   @override
   void initState() {
     super.initState();
-  controller =Get.find<PlayControllerV2>() ;
+    controller = Get.find<PlayControllerV2>();
   }
- 
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +41,14 @@ class _StoryDescriptionState extends State<StoryDescription> {
     // WidgetsBinding.instance.addPostFrameCallback((_) =>ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four, _five]));
 
     return Scaffold(
-    appBar: AppBar(
-        title: Text('Html Demo'),
+      appBar: AppBar(
+        title: Text('story page'.tr),
       ),
       body: Column(
         children: [
           SingleChildScrollView(
             child: Html(
-                data: controller.questItemCurrent.story,
+              data: controller.questItemCurrent.story,
               // customRender: {
               //     'flutter' : (RenderContext context, Widget child, attributes, _){
               //       return FlutterLogo(
@@ -60,24 +59,17 @@ class _StoryDescriptionState extends State<StoryDescription> {
               //     }
               // },
               style: {
-                  'html' : Style(
-                    backgroundColor: Colors.white12
-                  ),
-                'table': Style(
-                  backgroundColor: Colors.grey.shade200
-                ),
+                'html': Style(backgroundColor: Colors.white12),
+                'table': Style(backgroundColor: Colors.grey.shade200),
                 'td': Style(
                   backgroundColor: Colors.grey.shade400,
                   padding: EdgeInsets.all(10),
                 ),
-                'th': Style(
-                  padding: EdgeInsets.all(10),
-                  color: Colors.black
-                ),
+                'th': Style(padding: EdgeInsets.all(10), color: Colors.black),
                 'tr': Style(
-                  backgroundColor: Colors.grey.shade300,
-                  border: Border(bottom: BorderSide(color: Colors.greenAccent))
-                ),
+                    backgroundColor: Colors.grey.shade300,
+                    border:
+                        Border(bottom: BorderSide(color: Colors.greenAccent))),
               },
               // onLinkTap: (url){
               //     print('Open the url $url......');
@@ -90,9 +82,13 @@ class _StoryDescriptionState extends State<StoryDescription> {
               // },
             ),
           ),
-          SafeArea(child: TextButton(child: Text('Next'),onPressed: (){
-            Get.to(AnswerPage());
-          },))
+          SafeArea(
+              child: TextButton(
+            child: Text('Next'),
+            onPressed: () {
+              Get.to(AnswerPage());
+            },
+          ))
         ],
       ),
     );
