@@ -54,14 +54,14 @@ class CommentService {
     print("fetchCommentByCustomerId Status_code: " '${response.statusCode}');
     if (response.statusCode == 200) {
       Map data = jsonDecode(response.body);
-    // Iterable list = dbc;
-    Iterable list = data['data'];
-    print("fetchCommentByCustomerId " + idQuest.toString());
-    final commentMap = list.cast<Map<String, dynamic>>();
-    final dataComment = await commentMap.map<Comment>((json) {
-      return Comment.fromJson(json);
-    }).toList();
-    rs=dataComment[0];
+      // Iterable list = dbc;
+      Iterable list = data['data'];
+      print("fetchCommentByCustomerId " + idQuest.toString());
+      final commentMap = list.cast<Map<String, dynamic>>();
+      final dataComment = await commentMap.map<Comment>((json) {
+        return Comment.fromJson(json);
+      }).toList();
+      rs = dataComment[0];
       return Future<Comment>.value(rs);
     }
     return Future<Comment>.value(null);
@@ -73,6 +73,7 @@ class CommentService {
       "feedBack": comment,
       "rating": rating,
     };
+    print(body);
     var response = await http.post(
         Uri.parse(
             "https://citytourist.azurewebsites.net/api/v1/customer-quests/update-comment?questId=${questID}&customerId=${customerId}"),
