@@ -1,5 +1,6 @@
 import 'package:travel_hour/pages/completed_questV2.dart';
 import 'package:travel_hour/pages/history.dart';
+import 'package:travel_hour/pages/quest_play.dart';
 import 'package:travel_hour/pages/sign_inV2.dart';
 import 'package:travel_hour/pages/profile.dart';
 import 'package:travel_hour/pages/splashV2.dart';
@@ -11,6 +12,7 @@ import '../pages/home.dart';
 import '../pages/momo_payment.dart';
 import '../pages/sign_in.dart';
 import '../pages/splash.dart';
+import '../pages/test.dart';
 import 'app_routes.dart';
 import 'package:get/get.dart';
 // ignore_for_file: prefer_const_constructors
@@ -55,6 +57,11 @@ class AppPages {
           GetPage(
           name: KCompletedPage,
           page: () => CompletedPageV2(),
+          // binding: HomeBinding()
+          ),
+               GetPage(
+          name: '/TEST',
+          page: () => AnswerPageV3(),
           // binding: HomeBinding()
           ),
     ];

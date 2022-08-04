@@ -210,8 +210,8 @@ class QuestsPlayPage extends StatelessWidget {
 
                 // }
                 PlayControllerV2 playController = new PlayControllerV2();
-                bool check = await playController
-                    .checkUserLocation(pQuest.questId.toString());
+                bool check =true;
+                //  await playController.checkUserLocation(pQuest.questId.toString());
                 if (check == true) {
                   showAlertDialog(context, pQuest);
                 } else {

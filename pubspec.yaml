@@ -90,7 +90,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  flutter_svg:
   flutter_launcher_icons: "^0.9.1"
 
 
@@ -115,6 +115,7 @@ flutter:
     - assets/flr/
     - assets/translations/
     - assets/style_mode.json
+    # - assets/svg
     
 
   fonts:

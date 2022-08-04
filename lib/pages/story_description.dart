@@ -43,7 +43,8 @@ class _StoryDescriptionState extends State<StoryDescription> {
 
     return Scaffold(
     appBar: AppBar(
-        title: Text('Html Demo'),
+        title: BigText(text: 'Cau chuyen',),
+        backgroundColor:  Colors.redAccent,
       ),
       body: Column(
         children: [

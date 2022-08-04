@@ -44,7 +44,8 @@ class _DescriptionAnsState extends State<DescriptionAns> {
 
     return Scaffold(
     appBar: AppBar(
-        title: Text('Html Demo'),
+        title: BigText(text: 'Giai Ma',),
+        backgroundColor:  Colors.redAccent,
       ),
       body: Column(
         children: [

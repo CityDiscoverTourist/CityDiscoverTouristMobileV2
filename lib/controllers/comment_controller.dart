@@ -26,17 +26,20 @@ class CommentController extends GetxController {
   //Biến Comment và rating
   var rating = 1.obs;
   var comment = "".obs;
- var isCommented=false.obs;
- var myComment;
+ var isCommented=0.obs;
+ late Comment myComment;
   @override
   void onInit() async {
     super.onInit();
     await getCommentData();
+  var check=Get.isRegistered<CommentController>(tag: "noty");
+    if(check==true) print("Hoan HÔ");
   }
 
   @override
   void onReady() async {
     super.onReady();
+      
   }
 
   @override
@@ -59,7 +62,7 @@ class CommentController extends GetxController {
       print(indexPage.value);
       // }
       print("object HELLOOO");
-      // await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 1));
       var commentApi = await CommentService.fetchCommentsData(
           indexPage.value,
           Get.find<LoginControllerV2>().jwtToken.value,
@@ -68,10 +71,13 @@ class CommentController extends GetxController {
       if (commentApi != null) {
         // hasData(true);
         print("COMMENT_CONTROLLER: Have data Comment");
-            myComment= await CommentService.fetchCommentByCustomerId(Get.find<LoginControllerV2>().jwtToken.value,  Get.find<LoginControllerV2>().sp.id, idQuest.value);
-      if(myComment!=null){
-        isCommented(true);
+           var commentCus= await CommentService.fetchCommentByCustomerId(Get.find<LoginControllerV2>().jwtToken.value,  Get.find<LoginControllerV2>().sp.id, idQuest.value);
+      if(commentCus!=null){
+        myComment=commentCus;
+        isCommented.value=1;
+        print("hihi");
       }
+       await Future.delayed(Duration(seconds: 1));
         if (dataComment.isEmpty || lastVisible.value == 0) {
           dataComment.assignAll(commentApi);
           print("If 1 nè");
@@ -81,6 +87,7 @@ class CommentController extends GetxController {
         } //nếu dataComment đã có sẵn dữ liệu thì nối lại
         //Gán vị trí cuối cùng
         lastVisible.value = dataComment.length - 1;
+        update();
       } else {}
     } finally {
       isLoading(false);
@@ -103,8 +110,8 @@ class CommentController extends GetxController {
             comment.value = commentStr;
 
             //PushComment
-            await CommentService.pushComment(
-                comment.value, customerQuestID, rating.value);
+            // await CommentService.pushComment(
+            //     comment.value, customerQuestID, rating.value);
             // refeshData();
           }
         });

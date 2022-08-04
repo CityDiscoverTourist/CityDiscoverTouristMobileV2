@@ -1,4 +1,5 @@
 const String KWelcomeScreen = '/WELCOME_SCREEN';
+const String KListPlayQuest='/WELCOME_SCREEN/PLAY_QUEST';
 const String KLoginScreen = '/LOGIN_SCREEN';
 const String KSignUpScreen = '/SIGNUP_SCREEN';
 const String KProfileScreen = '/PROFILE_SCREEN';

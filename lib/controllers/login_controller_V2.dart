@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
@@ -39,6 +40,10 @@ class LoginControllerV2 extends GetxController {
   @override
   void onInit() {
     super.onInit();
+     final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+    _fcm
+        .getToken()
+        .then((token) => {print('The token||' + token!), deviceId = token});
     changeLanguage();
   }
 
@@ -46,6 +51,8 @@ class LoginControllerV2 extends GetxController {
   void onReady() async {
     super.onReady();
     changeLanguage();
+      // var check=Get.isRegistered<LoginControllerV2>(tag: "noty");
+    // if(check==true) print("Hoan HÔ");
     sharedPreferences = await SharedPreferences.getInstance();
     print("[Login V2]-L28-ONREADY :");
     ever(isSignIn, handleAuthStateChanged);
@@ -60,6 +67,7 @@ class LoginControllerV2 extends GetxController {
         isSignIn.value = event != null;
       });
     }
+   
   }
 
   void handleAuthStateChanged(isLoggedIn) async {
@@ -75,6 +83,7 @@ class LoginControllerV2 extends GetxController {
         String? password = sharedPreferences!.getString("password");
         loginUsernamePassword(userName!, password!);
       } else {
+        print("ahaha"+deviceId);
         sp = await LoginService().apiCheckLogin(
             await firebaseAuth.currentUser!.getIdToken(), deviceId);
       }

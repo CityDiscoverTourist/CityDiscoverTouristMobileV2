@@ -21,6 +21,7 @@ import 'package:travel_hour/utils/loading_cards.dart';
 import 'package:travel_hour/utils/sign_in_dialog.dart';
 import 'package:travel_hour/utils/toast.dart';
 import 'package:travel_hour/widgets/big_text.dart';
+import 'package:travel_hour/widgets/small_text.dart';
 
 import '../widgets/custom_cache_image.dart';
 
@@ -46,57 +47,6 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
     super.initState();
   }
 
-  // Future<Null> _getData() async {
-  //   setState(() => _hasData = true);
-  //   await context.read<CommentsBloc>().getFlagList();
-  //   QuerySnapshot data;
-  //   if (_lastVisible == null)
-  //     data = await firestore
-  //         .collection('${widget.collectionName}/${widget.timestamp}/comments')
-  //         .orderBy('timestamp', descending: true)
-  //         .limit(10)
-  //         .get();
-  //   else
-  //     data = await firestore
-  //         .collection('${widget.collectionName}/${widget.timestamp}/comments')
-  //         .orderBy('timestamp', descending: true)
-  //         .startAfter([_lastVisible!['timestamp']])
-  //         .limit(10)
-  //         .get();
-
-  //   if (data.docs.length > 0) {
-  //     _lastVisible = data.docs[data.docs.length - 1];
-  //     if (mounted) {
-  //       setState(() {
-  //          myController.isLoading.value = false;
-  //         _snap.addAll(data.docs);
-  //         _data = _snap.map((e) => Comment.fromFirestore(e)).toList();
-  //         print('blog reviews : ${_data.length}');
-  //       });
-  //     }
-  //   } else {
-  //     if (_lastVisible == null) {
-  //       setState(() {
-  //          myController.isLoading.value = false;
-  //         _hasData = false;
-  //         print('no items');
-  //       });
-  //     } else {
-  //       setState(() {
-  //          myController.isLoading.value = false;
-  //         _hasData = true;
-  //         print('no more items');
-  //       });
-  //     }
-  //   }
-  //   return null;
-  // }
-
-  // @override
-  // void dispose() {
-  //   controller!.removeListener(_scrollListener);
-  //   super.dispose();
-  // }
 //Để lại
   void _scrollListener() {
     if (!myController.isLoading.value) {
@@ -106,87 +56,6 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
       }
     }
   }
-
-  // openPopupDialog(Comment d) {
-  //   final SignInBloc sb = Provider.of<SignInBloc>(context, listen: false);
-
-  //   showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return SimpleDialog(
-  //           contentPadding: EdgeInsets.all(20),
-  //           children: [
-
-  //             context.watch<CommentsBloc>().flagList.contains(d.timestamp)
-  //             ? Container()
-  //             : ListTile(
-
-  //               title: Text('flag this comment').tr(),
-  //               leading: Icon(Icons.flag),
-  //               onTap: ()async{
-  //                 await context.read<CommentsBloc>().addToFlagList(context, d.timestamp)
-  //                 .then((value) => onRefreshData());
-  //                 Navigator.pop(context);
-  //               },
-  //             ),
-  //             context.watch<CommentsBloc>().flagList.contains(d.timestamp)
-  //             ? ListTile(
-  //               title: Text('unflag this comment').tr(),
-  //               leading: Icon(Icons.flag_outlined),
-  //               onTap: ()async{
-  //                 await context.read<CommentsBloc>().removeFromFlagList(context, d.timestamp)
-  //                 .then((value) => onRefreshData());
-  //                 Navigator.pop(context);
-  //               },
-  //             )
-  //             : Container(),
-
-  //             ListTile(
-  //               title: Text('report').tr(),
-  //               leading: Icon(Icons.report),
-  //               onTap: (){
-  //                 handleReport(d);
-  //               },
-  //             ),
-  //             sb.uid == d.uid ?
-  //             ListTile(
-  //               title: Text('delete').tr(),
-  //               leading: Icon(Icons.delete),
-  //               onTap: () => handleDelete1(d),
-  //             )
-  //             : Container()
-  //           ],
-  //         );
-  //       });
-  // }
-
-  // Future handleReport (Comment d)async{
-  //   final SignInBloc sb = Provider.of<SignInBloc>(context, listen: false);
-  //   if(sb.isSignedIn == true){
-  //     await context.read<CommentsBloc>().reportComment(widget.collectionName, widget.timestamp, d.uid, d.timestamp);
-  //     Navigator.pop(context);
-  //     openDialog(context, 'report-info'.tr(), "report-info1".tr());
-
-  //   }else{
-  //     Navigator.pop(context);
-  //     openDialog(context, 'report-guest'.tr(), 'report-guest1'.tr());
-  //   }
-  // }
-
-  // Future handleDelete1(Comment d) async {
-  //   final SignInBloc sb = Provider.of<SignInBloc>(context, listen: false);
-  //   await AppService().checkInternet().then((hasInternet)async{
-  //     if(hasInternet == false){
-  //       Navigator.pop(context);
-  //       openToast(context, 'no internet'.tr());
-  //     }else{
-  //       await context.read<CommentsBloc>().deleteComment(widget.collectionName, widget.timestamp, sb.uid, d.timestamp)
-  //       .then((value) => openToast(context, 'Deleted Successfully!'));
-  //       onRefreshData();
-  //       Navigator.pop(context);
-  //     }
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -208,8 +77,7 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
       body: Column(
         children: [
           Expanded(
-            child: 
-            Obx(
+            child: Obx(
               () {
                 if (myController.isLoading.isTrue) {
                   return SplashStart();
@@ -239,7 +107,7 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
                           itemBuilder: (_, int index) {
                             if (index < myController.dataComment.length) {
                               return reviewList(
-                                  myController.dataComment[index]);
+                                  myController.dataComment[index], false);
                             }
 
                             return Opacity(
@@ -269,67 +137,79 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
             color: Colors.black26,
           ),
           SafeArea(
-            child: Container(
-              // height: 80,
-              padding: EdgeInsets.only(top: 8, bottom: 10, right: 20, left: 20),
-              width: double.infinity,
-              color: Colors.white,
-              child: 
-              Column(
-                children: [
-                  RatingBar.builder(
-                    initialRating: 5,
-                    minRating: 1,
-                    direction: Axis.horizontal,
-                    // allowHalfRating: true,
-                    itemCount: 5,
-                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                    onRatingUpdate: (rating) {
-                      myController.rating.value = rating.toInt();
-                      print("Comments_V2:" +
-                          myController.rating.value.toString());
-                    },
+            child: Obx(() {
+              if (myController.isCommented.value == 1) {
+                if (myController.myComment.feedBack != null)
+                  textCtrl.text = myController.myComment.feedBack.toString();
+                else
+                  textCtrl.text = "";
+                return reviewList(myController.myComment, true);
+              } else if (myController.isCommented.value == 2) {
+                return Container(
+                  // height: 80,
+                  padding:
+                      EdgeInsets.only(top: 8, bottom: 10, right: 20, left: 20),
+                  width: double.infinity,
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      RatingBar.builder(
+                        initialRating: myController.myComment.rating.toDouble(),
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        // allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          myController.rating.value = rating.toInt();
+                          print("Comments_V2:" +
+                              myController.rating.value.toString());
+                        },
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(25)),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                              errorStyle: TextStyle(fontSize: 0),
+                              contentPadding:
+                                  EdgeInsets.only(left: 15, top: 10, right: 5),
+                              border: InputBorder.none,
+                              hintText: 'Write a comment',
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  Icons.send,
+                                  color: Colors.grey[700],
+                                  size: 20,
+                                ),
+                                onPressed: () {
+                                  myController.handleSubmit(
+                                      textCtrl.text, context, myController.myComment.id);
+                                  textCtrl.clear();
+                                },
+                              )),
+                          controller: textCtrl,
+                        ),
+                      ),
+                    ],
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(25)),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          errorStyle: TextStyle(fontSize: 0),
-                          contentPadding:
-                              EdgeInsets.only(left: 15, top: 10, right: 5),
-                          border: InputBorder.none,
-                          hintText: 'Write a comment',
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              Icons.send,
-                              color: Colors.grey[700],
-                              size: 20,
-                            ),
-                            onPressed: () {
-                              myController.handleSubmit(
-                                  textCtrl.text, context, 3);
-                              textCtrl.clear();
-                            },
-                          )),
-                      controller: textCtrl,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+                );
+              } else {
+                return SizedBox.shrink();
+              }
+            }),
+          )
         ],
       ),
     );
   }
 
-  Widget reviewList(Comment d) {
+  Widget reviewList(Comment d, bool isCommented) {
     return Container(
         padding: EdgeInsets.only(top: 10, bottom: 10),
         decoration: BoxDecoration(
@@ -374,6 +254,17 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
                       itemSize: 10.0,
                       direction: Axis.horizontal,
                     ),
+                    isCommented == true
+                        ? TextButton(
+                            onPressed: () {
+                              Get.find<CommentController>().isCommented.value =
+                                  2;
+                            },
+                            child: SmallText(
+                              text: 'Edit',
+                              color: Colors.blue,
+                            ))
+                        : SizedBox.shrink()
                   ],
                 ),
                 SizedBox(

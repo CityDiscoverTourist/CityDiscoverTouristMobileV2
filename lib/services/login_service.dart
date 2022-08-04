@@ -17,13 +17,13 @@ class LoginService {
   Future<Customer> apiCheckLogin(String token, String deviceId) async {
     Customer rs;
     var myController = Get.find<LoginControllerV2>();
-    Map data2 = {'tokenId': token};
+    Map data2 = {'tokenId': token,'deviceId':deviceId};
     var body = json.encode(data2);
     var response = await http.post(Uri.parse(Api.baseUrl + ApiEndPoints.login),
         headers: {"Content-Type": "application/json"}, body: body);
+        print(deviceId+"CUONG");
     if (response.statusCode == 200) {
       // String email = firebaseUser.email!;
-
       final responseData = json.decode(response.body);
       myController.jwtToken.value = responseData['jwtToken'];
       print("HOME CONTROLLER: " + myController.jwtToken.value.toString());
@@ -37,6 +37,7 @@ class LoginService {
         },
       );
       print("JWT TOKEN" + myController.jwtToken.value);
+      print("abch"+response2.statusCode.toString());
       if (response2.statusCode == 200) {
         final responseData2 = json.decode(response2.body);
         rs = Customer.fromJson(responseData2['data']);

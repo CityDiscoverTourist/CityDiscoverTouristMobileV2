@@ -623,7 +623,7 @@ packages:
     source: hosted
     version: "4.0.1"
   flutter_svg:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: flutter_svg
       url: "https://pub.dartlang.org"
@@ -1020,12 +1020,12 @@ packages:
     source: hosted
     version: "0.2.1"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.10"
+    version: "2.0.11"
   path_provider_android:
     dependency: transitive
     description:

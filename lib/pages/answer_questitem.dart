@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:status_view/status_view.dart';
 import 'package:travel_hour/controllers/play_controller.dart';
 import 'package:travel_hour/controllers/play_controllerV2.dart';
@@ -28,10 +29,10 @@ class AnswerPage extends StatelessWidget {
   //       )
   //       );
   // }
+   final myController = TextEditingController();
+    var controller = Get.find<PlayControllerV2>();
   @override
   Widget build(BuildContext context) {
-    final myController = TextEditingController();
-    var controller = Get.find<PlayControllerV2>();
     return Scaffold(body: Obx(() {
       if (controller.isLoading.value == true) {
         return SplashStart();
@@ -49,15 +50,25 @@ class AnswerPage extends StatelessWidget {
                         color: Colors.amber,
                         child: Align(
                           alignment: Alignment.bottomRight,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Icon(Icons.score),
-                              BigText(
-                                  text: controller.cusTask.currentPoint
-                                      .toString())
-                            ],
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.close),
+                                  BigText(text: 'So lan sai: '),BigText(text: '3'),
+                                ],
+                              ),  
+                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(LineIcons.pen),
+                                  BigText(text: 'So lan tra loi: '),BigText(text: '3'),
+                                ],
+                              ),                            ],
                           ),
                         ),
                       ),
