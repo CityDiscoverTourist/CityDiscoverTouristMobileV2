@@ -43,8 +43,7 @@ class _DescriptionAnsState extends State<DescriptionAns> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('description page'.tr),
-      ),
+          title: Text('description page'.tr), automaticallyImplyLeading: false),
       body: Column(
         children: [
           SingleChildScrollView(
