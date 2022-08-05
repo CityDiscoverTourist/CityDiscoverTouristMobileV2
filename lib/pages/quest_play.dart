@@ -28,7 +28,7 @@ class QuestsPlayPage extends StatelessWidget {
     var controller = Get.find<HistoryController>();
     return WillPopScope(
       onWillPop: () async {
-        return true;
+        return false;
       },
       child: Scaffold(
         appBar: AppBar(

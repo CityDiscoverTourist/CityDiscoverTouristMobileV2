@@ -159,12 +159,15 @@ class LoginControllerV2 extends GetxController {
   }
 
   void logout() async {
-    if (!sharedPreferences!.containsKey("loginAccount") ||
-        sharedPreferences!.containsKey("loginFace")) {
-      await GoogleSignIn().signOut();
-      await firebaseAuth.signOut();
-    }
     sharedPreferences = await SharedPreferences.getInstance();
+    if (!sharedPreferences!.containsKey("loginAccount") &&
+        !sharedPreferences!.containsKey("loginFace")) {
+      print("OK");
+      await googleSign.signOut();
+      await firebaseAuth.signOut();
+      sharedPreferences?.clear();
+    }
+    print("Not ok");
     sharedPreferences?.clear();
     Get.offAll(LoginScreen());
   }
@@ -253,6 +256,18 @@ class LoginControllerV2 extends GetxController {
       // if (!sharedPreferences!.containsKey("loginAccount")) {
       //   CustomFullScreenDialog.cancelDialog();
       // }
+      if (responseData['message'] == "Account not allowed to login") {
+        Get.snackbar("error".tr, 'account not allowed to login'.tr,
+            duration: Duration(seconds: 5),
+            backgroundColor: Colors.black,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+            icon: Icon(
+              Icons.error,
+              color: Colors.red,
+            ));
+        logout();
+      }
       Get.snackbar(
           "error".tr, 'user not exist or wrong username and password'.tr,
           duration: Duration(seconds: 5),
@@ -399,8 +414,13 @@ class LoginControllerV2 extends GetxController {
       response.stream.transform(utf8.decoder).listen((value) {
         // print(value);
         Map<String, dynamic> result = jsonDecode(value);
-        // print(result["data"]);
-        Get.find<LoginControllerV2>().sp = Customer.fromJson(result["data"]);
+        Customer newCustomer = Customer.fromJson(result["data"]);
+        if (newCustomer.imagePath != null) {
+          Get.find<LoginControllerV2>().sp = newCustomer;
+        } else {
+          Get.find<LoginControllerV2>().sp.address = newCustomer.address;
+          Get.find<LoginControllerV2>().sp.gender = newCustomer.gender;
+        }
       });
       return true;
     }

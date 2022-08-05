@@ -239,7 +239,10 @@ class Translation extends Translations {
           "error when skip questtion": "Error when skip questtion",
           "description page": "Description page",
           "story page": "Story page",
-          "next": "Next"
+          "next": "Next",
+          "account not allowed to login": "Account not allowed to login",
+          "update profile success": "Update profile success",
+          "update profile error": "Update profile error"
         },
         'vn': {
           "welcome message":
@@ -481,7 +484,10 @@ class Translation extends Translations {
           "error when skip questtion": "Lỗi khi bỏ qua câu hỏi",
           "description page": "Trang tiến trình",
           "story page": "Trang câu chuyện",
-          "next": "Tiếp tục"
+          "next": "Tiếp tục",
+          "account not allowed to login": "Tài khoản không được phép đăng nhập",
+          "update profile success": "Câp nhật thông tin thành công",
+          "update profile error": "Lỗi khi cập nhật thông tin",
         }
       };
 }

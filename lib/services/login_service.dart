@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:travel_hour/controllers/home_controller.dart';
@@ -21,7 +22,7 @@ class LoginService {
     var body = json.encode(data2);
     var response = await http.post(Uri.parse(Api.baseUrl + ApiEndPoints.login),
         headers: {"Content-Type": "application/json"}, body: body);
-    // print(response.body);
+    print(response.body);
     if (response.statusCode == 200) {
       // String email = firebaseUser.email!;
 
@@ -37,7 +38,6 @@ class LoginService {
           'Authorization': 'Bearer ' + myController.jwtToken.value
         },
       );
-      // print("JWT TOKEN" + myController.jwtToken.value);
       if (response2.statusCode == 200) {
         final responseData2 = json.decode(response2.body);
         rs = Customer.fromJson(responseData2['data']);
@@ -46,8 +46,23 @@ class LoginService {
         return Future<Customer>.value(rs);
       } else
         return Future<Customer>.value(null);
-    } else
-      return Future<Customer>.value(null);
+    } else {
+      final responseData = json.decode(response.body);
+      Get.find<LoginControllerV2>().logout();
+      if (responseData['message'] == "Account not allowed to login") {
+        Get.snackbar("error".tr, 'account not allowed to login'.tr,
+            duration: Duration(seconds: 5),
+            backgroundColor: Colors.black,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+            icon: Icon(
+              Icons.error,
+              color: Colors.red,
+            ));
+        return Future<Customer>.value(null);
+      }
+    }
+    return Future<Customer>.value(null);
   }
 
   Future<Customer> checkFacebookLogin(
@@ -82,6 +97,23 @@ class LoginService {
         // print(sp);
         // Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
         return Future<Customer>.value(rs);
+      }
+    } else {
+      final responseData = json.decode(response.body);
+      Get.find<LoginControllerV2>().logout();
+      // await Get.find<LoginControllerV2>().googleSign.disconnect();
+      // await Get.find<LoginControllerV2>().firebaseAuth.signOut();
+      if (responseData['message'] == "Account not allowed to login") {
+        Get.snackbar("error".tr, 'account not allowed to login'.tr,
+            duration: Duration(seconds: 5),
+            backgroundColor: Colors.black,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+            icon: Icon(
+              Icons.error,
+              color: Colors.red,
+            ));
+        return Future<Customer>.value(null);
       }
     }
     return Future<Customer>.value(null);
