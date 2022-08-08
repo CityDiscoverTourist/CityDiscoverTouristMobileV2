@@ -5,7 +5,7 @@ import 'package:travel_hour/controllers/comment_controllerV4.dart';
 import 'package:travel_hour/models/place.dart';
 import 'package:travel_hour/models/quest.dart';
 import 'package:travel_hour/models/quest_detail.dart';
-import 'package:travel_hour/pages/comments.dart';
+// import 'package:travel_hour/pages/comments.dart';
 import 'package:travel_hour/pages/comments_V4.dart';
 import 'package:travel_hour/pages/comments_v2.dart';
 import 'package:travel_hour/pages/guide.dart';
@@ -19,7 +19,8 @@ import '../controllers/comment_controller.dart';
 
 class TodoWidgetV2 extends StatelessWidget {
   final QuestDetail? questDetailModel;
-  const TodoWidgetV2({Key? key, required this.questDetailModel}) : super(key: key);
+  const TodoWidgetV2({Key? key, required this.questDetailModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +85,8 @@ class TodoWidgetV2 extends StatelessWidget {
                               color: Colors.white,
                             ),
                             BigText(
-                              text: questDetailModel!.estimatedDistance.toString() +
+                              text: questDetailModel!.estimatedDistance
+                                      .toString() +
                                   ' km',
                               color: Colors.white,
                             ),
@@ -204,9 +206,9 @@ class TodoWidgetV2 extends StatelessWidget {
                               color: Colors.white,
                             ),
                           ])),
-                  onTap: () async=> {
+                  onTap: () async => {
                         print("TODO :" + questDetailModel!.id.toString()),
-                    
+
                         Get.put(CommentController()).idQuest.value =
                             questDetailModel!.id,
                         Get.to(CommentsPageV2()),
