@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -63,6 +64,37 @@ class LoginControllerV2 extends GetxController {
     }
          
         }
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // ignore: avoid_print
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+              ),
+            ));
+      }
+    });
   }
 
   @override
@@ -88,6 +120,17 @@ class LoginControllerV2 extends GetxController {
    
   }
 
+  static const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'high_importance_channel', // id
+      'High Importance Notifications', // title
+      description:
+          'This channel is used for important notifications.', // description
+      importance: Importance.high,
+      playSound: true);
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
   void handleAuthStateChanged(isLoggedIn) async {
     print("[LoginController V2]-L162-DeviceID:" + deviceId);
     if (isLoggedIn) {
@@ -95,7 +138,7 @@ class LoginControllerV2 extends GetxController {
       print("[LoginControllerV2]-L164: ");
       if (sharedPreferences!.containsKey("loginFace")) {
         String? token = sharedPreferences!.getString("resource");
-        sp = await LoginService().checkFacebookLogin(token!);
+        sp = await LoginService().checkFacebookLogin(token!, deviceId);
       } else if (sharedPreferences!.containsKey("loginAccount")) {
         String? userName = sharedPreferences!.getString("userName");
         String? password = sharedPreferences!.getString("password");
@@ -145,12 +188,15 @@ class LoginControllerV2 extends GetxController {
   }
 
   void logout() async {
-    if (!sharedPreferences!.containsKey("loginAccount") ||
-        sharedPreferences!.containsKey("loginFace")) {
-      await GoogleSignIn().signOut();
-      await firebaseAuth.signOut();
-    }
     sharedPreferences = await SharedPreferences.getInstance();
+    if (!sharedPreferences!.containsKey("loginAccount") &&
+        !sharedPreferences!.containsKey("loginFace")) {
+      print("OK");
+      await googleSign.signOut();
+      await firebaseAuth.signOut();
+      sharedPreferences?.clear();
+    }
+    print("Not ok");
     sharedPreferences?.clear();
     Get.offAll(LoginScreen());
   }
@@ -160,7 +206,7 @@ class LoginControllerV2 extends GetxController {
     final LoginResult facebookLoginResult = await FacebookAuth.instance
         .login(permissions: ['email', 'public_profile']);
     final accessToken = await FacebookAuth.instance.accessToken;
-
+    print("DeviceId In Facebook:" + deviceId);
     final AuthCredential credential =
         FacebookAuthProvider.credential(accessToken!.token);
     // print(accessToken.token);
@@ -170,7 +216,9 @@ class LoginControllerV2 extends GetxController {
         Uri.parse(Api.baseUrl +
             ApiEndPoints.loginFacebook +
             '?resource=' +
-            accessToken.token),
+            accessToken.token +
+            "&deviceId=" +
+            deviceId),
         headers: {"Content-Type": "application/json"},
         body: body);
     // print(response.body);
@@ -194,7 +242,7 @@ class LoginControllerV2 extends GetxController {
         // print(sp);
         Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
       }
-    }
+    } else {}
   }
 
   void loginUsernamePassword(String userName, String password) async {
@@ -202,7 +250,7 @@ class LoginControllerV2 extends GetxController {
     //   CustomFullScreenDialog.showDialog();
     // }
 
-    Map data2 = {'email': userName, 'password': password};
+    Map data2 = {'email': userName, 'password': password, "deviceId": deviceId};
     var body = json.encode(data2);
     var response = await http.post(
         Uri.parse(Api.baseUrl + ApiEndPoints.loginUsenamePassword),
@@ -237,6 +285,18 @@ class LoginControllerV2 extends GetxController {
       // if (!sharedPreferences!.containsKey("loginAccount")) {
       //   CustomFullScreenDialog.cancelDialog();
       // }
+      if (responseData['message'] == "Account not allowed to login") {
+        Get.snackbar("error".tr, 'account not allowed to login'.tr,
+            duration: Duration(seconds: 5),
+            backgroundColor: Colors.black,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+            icon: Icon(
+              Icons.error,
+              color: Colors.red,
+            ));
+        logout();
+      }
       Get.snackbar(
           "error".tr, 'user not exist or wrong username and password'.tr,
           duration: Duration(seconds: 5),
@@ -383,8 +443,13 @@ class LoginControllerV2 extends GetxController {
       response.stream.transform(utf8.decoder).listen((value) {
         // print(value);
         Map<String, dynamic> result = jsonDecode(value);
-        // print(result["data"]);
-        Get.find<LoginControllerV2>().sp = Customer.fromJson(result["data"]);
+        Customer newCustomer = Customer.fromJson(result["data"]);
+        if (newCustomer.imagePath != null) {
+          Get.find<LoginControllerV2>().sp = newCustomer;
+        } else {
+          Get.find<LoginControllerV2>().sp.address = newCustomer.address;
+          Get.find<LoginControllerV2>().sp.gender = newCustomer.gender;
+        }
       });
       return true;
     }

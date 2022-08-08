@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:travel_hour/controllers/chat_controller.dart';
+import 'package:travel_hour/controllers/login_controller_V2.dart';
+import 'package:travel_hour/models/chatmessage.dart';
 // import 'package:flutter_chat_app/models/message_model.dart';
 // import 'package:flutter_chat_app/models/user_model.dart';
 
@@ -12,7 +18,17 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  List<String> messages = ['Hello', 'Hi', 'How are you?', 'I am fine'];
+  List<ChatMessage> messagesList = List.empty(growable: true);
+  var messageCtr = TextEditingController();
+  var chatController = Get.find<ChatController>();
+  @override
+  void initState() {
+    // Get.put(ChatController());
+    if (chatController.conID.value == "") {
+      chatController.StartSocket();
+    }
+    super.initState();
+  }
 
   // _chatBubble(Message message, bool isMe, bool isSameUser) {4
 
@@ -76,8 +92,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                       child: CircleAvatar(
                         radius: 15,
-                        // backgroundImage: AssetImage('asset/img/'),
-                        backgroundColor: Colors.amber,
+                        backgroundImage: AssetImage('asset/img/'),
                       ),
                     ),
                   ],
@@ -132,23 +147,23 @@ class _ChatScreenState extends State<ChatScreen> {
                           ),
                         ],
                       ),
-                      child: CircleAvatar(
-                        radius: 15,
-                        // backgroundImage: AssetImage(message.sender.imageUrl),
-                        backgroundColor: Colors.amber,
-                      ),
+                      // child: CircleAvatar(
+                      //   radius: 15,
+                      //   // backgroundImage: AssetImage(message.sender.imageUrl),
+                      //   backgroundColor: Colors.amber,
+                      // ),
                     ),
                     SizedBox(
                       width: 10,
                     ),
-                    Text(
-                      // message.time,
-                      '12:12',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.black45,
-                      ),
-                    ),
+                    // Text(
+                    //   // message.time,
+                    //   'acc',
+                    //   style: TextStyle(
+                    //     fontSize: 12,
+                    //     color: Colors.black45,
+                    //   ),
+                    // ),
                   ],
                 )
               : Container(
@@ -166,14 +181,15 @@ class _ChatScreenState extends State<ChatScreen> {
       color: Colors.white,
       child: Row(
         children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.photo),
-            iconSize: 25,
-            color: Theme.of(context).primaryColor,
-            onPressed: () {},
-          ),
+          // IconButton(
+          //   icon: Icon(Icons.photo),
+          //   iconSize: 25,
+          //   color: Theme.of(context).primaryColor,
+          //   onPressed: () {},
+          // ),
           Expanded(
             child: TextField(
+              controller: messageCtr,
               decoration: InputDecoration.collapsed(
                 hintText: 'Send a message..',
               ),
@@ -184,7 +200,15 @@ class _ChatScreenState extends State<ChatScreen> {
             icon: Icon(Icons.send),
             iconSize: 25,
             color: Theme.of(context).primaryColor,
-            onPressed: () {},
+            onPressed: () {
+              ChatMessage chatMessage = new ChatMessage(
+                message: messageCtr.text,
+                user: Get.find<LoginControllerV2>().sp.userName,
+                conId: "",
+              );
+              chatController.sendChatMessage(chatMessage);
+              // controller.messages.add(chatMessage);
+            },
           ),
         ],
       ),
@@ -206,14 +230,12 @@ class _ChatScreenState extends State<ChatScreen> {
           text: TextSpan(
             children: [
               TextSpan(
-                  // text: widget.user.name,
-                  text: 'Trí Cuong',
+                  text: 'Admin',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                   )),
               TextSpan(text: '\n'),
-              // widget.user.isOnline ?
               check == true
                   ? TextSpan(
                       text: 'Online',
@@ -241,33 +263,32 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: Column(
         children: <Widget>[
-          Expanded(
-            child: ListView.builder(
-              reverse: true,
+          Expanded(child: GetX<ChatController>(builder: (chatController) {
+            return ListView.builder(
+              reverse: false,
               padding: EdgeInsets.all(20),
-              itemCount: messages.length,
+              itemCount: chatController.messages.length,
               itemBuilder: (BuildContext context, int index) {
                 // final Message message = messages[index];
                 //  final bool isMe = message.sender.id == currentUser.id;
                 // final bool isSameUser = prevUserId == message.sender.id;
                 // prevUserId = message.sender.id;
 
-                final String message = messages[index];
-//code test
+                final ChatMessage message = chatController.messages[index];
                 final bool isSameUser;
                 final bool isMe;
-                if (index == 0 || index == 2) {
+                if (message.user == Get.find<LoginControllerV2>().sp.userName) {
                   isSameUser = true;
                   isMe = true;
-                }else{
-                   isSameUser = false;
+                } else {
+                  isSameUser = false;
                   isMe = false;
                 }
-
-                return _chatBubble(message, isMe, isSameUser);
+                // setState(() {});
+                return _chatBubble(message.message, isMe, isSameUser);
               },
-            ),
-          ),
+            );
+          })),
           _sendMessageArea(),
         ],
       ),

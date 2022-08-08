@@ -21,7 +21,7 @@ class Quest {
     required this.imagePath,
     required this.estimatedTime,
     required this.estimatedDistance,
-     this.availableTime,
+    this.availableTime,
     required this.createdDate,
     // this.updatedDate,
     required this.status,

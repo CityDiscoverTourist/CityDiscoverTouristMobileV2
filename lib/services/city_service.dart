@@ -14,7 +14,9 @@ class CityService {
     // print('CITYSERVICE: '+controller.jwtToken.value.toString());
     print("object");
     var response = await http.get(
-        Uri.parse('https://citytourist.azurewebsites.net/api/v1/areas'),
+        Uri.parse('https://citytourist.azurewebsites.net/api/v1/areas' +
+            "?language=" +
+            Get.find<LoginControllerV2>().language.value.toString()),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",

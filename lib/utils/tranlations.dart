@@ -182,7 +182,9 @@ class Translation extends Translations {
           "you will be answered up to 5 times for a question":
               "You will be answered up to 5 times for a question",
           "the 5th time you will be shown the answer":
-              "The 5th time you will be shown the answer",
+              "With text answer the 5th time you will be shown the answer",
+          "with image scan quest if you answer 5th time wrong you will be move to next task":
+              "With image scan quest if you answer 5th time wrong you will be move to next task",
           "for each wrong answer, 50 points will be deducted":
               "For each wrong answer, 50 points will be deducted",
           "using seggestion will be deducted 75 points (1 time)":
@@ -227,6 +229,24 @@ class Translation extends Translations {
           "rating quest": "Rating quest",
           "discount code is not valid": "Discount code is not valid",
           "voucher is wrong format": "Voucher is wrong format",
+          "skip question": "Skip question",
+          "show suggestion": "show suggestion",
+          "you will be move to next task": "You will be move to next task",
+          "do you want to skip this question?":
+              "Do you want to skip this question(you will be minus some point)?",
+          "skip success": "Skip success",
+          "try again next time": "Try again next time",
+          "error when skip questtion": "Error when skip questtion",
+          "description page": "Description page",
+          "story page": "Story page",
+          "next": "Next",
+          "account not allowed to login": "Account not allowed to login",
+          "update profile success": "Update profile success",
+          "update profile error": "Update profile error",
+          "play code not exist or expired": "Play code not exist or expired",
+          "please try again": "Please try again",
+          "reset": "Reset",
+          "scan qr code": "Scan QR code"
         },
         'vn': {
           "welcome message":
@@ -401,7 +421,7 @@ class Translation extends Translations {
           "register": "Đăng ký",
           "time up": "Hết giờ",
           "time remaining": "Thời gian còn lại:",
-          "ok": "Đống ý",
+          "ok": "Đồng ý",
           "quests that have entered the game cannot be reused. do you want to confirm?":
               "Quest đã vào chơi không được sử dụng lại. Bạn có muốn xác nhận?",
           "copy code": "Sao chép mã",
@@ -410,7 +430,9 @@ class Translation extends Translations {
           "you will be answered up to 5 times for a question":
               "Bạn sẽ được trả lời tối đa 5 lần cho một câu hỏi",
           "the 5th time you will be shown the answer":
-              "Lần 5 bạn sẽ được hiện đáp án",
+              "Với câu hỏi trả lời bằng chữ Lần 5 bạn sẽ được hiện đáp án",
+          "with image scan quest if you answer 5th time wrong you will be move to next task":
+              "Với câu hỏi quét ảnh nêu bạn trả lời sai lần thứ 5 bạn sẽ được chuyển qua câu hỏi tiếp theo",
           "for each wrong answer, 50 points will be deducted":
               "Mỗi lần trả lời sai sẽ bị trừ 50 điểm",
           "using seggestion will be deducted 75 points (1 time)":
@@ -455,6 +477,26 @@ class Translation extends Translations {
           "rating quest": "Đánh giá chất lượng quest",
           "discount code is not valid": "Mã giảm giá không hợp lệ",
           "voucher is wrong format": "Mã giảm giá sai định dạng",
+          "skip question": "Bỏ qua câu hỏi",
+          "show suggestion": "Hiện gợi ý",
+          "you will be move to next task":
+              "Bạn sẽ được chuyển qua câu hỏi tiếp theo",
+          "do you want to skip this question?":
+              "Bạn muốn bỏ qua câu hỏi này(bạn sẽ bị trừ một số điểm)?",
+          "skip success": "Bỏ qua thành công",
+          "try again next time": "Hãy cố gắng hơn vào lần sau nhé",
+          "error when skip questtion": "Lỗi khi bỏ qua câu hỏi",
+          "description page": "Trang tiến trình",
+          "story page": "Trang câu chuyện",
+          "next": "Tiếp tục",
+          "account not allowed to login": "Tài khoản không được phép đăng nhập",
+          "update profile success": "Câp nhật thông tin thành công",
+          "update profile error": "Lỗi khi cập nhật thông tin",
+          "play code not exist or expired":
+              "Mã chơi không tồn tại hoặc đã hết hạn",
+          "please try again": "Vui lòng thử lại",
+          "reset": "Đặt lại",
+          "scan qr code": "Quét mã QR",
         }
       };
 }
