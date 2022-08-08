@@ -312,6 +312,37 @@ showAlertDialog(BuildContext context, String sugg) {
   );
 }
 
+showAlertDialogCofirmSkip(BuildContext context) async {
+    // Create button
+    Widget okButton = FlatButton(
+      child: Text("ok".tr),
+      onPressed: () async {
+        Get.find<PlayControllerV2>().isSkip.value = true;
+        Get.find<PlayControllerV2>().clickAnswer();
+        Navigator.of(context).pop();
+      },
+    );
+    Widget cancelButton = FlatButton(
+      child: Text("cancel".tr),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("cofirm".tr),
+      content: Text("do you want to skip this question?".tr),
+      actions: [okButton, cancelButton],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
 void showCustomDialog(BuildContext context, String? sugg) {
   showGeneralDialog(
     context: context,

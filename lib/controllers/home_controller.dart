@@ -52,7 +52,6 @@ class HomeController extends GetxController {
     // changeLanguage();
     await startData();
     dropdownValue = cityList[1];
-
   }
 
   @override
@@ -209,11 +208,11 @@ class HomeController extends GetxController {
 
   fetchPlayingHistory(String customerId) async {
     try {
-      // isLoading(true);
+      isLoading(true);
 
       await QuestService.fetchPlayedQuestFeatureData(customerId);
     } finally {
-      // isLoading(false);
+      isLoading(false);
     }
   }
 

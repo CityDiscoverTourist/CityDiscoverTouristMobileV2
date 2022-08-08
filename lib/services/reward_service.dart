@@ -29,9 +29,11 @@ class RewardService {
       Map<String, dynamic> map = json.decode(response.body);
       List<dynamic> data = map["data"];
       for (var element in data) {
-        Reward reward = Reward.fromJson(element);
-        print(reward.receivedDate);
-        listReward.add(reward);
+        if (element["status"] == "Active") {
+          Reward reward = Reward.fromJson(element);
+          // print(reward.receivedDate);
+          listReward.add(reward);
+        }
       }
 
       Get.find<HomeController>().rewardList.value = listReward;

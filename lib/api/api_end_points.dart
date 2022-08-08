@@ -33,4 +33,6 @@ class ApiEndPoints {
   static const register = "/auths/register-account";
   static const forgotPassword = "/auths/forgot-password";
   static const ChangePassword = "/customers/update-password";
+  static const checkCoupon = "/payments/check-coupon";
+  static const skipCustomerTask = "/customer-tasks/skip/";
 }

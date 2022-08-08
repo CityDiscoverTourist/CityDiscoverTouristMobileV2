@@ -20,6 +20,7 @@ import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../common/customFullScreenDialog.dart';
+import '../controllers/chat_controller.dart';
 import '../controllers/play_controllerV2.dart';
 import '../models/quest.dart';
 import '../routes/app_routes.dart';
@@ -54,11 +55,23 @@ class QuestsPlayPage extends GetView<HistoryController> {
                 padding: EdgeInsets.only(right: 10),
                 child: InkWell(
                   onTap: () {
+                    showAlertDialogAddCode(context);
                     // Get.to(QRViewExample());
+                  },
+                  child: Icon(
+                    Icons.add,
+                    size: 30,
+                  ),
+                )),
+            Padding(
+                padding: EdgeInsets.only(right: 10),
+                child: InkWell(
+                  onTap: () {
+                    Get.put(ChatController());
                     Get.to(ChatScreen());
                   },
                   child: Icon(
-                    Icons.qr_code,
+                    Icons.help,
                     size: 30,
                   ),
                 ))
@@ -326,6 +339,92 @@ class QuestsPlayPage extends GetView<HistoryController> {
           "\n" +
           address),
       actions: [okButton, cancelButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showAlertDialogAddCode(BuildContext context) async {
+    TextEditingController textCtrl = TextEditingController();
+    String code = "";
+    // Create button
+    Widget okButton = FlatButton(
+      child: Text("ok".tr),
+      onPressed: () async {
+        // print(textCtrl.text);
+        PlayControllerV2 controller = new PlayControllerV2();
+        PurchasedQuest? purchasedQuest =
+            await controller.getPuQuestById(textCtrl.text);
+        if (purchasedQuest != null) {
+          showAlertDialog(context, purchasedQuest);
+        } else {
+          Get.snackbar(
+              'play code not exist or expired'.tr, 'please try again'.tr,
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM,
+              icon: Icon(
+                Icons.error,
+                color: Colors.red,
+              ));
+          // Navigator.of(context).pop();
+        }
+
+        // Get.to(RulePage(
+        //   pQuest: pQuest,
+        // ));
+        //  vao trang huong dan
+        // Navigator.of(context).pop();
+      },
+    );
+    Widget scanButton = FlatButton(
+      child: Text("scan qr code".tr),
+      onPressed: () async {
+        Navigator.of(context).pop();
+        Get.to(QRViewExample());
+        // Get.to(RulePage(
+        //   pQuest: pQuest,
+        // ));
+        //  vao trang huong dan
+        // Navigator.of(context).pop();
+      },
+    );
+    Widget cancelButton = FlatButton(
+      child: Text("cancel".tr),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("in put play code".tr),
+      content: TextFormField(
+        controller: textCtrl,
+        decoration: InputDecoration(
+          labelText: "play code".tr,
+          border: OutlineInputBorder(),
+        ),
+        // onFieldSubmitted: (value) {
+        //   print(value);
+        // },
+        // onEditingComplete: () {
+        //   code = textCtrl.text;
+        //   print(code);
+        // },
+        // onChanged: (value) {
+        //   code = textCtrl.text;
+        //   // print(code);
+        // },
+      ),
+      actions: [okButton, scanButton, cancelButton],
     );
 
     // show the dialog

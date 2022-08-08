@@ -91,15 +91,47 @@ class _EditProfileState extends State<EditProfile> {
       formKey.currentState!.save();
       setState(() => loading = true);
       if (imageFile != null) {
-        if (Get.find<LoginControllerV2>()
-                .editProfile(addressCtrl.text, updateGender, imageFile) ==
-            true) {
+        bool check = await Get.find<LoginControllerV2>()
+            .editProfile(addressCtrl.text, updateGender, imageFile);
+        if (check) {
+          Get.snackbar("success".tr, 'update profile success'.tr,
+              duration: Duration(seconds: 5),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM,
+              icon: Icon(
+                Icons.error,
+                color: Colors.green,
+              ));
           setState(() => loading = false);
         }
       } else {
-        Get.find<LoginControllerV2>()
+        bool check = await Get.find<LoginControllerV2>()
             .editProfile(addressCtrl.text, updateGender, null);
-        setState(() {});
+        if (check) {
+          Get.snackbar("success".tr, 'update profile success'.tr,
+              duration: Duration(seconds: 5),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM,
+              icon: Icon(
+                Icons.error,
+                color: Colors.green,
+              ));
+          setState(() {
+            loading = false;
+          });
+        } else {
+          Get.snackbar("error".tr, 'update profile error'.tr,
+              duration: Duration(seconds: 5),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM,
+              icon: Icon(
+                Icons.error,
+                color: Colors.red,
+              ));
+        }
       }
       // imageFile == null
       //     ? await sb

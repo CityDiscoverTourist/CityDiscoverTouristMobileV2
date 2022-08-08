@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:travel_hour/widgets/rounded_button.dart';
 
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({
@@ -14,12 +13,9 @@ class CustomAppBar extends StatelessWidget {
         Text(
           'Congratulations',
           style: TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              fontWeight: FontWeight.bold),
+              color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
         )
       ],
     );
   }
 }
-

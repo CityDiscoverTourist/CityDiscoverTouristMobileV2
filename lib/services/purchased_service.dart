@@ -19,7 +19,9 @@ class PurchasedService {
     print(customerId + "+");
     var response = await http.get(
         Uri.parse(
-            'https://citytourist.azurewebsites.net/api/v1/payments/get-by-customer-id?Status=Success&CustomerId=${customerId}&IsValid=true'),
+            'https://citytourist.azurewebsites.net/api/v1/payments/get-by-customer-id?Status=Success&CustomerId=${customerId}&IsValid=true' +
+                '&language=' +
+                Get.find<LoginControllerV2>().language.value.toString()),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",
@@ -27,7 +29,9 @@ class PurchasedService {
               'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         });
     print(
-        'https://citytourist.azurewebsites.net/api/v1/payments/get-by-customer-id?Status=Success&CustomerId=${customerId}&IsValid=true');
+        'https://citytourist.azurewebsites.net/api/v1/payments/get-by-customer-id?Status=Success&CustomerId=${customerId}&IsValid=true' +
+            '&language=' +
+            Get.find<LoginControllerV2>().language.value.toString());
     print("fetchPurchasedQuests Status_code: " '${response.statusCode}');
     // if (response.statusCode == 200) {
     Map data = jsonDecode(response.body);

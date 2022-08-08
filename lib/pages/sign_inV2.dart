@@ -2,12 +2,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 // import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
+import 'package:travel_hour/controllers/chat_controller.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/controllers/login_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
+import 'package:travel_hour/pages/chat.dart';
 import 'package:travel_hour/pages/done.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/next_screen.dart';
@@ -36,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
   handleSkip() {
     // final sb = context.read<SignInBloc>();
     // sb.setGuestUser();
-    nextScreen(context, DonePage());
+    // nextScreen(context, DonePage());
   }
 
   // handleGoogleSignIn() async {
@@ -93,16 +96,20 @@ class _LoginScreenState extends State<LoginScreen> {
     // LoginController controller = new LoginController();
     // PlayControllerV2 playController = new PlayControllerV2();
     // HomeController homeController = Get.find<HomeController>();
+    // ChatController chatController = new ChatController();
     var controller = Get.find<LoginControllerV2>();
     setState(() => facebookSignInStarted = true);
     await AppService().checkInternet().then((hasInternet) async {
       if (hasInternet == false) {
         openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
       } else {
-        // controller.loginFacebook();
+        controller.loginFacebook();
         // playController.buyQuest("1d9f265d-fd25-44de-ab64-14fcc1719e02", "9");
         // playController.customerStartQuest("9", "9");
-        controller.loginFacebook();
+        // chatController.StopSocket();
+        // Get.put(ChatController());
+        // Get.to(ChatScreen());
+        // controller.loginFacebook();
         // playController.checkImage("customerQuestId", "questItemId");
         // await sb.signInwithFacebook().then((_) {
         //   if (sb.hasError == true) {
@@ -179,7 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   afterSignIn() {
     if (widget.tag == null) {
-      nextScreen(context, DonePage());
+      // nextScreen(context, DonePage());
     } else {
       Navigator.pop(context);
     }
