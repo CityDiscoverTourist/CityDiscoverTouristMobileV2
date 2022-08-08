@@ -14,7 +14,7 @@ import '../../config/config.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/featured_places.dart';
 import '../widgets/quest_type_scroll.dart';
-import 'package:flutter_intro/flutter_intro.dart';
+// import 'package:flutter_intro/flut ter_intro.dart';
 
 class Explore extends StatefulWidget {
   Explore({Key? key}) : super(key: key);

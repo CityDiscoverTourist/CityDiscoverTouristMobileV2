@@ -112,13 +112,16 @@ class AnswerPage extends StatelessWidget {
                               SizedBox(height: 30),
                               Column(
                                 children: [
+                                  controller.isDisableTextField.isTrue?
+                                  Padding(padding: const EdgeInsets.all(20.0),child: BigText(text: controller
+                                                            .currentAns.value),):SizedBox.shrink(),
                                   Padding(
                                     padding: const EdgeInsets.all(20.0),
                                     child:
                                         // Obx(() =>
                                         controller.questItemCurrent
                                                     .questItemTypeId ==
-                                                2
+                                                2||controller.isDisableTextField.isTrue
                                             ? Container()
                                             : TextField(
                                                 controller: myController,
@@ -134,6 +137,7 @@ class AnswerPage extends StatelessWidget {
                                                             .currentAns.value
                                                         : ''),
                                               ),
+                                              
                                     // ),
                                   ),
                                   // controller.isDisableTextField.isTrue
