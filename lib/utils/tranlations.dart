@@ -242,7 +242,11 @@ class Translation extends Translations {
           "next": "Next",
           "account not allowed to login": "Account not allowed to login",
           "update profile success": "Update profile success",
-          "update profile error": "Update profile error"
+          "update profile error": "Update profile error",
+          "play code not exist or expired": "Play code not exist or expired",
+          "please try again": "Please try again",
+          "reset": "Reset",
+          "scan qr code": "Scan QR code"
         },
         'vn': {
           "welcome message":
@@ -417,7 +421,7 @@ class Translation extends Translations {
           "register": "Đăng ký",
           "time up": "Hết giờ",
           "time remaining": "Thời gian còn lại:",
-          "ok": "Đống ý",
+          "ok": "Đồng ý",
           "quests that have entered the game cannot be reused. do you want to confirm?":
               "Quest đã vào chơi không được sử dụng lại. Bạn có muốn xác nhận?",
           "copy code": "Sao chép mã",
@@ -488,6 +492,11 @@ class Translation extends Translations {
           "account not allowed to login": "Tài khoản không được phép đăng nhập",
           "update profile success": "Câp nhật thông tin thành công",
           "update profile error": "Lỗi khi cập nhật thông tin",
+          "play code not exist or expired":
+              "Mã chơi không tồn tại hoặc đã hết hạn",
+          "please try again": "Vui lòng thử lại",
+          "reset": "Đặt lại",
+          "scan qr code": "Quét mã QR",
         }
       };
 }

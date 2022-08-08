@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/controllers/play_controllerV2.dart';
 import 'package:travel_hour/models/customer_task.dart';
+import 'package:travel_hour/models/payment.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/models/questItem.dart';
 import 'package:http/http.dart' as http;
@@ -103,11 +104,16 @@ class PlayService {
           'Authorization':
               'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         });
+    // print('https://citytourist.azurewebsites.net/api/v1/quest-items/' +
+    //     questItemId.toString() +
+    //     '?language=' +
+    //     Get.find<LoginControllerV2>().language.value.toString());
+    // print(response.body);
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
       final rs = QuestItem.fromJson(responseData['data']);
       // print('object');
-      print("fetchQuestItem OK" + rs.content);
+      // print("fetchQuestItem OK" + rs.content);
       return Future<QuestItem>.value(rs);
     } else {
       print('fail');
@@ -155,12 +161,12 @@ class PlayService {
     //     questItemId);
     print("checkAnswer " + response.statusCode.toString());
     if (response.statusCode == 200) {
-      print("OKkkkkkkkkkkkkkkkkkkkkk");
+      // print("OKkkkkkkkkkkkkkkkkkkkkk");
       Map data = jsonDecode(response.body);
       rs = CustomerTask.fromJson(data['data']);
       // print(rs.toString());    // print(data);
-      print("checkAnswer " + rs.countWrongAnswer.toString());
-      print("checkAnswer " + rs.countWrongAnswer.toString());
+      // print("checkAnswer " + rs.countWrongAnswer.toString());
+      // print("checkAnswer " + rs.countWrongAnswer.toString());
       return Future<CustomerTask>.value(rs);
     }
     return Future<CustomerTask>.value(null);
@@ -211,6 +217,9 @@ class PlayService {
   }
 
   Future<String> moveNextQuestItem(int customerQuestId, int questId) async {
+    print("moveNextQuestItem customerQuestId:  " + customerQuestId.toString());
+    print("moveNextQuestItem :  " + questId.toString());
+    // print("moveNextQuestItem :  " + response.body);
     CustomerTask rs;
     var response = await http.put(
         Uri.parse(
@@ -228,15 +237,31 @@ class PlayService {
     //     "&questItemId=" +
     //     questItemId);
     print("moveNextQuestItem :  Status Code:" + response.statusCode.toString());
-    print("moveNextQuestItem :  " + response.statusCode.toString());
+    // print("moveNextQuestItem :  " +
+    //     "https://citytourist.azurewebsites.net/api/v1/customer-tasks/move-next-task?questId=${questId}&customerQuestId=${customerQuestId}");
+    // print("moveNextQuestItem :  " + response.body);
     if (response.statusCode == 200) {
       print("moveNextQuestItem ok");
       int rs = jsonDecode(response.body);
-      print(rs);
+      // print(rs);
       // print(rs.toString());    // print(data);
       return Future<String>.value(rs.toString());
     } else if (response.statusCode == 400) {
-      return Future<String>.value("-1");
+      var data = json.decode(response.body);
+      if (data["message"] ==
+          "Finish current task first before move to next task") {
+        Get.snackbar('error'.tr, 'error when skip questtion'.tr,
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.black,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.TOP,
+            icon: Icon(
+              Icons.golf_course,
+              color: Colors.red,
+            ));
+      } else {
+        return Future<String>.value("-1");
+      }
     }
     return Future<String>.value("0");
   }
@@ -245,7 +270,9 @@ class PlayService {
     String rs;
     var response = await http.get(
         Uri.parse(
-            "https://citytourist.azurewebsites.net/api/v1/customer-tasks/show-suggestion/${questItemId}"),
+            "https://citytourist.azurewebsites.net/api/v1/customer-tasks/show-suggestion/${questItemId}" +
+                "?language=" +
+                Get.find<LoginControllerV2>().language.value.toString()),
         headers: {
           "Content-Type": "application/json",
           'Authorization':
@@ -263,7 +290,7 @@ class PlayService {
     if (response.statusCode == 200) {
       print("getSuggestion ok");
       rs = jsonDecode(response.body);
-      print(rs);
+      // print(rs);
       // print(rs.toString());    // print(data);
       return Future<String>.value(rs);
     }
@@ -349,7 +376,7 @@ class PlayService {
       String customerQuestId, String questID) async {
     var now = new DateTime.now();
     var dateFormatted = DateFormat("yyyy-MM-ddTHH:mm:ss").format(now);
-    print(dateFormatted);
+    // print(dateFormatted);
     Map mydata = {
       'createdDate': dateFormatted,
       'customerQuestId': customerQuestId,
@@ -363,7 +390,7 @@ class PlayService {
               'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         },
         body: body);
-    print(Api.baseUrl + ApiEndPoints.buyQuest);
+    // print(Api.baseUrl + ApiEndPoints.buyQuest);
     // print(Api.baseUrl +
     //     ApiEndPoints.checkAnswer +
     //     customerQuestId +
@@ -509,12 +536,12 @@ class PlayService {
             'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
       },
     );
-    print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
+    // print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
 
       // print("Get Data ok");
-      print(data["data"]);
+      // print(data["data"]);
       if (data["data"]["status"] == "Success") {
         // CustomFullScreenDialog.cancelDialog();
         return true;
@@ -526,6 +553,28 @@ class PlayService {
     return Future<bool>.value(false);
   }
 
+  Future<PurchasedQuest?> getPaymentByID(String paymentId) async {
+    // CustomFullScreenDialog.showDialog();
+    var response = await http.get(
+      Uri.parse(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId),
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization':
+            'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+      },
+    );
+    print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      PurchasedQuest purchasedQuest = PurchasedQuest.fromJson(data["data"]);
+      // print("Get Data ok");
+      print(data["data"]);
+      return Future<PurchasedQuest>.value(purchasedQuest);
+    }
+    // CustomFullScreenDialog.cancelDialog();
+    return null;
+  }
+
   Future<CustomerTask> checkAnswerV2(
       String customerQuestId,
       String questItemId,
@@ -535,65 +584,94 @@ class PlayService {
       int customerTaskId) async {
     String requestUrl;
     CustomerTask? rs;
-    print("customerQuestId:" + customerQuestId);
-    print("questItemId:" + questItemId);
-    print("customerReply:" + customerReply);
-    print("questTypeId:" + questTypeId.toString());
+    // print("customerQuestId:" + customerQuestId);
+    // print("questItemId:" + questItemId);
+    // print("customerReply:" + customerReply);
+    // print("questTypeId:" + questTypeId.toString());
     if (isSkip) {
-      var response = await http.put(
-        Uri.parse(Api.baseUrl +
-            ApiEndPoints.skipCustomerTask +
-            customerTaskId.toString()),
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization':
-              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
-        },
-      );
-      // print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
+      requestUrl = Api.baseUrl +
+          ApiEndPoints.checkAnswer +
+          customerQuestId.toString() +
+          "?customerReply=" +
+          "1" +
+          "&questItemId=" +
+          questItemId.toString() +
+          "&language=" +
+          Get.find<LoginControllerV2>().language.value.toString();
+
+      var request = new http.MultipartRequest("PUT", Uri.parse(requestUrl));
+      request.headers["accept"] = "text/plain";
+      request.headers["Content-Type"] = "multipart/form-data";
+      request.headers["Authorization"] =
+          "Bearer " + Get.find<LoginControllerV2>().jwtToken.value;
+      // print("Request:" + request.toString());
+      var response = await request.send();
+      // print("Status code:" + response.statusCode.toString());
       if (response.statusCode == 200) {
-        var response2 = await http.get(
-          Uri.parse(Api.baseUrl +
-              ApiEndPoints.customerStartQuest +
-              customerTaskId.toString()),
+        String reply = await response.stream.transform(utf8.decoder).join();
+        Map<String, dynamic> result = jsonDecode(reply);
+        // print("Check Answer CustomerTask :  " + result["data"]);
+        // print(result["data"]);
+        rs = CustomerTask.fromJson(result["data"]);
+        var response3 = await http.put(
+          Uri.parse(
+              Api.baseUrl + ApiEndPoints.skipCustomerTask + rs.id.toString()),
           headers: {
             "Content-Type": "application/json",
             'Authorization':
                 'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
           },
         );
-        if (response2.statusCode == 200) {
-          var data = json.decode(response2.body);
-          rs = CustomerTask.fromJson(data["data"]);
-          return Future<CustomerTask>.value(rs);
+        // print("Skip CustomerTask :  " +
+        //     Api.baseUrl +
+        //     ApiEndPoints.skipCustomerTask +
+        //     customerTaskId.toString());
+        // // print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
+        // print("Skip CustomerTask :  " + response3.body);
+        if (response3.statusCode == 200) {
+          var response2 = await http.get(
+            Uri.parse(Api.baseUrl +
+                ApiEndPoints.customerStartQuest +
+                customerTaskId.toString()),
+            headers: {
+              "Content-Type": "application/json",
+              'Authorization':
+                  'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+            },
+          );
+          if (response2.statusCode == 200) {
+            var data = json.decode(response2.body);
+            rs = CustomerTask.fromJson(data["data"]);
+            return Future<CustomerTask>.value(rs);
+          }
+        } else {
+          print("Error SKIP");
+          var response2 = await http.get(
+            Uri.parse(Api.baseUrl +
+                ApiEndPoints.customerStartQuest +
+                customerTaskId.toString()),
+            headers: {
+              "Content-Type": "application/json",
+              'Authorization':
+                  'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+            },
+          );
+          if (response2.statusCode == 200) {
+            var data = json.decode(response2.body);
+            rs = CustomerTask.fromJson(data["data"]);
+            return Future<CustomerTask>.value(rs);
+          }
+          // Get.find<PlayControllerV2>().isSkip.value = false;
+          Get.snackbar('error'.tr, 'error when skip questtion'.tr,
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.TOP,
+              icon: Icon(
+                Icons.golf_course,
+                color: Colors.red,
+              ));
         }
-      } else {
-        print("Error SKIP");
-        var response2 = await http.get(
-          Uri.parse(Api.baseUrl +
-              ApiEndPoints.customerStartQuest +
-              customerTaskId.toString()),
-          headers: {
-            "Content-Type": "application/json",
-            'Authorization':
-                'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
-          },
-        );
-        if (response2.statusCode == 200) {
-          var data = json.decode(response2.body);
-          rs = CustomerTask.fromJson(data["data"]);
-          return Future<CustomerTask>.value(rs);
-        }
-        // Get.find<PlayControllerV2>().isSkip.value = false;
-        Get.snackbar('error'.tr, 'error when skip questtion'.tr,
-            duration: Duration(seconds: 2),
-            backgroundColor: Colors.black,
-            colorText: Colors.white,
-            snackPosition: SnackPosition.TOP,
-            icon: Icon(
-              Icons.golf_course,
-              color: Colors.red,
-            ));
       }
     } else {
       if (questTypeId == 2) {
@@ -603,7 +681,9 @@ class PlayService {
             "?customerReply=" +
             "1" +
             "&questItemId=" +
-            questItemId.toString();
+            questItemId.toString() +
+            "&language=" +
+            Get.find<LoginControllerV2>().language.value.toString();
         // requestUrl =
         //     "https://citytourist.azurewebsites.net/weather-forecast/demo2?api-version=1";
         // final ImagePicker imagePicker = ImagePicker();
@@ -615,7 +695,7 @@ class PlayService {
         // }
 
         final ImagePicker _picker = ImagePicker();
-        print(requestUrl);
+        // print(requestUrl);
         final XFile? pickedFile =
             await _picker.pickImage(source: ImageSource.camera);
         if (pickedFile != null) {
@@ -637,22 +717,14 @@ class PlayService {
           // print("Request:" + request.toString());
           if (response2.files != null) {
             final XFile file2 = response2.files as XFile;
-            // print(file2.path);
             request.files
                 .add(await http.MultipartFile.fromPath("files", file2.path));
-            // print(request.files);
           } else {
             var pic = await http.MultipartFile.fromPath("files", file.path);
             request.files.add(pic);
-            // print(request.files.first.filename);
           }
-          // for (var element in imageFileList) {
-          //   var file2 = File(element.path);
-          //   request.files
-          //       .add(await http.MultipartFile.fromPath("files", file2.path));
-          // }
           var response = await request.send().timeout(Duration(minutes: 15));
-          print("Status code:" + response.statusCode.toString());
+          // print("Status code:" + response.statusCode.toString());
           String reply = await response.stream.transform(utf8.decoder).join();
           // print(reply);
           if (response.statusCode == 200) {
@@ -670,19 +742,23 @@ class PlayService {
             "?customerReply=" +
             customerReply +
             "&questItemId=" +
-            questItemId.toString();
+            questItemId.toString() +
+            "&language=" +
+            Get.find<LoginControllerV2>().language.value.toString();
+
         var request = new http.MultipartRequest("PUT", Uri.parse(requestUrl));
         request.headers["accept"] = "text/plain";
         request.headers["Content-Type"] = "multipart/form-data";
         request.headers["Authorization"] =
             "Bearer " + Get.find<LoginControllerV2>().jwtToken.value;
-        print("Request:" + request.toString());
+        // print("Request:" + request.toString());
         var response = await request.send();
-        print("Status code:" + response.statusCode.toString());
+        // print("Status code:" + response.statusCode.toString());
         if (response.statusCode == 200) {
           String reply = await response.stream.transform(utf8.decoder).join();
           Map<String, dynamic> result = jsonDecode(reply);
-          print(result["data"]);
+          // print("Check Answer CustomerTask :  " + result["data"]);
+          // print(result["data"]);
           rs = CustomerTask.fromJson(result["data"]);
           return Future<CustomerTask>.value(rs);
         }

@@ -211,7 +211,7 @@ class PlayControllerV2 extends GetxController {
           isSkip.value,
           cusTask.id);
       correctAns.value = cusTask.isFinished;
-
+      print("IsFinished:" + cusTask.isFinished.toString());
       print('handleAuthStateChanged ' + customerQuestID.toString());
       // correctAns.value = qItem[index.value].ans == currentAns.value;
       Future.delayed(Duration(seconds: 2));
@@ -219,7 +219,8 @@ class PlayControllerV2 extends GetxController {
 
       if (correctAns.value == true) {
         // if (cusTask.countWrongAnswer != 4) {
-        if (isSkip.value) {
+        if (isSkip.value == true) {
+          isSkip.value = false;
           Get.snackbar('skip success'.tr, 'try again next time'.tr,
               duration: Duration(seconds: 2),
               backgroundColor: Colors.black,
@@ -229,7 +230,6 @@ class PlayControllerV2 extends GetxController {
                 Icons.golf_course,
                 color: Colors.greenAccent,
               ));
-          isSkip.value = false;
         } else if (cusTask.countWrongAnswer == 4 &&
             questItemCurrent.questItemTypeId == 2) {
           Get.snackbar('wrong answer'.tr, 'you will be move to next task'.tr,
@@ -255,6 +255,7 @@ class PlayControllerV2 extends GetxController {
         //Prepare data for nextQu
 
         // }
+        Future.delayed(Duration(seconds: 10));
         checkErr.value = await PlayService()
             .moveNextQuestItem(customerQuestID.value, pQuest.questId);
         int nextQuestItemId = int.parse(checkErr.value);
@@ -375,6 +376,10 @@ class PlayControllerV2 extends GetxController {
 
   Future<bool> checkPaymentStatus(var paymentId) async {
     return await PlayService().checkPaymentStatus(paymentId);
+  }
+
+  Future<PurchasedQuest?> getPuQuestById(var puQuestId) async {
+    return await PlayService().getPaymentByID(puQuestId);
   }
 
   Future<bool> checkUserLocation(String questID) async {

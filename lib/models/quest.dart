@@ -21,7 +21,7 @@ class Quest {
     required this.imagePath,
     required this.estimatedTime,
     required this.estimatedDistance,
-    required this.availableTime,
+    this.availableTime,
     required this.createdDate,
     // this.updatedDate,
     required this.status,
@@ -44,7 +44,7 @@ class Quest {
   String? imagePath;
   String estimatedTime;
   String estimatedDistance;
-  String availableTime;
+  String? availableTime;
   DateTime createdDate;
   // DateTime? updatedDate;
   String? status;

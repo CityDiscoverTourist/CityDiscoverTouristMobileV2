@@ -25,7 +25,6 @@ class LoginService {
     print(response.body);
     if (response.statusCode == 200) {
       // String email = firebaseUser.email!;
-
       final responseData = json.decode(response.body);
       myController.jwtToken.value = responseData['jwtToken'];
       print("HOME CONTROLLER: " + myController.jwtToken.value.toString());

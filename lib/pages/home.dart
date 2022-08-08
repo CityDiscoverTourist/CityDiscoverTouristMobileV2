@@ -13,6 +13,7 @@ import 'package:travel_hour/pages/quest_play.dart';
 import 'package:travel_hour/pages/profile.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/pages/voucher.dart';
+import '../controllers/chat_controller.dart';
 import '../controllers/home_controller.dart';
 import 'explore.dart';
 import 'history.dart';
@@ -43,7 +44,7 @@ class HomePage extends StatelessWidget {
           backgroundColor: Colors.redAccent,
           child: Icon(Icons.play_arrow_sharp),
           onPressed: () {
-            Get.lazyPut(()=>HistoryController());
+            Get.lazyPut(() => HistoryController());
             Get.to(QuestsPlayPage());
           },
         ),

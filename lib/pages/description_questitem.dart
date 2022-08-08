@@ -44,6 +44,7 @@ class _DescriptionAnsState extends State<DescriptionAns> {
     return Scaffold(
       appBar: AppBar(
           title: Text('description page'.tr), automaticallyImplyLeading: false),
+      // backgroundColor: Colors.redAccent,
       body: Column(
         children: [
           SingleChildScrollView(
