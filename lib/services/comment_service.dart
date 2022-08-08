@@ -12,16 +12,16 @@ import '../api/api_end_points.dart';
 
 class CommentService {
   static Future<List<Comment>?> fetchCommentsData(
-      int lastVisible, String jwtToken, String idCustomer, int idQuest) async {
+      int indexPage, String jwtToken, int idQuest) async {
     print('fetchCommentsData: ' + jwtToken);
-    print('fetchCommentsData: ID CUSTOMER-' +
-        idCustomer +
-        "////" +
-        idQuest.toString());
-    print("id Quest" + idQuest.toString());
+    // print('fetchCommentsData: ID CUSTOMER-' +
+    //     idCustomer +
+    //     "////" +
+    //     idQuest.toString());
+    // print("id Quest" + idQuest.toString());
     var response = await http.get(
         Uri.parse(
-            'https://citytourist.azurewebsites.net/api/v1/customer-quests/show-comments/${idQuest}'),
+            'https://citytourist.azurewebsites.net/api/v1/customer-quests/show-comments/${idQuest}?PageNumber=${indexPage}'),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",
@@ -68,7 +68,7 @@ class CommentService {
   }
 
   static Future<bool> pushComment(
-      String comment, int? customerQuestID, int rating) async {
+      String comment, int? questID, int rating,String customerId) async {
     Map body = {
       "feedBack": comment,
       "rating": rating,
@@ -76,7 +76,7 @@ class CommentService {
     print(body);
     var response = await http.post(
         Uri.parse(
-            "https://citytourist.azurewebsites.net/api/v1/customer-quests/feed-back/${customerQuestID}"),
+            "https://citytourist.azurewebsites.net/api/v1/customer-quests/update-comment?questId=${questID}&customerId=${customerId}"),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",

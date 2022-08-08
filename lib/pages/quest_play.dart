@@ -6,6 +6,7 @@ import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:travel_hour/controllers/history_controller.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
+import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/pages/chat.dart';
 import 'package:travel_hour/pages/payment_detail.dart';
@@ -22,21 +23,25 @@ import '../common/customFullScreenDialog.dart';
 import '../controllers/chat_controller.dart';
 import '../controllers/play_controllerV2.dart';
 import '../models/quest.dart';
+import '../routes/app_routes.dart';
 
-class QuestsPlayPage extends StatelessWidget {
+class QuestsPlayPage extends GetView<HistoryController> {
   const QuestsPlayPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var controller = Get.find<HistoryController>();
+    // var controller = Get.find<HistoryController>();
     return WillPopScope(
       onWillPop: () async {
-        return false;
+      Get.back();
+        return  true;
       },
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () {
+                Get.back();
+            },
           ),
           automaticallyImplyLeading: false,
           backgroundColor: Colors.redAccent,
@@ -225,6 +230,8 @@ class QuestsPlayPage extends StatelessWidget {
 
                 // }
                 PlayControllerV2 playController = new PlayControllerV2();
+
+
                 bool check = await playController
                     .checkUserLocation(pQuest.questId.toString());
                 if (true) {

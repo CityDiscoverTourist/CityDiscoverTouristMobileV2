@@ -1,4 +1,5 @@
 const String KWelcomeScreen = '/WELCOME_SCREEN';
+const String KListPlayQuest='/WELCOME_SCREEN/PLAY_QUEST';
 const String KLoginScreen = '/LOGIN_SCREEN';
 const String KSignUpScreen = '/SIGNUP_SCREEN';
 const String KProfileScreen = '/PROFILE_SCREEN';
@@ -7,3 +8,6 @@ const String KHistoryScreen = '/HISTORY_SCREEN';
 const String KMapScreen = '/MAP_SCREEN';
 const String KMomoPaymentScreen = "/MOMO_PAYMENT_SCREEN";
 const String KCompletedPage='/COMPLETED_PAGE';
+const String KPlayingQuest='/PLAYINGQUEST';
+const String KQuestDetailPage='/QUEST_DETAIL_SCREEN';
+const String KPaymentMoMo='/PAYMENT_MOMO';

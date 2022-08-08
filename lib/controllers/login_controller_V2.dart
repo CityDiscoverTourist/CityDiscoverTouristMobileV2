@@ -39,9 +39,31 @@ class LoginControllerV2 extends GetxController {
   SharedPreferences? sharedPreferences;
 
   @override
-  void onInit() {
+  void onInit() async{
     super.onInit();
+     final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+    _fcm
+        .getToken()
+        .then((token) => {print('The token||' + token!), deviceId = token});
     changeLanguage();
+     bool checkRegis=Get.isRegistered<LoginControllerV2>(tag: "noty");
+        if(checkRegis==true){
+           ever(isSignIn, handleAuthStateChanged);
+           sharedPreferences = await SharedPreferences.getInstance();
+          print("hochi,");
+           if (sharedPreferences!.containsKey("loginFace")) {
+      isSignIn.value = true;
+    } else if (sharedPreferences!.containsKey("loginAccount")) {
+      isSignIn.value = true;
+    } else {
+      googleSign = GoogleSignIn();
+      isSignIn.value = firebaseAuth.currentUser != null;
+      firebaseAuth.authStateChanges().listen((event) {
+        isSignIn.value = event != null;
+      });
+    }
+         
+        }
     flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
@@ -51,11 +73,6 @@ class LoginControllerV2 extends GetxController {
       badge: true,
       sound: true,
     );
-    final FirebaseMessaging _fcm = FirebaseMessaging.instance;
-    _fcm.getToken().then((token) => {
-          print('[HomeController]-L57-The token ID||' + token!),
-          deviceId = token
-        });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       // ignore: avoid_print
@@ -84,6 +101,8 @@ class LoginControllerV2 extends GetxController {
   void onReady() async {
     super.onReady();
     changeLanguage();
+      // var check=Get.isRegistered<LoginControllerV2>(tag: "noty");
+    // if(check==true) print("Hoan HÔ");
     sharedPreferences = await SharedPreferences.getInstance();
     print("[Login V2]-L28-ONREADY :");
     ever(isSignIn, handleAuthStateChanged);
@@ -98,6 +117,7 @@ class LoginControllerV2 extends GetxController {
         isSignIn.value = event != null;
       });
     }
+   
   }
 
   static const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -124,13 +144,22 @@ class LoginControllerV2 extends GetxController {
         String? password = sharedPreferences!.getString("password");
         loginUsernamePassword(userName!, password!);
       } else {
+        print("ahaha"+deviceId);
         sp = await LoginService().apiCheckLogin(
             await firebaseAuth.currentUser!.getIdToken(), deviceId);
       }
 
       if (sp != null) {
         //  Get.put(HomeController(),permanent: true);
+        bool checkRegis=Get.isRegistered<LoginControllerV2>(tag: "noty");
+        if(checkRegis==true){
+          print("hochi,");
+          // Get.push()
+           Get.offAllNamed(KPlayingQuest);
+        }else{
         Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
+             print("hochi3,");
+        }
       } else {
         await googleSign.disconnect();
         await firebaseAuth.signOut();

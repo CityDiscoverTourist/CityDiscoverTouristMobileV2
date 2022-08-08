@@ -4,6 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 
@@ -42,7 +43,7 @@ class _FeaturedQuestState extends State<FeaturedQuest> {
                   setState(() {
                     position = index;
                   });
-                  controller.questList[index];
+                  // controller.questList[index];
                 },
                 itemBuilder: (BuildContext context, int index) {
                   // if(fb.data.isEmpty) return LoadingFeaturedCard();
@@ -243,7 +244,11 @@ class _FeaturedItemList extends StatelessWidget {
               ),
             ],
           ),
-          onTap: () => Get.to(() => QuestDetails(data: q, tag: q.title))),
+          onTap: (){
+          //  Get.to(() => QuestDetails(data: q, tag: q.title))
+          Get.find<HomeController>().idQuestCurrent.value=q.id;
+           Get.toNamed(KQuestDetailPage);}
+           ),
     );
   }
 }
