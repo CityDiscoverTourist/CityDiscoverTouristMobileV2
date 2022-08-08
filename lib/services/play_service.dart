@@ -306,11 +306,11 @@ class PlayService {
       returnData = data["data"];
       // print(data);
       print(returnData);
-      CustomFullScreenDialog.cancelDialog();
+      // CustomFullScreenDialog.cancelDialog();
       return returnData;
     }
     print("Error");
-    CustomFullScreenDialog.cancelDialog();
+    // CustomFullScreenDialog.cancelDialog();
     return null;
   }
 

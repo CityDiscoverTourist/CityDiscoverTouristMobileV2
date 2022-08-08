@@ -15,7 +15,7 @@ import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/services/login_service.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:travel_hour/services/reward_service.dart';
-
+// import 'package:showcaseview/showcaseview.dart';
 import '../models/city.dart';
 import '../models/quest.dart';
 import '../models/quest_type.dart';
@@ -38,11 +38,13 @@ class HomeController extends GetxController {
   var language = Get.find<LoginControllerV2>().language;
   var jwtToken = "".obs;
 
+  var idQuestCurrent = 0.obs;
   var dropdownValue;
   // late GoogleSignIn googleSign;
   // var isSignIn = false.obs;
   // FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   String deviceId = ""; //*
+   
 
   @override
   void onInit() async {
@@ -51,44 +53,6 @@ class HomeController extends GetxController {
     await startData();
     dropdownValue = cityList[1];
 
-    // flutterLocalNotificationsPlugin
-    //     .resolvePlatformSpecificImplementation<
-    //         AndroidFlutterLocalNotificationsPlugin>()
-    //     ?.createNotificationChannel(channel);
-    // FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    //   alert: true,
-    //   badge: true,
-    //   sound: true,
-    // );
-    final FirebaseMessaging _fcm = FirebaseMessaging.instance;
-    _fcm.getToken().then((token) => {
-          print('[HomeController]-L57-The token ID||' + token!),
-          deviceId = token
-        });
-
-    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    //   // ignore: avoid_print
-    //   // Get.put(LoginControllerV2(),tag: "noty");
-    //   RemoteNotification? notification = message.notification;
-    //   AndroidNotification? android = message.notification?.android;
-    //   if (notification != null && android != null) {
-    //     flutterLocalNotificationsPlugin.show(
-    //         notification.hashCode,
-    //         notification.title,
-    //         notification.body,
-    //         NotificationDetails(
-    //           android: AndroidNotificationDetails(
-    //             channel.id,
-    //             channel.name,
-    //             channelDescription: channel.description,
-    //             color: Colors.blue,
-    //             playSound: true,
-    //             icon: '@mipmap/ic_launcher',
-    //           ),
-    //         ));
-    //   }
-    // });
-    // isStartTest(true);
   }
 
   @override

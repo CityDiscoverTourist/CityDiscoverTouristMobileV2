@@ -1,13 +1,17 @@
+import 'package:travel_hour/bindings/questdetail_binding.dart';
 import 'package:travel_hour/pages/completed_questV2.dart';
 import 'package:travel_hour/pages/history.dart';
+import 'package:travel_hour/pages/quest_detailV2.dart';
 import 'package:travel_hour/pages/quest_play.dart';
 import 'package:travel_hour/pages/sign_inV2.dart';
 import 'package:travel_hour/pages/profile.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/pages/test/map.dart';
+import 'package:travel_hour/widgets/payment_widgetV2.dart';
 
 import '../bindings/home_binding.dart';
 import '../bindings/login_binding.dart';
+import '../bindings/purchased_binding.dart';
 import '../pages/home.dart';
 import '../pages/momo_payment.dart';
 import '../pages/sign_in.dart';
@@ -22,7 +26,7 @@ class AppPages {
     return [
       GetPage(
           name: KWelcomeScreen, page: () => HomePage(),
-          //  binding: HomeBinding()
+           binding: HomeBinding()
            ),
       GetPage(
           name: KLoginScreen,
@@ -37,7 +41,7 @@ class AppPages {
       GetPage(
           name: KSplashScreen,
           page: () => SplashStart(),
-          // binding: HomeBinding()
+          binding: LoginBinding()
           ),
       GetPage(
           name: KHistoryScreen,
@@ -59,11 +63,18 @@ class AppPages {
           page: () => CompletedPageV2(),
           // binding: HomeBinding()
           ),
+          // GetPage(
+          // name: KCompletedPage,
+          // page: () => MomoPay(),
+          // // binding: HomeBinding()
+          // ),
                GetPage(
-          name: '/TEST',
-          page: () => AnswerPageV3(),
-          // binding: HomeBinding()
+          name: KPlayingQuest,
+          page: () => QuestsPlayPage(),
+          binding: PurchasedBinding()
           ),
+          GetPage(name: KQuestDetailPage, page: ()=>QuestDetailsPageV2(),binding: QuestDetailBinding()),
+          //  GetPage(name: KPaymentMoMo, page: ()=>PaymentWidgetV2(),binding: PaymentBinding())
     ];
   }
 }

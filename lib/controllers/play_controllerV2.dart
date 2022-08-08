@@ -11,6 +11,7 @@ import 'package:travel_hour/pages/completed_questV2.dart';
 import 'package:travel_hour/pages/description_questitem.dart';
 import 'package:travel_hour/pages/rulepage.dart';
 import 'package:travel_hour/services/play_service.dart';
+import 'package:travel_hour/services/quest_service.dart';
 
 import '../models/customer_task.dart';
 import '../models/quest.dart';
@@ -59,12 +60,15 @@ class PlayControllerV2 extends GetxController {
   //Test List
   var qItem = List<QuestItem>.empty().obs;
   var index = 0.obs;
-  var numQuest;
+  var numQuest=0.obs;
+  var totalQuestItem=0.obs;
   late String endPoint;
   var checkErr = "".obs;
 
   var ruleIndex = 1.obs;
   var displayTime = "".obs;
+
+
   increaseIndexRule() {
     print(ruleIndex);
     ruleIndex++;
@@ -135,6 +139,7 @@ class PlayControllerV2 extends GetxController {
 
 //Add Customer to Quest
   onInitPlayQuest() async {
+
     checkErr.value = await PlayService.createCustomerQuest(
         Get.find<LoginControllerV2>().sp.id, pQuest);
 
@@ -170,11 +175,14 @@ class PlayControllerV2 extends GetxController {
       }
       //Xác nhận đã StartQuest
       else {
+        // totalQuestItem.value=(await QuestService.fetchTotalQuestItemByIdQuest(pQuest.questId))!;
+        // print(totalQuestItem);
         Get.to(RulePage());
         customerQuestID.value = int.parse(checkErr.value);
         cusTask = await PlayService.confirmTheFirstStart(
             pQuest.questId, customerQuestID.value);
         if (cusTask != null) {
+          numQuest++;
           print('Ok');
           questItemCurrent =
               await PlayService.fetchQuestItem(cusTask.questItemId);
@@ -203,6 +211,7 @@ class PlayControllerV2 extends GetxController {
           questItemCurrent.id.toString());
       // cusTask = await PlayService().checkAnswer(
       //     customerQuestID.value, currentAns.value, questItemCurrent.id);
+      
       cusTask = await PlayService().checkAnswerV2(
           customerQuestID.value.toString(),
           questItemCurrent.id.toString(),

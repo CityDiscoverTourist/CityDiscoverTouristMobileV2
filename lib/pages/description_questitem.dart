@@ -93,6 +93,7 @@ class _DescriptionAnsState extends State<DescriptionAns> {
             ),
           ),
           SafeArea(child: TextButton(child: Text('Next'),onPressed: (){
+            Get.find<PlayControllerV2>().numQuest++;
             Get.to(StoryDescription());
           },))
         ],

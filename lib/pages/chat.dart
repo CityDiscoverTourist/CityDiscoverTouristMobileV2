@@ -76,7 +76,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                       child: CircleAvatar(
                         radius: 15,
-                        backgroundImage: AssetImage('asset/img/'),
+                        // backgroundImage: AssetImage('asset/img/'),
+                        backgroundColor: Colors.amber,
                       ),
                     ),
                   ],
@@ -142,7 +143,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     Text(
                       // message.time,
-                      'acc',
+                      '12:12',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.black45,

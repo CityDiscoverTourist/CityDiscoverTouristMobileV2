@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:travel_hour/controllers/history_controller.dart';
@@ -11,40 +10,35 @@ import '../services/app_service.dart';
 import '../utils/toast.dart';
 import 'login_controller_V2.dart';
 
-class CommentController extends GetxController {
+class CommentControllerv4 extends GetxController {
   var dataComment = List<Comment>.empty().obs;
   //Lưu vị trí của comment cuối của danh sách limit
-  var lastVisible = false.obs;
+  var lastVisible = 0.obs;
   //Màn hình loading
   var isLoading = false.obs;
-  var isMoreLoading = true.obs;
   //
-  var indexPage = 1.obs;
+  var indexPage = 0.obs;
   //
   var idQuest = 0.obs;
-
+  var isMoreLoading = false.obs;
   //Kiểm tra có data hay không
   var hasData = false.obs;
   //Biến Comment và rating
-  var indexCount = 1.obs;
-
   var rating = 1.obs;
   var comment = "".obs;
-  var isCommented = 0.obs;
-  late Comment myComment;
+
   @override
   void onInit() async {
     super.onInit();
+      isLoading(true);
+
     await getCommentData();
-    // var check = Get.isRegistered<CommentController>(tag: "noty");
-    // if (check == true) print("Hoan HÔ");
+    isLoading(false);
   }
 
   @override
   void onReady() async {
     super.onReady();
-    ever(indexCount,
-        (_) async => {print("change"),isMoreLoading(true), await getCommentData(), update()});
   }
 
   @override
@@ -52,60 +46,44 @@ class CommentController extends GetxController {
     super.onClose();
   }
 
-  void increaseIndex() {
- if(lastVisible.isFalse){
-    indexCount++;
- }
-    else{ Fluttertoast.showToast(
-        msg: "Hết dữ liệu",  // message
-        toastLength: Toast.LENGTH_SHORT, // length
-        gravity: ToastGravity.CENTER,    // location
-        timeInSecForIosWeb: 1              // duration
-    );}
-    print('increaseIndex'+indexCount.toString());
-
-  }
-
   void refeshData() {
-    lastVisible(false);
-    isMoreLoading.value = true;
-    indexPage.value=1;
+    lastVisible.value = 0;
+    isMoreLoading.value = false;
     getCommentData();
   }
 
   getCommentData() async {
     try {
       // if(!isMoreLoading.value){
-      isLoading(true);
-      
-      print("FALSE NÈ" + lastVisible.value.toString());
+      // print("FALSE NÈ");
       indexPage++;
       print(indexPage.value);
       // }
       print("object HELLOOO");
-      await Future.delayed(Duration(seconds: 1));
-      var commentApi = await CommentService.fetchCommentsData(indexCount.value,
-          Get.find<LoginControllerV2>().jwtToken.value, idQuest.value);
-      if (commentApi!.length!=0) {
-        if (dataComment.length==0) {
+      //Dòng này bỏ vô test hiệu ứng đợi vì dg dùng data fake nên ko test dc
+      await Future.delayed(Duration(seconds: 2));
+      var commentApi = await CommentService.fetchCommentsData(
+          indexPage.value,
+          Get.find<LoginControllerV2>().jwtToken.value,
+          // Get.find<LoginControllerV2>().sp.id,
+          idQuest.value);
+      if (commentApi != null) {
+        // hasData(true);
+        print("COMMENT_CONTROLLER: Have data Comment");
+        if (dataComment.isEmpty || lastVisible.value == 0) {
           dataComment.assignAll(commentApi);
           print("If 1 nè");
         } //Nếu không thì nhét hết vô
         else {
-          print("ELSSU");
           dataComment = RxList.from(dataComment)..addAll(commentApi);
         } //nếu dataComment đã có sẵn dữ liệu thì nối lại
         //Gán vị trí cuối cùng
-
-        // lastVisible.value = dataComment.length - 1;
-        //  update();
-      } else {
-        lastVisible(true);
-      }
+        lastVisible.value = dataComment.length - 1;
+      } else {}
     } finally {
-      isLoading(false);
+      lastVisible.value=0;
+      // isLoading(false);
       // isMoreLoading(false);
-      update();
     }
   }
 

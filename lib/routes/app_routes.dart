@@ -8,3 +8,6 @@ const String KHistoryScreen = '/HISTORY_SCREEN';
 const String KMapScreen = '/MAP_SCREEN';
 const String KMomoPaymentScreen = "/MOMO_PAYMENT_SCREEN";
 const String KCompletedPage='/COMPLETED_PAGE';
+const String KPlayingQuest='/PLAYINGQUEST';
+const String KQuestDetailPage='/QUEST_DETAIL_SCREEN';
+const String KPaymentMoMo='/PAYMENT_MOMO';

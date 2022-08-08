@@ -547,6 +547,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.4.3+7"
+  flutter_intro:
+    dependency: "direct dev"
+    description:
+      name: flutter_intro
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.2"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:

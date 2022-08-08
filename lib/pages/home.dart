@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:travel_hour/controllers/history_controller.dart';
+import 'package:travel_hour/controllers/voucher_controller.dart';
 import 'package:travel_hour/pages/guide.dart';
 import 'package:travel_hour/pages/quest_play.dart';
 
@@ -17,11 +18,19 @@ import '../controllers/home_controller.dart';
 import 'explore.dart';
 import 'history.dart';
 
-class HomePage extends StatelessWidget {
-  HomeController myController = Get.put(HomeController());
+class HomePage extends GetView<HomeController> {
+  HomeController controller = Get.put(HomeController());
+    // Get.lazyPut(()=>RewardController());
+    final GlobalKey _one = GlobalKey();
+  final GlobalKey _two = GlobalKey();
+  final GlobalKey _three = GlobalKey();
+  final GlobalKey _four = GlobalKey();
+  final GlobalKey _five = GlobalKey();
+  
   @override
   Widget build(BuildContext context) {
-    var _currentIndex = myController.indexHomePage;
+  Get.lazyPut(()=>RewardController());
+    var _currentIndex = controller.indexHomePage;
     final views = [
       Explore(),
       VoucherPage(),
@@ -31,7 +40,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
         // appBar: AppBar(title: Text("Flutter Demo")),
         body: Obx(() {
-          if (myController.isLoading.value == true) {
+          if (controller.isLoading.value == true) {
             // print("true nef");
             return SplashStart(
               content: 'waiting loading data...'.tr,

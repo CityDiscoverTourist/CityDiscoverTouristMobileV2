@@ -51,8 +51,9 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
   void _scrollListener() {
     if (!myController.isLoading.value) {
       if (controller!.position.pixels == controller!.position.maxScrollExtent) {
-        // myController.isMoreLoading.value=true;
-        myController.getCommentData();
+        myController.increaseIndex();
+        // myController.getCommentData();
+        // myController.isMoreLoading(true);
       }
     }
   }
@@ -60,153 +61,165 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        title: Text('comments'.tr),
-        titleSpacing: 0,
-        actions: [
-          IconButton(
-              icon: Icon(
-                Feather.rotate_cw,
-                size: 22,
-              ),
-              //RefeshData Comments
-              onPressed: () => myController.refeshData())
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Obx(
-              () {
-                if (myController.isLoading.isTrue) {
-                  return SplashStart();
-                } else {
-                  if (myController.dataComment.length == 0) {
-                    print("Rỗng");
-                    return EmptyPage(
-                      icon: Icons.comment,
-                      message: "don't have any comments".tr,
-                      message1: ''.tr,
-                    );
-                  } else {
-                    return RefreshIndicator(
+        appBar: AppBar(
+          centerTitle: false,
+          title: Text('comments'.tr),
+          titleSpacing: 0,
+          actions: [
+            IconButton(
+                icon: Icon(
+                  Feather.rotate_cw,
+                  size: 22,
+                ),
+                //RefeshData Comments
+                onPressed: () => myController.refeshData())
+          ],
+        ),
+        body: Obx(
+          () => myController.isLoading.isTrue
+              ? SplashStart()
+              : Column(
+                  children: [
+                    Expanded(
                         child:
-                            //  myController.lastVisible.value == 0
-                            // ? LoadingCard(height: 100)
-                            // :
-                            ListView.separated(
-                          padding: EdgeInsets.all(15),
-                          controller: controller,
-                          physics: AlwaysScrollableScrollPhysics(),
-                          itemCount: myController.dataComment.length + 1,
-                          separatorBuilder: (BuildContext context, int index) =>
-                              SizedBox(
-                            height: 10,
-                          ),
-                          itemBuilder: (_, int index) {
-                            if (index < myController.dataComment.length) {
-                              return reviewList(
-                                  myController.dataComment[index], false);
-                            }
-
-                            return Opacity(
-                              opacity: myController.isLoading.value ? 1.0 : 0.0,
-                              child: myController.lastVisible.value == 0
-                                  ? LoadingCard(height: 100)
-                                  : Center(
-                                      child: SizedBox(
-                                          width: 60.0,
-                                          height: 60.0,
-                                          child:
-                                              new CupertinoActivityIndicator()),
-                                    ),
-                            );
-                          },
-                        ),
-                        onRefresh: () async {
-                          myController.refeshData();
-                        });
-                  }
-                }
-              },
-            ),
-          ),
-          Divider(
-            height: 1,
-            color: Colors.black26,
-          ),
-          SafeArea(
-            child: Obx(() {
-              if (myController.isCommented.value == 1) {
-                if (myController.myComment.feedBack != null)
-                  textCtrl.text = myController.myComment.feedBack.toString();
-                else
-                  textCtrl.text = "";
-                return reviewList(myController.myComment, true);
-              } else if (myController.isCommented.value == 2) {
-                return Container(
-                  // height: 80,
-                  padding:
-                      EdgeInsets.only(top: 8, bottom: 10, right: 20, left: 20),
-                  width: double.infinity,
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      RatingBar.builder(
-                        initialRating: myController.myComment.rating.toDouble(),
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        // allowHalfRating: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          myController.rating.value = rating.toInt();
-                          print("Comments_V2:" +
-                              myController.rating.value.toString());
-                        },
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(25)),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                              errorStyle: TextStyle(fontSize: 0),
-                              contentPadding:
-                                  EdgeInsets.only(left: 15, top: 10, right: 5),
-                              border: InputBorder.none,
-                              hintText: 'Write a comment',
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  Icons.send,
-                                  color: Colors.grey[700],
-                                  size: 20,
+                            //  Obx(
+                            //   () {
+                            // if (myController.isLoading.isTrue) {
+                            //   return SplashStart();
+                            // } else {
+                            //   if (myController.dataComment.length == 0) {
+                            //     print("Rỗng");
+                            //     return EmptyPage(
+                            //       icon: Icons.comment,
+                            //       message: "don't have any comments".tr,
+                            //       message1: ''.tr,
+                            //     );
+                            //   } else {
+                            // return
+                            Obx(() => 
+                            RefreshIndicator(
+                                child:
+                                    //  myController.lastVisible.value == 0
+                                    // ? LoadingCard(height: 100)
+                                    // :
+                                    ListView.separated(
+                                  padding: EdgeInsets.all(15),
+                                  controller: controller,
+                                  physics: AlwaysScrollableScrollPhysics(),
+                                  itemCount:
+                                      myController.dataComment.length + 1,
+                                  separatorBuilder:
+                                      (BuildContext context, int index) =>
+                                          SizedBox(
+                                    height: 10,
+                                  ),
+                                  itemBuilder: (_, int index) {
+                                    if (index <
+                                        myController.dataComment.length - 1) {
+                                      return reviewList(
+                                          myController.dataComment[index],
+                                          false);
+                                    }
+                                    print('quá');
+                                    return Opacity(
+                                      opacity: myController.isLoading.value
+                                          ? 1.0
+                                          : 0.0,
+                                      child: myController.lastVisible.isTrue
+                                          ? LoadingCard(height: 100)
+                                          : Center(
+                                              child: SizedBox(
+                                                  width: 60.0,
+                                                  height: 60.0,
+                                                  child:
+                                                      CupertinoActivityIndicator()),
+                                            ),
+                                    );
+                                  },
                                 ),
-                                onPressed: () {
-                                  myController.handleSubmit(
-                                      textCtrl.text, context, myController.myComment.id);
-                                  textCtrl.clear();
-                                },
-                              )),
-                          controller: textCtrl,
+                                onRefresh: () async {
+                                  myController.refeshData();
+                                }))
+                        // }
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              } else {
-                return SizedBox.shrink();
-              }
-            }),
-          )
-        ],
-      ),
-    );
+
+                    // ),
+                    // ),
+                    Divider(
+                      height: 1,
+                      color: Colors.black26,
+                    ),
+                    // SafeArea(
+                    //   child: Obx(() {
+                    //     if (myController.isCommented.value == 1) {
+                    //       if (myController.myComment.feedBack != null)
+                    //         textCtrl.text = myController.myComment.feedBack.toString();
+                    //       else
+                    //         textCtrl.text = "";
+                    //       return reviewList(myController.myComment, true);
+                    //     } else if (myController.isCommented.value == 2) {
+                    //       return Container(
+                    //         // height: 80,
+                    //         padding:
+                    //             EdgeInsets.only(top: 8, bottom: 10, right: 20, left: 20),
+                    //         width: double.infinity,
+                    //         color: Colors.white,
+                    //         child: Column(
+                    //           children: [
+                    //             RatingBar.builder(
+                    //               initialRating: myController.myComment.rating.toDouble(),
+                    //               minRating: 1,
+                    //               direction: Axis.horizontal,
+                    //               // allowHalfRating: true,
+                    //               itemCount: 5,
+                    //               itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                    //               itemBuilder: (context, _) => Icon(
+                    //                 Icons.star,
+                    //                 color: Colors.amber,
+                    //               ),
+                    //               onRatingUpdate: (rating) {
+                    //                 myController.rating.value = rating.toInt();
+                    //                 print("Comments_V2:" +
+                    //                     myController.rating.value.toString());
+                    //               },
+                    //             ),
+                    //             Container(
+                    //               decoration: BoxDecoration(
+                    //                   color: Colors.grey[200],
+                    //                   borderRadius: BorderRadius.circular(25)),
+                    //               child: TextFormField(
+                    //                 decoration: InputDecoration(
+                    //                     errorStyle: TextStyle(fontSize: 0),
+                    //                     contentPadding:
+                    //                         EdgeInsets.only(left: 15, top: 10, right: 5),
+                    //                     border: InputBorder.none,
+                    //                     hintText: 'Write a comment',
+                    //                     suffixIcon: IconButton(
+                    //                       icon: Icon(
+                    //                         Icons.send,
+                    //                         color: Colors.grey[700],
+                    //                         size: 20,
+                    //                       ),
+                    //                       onPressed: () {
+                    //                         myController.handleSubmit(
+                    //                             textCtrl.text, context, myController.myComment.id);
+                    //                         textCtrl.clear();
+                    //                       },
+                    //                     )),
+                    //                 controller: textCtrl,
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       );
+                    //     } else {
+                    //       return SizedBox.shrink();
+                    //     }
+                    //   }),
+                    // )
+                  ],
+                ),
+        ));
   }
 
   Widget reviewList(Comment d, bool isCommented) {
@@ -283,7 +296,7 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
           ),
           subtitle: d.feedBack != null
               ? BigText(text: d.feedBack.toString())
-              : BigText(text: "Non feedback"),
+              : BigText(text: ""),
           onLongPress: () {
             // openPopupDialog(d);
           },
