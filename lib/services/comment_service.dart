@@ -68,7 +68,7 @@ class CommentService {
   }
 
   static Future<bool> pushComment(
-      String comment, int? questID, int rating,String customerId) async {
+      String comment, int rating,String customerQuestId) async {
     Map body = {
       "feedBack": comment,
       "rating": rating,
@@ -76,7 +76,7 @@ class CommentService {
     print(body);
     var response = await http.post(
         Uri.parse(
-            "https://citytourist.azurewebsites.net/api/v1/customer-quests/update-comment?questId=${questID}&customerId=${customerId}"),
+            "https://citytourist.azurewebsites.net/api/v1/customer-quests/feed-back/${customerQuestId}"),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",

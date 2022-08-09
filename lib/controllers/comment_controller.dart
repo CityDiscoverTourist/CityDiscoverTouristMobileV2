@@ -121,11 +121,16 @@ class CommentController extends GetxController {
             openToast(context, 'no internet');
           } else {
             print("Handld Sm");
+            if(commentStr.isEmpty){
+              print("N/A");
+              // comment.value='N/A';
+            }else{
             comment.value = commentStr;
+            }
 
-            //PushComment
-            // await CommentService.pushComment(
-            //     comment.value, customerQuestID, rating.value);
+            // PushComment
+            await CommentService.pushComment(
+                comment.value, rating.value,customerQuestID.toString());
             // refeshData();
           }
         });
