@@ -13,6 +13,9 @@ import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 
+import '../controllers/chat_controller.dart';
+import 'chat.dart';
+
 class AnswerPage extends StatelessWidget {
   AnswerPage({Key? key}) : super(key: key);
   //   @override
@@ -54,7 +57,29 @@ class AnswerPage extends StatelessWidget {
                   )
                 ],
               ),
-              actions: [IconButton(onPressed: () {}, icon: Icon(Icons.menu))],
+              actions: [
+                controller.isDisableTextField.isFalse
+                    ? IconButton(
+                        onPressed: () {
+                          controller.showSuggestion();
+                          showAlertDialog(
+                              context, controller.sugggestion.value);
+                        },
+                        icon: Icon(Icons.notifications))
+                    : SizedBox.shrink(),
+                SizedBox(
+                  width: 10,
+                ),
+                IconButton(
+                    onPressed: () {
+                      Get.put(ChatController());
+                      Get.to(ChatScreen());
+                    },
+                    icon: Icon(
+                      Icons.support_agent,
+                      color: Colors.white,
+                    )),
+              ],
             ),
             bottomNavigationBar: BottomAppBar(
                 child: SizedBox(
@@ -113,18 +138,18 @@ class AnswerPage extends StatelessWidget {
                 SingleChildScrollView(
                   child: Column(
                     children: [
-                      controller.isDisableTextField.isFalse
-                          ? Align(
-                              alignment: Alignment.topRight,
-                              child: InkWell(
-                                  onTap: () {
-                                    controller.showSuggestion();
-                                    showAlertDialog(
-                                        context, controller.sugggestion.value);
-                                  },
-                                  child: Icon(Icons.notifications)),
-                            )
-                          : SizedBox.shrink(),
+                      // controller.isDisableTextField.isFalse
+                      //     ? Align(
+                      //         alignment: Alignment.topRight,
+                      //         child: InkWell(
+                      //             onTap: () {
+                      //               controller.showSuggestion();
+                      //               showAlertDialog(
+                      //                   context, controller.sugggestion.value);
+                      //             },
+                      //             child: Icon(Icons.notifications)),
+                      //       )
+                      //     : SizedBox.shrink(),
                       SizedBox(
                         height: 10,
                       ),
@@ -170,30 +195,42 @@ class AnswerPage extends StatelessWidget {
                                       ? Padding(
                                           padding: const EdgeInsets.all(20.0),
                                           child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
-                                                  BigText(text: "Right Ans",fontWeight: FontWeight.bold,),
-                                                  Icon(Icons.check,size: 16,color: Colors.green,)
+                                                  BigText(
+                                                    text: "Right Ans",
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  Icon(
+                                                    Icons.check,
+                                                    size: 16,
+                                                    color: Colors.green,
+                                                  )
                                                 ],
                                               ),
-                                              SizedBox(height: 20,),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
                                               Container(
                                                 margin: EdgeInsets.all(10),
-                                               decoration: BoxDecoration(
-                                                color: Colors.grey[300],
-                                                borderRadius: BorderRadius.circular(15)
-                                               ),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey[300],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15)),
                                                 height: 50,
                                                 width: double.infinity,
                                                 child: Center(
                                                   child: Padding(
                                                     padding: EdgeInsets.all(20),
                                                     child: BigText(
-                                                        text:
-                                                            controller.currentAns.value),
+                                                        text: controller
+                                                            .currentAns.value),
                                                   ),
                                                 ),
                                               ),

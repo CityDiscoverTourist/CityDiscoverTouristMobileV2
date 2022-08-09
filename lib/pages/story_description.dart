@@ -42,6 +42,7 @@ class _StoryDescriptionState extends State<StoryDescription> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.redAccent,
         title: Text('story page'.tr),
         automaticallyImplyLeading: false
       ),

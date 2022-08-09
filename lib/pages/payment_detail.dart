@@ -10,6 +10,7 @@ import 'package:travel_hour/models/quest.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:travel_hour/widgets/dash.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 
 class PaymentDetail extends StatelessWidget {
@@ -18,12 +19,14 @@ class PaymentDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      int endTime = purchasedQuest!.createdDate.millisecondsSinceEpoch + 172800000;
+    int endTime =
+        purchasedQuest!.createdDate.millisecondsSinceEpoch + 172800000;
     return WillPopScope(
       onWillPop: () async {
         return true;
       },
       child: Scaffold(
+          backgroundColor: Colors.grey.shade200,
           appBar: AppBar(
             title: BigText(
               text: 'Payment Detail',
@@ -41,10 +44,11 @@ class PaymentDetail extends StatelessWidget {
                     child: Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.all(10),
+                      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                       decoration: BoxDecoration(
-                          color: Colors.deepOrange.shade100,
-                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(40.0))),
                       child: Column(
                         children: [
                           BigText(
@@ -77,93 +81,100 @@ class PaymentDetail extends StatelessWidget {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                   CountdownTimer(
-                        endTime: endTime,
-                        widgetBuilder: (_, CurrentRemainingTime? time) {
-                          if (time == null) {
-                            return Text('Time up');
-                          }
-                          // return BigText(
-                          //   text:
-                          //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
-                          //   color: Colors.green,
-                          // );
-                          else {
-                            return BigText(
-                              text: (() {
-                                if (time.days != null) {
-                                  return "${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
-                                } else if (time.min == null) {
-                                  return "${time.sec}s";
-                                } else if (time.hours == null) {
-                                  return "${time.min}m:${time.sec}s";
-                                } else if (time.days == null) {
-                                  return "${time.hours}h:${time.min}m:${time.sec}s";
-                                } else {
-                                  return "Time up";
-                                }
-                              })(),
-                              color: Colors.green,
-                            );
-                          }
-                        },
-                      ),
+                                  CountdownTimer(
+                                    endTime: endTime,
+                                    widgetBuilder:
+                                        (_, CurrentRemainingTime? time) {
+                                      if (time == null) {
+                                        return Text('Time up');
+                                      }
+                                      // return BigText(
+                                      //   text:
+                                      //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
+                                      //   color: Colors.green,
+                                      // );
+                                      else {
+                                        return BigText(
+                                          text: (() {
+                                            if (time.days != null) {
+                                              return "${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
+                                            } else if (time.min == null) {
+                                              return "${time.sec}s";
+                                            } else if (time.hours == null) {
+                                              return "${time.min}m:${time.sec}s";
+                                            } else if (time.days == null) {
+                                              return "${time.hours}h:${time.min}m:${time.sec}s";
+                                            } else {
+                                              return "Time up";
+                                            }
+                                          })(),
+                                          color: Colors.green,
+                                        );
+                                      }
+                                    },
+                                  ),
                                 ],
                               ),
-                             
                             ],
                           ),
-                               Container(
-                                child: QrImage(
-                                  data: purchasedQuest!.id.toString(),
-                                  version: QrVersions.auto,
-                                  size: 200.0,
-                                ),
-                              ),
-                          DottedLine(
-                            dashGradient: [
-                              Colors.red,
-                              Colors.red.withAlpha(0),
-                            ],
-                            dashGapGradient: [
-                              Colors.blue,
-                              Colors.blue.withAlpha(0),
-                            ],
-                            dashLength: 10,
-                            dashGapLength: 10,
-                            lineThickness: 15,
+                          Container(
+                            child: QrImage(
+                              data: purchasedQuest!.id.toString(),
+                              version: QrVersions.auto,
+                              size: 200.0,
+                            ),
                           ),
                         ],
                       ),
                     ),
                     Container(
                         width: double.infinity,
-                        margin: EdgeInsets.only(left: 10, right: 10, top: 5),
-                        decoration: BoxDecoration(
-                          color: Colors.deepOrange.shade100,
-                          // borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                        margin: EdgeInsets.only(
+                          left: 10,
+                          right: 10,
                         ),
+                        decoration: BoxDecoration(
+                            color: Colors.red.shade100,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(40),
+                                 topRight: Radius.circular(40),
+                                )),
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                SmallText(
-                                  text: 'Amount:',
-                                  size: 20,
-                                ),
-                                BigText(
-                                  text: purchasedQuest!.totalAmount.toString(),
-                                  size: 32,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ],
+                          Container(
+                            margin: EdgeInsets.only(left: 25,right: 25),
+                            width: double.infinity,
+                            height: 5,
+                            // color: Colors.red,
+                            child: Dash(length: 300,dashThickness: 2,)
+                          ),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SmallText(
+                                    text: 'Amount:',
+                                    size: 20,
+                                  ),
+                                  BigText(
+                                    text: purchasedQuest!.totalAmount
+                                            .truncate()
+                                            .toString() +
+                                        " VNĐ",
+                                    size: 32,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ],
+                              ),
                             ),
                             SizedBox(
                               height: 15,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SmallText(
                                   text: 'Quantity:',
@@ -176,10 +187,9 @@ class PaymentDetail extends StatelessWidget {
                                   color: Colors.blue,
                                 ),
                               ],
-                            ),
+                            ),)
                           ],
-                        )
-                        )
+                        ))
                   ],
                 )),
                 SizedBox(

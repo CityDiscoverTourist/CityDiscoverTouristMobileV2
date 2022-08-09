@@ -43,6 +43,7 @@ class _DescriptionAnsState extends State<DescriptionAns> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.redAccent,
           title: Text('description page'.tr), automaticallyImplyLeading: false),
       // backgroundColor: Colors.redAccent,
       body: Column(
