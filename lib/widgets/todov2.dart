@@ -5,7 +5,7 @@ import 'package:travel_hour/controllers/comment_controllerV4.dart';
 import 'package:travel_hour/models/place.dart';
 import 'package:travel_hour/models/quest.dart';
 import 'package:travel_hour/models/quest_detail.dart';
-import 'package:travel_hour/pages/comments.dart';
+// import 'package:travel_hour/pages/comments.dart';
 import 'package:travel_hour/pages/comments_V4.dart';
 import 'package:travel_hour/pages/comments_v2.dart';
 import 'package:travel_hour/pages/guide.dart';

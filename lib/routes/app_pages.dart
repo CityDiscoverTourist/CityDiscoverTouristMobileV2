@@ -6,7 +6,7 @@ import 'package:travel_hour/pages/quest_play.dart';
 import 'package:travel_hour/pages/sign_inV2.dart';
 import 'package:travel_hour/pages/profile.dart';
 import 'package:travel_hour/pages/splashV2.dart';
-import 'package:travel_hour/pages/test/map.dart';
+// import 'package:travel_hour/pages/test/map.dart';
 import 'package:travel_hour/widgets/payment_widgetV2.dart';
 
 import '../bindings/home_binding.dart';
@@ -15,7 +15,7 @@ import '../bindings/purchased_binding.dart';
 import '../pages/home.dart';
 import '../pages/momo_payment.dart';
 import '../pages/sign_in.dart';
-import '../pages/splash.dart';
+// import '../pages/splash.dart';
 import '../pages/test.dart';
 import 'app_routes.dart';
 import 'package:get/get.dart';
@@ -48,11 +48,11 @@ class AppPages {
           page: () => HistoryPage(),
           // binding: HomeBinding()
           ),
-      GetPage(
-          name: KMapScreen,
-          page: () => ManyMarkersPage(),
-          // binding: HomeBinding()
-          ),
+      // GetPage(
+      //     name: KMapScreen,
+      //     page: () => ManyMarkersPage(),
+      //     // binding: HomeBinding()
+      //     ),
       GetPage(
           name: KMomoPaymentScreen,
           page: () => MomoPaymentPage(),
