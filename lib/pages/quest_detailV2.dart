@@ -45,8 +45,8 @@ class QuestDetailsPageV2 extends GetView<QuestDetailController> {
                               left: 15,
                               child: SafeArea(
                                 child: CircleAvatar(
-                                  backgroundColor: Colors.redAccent
-                                      .withOpacity(0.9),
+                                  backgroundColor:
+                                      Colors.redAccent.withOpacity(0.9),
                                   child: IconButton(
                                     icon: Icon(
                                       LineIcons.arrowLeft,
@@ -207,6 +207,7 @@ class QuestDetailsPageV2 extends GetView<QuestDetailController> {
                                       //     fontSize: 16,
                                       //   ),
                                       // ),
+
                                       ExpandedWidget(
                                           text: controller
                                               .questDetail.description)),
@@ -255,7 +256,8 @@ class QuestDetailsPageV2 extends GetView<QuestDetailController> {
                                         padding:
                                             const EdgeInsets.only(left: 20),
                                         child: BigText(
-                                          text: controller.questDetail.price.truncate()
+                                          text: controller.questDetail.price
+                                                  .truncate()
                                                   .toString() +
                                               " VNĐ",
                                           color: Colors.black,

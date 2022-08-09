@@ -233,7 +233,7 @@ class Translation extends Translations {
           "show suggestion": "show suggestion",
           "you will be move to next task": "You will be move to next task",
           "do you want to skip this question?":
-              "Do you want to skip this question(you will be minus some point)?",
+              "Do you want to skip this question(you will be minus 100 point)?",
           "skip success": "Skip success",
           "try again next time": "Try again next time",
           "error when skip questtion": "Error when skip questtion",
@@ -254,7 +254,10 @@ class Translation extends Translations {
           "payment success": "Payment Success",
           "please find and take a photo of something similar to the one below (please let the app use your camera)":
               "Please find and take a photo of something similar to the one below (Please let the app use your camera)",
-          "question no": "Question No"
+          "question no": "Question No",
+          "info purchase": "Info purchase",
+          "do you want to show suggestion(you will be minus 75 point)":
+              "Bạn có muốn hiện gợi ý không (Bạn sẽ bị trừ 75 điểm)",
         },
         'vn': {
           "welcome message":
@@ -490,7 +493,7 @@ class Translation extends Translations {
           "you will be move to next task":
               "Bạn sẽ được chuyển qua câu hỏi tiếp theo",
           "do you want to skip this question?":
-              "Bạn muốn bỏ qua câu hỏi này(bạn sẽ bị trừ một số điểm)?",
+              "Bạn muốn bỏ qua câu hỏi này(bạn sẽ bị trừ 100 điểm)?",
           "skip success": "Bỏ qua thành công",
           "try again next time": "Hãy cố gắng hơn vào lần sau nhé",
           "error when skip questtion": "Lỗi khi bỏ qua câu hỏi",
@@ -512,7 +515,10 @@ class Translation extends Translations {
           "payment success": "Thanh toán thành công",
           "please find and take a photo of something similar to the one below (please let the app use your camera)":
               "Bạn hãy tìm và chụp ảnh của giống với ảnh bên dưới nhé(Vui lòng cho app sử dụng camera của bạn)",
-          "question no": "Câu hỏi số"
+          "question no": "Câu hỏi số",
+          "info purchase": "Thông tin mua hàng",
+          "do you want to show suggestion(you will be minus 75 point)":
+              "Bạn có muốn hiện gợi ý không (Bạn sẽ bị trừ 75 điểm)",
         }
       };
 }

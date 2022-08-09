@@ -60,14 +60,13 @@ class PlayControllerV2 extends GetxController {
   //Test List
   var qItem = List<QuestItem>.empty().obs;
   var index = 0.obs;
-  var numQuest=0.obs;
-  var totalQuestItem=0.obs;
+  var numQuest = 0.obs;
+  var totalQuestItem = 0.obs;
   late String endPoint;
   var checkErr = "".obs;
 
   var ruleIndex = 1.obs;
   var displayTime = "".obs;
-
 
   increaseIndexRule() {
     print(ruleIndex);
@@ -139,7 +138,6 @@ class PlayControllerV2 extends GetxController {
 
 //Add Customer to Quest
   onInitPlayQuest() async {
-
     checkErr.value = await PlayService.createCustomerQuest(
         Get.find<LoginControllerV2>().sp.id, pQuest);
 
@@ -211,7 +209,7 @@ class PlayControllerV2 extends GetxController {
           questItemCurrent.id.toString());
       // cusTask = await PlayService().checkAnswer(
       //     customerQuestID.value, currentAns.value, questItemCurrent.id);
-      
+
       cusTask = await PlayService().checkAnswerV2(
           customerQuestID.value.toString(),
           questItemCurrent.id.toString(),
@@ -269,20 +267,18 @@ class PlayControllerV2 extends GetxController {
             .moveNextQuestItem(customerQuestID.value, pQuest.questId);
         int nextQuestItemId = int.parse(checkErr.value);
         print('CheckErr ' + checkErr.toString());
-
+        cusTask.questItemId = nextQuestItemId;
         if (nextQuestItemId != -1) {
-            Get.to(DescriptionAns());
-          //gọi hàm getQuestItem
+          Get.to(DescriptionAns());
           isLoading(true);
           isDisableTextField(false);
           questItemCurrent = await PlayService.fetchQuestItem(nextQuestItemId);
-
           description = questItemCurrent.description;
 
           sugggestion.value =
               await PlayService().getSuggestion(questItemCurrent.id);
           isLoading(false);
-        
+
           update();
           //Check câu cuối
         } else {
@@ -313,19 +309,18 @@ class PlayControllerV2 extends GetxController {
                   color: Colors.red,
                 ));
           } else {
-             Get.snackbar('wrong answer'.tr, 'you will be move to next task'.tr,
-              duration: Duration(seconds: 2),
-              backgroundColor: Colors.black,
-              colorText: Colors.white,
-              snackPosition: SnackPosition.TOP,
-              icon: Icon(
-                Icons.golf_course,
-                color: Colors.red,
-              ));
-        
+            Get.snackbar('wrong answer'.tr, 'you will be move to next task'.tr,
+                duration: Duration(seconds: 2),
+                backgroundColor: Colors.black,
+                colorText: Colors.white,
+                snackPosition: SnackPosition.TOP,
+                icon: Icon(
+                  Icons.golf_course,
+                  color: Colors.red,
+                ));
+
             isDisableTextField(true);
             currentAns.value = questItemCurrent.rightAnswer!;
-
             update();
           }
         } else if (cusTask.countWrongAnswer == 3 &&

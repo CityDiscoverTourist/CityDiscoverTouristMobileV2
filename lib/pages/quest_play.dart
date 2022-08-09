@@ -72,7 +72,7 @@ class QuestsPlayPage extends GetView<HistoryController> {
                     Get.to(ChatScreen());
                   },
                   child: Icon(
-                    Icons.help,
+                    Icons.support_agent,
                     size: 30,
                   ),
                 ))
@@ -231,7 +231,7 @@ class QuestsPlayPage extends GetView<HistoryController> {
                           leading: Icon(
                             CupertinoIcons.play_arrow_solid,
                           ),
-                          title: Text("Play now"),
+                          title: Text("play now".tr),
                         ),
                       ),
                     ),
@@ -246,7 +246,7 @@ class QuestsPlayPage extends GetView<HistoryController> {
                           leading: Icon(
                             CupertinoIcons.info_circle_fill,
                           ),
-                          title: Text("Info purchase"),
+                          title: Text("info purchase".tr),
                         ),
                       ),
                     ),

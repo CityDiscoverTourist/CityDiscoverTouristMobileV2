@@ -63,7 +63,7 @@ class AnswerPage extends StatelessWidget {
                     ? IconButton(
                         onPressed: () {
                           controller.showSuggestion();
-                          showAlertDialog(
+                          showAlertDialogCofirmShowSuggestion(
                               context, controller.sugggestion.value);
                         },
                         icon: Icon(Icons.notifications))
@@ -435,6 +435,45 @@ showAlertDialog(BuildContext context, String sugg) {
   // Create AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("suggestion".tr),
+    content: BigText(
+      text: sugg,
+    ),
+    actions: [okButton],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+showAlertDialogCofirmShowSuggestion(BuildContext context, String sugg) {
+  // Create button
+  Widget okButton = FlatButton(
+    child: Text("ok".tr),
+    onPressed: () {
+      // Get.to(RulePage(
+      //   pQuest: pQuest,
+      // ));
+      //  vao trang huong dan
+      Navigator.of(context).pop();
+      showAlertDialog(context, sugg);
+    },
+  );
+  Widget cancelButton = FlatButton(
+    child: Text("Hủy"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // Create AlertDialog
+  AlertDialog alert = AlertDialog(
+    title:
+        Text("do you want to show suggestion(you will be minus 75 point)".tr),
     content: BigText(
       text: sugg,
     ),
