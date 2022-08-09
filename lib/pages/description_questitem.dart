@@ -87,6 +87,7 @@ class _DescriptionAnsState extends State<DescriptionAns> {
               child: TextButton(
             child: Text('next'.tr),
             onPressed: () {
+              controller.numQuest++;
               Get.to(StoryDescription());
             },
           ))
