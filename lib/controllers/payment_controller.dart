@@ -36,6 +36,7 @@ class PaymentController extends FullLifeCycleController
   @override
   void onInit() {
     // TODO: implement onInit
+    isLoading(true);
     _momoPay = MomoVn();
     _momoPay.on(MomoVn.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _momoPay.on(MomoVn.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -51,7 +52,7 @@ class PaymentController extends FullLifeCycleController
   @override
   void onReady() {
     // ever(checkTotal, (_)=>{
-
+isLoading(false);
     //   });
     // ever(idRewardChoose, (_)=>{
     //   print("change reward"+percentReward.toString()),

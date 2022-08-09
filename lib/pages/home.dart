@@ -30,7 +30,7 @@ class HomePage extends GetView<HomeController> {
   
   @override
   Widget build(BuildContext context) {
-  Get.lazyPut(()=>RewardController());
+ 
     var _currentIndex = controller.indexHomePage;
     final views = [
       Explore(),
@@ -46,8 +46,12 @@ class HomePage extends GetView<HomeController> {
             return SplashStart(
               content: 'waiting loading data...'.tr,
             );
-          } else
+          } else{
+            if(_currentIndex.value==1){
+            Get.put(RewardController());
+            }
             return views[_currentIndex.value];
+          }
         }),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.redAccent,

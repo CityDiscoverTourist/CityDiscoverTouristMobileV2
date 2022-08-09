@@ -7,16 +7,18 @@ class QuestDetailController extends GetxController {
    late QuestDetail questDetail;
   var isLoading = false.obs;
   // var quantity=1.obs;
+  var idQuestCurrent=0.obs;
   var total;
   @override
   void onInit() async {
     // isLoading(true);
     // print('InitController'+questDetail.id.toString());
-
+     isLoading(true);
+idQuestCurrent.value=int.parse(Get.parameters['idQuest'].toString());
     try {
-      isLoading(true);
+     
       var questDetailData =
-          await QuestService.fetchQuestDetailById(Get.find<HomeController>().idQuestCurrent.value);
+          await QuestService.fetchQuestDetailById(idQuestCurrent.value);
       if (questDetailData != null) {
         questDetail = questDetailData;
       }

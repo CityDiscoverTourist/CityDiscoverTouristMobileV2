@@ -45,8 +45,7 @@ class QuestDetailsPageV2 extends GetView<QuestDetailController> {
                               left: 15,
                               child: SafeArea(
                                 child: CircleAvatar(
-                                  backgroundColor: Theme.of(context)
-                                      .primaryColor
+                                  backgroundColor: Colors.redAccent
                                       .withOpacity(0.9),
                                   child: IconButton(
                                     icon: Icon(
@@ -60,36 +59,36 @@ class QuestDetailsPageV2 extends GetView<QuestDetailController> {
                                 ),
                               ),
                             ),
-                            Positioned(
-                              top: 50,
-                              right: 0,
-                              child: Row(
-                                children: <Widget>[
-                                  // LoveCount(
-                                  //     collectionName: collectionName,
-                                  //     timestamp: widget.data!.timestamp),
-                                  Icon(
-                                    Feather.share_2,
-                                    color: Colors.white,
-                                    size: 25,
-                                  ),
-                                  SizedBox(
-                                    width: 30,
-                                  ),
-                                  Icon(
-                                    Feather.heart,
-                                    color: Colors.white,
-                                    size: 25,
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  // CommentCount(
-                                  //     collectionName: collectionName,
-                                  //     timestamp: widget.data!.timestamp)
-                                ],
-                              ),
-                            )
+                            // Positioned(
+                            //   top: 50,
+                            //   right: 0,
+                            //   child: Row(
+                            //     children: <Widget>[
+                            //       // LoveCount(
+                            //       //     collectionName: collectionName,
+                            //       //     timestamp: widget.data!.timestamp),
+                            //       Icon(
+                            //         Feather.share_2,
+                            //         color: Colors.white,
+                            //         size: 25,
+                            //       ),
+                            //       SizedBox(
+                            //         width: 30,
+                            //       ),
+                            //       Icon(
+                            //         Feather.heart,
+                            //         color: Colors.white,
+                            //         size: 25,
+                            //       ),
+                            //       SizedBox(
+                            //         width: 20,
+                            //       ),
+                            //       // CommentCount(
+                            //       //     collectionName: collectionName,
+                            //       //     timestamp: widget.data!.timestamp)
+                            //     ],
+                            //   ),
+                            // )
                           ],
                         ),
                         Padding(
@@ -256,7 +255,7 @@ class QuestDetailsPageV2 extends GetView<QuestDetailController> {
                                         padding:
                                             const EdgeInsets.only(left: 20),
                                         child: BigText(
-                                          text: controller.questDetail.price
+                                          text: controller.questDetail.price.truncate()
                                                   .toString() +
                                               " VNĐ",
                                           color: Colors.black,
@@ -270,10 +269,12 @@ class QuestDetailsPageV2 extends GetView<QuestDetailController> {
                                         onPressed: () {
                                           // Get.to(StartPage());
                                           // bottomSheet(context);
-                                          Get.lazyPut(
-                                            () => PaymentController(),
-                                          );
-                                          Get.to(PaymentWidgetV2());
+                                          print("ahaha");
+                                          // Get.lazyPut(
+                                          //   () => PaymentController(),
+                                          // );
+                                          // Get.to(PaymentWidgetV2());
+                                          Get.toNamed(KPaymentMoMo);
                                         },
                                         child: BigText(
                                           text: 'buy'.tr,
@@ -378,12 +379,12 @@ class QuestDetailsPageV2 extends GetView<QuestDetailController> {
               controller.questDetail.imagePath != null
                   ? CustomCacheImage(imageUrl: controller.questDetail.imagePath)
                   : Image.asset('assets/images/logo.png'),
-              controller.questDetail.imagePath != null
-                  ? CustomCacheImage(imageUrl: controller.questDetail.imagePath)
-                  : Image.asset('assets/images/logo.png'),
-              controller.questDetail.imagePath != null
-                  ? CustomCacheImage(imageUrl: controller.questDetail.imagePath)
-                  : Image.asset('assets/images/logo.png'),
+              // controller.questDetail.imagePath != null
+              //     ? CustomCacheImage(imageUrl: controller.questDetail.imagePath)
+              //     : Image.asset('assets/images/logo.png'),
+              // controller.questDetail.imagePath != null
+              //     ? CustomCacheImage(imageUrl: controller.questDetail.imagePath)
+              //     : Image.asset('assets/images/logo.png'),
             ]),
       ),
     );

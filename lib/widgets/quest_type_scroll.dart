@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -112,9 +111,10 @@ class _ItemList extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20))),
           ),
         ]),
-        onTap: () => Get.to(MoreQuestPage(
-            title: q.name,
-            color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                .withOpacity(1.0))));
+        onTap: (){});
+        //  Get.to(MoreQuestPage(
+        //     title: q.name,
+        //     color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+        //         .withOpacity(1.0))));
   }
 }

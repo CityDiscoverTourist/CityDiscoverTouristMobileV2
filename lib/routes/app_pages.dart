@@ -1,6 +1,10 @@
+import 'dart:ui';
+
+import 'package:travel_hour/bindings/quest_binding.dart';
 import 'package:travel_hour/bindings/questdetail_binding.dart';
 import 'package:travel_hour/pages/completed_questV2.dart';
 import 'package:travel_hour/pages/history.dart';
+import 'package:travel_hour/pages/more_quests.dart';
 import 'package:travel_hour/pages/quest_detailV2.dart';
 import 'package:travel_hour/pages/quest_play.dart';
 import 'package:travel_hour/pages/sign_inV2.dart';
@@ -8,9 +12,11 @@ import 'package:travel_hour/pages/profile.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 // import 'package:travel_hour/pages/test/map.dart';
 import 'package:travel_hour/widgets/payment_widgetV2.dart';
+import 'dart:math' as math;
 
 import '../bindings/home_binding.dart';
 import '../bindings/login_binding.dart';
+import '../bindings/payment_binding.dart';
 import '../bindings/purchased_binding.dart';
 import '../pages/home.dart';
 import '../pages/momo_payment.dart';
@@ -50,11 +56,11 @@ class AppPages {
       //     page: () => ManyMarkersPage(),
       //     // binding: HomeBinding()
       //     ),
-      GetPage(
-        name: KMomoPaymentScreen,
-        page: () => MomoPaymentPage(),
-        // binding: HomeBinding()
-      ),
+      // GetPage(
+      //   name: KMomoPaymentScreen,
+      //   page: () => MomoPaymentPage(),
+      //   // binding: HomeBinding()
+      // ),
       GetPage(
         name: KCompletedPage,
         page: () => CompletedPageV2(),
@@ -73,7 +79,12 @@ class AppPages {
           name: KQuestDetailPage,
           page: () => QuestDetailsPageV2(),
           binding: QuestDetailBinding()),
-      //  GetPage(name: KPaymentMoMo, page: ()=>PaymentWidgetV2(),binding: PaymentBinding())
+           GetPage(
+          name: KQuestByType,
+          page: () => MoreQuestPage( color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                .withOpacity(1.0)),
+          binding: QuestBinding()),
+       GetPage(name: KPaymentMoMo, page: ()=>PaymentWidgetV2(),binding: PaymentBinding())
     ];
   }
 }

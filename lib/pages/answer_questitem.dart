@@ -49,28 +49,82 @@ class AnswerPage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                   SmallText(
-                    text: 'Câu hỏi số '+'${controller.numQuest}',
+                    text: 'Câu hỏi số ' + '${controller.numQuest}',
                     color: Colors.white,
                   )
                 ],
               ),
               actions: [IconButton(onPressed: () {}, icon: Icon(Icons.menu))],
             ),
+            bottomNavigationBar: BottomAppBar(
+                child: SizedBox(
+              height: 70,
+              child: controller.isDisableTextField.isTrue
+                  ? ElevatedButton(
+                      onPressed: () {
+                        // if (controller.isDisableTextField.isTrue)
+                        myController.text = controller.currentAns.value;
+                        // else {
+                        //   controller.currentAns.value =
+                        //           myController.text;
+                        //   myController.text = "";
+                        // }
+                        controller.clickAnswer();
+                      },
+                      child: Text('submit'.tr, style: TextStyle(fontSize: 16)),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.redAccent,
+                        onPrimary: Colors.white,
+                        padding: const EdgeInsets.only(
+                            left: 40.0, top: 16.0, bottom: 16.0, right: 40.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12), // <-- Radius
+                        ),
+                      ),
+                    )
+                  : ElevatedButton(
+                      onPressed: () {
+                        // if (controller.isDisableTextField.isFalse)
+                        // myController.text =
+                        //     controller.currentAns.value;
+                        // else {
+                        controller.currentAns.value = myController.text;
+                        if (controller.currentAns.isEmpty) {
+                          controller.currentAns.value = "N/A";
+                        }
+                        myController.text = "";
+                        // }
+                        controller.clickAnswer();
+                      },
+                      child: Text('submit'.tr, style: TextStyle(fontSize: 16)),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.redAccent,
+                        onPrimary: Colors.white,
+                        padding: const EdgeInsets.only(
+                            left: 40.0, top: 16.0, bottom: 16.0, right: 40.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12), // <-- Radius
+                        ),
+                      ),
+                    ),
+            )),
             body: Stack(
               children: [
                 SingleChildScrollView(
                   child: Column(
                     children: [
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: InkWell(
-                            onTap: () {
-                              controller.showSuggestion();
-                              showAlertDialog(
-                                  context, controller.sugggestion.value);
-                            },
-                            child: Icon(Icons.notifications)),
-                      ),
+                      controller.isDisableTextField.isFalse
+                          ? Align(
+                              alignment: Alignment.topRight,
+                              child: InkWell(
+                                  onTap: () {
+                                    controller.showSuggestion();
+                                    showAlertDialog(
+                                        context, controller.sugggestion.value);
+                                  },
+                                  child: Icon(Icons.notifications)),
+                            )
+                          : SizedBox.shrink(),
                       SizedBox(
                         height: 10,
                       ),
@@ -112,13 +166,51 @@ class AnswerPage extends StatelessWidget {
                               SizedBox(height: 30),
                               Column(
                                 children: [
+                                  controller.isDisableTextField.isTrue
+                                      ? Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  BigText(text: "Right Ans",fontWeight: FontWeight.bold,),
+                                                  Icon(Icons.check,size: 16,color: Colors.green,)
+                                                ],
+                                              ),
+                                              SizedBox(height: 20,),
+                                              Container(
+                                                margin: EdgeInsets.all(10),
+                                               decoration: BoxDecoration(
+                                                color: Colors.grey[300],
+                                                borderRadius: BorderRadius.circular(15)
+                                               ),
+                                                height: 50,
+                                                width: double.infinity,
+                                                child: Center(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(20),
+                                                    child: BigText(
+                                                        text:
+                                                            controller.currentAns.value),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : SizedBox.shrink(),
                                   Padding(
                                     padding: const EdgeInsets.all(20.0),
                                     child:
+
                                         // Obx(() =>
                                         controller.questItemCurrent
-                                                    .questItemTypeId ==
-                                                2
+                                                        .questItemTypeId ==
+                                                    2 ||
+                                                controller
+                                                    .isDisableTextField.isTrue
                                             ? Container()
                                             : TextField(
                                                 controller: myController,
@@ -193,79 +285,82 @@ class AnswerPage extends StatelessWidget {
                                   //           ),
                                   //         ),
                                   //       )
-                               SizedBox(height: 30,)
+                                  SizedBox(
+                                    height: 30,
+                                  )
                                 ],
-
-                                
                               ),
-                              SizedBox(height: 30,)
+                              SizedBox(
+                                height: 30,
+                              )
                             ]),
                       )
                     ],
                   ),
                 ),
-                Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Obx(() => controller.isDisableTextField.isTrue
-                        ? ElevatedButton(
-                            onPressed: () {
-                              // if (controller.isDisableTextField.isTrue)
-                              myController.text = controller.currentAns.value;
-                              // else {
-                              //   controller.currentAns.value =
-                              //           myController.text;
-                              //   myController.text = "";
-                              // }
-                              controller.clickAnswer();
-                            },
-                            child: Text('submit'.tr,
-                                style: TextStyle(fontSize: 16)),
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.redAccent,
-                              onPrimary: Colors.white,
-                              padding: const EdgeInsets.only(
-                                  left: 40.0,
-                                  top: 16.0,
-                                  bottom: 16.0,
-                                  right: 40.0),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(12), // <-- Radius
-                              ),
-                            ),
-                          )
-                        : ElevatedButton(
-                            onPressed: () {
-                              // if (controller.isDisableTextField.isFalse)
-                              // myController.text =
-                              //     controller.currentAns.value;
-                              // else {
-                              controller.currentAns.value = myController.text;
-                              if(controller.currentAns.isEmpty){
-                                controller.currentAns.value="N/A";
-                              }
-                              myController.text = "";
-                              // }
-                              controller.clickAnswer();
-                            },
-                            child: Text('submit'.tr,
-                                style: TextStyle(fontSize: 16)),
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.redAccent,
-                              onPrimary: Colors.white,
-                              padding: const EdgeInsets.only(
-                                  left: 40.0,
-                                  top: 16.0,
-                                  bottom: 16.0,
-                                  right: 40.0),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(12), // <-- Radius
-                              ),
-                            ),
-                          )))
+                // Positioned(
+                //     bottom: 0,
+                //     left: 0,
+                //     right: 0,
+                //     child: Obx(() =>
+                //      controller.isDisableTextField.isTrue
+                //         ? ElevatedButton(
+                //             onPressed: () {
+                //               // if (controller.isDisableTextField.isTrue)
+                //               myController.text = controller.currentAns.value;
+                //               // else {
+                //               //   controller.currentAns.value =
+                //               //           myController.text;
+                //               //   myController.text = "";
+                //               // }
+                //               controller.clickAnswer();
+                //             },
+                //             child: Text('submit'.tr,
+                //                 style: TextStyle(fontSize: 16)),
+                //             style: ElevatedButton.styleFrom(
+                //               primary: Colors.redAccent,
+                //               onPrimary: Colors.white,
+                //               padding: const EdgeInsets.only(
+                //                   left: 40.0,
+                //                   top: 16.0,
+                //                   bottom: 16.0,
+                //                   right: 40.0),
+                //               shape: RoundedRectangleBorder(
+                //                 borderRadius:
+                //                     BorderRadius.circular(12), // <-- Radius
+                //               ),
+                //             ),
+                //           )
+                //         : ElevatedButton(
+                //             onPressed: () {
+                //               // if (controller.isDisableTextField.isFalse)
+                //               // myController.text =
+                //               //     controller.currentAns.value;
+                //               // else {
+                //               controller.currentAns.value = myController.text;
+                //               if(controller.currentAns.isEmpty){
+                //                 controller.currentAns.value="N/A";
+                //               }
+                //               myController.text = "";
+                //               // }
+                //               controller.clickAnswer();
+                //             },
+                //             child: Text('submit'.tr,
+                //                 style: TextStyle(fontSize: 16)),
+                //             style: ElevatedButton.styleFrom(
+                //               primary: Colors.redAccent,
+                //               onPrimary: Colors.white,
+                //               padding: const EdgeInsets.only(
+                //                   left: 40.0,
+                //                   top: 16.0,
+                //                   bottom: 16.0,
+                //                   right: 40.0),
+                //               shape: RoundedRectangleBorder(
+                //                 borderRadius:
+                //                     BorderRadius.circular(12), // <-- Radius
+                //               ),
+                //             ),
+                //           )))
               ],
             )));
   }
@@ -309,35 +404,35 @@ showAlertDialog(BuildContext context, String sugg) {
 }
 
 showAlertDialogCofirmSkip(BuildContext context) async {
-    // Create button
-    Widget okButton = FlatButton(
-      child: Text("ok".tr),
-      onPressed: () async {
-        Get.find<PlayControllerV2>().isSkip.value = true;
-        Get.find<PlayControllerV2>().clickAnswer();
-        Navigator.of(context).pop();
-      },
-    );
-    Widget cancelButton = FlatButton(
-      child: Text("cancel".tr),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
+  // Create button
+  Widget okButton = FlatButton(
+    child: Text("ok".tr),
+    onPressed: () async {
+      Get.find<PlayControllerV2>().isSkip.value = true;
+      Get.find<PlayControllerV2>().clickAnswer();
+      Navigator.of(context).pop();
+    },
+  );
+  Widget cancelButton = FlatButton(
+    child: Text("cancel".tr),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
 
-    // Create AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("cofirm".tr),
-      content: Text("do you want to skip this question?".tr),
-      actions: [okButton, cancelButton],
-    );
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
+  // Create AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("cofirm".tr),
+    content: Text("do you want to skip this question?".tr),
+    actions: [okButton, cancelButton],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
 
 void showCustomDialog(BuildContext context, String? sugg) {
   showGeneralDialog(

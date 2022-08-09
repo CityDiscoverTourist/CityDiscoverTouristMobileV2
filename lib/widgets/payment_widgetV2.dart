@@ -40,373 +40,406 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
   var voucherCtl = TextEditingController();
   // GlobalKey<FormState> _key = new GlobalKey();
 
-  String partnerCode = 'MOMOXOUE20220626';
-  String partnerName = 'City Discover Tourist';
-  String accessKey = 'YQz23DOoGwYM0FC4';
+  // String partnerCode = 'MOMOXOUE20220626';
+  // String partnerName = 'City Discover Tourist';
+  // String accessKey = 'YQz23DOoGwYM0FC4';
   QuestDetail questDetail = Get.find<QuestDetailController>().questDetail;
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () =>
-           controller.isLoading.isTrue
-              ? Center(child: CircularProgressIndicator(color: Colors.redAccent),)
-              :
-          WillPopScope(
-        onWillPop: () async {
-          controller.paymentStatus.value = "";
-          Navigator.pop(context);
-          return false;
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text('Payment Page'),
-            backgroundColor: Colors.redAccent,
-            // actions: [
-            //   IconButton(
-            //       onPressed: () {
-            //         controller.paymentStatus.value = "";
-            //         Navigator.pop(context);
-            //       },
-            //       icon: Icon(Icons.arrow_back))
-            // ],
-          ),
-          body: Stack(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+      () => controller.isLoading.isTrue
+          ? Center(
+              child: CircularProgressIndicator(color: Colors.redAccent),
+            )
+          : WillPopScope(
+              onWillPop: () async {
+                controller.paymentStatus.value = "";
+                Navigator.pop(context);
+                return true;
+              },
+              child: Scaffold(
+                appBar: AppBar(
+                  title: Text('Payment Page'),
+                  backgroundColor: Colors.redAccent,
+                  // actions: [
+                  //   IconButton(
+                  //       onPressed: () {
+                  //         controller.paymentStatus.value = "";
+                  //         Navigator.pop(context);
+                  //       },
+                  //       icon: Icon(Icons.arrow_back))
+                  // ],
+                ),
+                body: Stack(
                   children: [
-                    Container(
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height * 0.3,
-                      margin: EdgeInsets.only(top: 10, right: 10, left: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(.5), blurRadius: 15)
-                          ]),
-                      child: ListTile(
-                        title: BigText(
-                          text: questDetail.title,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        subtitle: Column(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            SizedBox(
-                                height: 200,
-                                width: double.infinity,
-                                child: CustomCacheImage(
-                                    imageUrl: questDetail.imagePath))
-                          ],
-                        ),
-                      ),
-                    ),
-                    // Row(children: [
-                    //Container Giam gia
-                    RewardWidget(),
-                    //Container code san
-                    Container(
-                      // height: MediaQuery.of(context).size.height*0.4,
-                      margin: EdgeInsets.only(left: 10, right: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(.5), blurRadius: 15)
-                          ]),
-                      child: Wrap(
+                    SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          // Row(
-                          //   children: [
-                          //     SizedBox(
-                          //       width: 10,
-                          //     ),
-                          //     Padding(
-                          //       padding:
-                          //           const EdgeInsets.symmetric(horizontal: 10),
-                          //       child: CustomText(
-                          //         text: "item".tr,
-                          //         color: Colors.grey,
-                          //       ),
-                          //     ),
-                          //     Flexible(
-                          //         child: CustomText(
-                          //       text: Get.find<QuestDetailController>()
-                          //           .questDetail
-                          //           .title,
-                          //       color: Colors.black,
-                          //       weight: FontWeight.bold,
-                          //     )),
-                          //     SizedBox(
-                          //       width: 5,
-                          //     )
-                          //   ],
-                          // ),
-                          // controller.paymentStatus.isEmpty
-                          //     ? Divider()
-                          //     : Container(),
-                          controller.paymentStatus.isEmpty
-                              ? ListTile(
-                                  title: CustomText(
-                                    text: "quantity".tr,
+                          Container(
+                            width: double.infinity,
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            margin:
+                                EdgeInsets.only(top: 10, right: 10, left: 10),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey.withOpacity(.5),
+                                      blurRadius: 15)
+                                ]),
+                            child: ListTile(
+                              title: BigText(
+                                text: questDetail.title,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              subtitle: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 20,
                                   ),
-                                  trailing: Container(
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: RaisedButton(
-                                            onPressed: () async {
-                                              controller.decreaseQuantity();
-                                            },
-                                            child: Icon(
-                                              Icons.remove,
-                                              color: Colors.white,
-                                              size: 13,
-                                            ),
-                                          ),
+                                  SizedBox(
+                                      height: 200,
+                                      width: double.infinity,
+                                      child: 
+                                        questDetail.imagePath!=null
+                                            ? CustomCacheImage(imageUrl:  questDetail.imagePath)
+                  : Image.asset('assets/images/logo.png'),
+                                          )
+                                ],
+                              ),
+                            ),
+                          ),
+                          // Row(children: [
+                          //Container Giam gia
+                          Get.find<RewardController>().rewardsList.length != 0
+                              ? RewardWidget()
+                              : SizedBox.shrink(),
+                          //Container code san
+                          Container(
+                            // height: MediaQuery.of(context).size.height*0.4,
+                            margin: EdgeInsets.only(left: 10, right: 10),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey.withOpacity(.5),
+                                      blurRadius: 15)
+                                ]),
+                            child: Wrap(
+                              children: [
+                                // Row(
+                                //   children: [
+                                //     SizedBox(
+                                //       width: 10,
+                                //     ),
+                                //     Padding(
+                                //       padding:
+                                //           const EdgeInsets.symmetric(horizontal: 10),
+                                //       child: CustomText(
+                                //         text: "item".tr,
+                                //         color: Colors.grey,
+                                //       ),
+                                //     ),
+                                //     Flexible(
+                                //         child: CustomText(
+                                //       text: Get.find<QuestDetailController>()
+                                //           .questDetail
+                                //           .title,
+                                //       color: Colors.black,
+                                //       weight: FontWeight.bold,
+                                //     )),
+                                //     SizedBox(
+                                //       width: 5,
+                                //     )
+                                //   ],
+                                // ),
+                                // controller.paymentStatus.isEmpty
+                                //     ? Divider()
+                                //     : Container(),
+                                controller.paymentStatus.isEmpty
+                                    ? ListTile(
+                                        title: CustomText(
+                                          text: "quantity".tr,
                                         ),
-                                        Container(
-                                          margin:
-                                              EdgeInsets.symmetric(horizontal: 3),
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 3, vertical: 2),
+                                        trailing: Container(
+                                          height: 200,
+                                          width: 200,
                                           decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(3),
-                                              color: Colors.white),
-                                          child: Text(
-                                            controller.quantity2.toString(),
-                                            style: TextStyle(
-                                                color: Colors.black, fontSize: 16),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: RaisedButton(
+                                                  onPressed: () async {
+                                                    controller
+                                                        .decreaseQuantity();
+                                                  },
+                                                  child: Icon(
+                                                    Icons.remove,
+                                                    color: Colors.white,
+                                                    size: 13,
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 3),
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 3, vertical: 2),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            3),
+                                                    color: Colors.white),
+                                                child: Text(
+                                                  controller.quantity2
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16),
+                                                ),
+                                              ),
+                                              RaisedButton(
+                                                  onPressed: () async {
+                                                    controller
+                                                        .increaseQuantity();
+                                                  },
+                                                  child: Icon(
+                                                    Icons.add,
+                                                    color: Colors.white,
+                                                    size: 13,
+                                                  )),
+                                            ],
                                           ),
                                         ),
-                                        RaisedButton(
-                                            onPressed: () async {
-                                              controller.increaseQuantity();
-                                            },
-                                            child: Icon(
-                                              Icons.add,
-                                              color: Colors.white,
-                                              size: 13,
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              : Container(),
+                                      )
+                                    : Container(),
 
-                          controller.paymentStatus.isEmpty &
-                                  controller.idRewardChoose.isNotEmpty
-                              ? Divider()
-                              : Container(),
-                          controller.paymentStatus.isEmpty &
-                                  controller.idRewardChoose.isNotEmpty
-                              ?
-                              //  ListView.builder(
-                              //   scrollDirection: Axis.horizontal,
-                              //     itemCount:
-                              //         Get.find<HomeController>().rewardList.length -
-                              //             1,
-                              //     itemBuilder: (context, index) => PromotionItem(
-                              //         Get.find<HomeController>().rewardList[index]),
-                              //   )
-                              // Column(
-                              //     children: [
-                              //       BigText(
-                              //           text: controller.idRewardChoose
-                              //               .toString())
-                              //     ],
-                              //   )
-                              ListTile(
-                                  title: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      BigText(text: 'enter voucher here'.tr),
-                                      BigText(
-                                          text: controller.percentReward.value != 0
-                                              ? controller.percentReward.value
-                                                      .toString() +
-                                                  " %"
-                                              : "")
-                                    ],
-                                  ),
-                                  subtitle: SmallText(
-                                      text: controller.idRewardChoose.toString()),
-                                )
+                                controller.paymentStatus.isEmpty &
+                                        controller.idRewardChoose.isNotEmpty
+                                    ? Divider()
+                                    : Container(),
+                                controller.paymentStatus.isEmpty &
+                                        controller.idRewardChoose.isNotEmpty
+                                    ?
+                                    //  ListView.builder(
+                                    //   scrollDirection: Axis.horizontal,
+                                    //     itemCount:
+                                    //         Get.find<HomeController>().rewardList.length -
+                                    //             1,
+                                    //     itemBuilder: (context, index) => PromotionItem(
+                                    //         Get.find<HomeController>().rewardList[index]),
+                                    //   )
+                                    // Column(
+                                    //     children: [
+                                    //       BigText(
+                                    //           text: controller.idRewardChoose
+                                    //               .toString())
+                                    //     ],
+                                    //   )
+                                    ListTile(
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            BigText(
+                                                text: 'enter voucher here'.tr),
+                                            BigText(
+                                                text: controller.percentReward
+                                                            .value !=
+                                                        0
+                                                    ? controller
+                                                            .percentReward.value
+                                                            .toString() +
+                                                        " %"
+                                                    : "")
+                                          ],
+                                        ),
+                                        subtitle: SmallText(
+                                            text: controller.idRewardChoose
+                                                .toString()),
+                                      )
 
-                              // Form(
-                              //     key: _key,
-                              //     child: TextFormField(
-                              //       keyboardType: TextInputType.text,
-                              //       autofocus: false,
-                              //       decoration: InputDecoration(
-                              //         hintText: 'enter voucher here'.tr,
-                              //       ),
-                              //       controller: voucherCtl,
-                              //       onChanged: (value) =>
-                              //           controller.voucherCtl.value = value,
-                              //       validator: (value) {
-                              //         // String patttern =
-                              //         //     r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$';
-                              //         RegExp regExp = new RegExp(
-                              //             "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
-                              //         if (value!.isEmpty) {
-                              //           return null;
-                              //         } else if (!regExp.hasMatch(value)) {
-                              //           return "voucher is wrong format".tr;
-                              //         }
-                              //         return null;
-                              //       },
-                              //     ),
-                              //   )
-                              : Container(),
-                          Divider(),
+                                    // Form(
+                                    //     key: _key,
+                                    //     child: TextFormField(
+                                    //       keyboardType: TextInputType.text,
+                                    //       autofocus: false,
+                                    //       decoration: InputDecoration(
+                                    //         hintText: 'enter voucher here'.tr,
+                                    //       ),
+                                    //       controller: voucherCtl,
+                                    //       onChanged: (value) =>
+                                    //           controller.voucherCtl.value = value,
+                                    //       validator: (value) {
+                                    //         // String patttern =
+                                    //         //     r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$';
+                                    //         RegExp regExp = new RegExp(
+                                    //             "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
+                                    //         if (value!.isEmpty) {
+                                    //           return null;
+                                    //         } else if (!regExp.hasMatch(value)) {
+                                    //           return "voucher is wrong format".tr;
+                                    //         }
+                                    //         return null;
+                                    //       },
+                                    //     ),
+                                    //   )
+                                    : Container(),
+                                Divider(),
                                 ListTile(
-                            title: CustomText(
-                              text: "Tiền giảm",
-                            ),
-                            trailing: CustomText(
-                              text: controller.discountPrice.toString() + " VND",
-                              color: Colors.green,
-                            ),
-                          ),
-
-                          Divider(),
-                          ListTile(
-                            title: CustomText(
-                              text: "Tạm tính",
-                            ),
-                            trailing: CustomText(
-                              text: controller.total.toString() + " VND",
-                              color: Colors.green,
-                            ),
-                          ),
-
-                          Divider(),
-                          ListTile(
-                            title: CustomText(
-                              text: "total price".tr,
-                            ),
-                            trailing: CustomText(
-                              text: controller.finalTotal.toString() + " VND",
-                              color: Colors.green,
-                            ),
-                          ),
-
-                          Divider(),
-                          ListTile(
-                            title: CustomText(
-                              text: "payment status".tr,
-                              color: Colors.grey,
-                            ),
-                            trailing: CustomText(
-                              text: controller.paymentStatus.isEmpty
-                                  ? "not yet paid".tr
-                                  : controller.paymentStatus.value,
-                              color: Colors.green,
-                            ),
-                          ),
-                          // Divider(),
-                          controller.paymentStatus.isEmpty
-                              ? Container()
-                              : Divider(),
-                          controller.paymentStatus.isEmpty
-                              ? Container()
-                              : ListTile(
                                   title: CustomText(
-                                    text: "play code".tr + controller.playCode,
-                                    // color: Colors.grey,
+                                    text: "Tạm tính",
                                   ),
-                                  trailing: RaisedButton(
-                                    child: Text('copy'.tr),
-                                    onPressed: () {
-                                      Clipboard.setData(new ClipboardData(
-                                              text: controller.playCode))
-                                          .then((_) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text('copy'.tr)));
-                                      });
-                                    },
+                                  trailing: CustomText(
+                                    text:
+                                        controller.total.truncate().toString() +
+                                            " VND",
+                                    color: Colors.green,
                                   ),
                                 ),
-                          Divider(),
-                          ButtonTheme(
-                            child: new ButtonBar(
-                              alignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                // controller.paymentStatus.value!="Đã chuyển thanh toán"?
-                                // new RaisedButton(
-                                //   child: Text('cancel'.tr),
-                                //   onPressed: () {
-                                //     controller.paymentStatus.value = "";
-                                //     Navigator.pop(context);
-                                //   },
-                                // ):SizedBox.shrink(),
 
-                                // new RaisedButton(
-                                //   // child: const Text('Xác nhận thanh toán'),
-                                //   child: controller.paymentStatus.isEmpty
-                                //       ? Text('cofirm payment'.tr)
-                                //       : Text('cofirm'.tr),
-                                //   onPressed: controller.paymentStatus.value.isEmpty
-                                //       ? _sendToServer
-                                //       : () {
-                                //           Navigator.pop(context);
-                                //         },
-                                // ),
+                                Divider(),
+                                ListTile(
+                                  title: CustomText(
+                                    text: "Tiền giảm",
+                                  ),
+                                  trailing: CustomText(
+                                    text: controller.discountPrice
+                                            .truncate()
+                                            .toString() +
+                                        " VND",
+                                    color: Colors.green,
+                                  ),
+                                ),
+
+                                Divider(),
+
+                                ListTile(
+                                  title: CustomText(
+                                    text: "total price".tr,
+                                  ),
+                                  trailing: CustomText(
+                                    text: controller.finalTotal
+                                            .truncate()
+                                            .toString() +
+                                        " VND",
+                                    color: Colors.green,
+                                  ),
+                                ),
+
+                                Divider(),
+                                ListTile(
+                                  title: CustomText(
+                                    text: "payment status".tr,
+                                    color: Colors.grey,
+                                  ),
+                                  trailing: CustomText(
+                                    text: controller.paymentStatus.isEmpty
+                                        ? "not yet paid".tr
+                                        : controller.paymentStatus.value,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                // Divider(),
+                                controller.paymentStatus.isEmpty
+                                    ? Container()
+                                    : Divider(),
+                                controller.paymentStatus.isEmpty
+                                    ? Container()
+                                    : ListTile(
+                                        title: CustomText(
+                                          text: "play code".tr +
+                                              controller.playCode,
+                                          // color: Colors.grey,
+                                        ),
+                                        trailing: RaisedButton(
+                                          child: Text('copy'.tr),
+                                          onPressed: () {
+                                            Clipboard.setData(new ClipboardData(
+                                                    text: controller.playCode))
+                                                .then((_) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      content:
+                                                          Text('copy'.tr)));
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                Divider(),
+                                ButtonTheme(
+                                  child: new ButtonBar(
+                                    alignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      // controller.paymentStatus.value!="Đã chuyển thanh toán"?
+                                      // new RaisedButton(
+                                      //   child: Text('cancel'.tr),
+                                      //   onPressed: () {
+                                      //     controller.paymentStatus.value = "";
+                                      //     Navigator.pop(context);
+                                      //   },
+                                      // ):SizedBox.shrink(),
+
+                                      // new RaisedButton(
+                                      //   // child: const Text('Xác nhận thanh toán'),
+                                      //   child: controller.paymentStatus.isEmpty
+                                      //       ? Text('cofirm payment'.tr)
+                                      //       : Text('cofirm'.tr),
+                                      //   onPressed: controller.paymentStatus.value.isEmpty
+                                      //       ? _sendToServer
+                                      //       : () {
+                                      //           Navigator.pop(context);
+                                      //         },
+                                      // ),
 //Nút chơi ngay
-                                // controller.paymentStatus.isEmpty
-                                //     ? Container()
-                                //     : new RaisedButton(
-                                //         child: const Text('Chơi ngay'),
-                                //         onPressed: () => {
-                                //           Get.put(HistoryController()),
-                                //           Get.to(QuestsPlayPage())
-                                //         },
-                                //       ),
+                                      // controller.paymentStatus.isEmpty
+                                      //     ? Container()
+                                      //     : new RaisedButton(
+                                      //         child: const Text('Chơi ngay'),
+                                      //         onPressed: () => {
+                                      //           Get.put(HistoryController()),
+                                      //           Get.to(QuestsPlayPage())
+                                      //         },
+                                      //       ),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
+                          SizedBox(
+                            height: 40,
+                          )
                         ],
                       ),
                     ),
-                    SizedBox(height: 40,)
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: RaisedButton(
+                        color: Colors.redAccent,
+                        // child: const Text('Xác nhận thanh toán'),
+                        child: controller.paymentStatus.isEmpty
+                            ? BigText(text: 'cofirm payment'.tr)
+                            : BigText(text: 'cofirm'.tr),
+                        onPressed: controller.paymentStatus.value.isEmpty
+                            ? _sendToServer
+                            : () {
+                                Navigator.pop(context);
+                              },
+                      ),
+                    ),
                   ],
                 ),
               ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child:  RaisedButton(
-                    color: Colors.redAccent,
-                                    // child: const Text('Xác nhận thanh toán'),
-                                    child: controller.paymentStatus.isEmpty
-                                        ? BigText(text:'cofirm payment'.tr)
-                                        : BigText(text:'cofirm'.tr),
-                                    onPressed: controller.paymentStatus.value.isEmpty
-                                        ? _sendToServer
-                                        : () {
-                                            Navigator.pop(context);
-                                          },
-                                  ),
-                ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
@@ -475,7 +508,8 @@ class RewardWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 DiscountWidget(
-                    rewardModel: Get.find<RewardController>().rewardsList[index]),
+                    rewardModel:
+                        Get.find<RewardController>().rewardsList[index]),
               ],
             ),
           )),
@@ -511,13 +545,11 @@ class DiscountWidget extends GetView<PaymentController> {
                 if (controller.idRewardChoose.value == rewardModel.code) {
                   controller.idRewardChoose.value = "";
                   controller.percentReward.value = 0;
-                controller.checkTotal();
-
+                  controller.checkTotal();
                 } else {
                   controller.idRewardChoose.value = rewardModel.code;
                   controller.percentReward.value = rewardModel.percentDiscount;
-                controller.checkTotal();
-
+                  controller.checkTotal();
                 }
                 // Future.delayed(Duration(seconds: 2));
                 print(rewardModel.code);

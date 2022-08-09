@@ -14,7 +14,7 @@ class QuestDetail {
         required this.title,
         required this.description,
         required this.price,
-        required this.imagePath,
+         this.imagePath,
         required this.estimatedTime,
         required this.estimatedDistance,
         required this.availableTime,
@@ -33,7 +33,7 @@ class QuestDetail {
     String title;
     String description;
     double price;
-    String imagePath;
+    String? imagePath;
     String estimatedTime;
     String estimatedDistance;
     String availableTime;

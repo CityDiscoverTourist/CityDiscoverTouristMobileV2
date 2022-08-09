@@ -372,7 +372,7 @@ class Translation extends Translations {
           "home": "Trang chủ",
           "reward": "Quà",
           "history": "Lịch sử",
-          "waiting loading data...": "Đang tải dử liệu...",
+          "waiting loading data...": "Đang tải dữ liệu...",
           "waiting.....": "Đang tải.....",
           "my quest": "Quest của tôi",
           "minutes": "phút",

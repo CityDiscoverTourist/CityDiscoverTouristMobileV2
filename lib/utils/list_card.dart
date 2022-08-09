@@ -3,10 +3,14 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/models/place.dart';
 import 'package:travel_hour/models/quest.dart';
 import 'package:travel_hour/pages/quest_details.dart';
+import 'package:travel_hour/routes/app_routes.dart';
+import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
+import 'package:travel_hour/widgets/small_text.dart';
 
 class ListCard extends StatelessWidget {
   final Quest? d;
@@ -22,7 +26,12 @@ class ListCard extends StatelessWidget {
     var format = NumberFormat.simpleCurrency(locale: locale.toString());
     return InkWell(
       onTap: () {
-        Get.to(QuestDetails(data: d, tag: tag));
+        // Get.to(QuestDetails(data: d, tag: tag));
+        // Get.find<HomeController>().idQuestCurrent.value =
+        //                 d!.id;
+        //             Get.toNamed(KQuestDetailPage);
+        Get.toNamed(KQuestDetailPage,
+            parameters: {'idQuest': d!.id.toString()});
       },
       child: Stack(
         children: <Widget>[
@@ -64,16 +73,36 @@ class ListCard extends StatelessWidget {
                         Row(
                           children: [
                             Icon(
-                              Feather.star,
-                              size: 12,
-                              color: Colors.grey,
+                              Icons.star,
+                              size: 14,
+                              color: Colors.yellow,
+                            ),
+                            SizedBox(
+                              width: 3,
+                            ),
+                            Text(
+                              d!.averageStar.toString(),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.grey[700]),
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Icon(
+                              Icons.comment,
+                              size: 14,
+                              // color: Colors.yellow,
                             ),
                             SizedBox(
                               width: 3,
                             ),
                             Expanded(
                               child: Text(
-                                d!.averageStar.toString(),
+                                d!.totalFeedback.toString(),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -84,44 +113,64 @@ class ListCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 8, bottom: 20),
-                          height: 2,
-                          width: 120,
-                          decoration: BoxDecoration(
-                              color: Colors.blueAccent,
-                              borderRadius: BorderRadius.circular(20)),
-                        ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            // Icon(
-                            //   LineIcons.heart,
-                            //   size: 18,
-                            //   color: Colors.orangeAccent,
-                            // ),
-                            // Text(
-                            //   d!.status.toString(),
-                            //   // 'create day',
-                            //   style: TextStyle(
-                            //       fontSize: 13, color: Colors.grey[600]),
-                            // ),
-                            // SizedBox(
-                            //   width: 20,
-                            // ),
-                            // Icon(
-                            //   LineIcons.commentAlt,
-                            //   size: 18,
-                            //   color: Colors.grey[700],
-                            // ),
-                            // Text(
-                            //   d!.areaId.toString(),
-                            //   style: TextStyle(
-                            //       fontSize: 13, color: Colors.grey[600]),
-                            // ),
-                            Spacer(),
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              size: 14,
+                            ),
+                            // SmallText(text: d!.totalFeedback.toString())
+                            Expanded(
+                              child: Text(
+                                d!.address.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[700]),
+                              ),
+                            ),
                           ],
-                        ),
+                        )
+                        // Container(
+                        //   margin: EdgeInsets.only(top: 8, bottom: 20),
+                        //   height: 2,
+                        //   width: 120,
+                        //   decoration: BoxDecoration(
+                        //       color: Colors.blueAccent,
+                        //       borderRadius: BorderRadius.circular(20)),
+                        // ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: <Widget>[
+                        //     // Icon(
+                        //     //   LineIcons.heart,
+                        //     //   size: 18,
+                        //     //   color: Colors.orangeAccent,
+                        //     // ),
+                        //     // Text(
+                        //     //   d!.status.toString(),
+                        //     //   // 'create day',
+                        //     //   style: TextStyle(
+                        //     //       fontSize: 13, color: Colors.grey[600]),
+                        //     // ),
+                        //     // SizedBox(
+                        //     //   width: 20,
+                        //     // ),
+                        //     // Icon(
+                        //     //   LineIcons.commentAlt,
+                        //     //   size: 18,
+                        //     //   color: Colors.grey[700],
+                        //     // ),
+                        //     // Text(
+                        //     //   d!.areaId.toString(),
+                        //     //   style: TextStyle(
+                        //     //       fontSize: 13, color: Colors.grey[600]),
+                        //     // ),
+                        //     Spacer(),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),

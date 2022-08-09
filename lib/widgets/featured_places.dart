@@ -246,8 +246,11 @@ class _FeaturedItemList extends StatelessWidget {
           ),
           onTap: (){
           //  Get.to(() => QuestDetails(data: q, tag: q.title))
-          Get.find<HomeController>().idQuestCurrent.value=q.id;
-           Get.toNamed(KQuestDetailPage);}
+        
+           Get.toNamed(KQuestDetailPage, parameters: {
+                          'idQuest': q.id.toString()
+                        });
+           }
            ),
     );
   }

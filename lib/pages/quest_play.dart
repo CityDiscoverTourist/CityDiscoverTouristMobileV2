@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -32,15 +33,15 @@ class QuestsPlayPage extends GetView<HistoryController> {
     // var controller = Get.find<HistoryController>();
     return WillPopScope(
       onWillPop: () async {
-      Get.back();
-        return  true;
+        Get.back();
+        return true;
       },
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () {
-                Get.back();
+              Get.back();
             },
           ),
           automaticallyImplyLeading: false,
@@ -148,107 +149,151 @@ class QuestsPlayPage extends GetView<HistoryController> {
         Card(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(8.0))),
-          child: InkWell(
-            onTap: () => {
-              Get.to(PaymentDetail(
-                purchasedQuest: pQuest,
-              ))
-            },
-            child: Column(
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8.0),
-                    topRight: Radius.circular(8.0),
-                  ),
-                  child: pQuest.imagePath != null
-                      ? Image.network(pQuest.imagePath,
-                          width: 300, height: 150, fit: BoxFit.fill)
-                      : Icon(
-                          Icons.payment,
-                          size: 50,
-                        ),
+          child: Column(
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8.0),
+                  topRight: Radius.circular(8.0),
                 ),
-                ListTile(
-                  title: BigText(
-                    text: pQuest.questName,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  subtitle: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: CountdownTimer(
-                          endTime: endTime,
-                          widgetBuilder: (_, CurrentRemainingTime? time) {
-                            if (time == null) {
-                              return Text('time up'.tr);
-                            }
-                            // return BigText(
-                            //   text:
-                            //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
-                            //   color: Colors.green,
-                            // );
-                            else {
-                              return BigText(
-                                text: (() {
-                                  if (time.days != null) {
-                                    return "time remaining".tr +
-                                        " ${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
-                                  } else if (time.min == null) {
-                                    return "time remaining".tr +
-                                        " ${time.sec}s";
-                                  } else if (time.hours == null) {
-                                    return "time remaining".tr +
-                                        "${time.min}m:${time.sec}s";
-                                  } else if (time.days == null) {
-                                    return "time remaining".tr +
-                                        " ${time.hours}h:${time.min}m:${time.sec}s";
-                                  } else {
-                                    return "time up".tr;
-                                  }
-                                })(),
-                                color: Colors.green,
-                              );
-                            }
-                          },
+                child: pQuest.imagePath != null
+                    ? Image.network(pQuest.imagePath,
+                        width: 300, height: 150, fit: BoxFit.fill)
+                    : Icon(
+                        Icons.payment,
+                        size: 50,
+                      ),
+              ),
+              ListTile(
+                title: BigText(
+                  text: pQuest.questName,
+                  fontWeight: FontWeight.w600,
+                ),
+                subtitle: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: CountdownTimer(
+                        endTime: endTime,
+                        widgetBuilder: (_, CurrentRemainingTime? time) {
+                          if (time == null) {
+                            return Text('time up'.tr);
+                          }
+                          // return BigText(
+                          //   text:
+                          //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
+                          //   color: Colors.green,
+                          // );
+                          else {
+                            return BigText(
+                              text: (() {
+                                if (time.days != null) {
+                                  return "time remaining".tr +
+                                      " ${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
+                                } else if (time.min == null) {
+                                  return "time remaining".tr + " ${time.sec}s";
+                                } else if (time.hours == null) {
+                                  return "time remaining".tr +
+                                      "${time.min}m:${time.sec}s";
+                                } else if (time.days == null) {
+                                  return "time remaining".tr +
+                                      " ${time.hours}h:${time.min}m:${time.sec}s";
+                                } else {
+                                  return "time up".tr;
+                                }
+                              })(),
+                              color: Colors.green,
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                trailing: PopUpMen(
+                  menuList: [
+                    PopupMenuItem(
+                      child: InkWell(
+                        onTap: () async {
+                          PlayControllerV2 playController =
+                              new PlayControllerV2();
+                          CustomFullScreenDialog.showDialog();
+                          bool check = await playController
+                              .checkUserLocation(pQuest.questId.toString());
+                          CustomFullScreenDialog.cancelDialog();
+                          if (true) {
+                            showAlertDialog(context, pQuest);
+                          } else {
+                            showAlertDialogCheckLocation(context, pQuest);
+                          }
+                        },
+                        child: ListTile(
+                          leading: Icon(
+                            CupertinoIcons.play_arrow_solid,
+                          ),
+                          title: Text("Play now"),
                         ),
                       ),
-                    ],
+                    ),
+                    PopupMenuItem(
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(PaymentDetail(
+                            purchasedQuest: pQuest,
+                          ));
+                        },
+                        child: ListTile(
+                          leading: Icon(
+                            CupertinoIcons.info_circle_fill,
+                          ),
+                          title: Text("Info purchase"),
+                        ),
+                      ),
+                    ),
+                  ],
+                  icon: CircleAvatar(
+                    backgroundColor: Colors.redAccent,
+                    // backgroundImage: const NetworkImage(
+                    //   'https://images.unsplash.com/photo-1644982647869-e1337f992828?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80',
+                    // ),
+                    child: Icon(
+                      Icons.menu,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-        Positioned(
-            right: 0,
-            top: 0,
-            child: InkWell(
-              onTap: () async {
-                // if(Get.find<PlayControllerV2>().checkLocation() == false){
+        //   Positioned(
+        //       right: 0,
+        //       top: 0,
+        //       child: InkWell(
+        //         onTap: () async {
+        // //  return Menu
+        //           // if(Get.find<PlayControllerV2>().checkLocation() == false){
 
-                // }
-                PlayControllerV2 playController = new PlayControllerV2();
+        //           // }
+        //           PlayControllerV2 playController = new PlayControllerV2();
 
-
-                bool check = await playController
-                    .checkUserLocation(pQuest.questId.toString());
-                if (true) {
-                  showAlertDialog(context, pQuest);
-                } else {
-                  showAlertDialogCheckLocation(context, pQuest);
-                }
-              },
-              child: CircleAvatar(
-                backgroundColor: Colors.redAccent,
-                radius: 30,
-                child: Icon(
-                  Icons.play_arrow,
-                  color: Colors.white,
-                ),
-              ),
-            ))
+        //           bool check = await playController
+        //               .checkUserLocation(pQuest.questId.toString());
+        //           if (true) {
+        //             showAlertDialog(context, pQuest);
+        //           } else {
+        //             showAlertDialogCheckLocation(context, pQuest);
+        //           }
+        //         },
+        //         child: CircleAvatar(
+        //           backgroundColor: Colors.redAccent,
+        //           radius: 30,
+        //           child: Icon(
+        //             Icons.play_arrow,
+        //             color: Colors.white,
+        //           ),
+        //         ),
+        //       ))
       ]),
     );
   }
@@ -479,6 +524,24 @@ class QuestsPlayPage extends GetView<HistoryController> {
           ),
         );
       },
+    );
+  }
+}
+
+class PopUpMen extends StatelessWidget {
+  final List<PopupMenuEntry> menuList;
+  final Widget? icon;
+  const PopUpMen({Key? key, required this.menuList, this.icon})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      itemBuilder: ((context) => menuList),
+      icon: icon,
     );
   }
 }

@@ -18,6 +18,7 @@ import '../widgets/voucher_widget.dart';
 
 
 class VoucherPage extends GetView<RewardController> {
+  // Get.put(RewardController());
 // class VoucherPage extends StatefulWidget {
 //   const VoucherPage({Key? key}) : super(key: key);
 

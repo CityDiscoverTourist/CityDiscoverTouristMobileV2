@@ -313,6 +313,16 @@ class PlayControllerV2 extends GetxController {
                   color: Colors.red,
                 ));
           } else {
+             Get.snackbar('wrong answer'.tr, 'you will be move to next task'.tr,
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.TOP,
+              icon: Icon(
+                Icons.golf_course,
+                color: Colors.red,
+              ));
+        
             isDisableTextField(true);
             currentAns.value = questItemCurrent.rightAnswer!;
 

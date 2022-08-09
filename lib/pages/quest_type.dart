@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import '../controllers/home_controller.dart';
 import '../models/quest_type.dart';
@@ -80,11 +81,11 @@ class _ItemList extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-               child: d.imagePath != null
-                          ? CustomCacheImage(imageUrl: d.imagePath)
-                          : Image.asset('assets/images/logo.png'),
-                      ),
+                    borderRadius: BorderRadius.circular(5),
+                    child: d.imagePath != null
+                        ? CustomCacheImage(imageUrl: d.imagePath)
+                        : Image.asset('assets/images/logo.png'),
+                  ),
                 ),
                 Align(
                   alignment: Alignment.center,
@@ -98,9 +99,23 @@ class _ItemList extends StatelessWidget {
                 )
               ],
             )),
-        onTap: () => Get.to(MoreQuestPage(
-            title: d.name,
-            color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                .withOpacity(1.0))));
+        onTap: () {
+          var data = {
+            "title": d.name,
+            "idQuestType": d.id,
+            "idArea": Get.find<HomeController>().areaIdChoice.value
+          };
+          // Get.toNamed(YourRouteName.name, parameters: data);
+          Get.toNamed(KQuestByType, parameters: {
+            "title": d.name,
+            "idQuestType": d.id.toString(),
+            "idArea": Get.find<HomeController>().areaIdChoice.toString()
+          });
+        });
+    //  Get.to(
+    //   MoreQuestPage(
+    //     title: d.name,
+    //     color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+    //         .withOpacity(1.0))));
   }
 }
