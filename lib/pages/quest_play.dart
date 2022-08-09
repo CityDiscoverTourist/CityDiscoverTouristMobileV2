@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
-import 'package:travel_hour/controllers/history_controller.dart';
+import 'package:travel_hour/controllers/questpurchased_controller.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
@@ -26,7 +26,7 @@ import '../controllers/play_controllerV2.dart';
 import '../models/quest.dart';
 import '../routes/app_routes.dart';
 
-class QuestsPlayPage extends GetView<HistoryController> {
+class QuestsPlayPage extends GetView<QuestPurchasedController> {
   const QuestsPlayPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,7 @@ import 'package:travel_hour/models/quest.dart';
 import 'package:travel_hour/pages/momo_web_payment.dart';
 import 'package:uuid/uuid.dart';
 
-import '../controllers/history_controller.dart';
+import '../controllers/questpurchased_controller.dart';
 import '../controllers/login_controller_V2.dart';
 import '../pages/quest_play.dart';
 import 'custom_text.dart';
@@ -414,7 +414,7 @@ class PaymentWidgetState extends State<PaymentWidget>
                     : new RaisedButton(
                         child: const Text('Chơi ngay'),
                         onPressed: () => {
-                          Get.put(HistoryController()),
+                          Get.put(QuestPurchasedController()),
                           Get.to(QuestsPlayPage())
                         },
                       ),

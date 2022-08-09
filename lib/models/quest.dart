@@ -12,7 +12,7 @@ List<Quest> questFromJson(String str) =>
 String questToJson(List<Quest> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Quest {
+class   Quest {
   Quest({
     required this.id,
     required this.title,

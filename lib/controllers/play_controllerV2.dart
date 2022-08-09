@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:travel_hour/controllers/comment_controller.dart';
-import 'package:travel_hour/controllers/history_controller.dart';
+import 'package:travel_hour/controllers/questpurchased_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/pages/completed_questV2.dart';
@@ -157,7 +157,7 @@ class PlayControllerV2 extends GetxController {
               color: Colors.red,
             ));
         Get.delete<PlayControllerV2>();
-        Get.find<HistoryController>().getPuschedQuests();
+        Get.find<QuestPurchasedController>().getPuschedQuests();
       } else if (checkErr.value == "Ticket quantity is not enough") {
         print("Lỗi chưa kết thúc");
         Get.snackbar('error'.tr, 'error ticket'.tr,

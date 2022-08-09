@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import 'package:travel_hour/controllers/history_controller.dart';
+import 'package:travel_hour/controllers/questpurchased_controller.dart';
 import 'package:travel_hour/controllers/play_controllerV2.dart';
 import 'package:travel_hour/models/comment.dart';
 import 'package:travel_hour/services/comment_service.dart';
@@ -137,7 +137,7 @@ class CommentController extends GetxController {
       }
     } finally {
       Get.delete<PlayControllerV2>();
-      Get.delete<HistoryController>();
+      Get.delete<QuestPurchasedController>();
       isLoading(false);
     }
   }

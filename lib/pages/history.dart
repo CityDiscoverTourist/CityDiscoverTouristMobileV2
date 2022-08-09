@@ -4,10 +4,12 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/quest.dart';
+import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/utils/empty.dart';
 import 'package:travel_hour/utils/list_card.dart';
 import 'package:travel_hour/utils/loading_cards.dart';
 
+import '../controllers/history_controller.dart';
 import '../controllers/home_controller.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -19,8 +21,8 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage>
     with AutomaticKeepAliveClientMixin {
-  var controller = Get.find<HomeController>();
-  List<Quest> list = Get.find<HomeController>().hisQuestList;
+  // var controller = Get.find<HomeController>();
+  List<Quest> list = Get.find<HistoryController>().historyQuestList;
   @override
   void initState() {
     super.initState();
@@ -30,7 +32,9 @@ class _HistoryPageState extends State<HistoryPage>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return DefaultTabController(
+    return Obx(()=> 
+    Get.find<HistoryController>().isLoading.isTrue?SplashStart():
+    DefaultTabController(
       length: 2,
       initialIndex: 0,
       child: Scaffold(
@@ -65,13 +69,13 @@ class _HistoryPageState extends State<HistoryPage>
                       ),
               ),
               onRefresh: _onRefresh)),
-    );
+    ));
   }
 
   @override
   bool get wantKeepAlive => true;
   Future<void> _onRefresh() async {
-    Get.find<HomeController>()
+    Get.find<HistoryController>()
         .fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id);
   }
 }

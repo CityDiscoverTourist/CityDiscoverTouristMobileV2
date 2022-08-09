@@ -101,100 +101,81 @@ class QuestDetailsPageV2 extends GetView<QuestDetailController> {
                                 text: controller.questDetail.title,
                                 fontWeight: FontWeight.w600,
                               ),
+                              SizedBox(
+                                height: 30,
+                              ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  //Infomation : title, rating, comments,first location
-                                  Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          height: 30,
-                                        ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            controller.questDetail
-                                                            .averageStar !=
-                                                        null ||
-                                                    controller.questDetail
-                                                            .averageStar !=
-                                                        0
-                                                ? SmallText(
-                                                    text: controller
-                                                        .questDetail.averageStar
-                                                        .toString())
-                                                : SmallText(text: "5"),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            RatingBarIndicator(
-                                              rating: controller.questDetail
-                                                              .averageStar !=
-                                                          null ||
-                                                      controller.questDetail
-                                                              .averageStar !=
-                                                          0
-                                                  ? controller
-                                                      .questDetail.averageStar
-                                                      .toDouble()
-                                                  : 5,
-                                              itemBuilder: (context, index) =>
-                                                  Icon(
-                                                Icons.star,
-                                                color: Colors.amber,
-                                              ),
-                                              itemCount: 5,
-                                              itemSize: 10.0,
-                                              direction: Axis.horizontal,
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            SmallText(
-                                                text: controller.questDetail
-                                                        .totalFeedback
-                                                        .toString() +
-                                                    ' ' +
-                                                    'comments'.tr),
-                                          ],
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: 8, bottom: 8),
-                                          height: 3,
-                                          width: 150,
-                                          decoration: BoxDecoration(
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(40)),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.location_on,
-                                              size: 16,
-                                              color: Colors.grey,
-                                            ),
-                                            SmallText(
-                                              text: controller
-                                                  .questDetail.address
-                                                  .toString(),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                  controller.questDetail.averageStar != null ||
+                                          controller.questDetail.averageStar !=
+                                              0
+                                      ? SmallText(
+                                          text: controller
+                                              .questDetail.averageStar
+                                              .toString())
+                                      : SmallText(text: "5"),
+                                  SizedBox(
+                                    width: 10,
                                   ),
-                                  // Devider(),
-                                  Divider(),
+                                  RatingBarIndicator(
+                                    rating:
+                                        controller.questDetail.averageStar !=
+                                                    null ||
+                                                controller.questDetail
+                                                        .averageStar !=
+                                                    0
+                                            ? controller.questDetail.averageStar
+                                                .toDouble()
+                                            : 5,
+                                    itemBuilder: (context, index) => Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                    ),
+                                    itemCount: 5,
+                                    itemSize: 10.0,
+                                    direction: Axis.horizontal,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  SmallText(
+                                      text: controller.questDetail.totalFeedback
+                                              .toString() +
+                                          ' ' +
+                                          'comments'.tr),
                                 ],
                               ),
+                              Row(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 8, bottom: 8),
+                                    height: 3,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context).primaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(40)),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on,
+                                    size: 16,
+                                    color: Colors.grey,
+                                  ),
+                                  Expanded(
+                                    child: SmallText(
+                                      text: controller.questDetail.address
+                                          .toString(),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              // Devider(),
+                              Divider(),
                               //Information: Description
                               Padding(
                                   padding: EdgeInsets.all(30),
