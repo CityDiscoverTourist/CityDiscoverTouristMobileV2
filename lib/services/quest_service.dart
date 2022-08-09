@@ -47,7 +47,8 @@ class QuestService {
     //     Get.find<LoginControllerV2>().jwtToken.value);
     var response = await http.get(
         Uri.parse(
-            'https://citytourist.azurewebsites.net/api/v1/quests?QuestTypeId=${questTypeId}&AreaId=${areaId}&language=${Get.find<LoginControllerV2>().language.value}'),
+          // 'https://citytourist.azurewebsites.net/api/v1/quests?QuestTypeId=2&AreaId=10&Status=Active&language=1'
+            'https://citytourist.azurewebsites.net/api/v1/quests?QuestTypeId=${questTypeId}&AreaId=${areaId}&Status=Active&language=${Get.find<LoginControllerV2>().language.value}'),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",
@@ -114,7 +115,7 @@ class QuestService {
     // WelcomeController homeController = Get.find<WelcomeController>();
     var response = await http.get(
         Uri.parse(
-            'https://citytourist.azurewebsites.net/api/v1/quests?Name=${name}&language=' +
+            'https://citytourist.azurewebsites.net/api/v1/quests?Name=${name}&Status=Activelanguage=' +
                 Get.find<LoginControllerV2>().language.value.toString()),
         headers: {
           "Accept": "application/json",
@@ -257,6 +258,7 @@ class QuestService {
           'Authorization': 'Bearer ' + myController.jwtToken.value
         });
     // print(Api.baseUrl + ApiEndPoints.getSuggestion + customerId);
+    print(response.statusCode.toString());
     if (response.statusCode == 200) {
       List<Quest> listQuest = new List.empty(growable: true);
       // print("OKkkkkkkkkkkkkkkkkkkkkk");

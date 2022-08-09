@@ -26,7 +26,7 @@ import 'package:travel_hour/widgets/custom_cache_image.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 import 'package:uuid/uuid.dart';
 
-import '../controllers/history_controller.dart';
+import '../controllers/questpurchased_controller.dart';
 import '../controllers/home_controller.dart';
 import '../controllers/login_controller_V2.dart';
 import '../models/payment.dart';

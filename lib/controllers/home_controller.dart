@@ -28,7 +28,7 @@ class HomeController extends GetxController {
   var isLoading = true.obs;
   // var isStartTest = true.obs;
   var questList = List<Quest>.empty().obs;
-  var puQuestList = List<Quest>.empty().obs;
+  // var puQuestList = List<Quest>.empty().obs;
   var hisQuestList = List<Quest>.empty().obs;
   var cityList = List<City>.empty().obs;
   var rewardList = List<Reward>.empty().obs;
@@ -93,7 +93,7 @@ class HomeController extends GetxController {
       await fetchCityData();
       await fetchQuestFeatureData();
       await fetchQuestTypeData();
-      await fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id);
+      // await fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id);
       // await fetchRewardByCustomerId(Get.find<LoginControllerV2>().sp.id);
     } finally {
       isLoading(false);
@@ -104,7 +104,7 @@ class HomeController extends GetxController {
     try {
       isLoading(true);
       await fetchQuestFeatureData();
-      await fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id);
+      // await fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id);
       await fetchQuestTypeData();
       // await fetchQuestTypeData();
     } finally {
@@ -182,19 +182,19 @@ class HomeController extends GetxController {
   //   }
   // }
 
-  void getPuQuestByCustomerID(String customerId) async {
-    try {
-      isLoading(true);
-      var questListApi =
-          await QuestService.fetchPuQuestFeatureData(customerId, language);
-      if (questListApi != null) {
-        print('Co Roi Ne');
-        puQuestList.assignAll(questListApi);
-      }
-    } finally {
-      isLoading(false);
-    }
-  }
+  // void getPuQuestByCustomerID(String customerId) async {
+  //   try {
+  //     isLoading(true);
+  //     var questListApi =
+  //         await QuestService.fetchPuQuestFeatureData(customerId, language);
+  //     if (questListApi != null) {
+  //       print('Co Roi Ne');
+  //       puQuestList.assignAll(questListApi);
+  //     }
+  //   } finally {
+  //     isLoading(false);
+  //   }
+  // }
 
   Future<Quest?> getQuestDetailByID(String questId) async {
     try {
@@ -206,15 +206,15 @@ class HomeController extends GetxController {
     }
   }
 
-  fetchPlayingHistory(String customerId) async {
-    try {
-      isLoading(true);
+  // fetchPlayingHistory(String customerId) async {
+  //   try {
+  //     isLoading(true);
 
-      await QuestService.fetchPlayedQuestFeatureData(customerId);
-    } finally {
-      isLoading(false);
-    }
-  }
+  //     await QuestService.fetchPlayedQuestFeatureData(customerId);
+  //   } finally {
+  //     isLoading(false);
+  //   }
+  // }
 
   fetchRewardByCustomerId(String customerId) async {
     try {

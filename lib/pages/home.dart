@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:travel_hour/controllers/history_controller.dart';
+import 'package:travel_hour/controllers/questpurchased_controller.dart';
 import 'package:travel_hour/controllers/voucher_controller.dart';
 import 'package:travel_hour/pages/guide.dart';
 import 'package:travel_hour/pages/quest_play.dart';
@@ -50,6 +51,9 @@ class HomePage extends GetView<HomeController> {
             if(_currentIndex.value==1){
             Get.put(RewardController());
             }
+             if(_currentIndex.value==2){
+            Get.put(HistoryController());
+            }
             return views[_currentIndex.value];
           }
         }),
@@ -57,7 +61,7 @@ class HomePage extends GetView<HomeController> {
           backgroundColor: Colors.redAccent,
           child: Icon(Icons.play_arrow_sharp),
           onPressed: () {
-            Get.lazyPut(() => HistoryController());
+            Get.lazyPut(() => QuestPurchasedController());
             Get.to(QuestsPlayPage());
           },
         ),

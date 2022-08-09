@@ -11,7 +11,7 @@ import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 
-import '../controllers/history_controller.dart';
+import '../controllers/questpurchased_controller.dart';
 import '../routes/app_routes.dart';
 import '../widgets/app_header_feedback.dart';
 import '../widgets/custom_appbar.dart';
