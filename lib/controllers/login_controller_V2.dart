@@ -39,31 +39,30 @@ class LoginControllerV2 extends GetxController {
   SharedPreferences? sharedPreferences;
 
   @override
-  void onInit() async{
+  void onInit() async {
     super.onInit();
-     final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+    final FirebaseMessaging _fcm = FirebaseMessaging.instance;
     _fcm
         .getToken()
         .then((token) => {print('The token||' + token!), deviceId = token});
     changeLanguage();
-     bool checkRegis=Get.isRegistered<LoginControllerV2>(tag: "noty");
-        if(checkRegis==true){
-           ever(isSignIn, handleAuthStateChanged);
-           sharedPreferences = await SharedPreferences.getInstance();
-          print("hochi,");
-           if (sharedPreferences!.containsKey("loginFace")) {
-      isSignIn.value = true;
-    } else if (sharedPreferences!.containsKey("loginAccount")) {
-      isSignIn.value = true;
-    } else {
-      googleSign = GoogleSignIn();
-      isSignIn.value = firebaseAuth.currentUser != null;
-      firebaseAuth.authStateChanges().listen((event) {
-        isSignIn.value = event != null;
-      });
+    bool checkRegis = Get.isRegistered<LoginControllerV2>(tag: "noty");
+    if (checkRegis == true) {
+      ever(isSignIn, handleAuthStateChanged);
+      sharedPreferences = await SharedPreferences.getInstance();
+      print("hochi,");
+      if (sharedPreferences!.containsKey("loginFace")) {
+        isSignIn.value = true;
+      } else if (sharedPreferences!.containsKey("loginAccount")) {
+        isSignIn.value = true;
+      } else {
+        googleSign = GoogleSignIn();
+        isSignIn.value = firebaseAuth.currentUser != null;
+        firebaseAuth.authStateChanges().listen((event) {
+          isSignIn.value = event != null;
+        });
+      }
     }
-         
-        }
     flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
@@ -101,7 +100,7 @@ class LoginControllerV2 extends GetxController {
   void onReady() async {
     super.onReady();
     changeLanguage();
-      // var check=Get.isRegistered<LoginControllerV2>(tag: "noty");
+    // var check=Get.isRegistered<LoginControllerV2>(tag: "noty");
     // if(check==true) print("Hoan HÔ");
     sharedPreferences = await SharedPreferences.getInstance();
     print("[Login V2]-L28-ONREADY :");
@@ -117,7 +116,6 @@ class LoginControllerV2 extends GetxController {
         isSignIn.value = event != null;
       });
     }
-   
   }
 
   static const AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -144,21 +142,21 @@ class LoginControllerV2 extends GetxController {
         String? password = sharedPreferences!.getString("password");
         loginUsernamePassword(userName!, password!);
       } else {
-        print("ahaha"+deviceId);
+        print("ahaha" + deviceId);
         sp = await LoginService().apiCheckLogin(
             await firebaseAuth.currentUser!.getIdToken(), deviceId);
       }
 
       if (sp != null) {
         //  Get.put(HomeController(),permanent: true);
-        bool checkRegis=Get.isRegistered<LoginControllerV2>(tag: "noty");
-        if(checkRegis==true){
+        bool checkRegis = Get.isRegistered<LoginControllerV2>(tag: "noty");
+        if (checkRegis == true) {
           print("hochi,");
           // Get.push()
-           Get.offAllNamed(KPlayingQuest);
-        }else{
-        Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
-             print("hochi3,");
+          Get.offAllNamed(KPlayingQuest);
+        } else {
+          Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
+          print("hochi3,");
         }
       } else {
         await googleSign.disconnect();
@@ -408,7 +406,11 @@ class LoginControllerV2 extends GetxController {
     var response = await http.post(
       Uri.parse(
           Api.baseUrl + ApiEndPoints.forgotPassword + "?email=" + userName),
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization':
+            'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+      },
     );
     if (response.statusCode == 200) {
       Get.snackbar("success".tr, 'check you email to get new password'.tr,
@@ -428,29 +430,39 @@ class LoginControllerV2 extends GetxController {
     var request = new http.MultipartRequest("PUT",
         Uri.parse("https://citytourist.azurewebsites.net/api/v1/customers"));
     if (image != null) {
+      print("file is not null");
       var file = File(image.path);
       request.files.add(await http.MultipartFile.fromPath("image", file.path));
+    } else {
+      print("file is null");
     }
+    print(Get.find<LoginControllerV2>().sp.id);
     request.fields["Id"] = Get.find<LoginControllerV2>().sp.id;
     request.fields["Address"] = address;
     request.fields["Gender"] = gender.toString();
     request.headers["accept"] = "text/plain";
     request.headers["Content-Type"] = "multipart/form-data";
+    request.headers["Authorization"] =
+        "Bearer " + Get.find<LoginControllerV2>().jwtToken.value;
     print("Request:" + request.toString());
     var response = await request.send();
     print("Status code:" + response.statusCode.toString());
     if (response.statusCode == 200) {
-      response.stream.transform(utf8.decoder).listen((value) {
-        // print(value);
-        Map<String, dynamic> result = jsonDecode(value);
-        Customer newCustomer = Customer.fromJson(result["data"]);
-        if (newCustomer.imagePath != null) {
-          Get.find<LoginControllerV2>().sp = newCustomer;
-        } else {
-          Get.find<LoginControllerV2>().sp.address = newCustomer.address;
-          Get.find<LoginControllerV2>().sp.gender = newCustomer.gender;
-        }
-      });
+      String reply = await response.stream.transform(utf8.decoder).join();
+      // response.stream.transform(utf8.decoder).listen((value) {
+      // print(value);
+      Map<String, dynamic> result = jsonDecode(reply);
+      print(reply);
+      Customer newCustomer = Customer.fromJson(result["data"]);
+      if (newCustomer.imagePath != null) {
+        print("response image path is not null");
+        Get.find<LoginControllerV2>().sp = newCustomer;
+      } else {
+        print("response image path is null");
+        Get.find<LoginControllerV2>().sp.address = newCustomer.address;
+        Get.find<LoginControllerV2>().sp.gender = newCustomer.gender;
+      }
+      // });
       return true;
     }
     return false;

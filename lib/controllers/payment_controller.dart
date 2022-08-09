@@ -41,7 +41,7 @@ class PaymentController extends FullLifeCycleController
     _momoPay.on(MomoVn.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _momoPay.on(MomoVn.EVENT_PAYMENT_ERROR, _handlePaymentError);
     paymentStatus.value = "";
-    discountPrice.value=0;
+    discountPrice.value = 0;
     // quantity2 = Get.find<QuestDetailController>().quantity;
     total.value = Get.find<QuestDetailController>().questDetail.price;
     finalTotal.value = total.value;
@@ -52,7 +52,7 @@ class PaymentController extends FullLifeCycleController
   @override
   void onReady() {
     // ever(checkTotal, (_)=>{
-isLoading(false);
+    isLoading(false);
     //   });
     // ever(idRewardChoose, (_)=>{
     //   print("change reward"+percentReward.toString()),
@@ -62,6 +62,7 @@ isLoading(false);
     // }
     //   });
   }
+
   @override
   void onClose() {
     _momoPay.clear();
@@ -97,12 +98,12 @@ isLoading(false);
     bool check = await checkPaymentStatus(playCode);
     if (check == true) {
       print(paymentStatus);
-      paymentStatus.value = "Thanh toan thanh cong";
+      paymentStatus.value = "payment success".tr;
     } else {
       paymentStatus.value = "";
       playCode = uuid.v4();
     }
-     CustomFullScreenDialog.cancelDialog();
+    CustomFullScreenDialog.cancelDialog();
   }
 
   // Optional
@@ -138,8 +139,7 @@ isLoading(false);
       quantity2 = quantity2 - 1;
       // total.value = quantity2.toDouble() *
       //     Get.find<QuestDetailController>().questDetail.price;
-    checkTotal();
-
+      checkTotal();
     }
   }
 
@@ -148,18 +148,18 @@ isLoading(false);
       quantity2 = quantity2 + 1;
       // total.value = quantity2.toDouble() *
       //     Get.find<QuestDetailController>().questDetail.price;
-    checkTotal();
-
+      checkTotal();
     }
   }
 
   void checkTotal() {
-    total.value=quantity2.toDouble()*Get.find<QuestDetailController>().questDetail.price;
+    total.value = quantity2.toDouble() *
+        Get.find<QuestDetailController>().questDetail.price;
     print(percentReward);
     if (percentReward.value != 0) {
       print("Có giảm giá");
-      discountPrice.value=(total * percentReward.toDouble()) / 100;
-      finalTotal.value =total.value-discountPrice.value;
+      discountPrice.value = (total * percentReward.toDouble()) / 100;
+      finalTotal.value = total.value - discountPrice.value;
     } else {
       print('không giảm giá');
       finalTotal.value = total.value;

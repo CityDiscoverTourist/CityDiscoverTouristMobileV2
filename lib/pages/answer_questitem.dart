@@ -43,6 +43,7 @@ class AnswerPage extends StatelessWidget {
             appBar: AppBar(
               backgroundColor: Colors.redAccent,
               centerTitle: true,
+              automaticallyImplyLeading: false,
               title: Column(
                 children: [
                   BigText(
@@ -52,7 +53,7 @@ class AnswerPage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                   SmallText(
-                    text: 'Câu hỏi số ' + '${controller.numQuest}',
+                    text: 'question no'.tr + ' ${controller.numQuest}',
                     color: Colors.white,
                   )
                 ],
@@ -77,6 +78,14 @@ class AnswerPage extends StatelessWidget {
                     },
                     icon: Icon(
                       Icons.support_agent,
+                      color: Colors.white,
+                    )),
+                IconButton(
+                    onPressed: () {
+                      showAlertDialogCofirmSkip(context);
+                    },
+                    icon: Icon(
+                      Icons.skip_next,
                       color: Colors.white,
                     )),
               ],
@@ -177,7 +186,8 @@ class AnswerPage extends StatelessWidget {
                                       child: Column(children: [
                                       BigText(
                                         text:
-                                            "Bạn hãy tìm và chụp ảnh của giống với ảnh bên dưới nhé(Vui lòng cho app sử dụng camera của bạn)",
+                                            "please find and take a photo of something similar to the one below (please let the app use your camera)"
+                                                .tr,
                                         fontWeight: FontWeight.bold,
                                       ),
                                       Image.network(
@@ -203,7 +213,7 @@ class AnswerPage extends StatelessWidget {
                                                     MainAxisAlignment.center,
                                                 children: [
                                                   BigText(
-                                                    text: "Right Ans",
+                                                    text: "right answer".tr,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                   Icon(

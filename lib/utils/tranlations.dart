@@ -246,7 +246,15 @@ class Translation extends Translations {
           "play code not exist or expired": "Play code not exist or expired",
           "please try again": "Please try again",
           "reset": "Reset",
-          "scan qr code": "Scan QR code"
+          "scan qr code": "Scan QR code",
+          "payment page": "Payment Page",
+          "temporary amount": "Temporary amount",
+          "amount reduced": "Amount reduced",
+          "discount": "DISCOUNT",
+          "payment success": "Payment Success",
+          "please find and take a photo of something similar to the one below (please let the app use your camera)":
+              "Please find and take a photo of something similar to the one below (Please let the app use your camera)",
+          "question no": "Question No"
         },
         'vn': {
           "welcome message":
@@ -497,6 +505,14 @@ class Translation extends Translations {
           "please try again": "Vui lòng thử lại",
           "reset": "Đặt lại",
           "scan qr code": "Quét mã QR",
+          "payment page": "Trang thanh toán",
+          "temporary amount": "Tạm tính",
+          "amount reduced": "Tiền giảm",
+          "discount": "GIẢM",
+          "payment success": "Thanh toán thành công",
+          "please find and take a photo of something similar to the one below (please let the app use your camera)":
+              "Bạn hãy tìm và chụp ảnh của giống với ảnh bên dưới nhé(Vui lòng cho app sử dụng camera của bạn)",
+          "question no": "Câu hỏi số"
         }
       };
 }

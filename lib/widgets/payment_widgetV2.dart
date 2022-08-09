@@ -59,7 +59,7 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
               },
               child: Scaffold(
                 appBar: AppBar(
-                  title: Text('Payment Page'),
+                  title: Text('payment page'.tr),
                   backgroundColor: Colors.redAccent,
                   // actions: [
                   //   IconButton(
@@ -100,13 +100,13 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                                     height: 20,
                                   ),
                                   SizedBox(
-                                      height: 200,
-                                      width: double.infinity,
-                                      child: 
-                                        questDetail.imagePath!=null
-                                            ? CustomCacheImage(imageUrl:  questDetail.imagePath)
-                  : Image.asset('assets/images/logo.png'),
-                                          )
+                                    height: 200,
+                                    width: double.infinity,
+                                    child: questDetail.imagePath != null
+                                        ? CustomCacheImage(
+                                            imageUrl: questDetail.imagePath)
+                                        : Image.asset('assets/images/logo.png'),
+                                  )
                                 ],
                               ),
                             ),
@@ -294,7 +294,7 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                                 Divider(),
                                 ListTile(
                                   title: CustomText(
-                                    text: "Tạm tính",
+                                    text: "temporary amount".tr,
                                   ),
                                   trailing: CustomText(
                                     text:
@@ -307,7 +307,7 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                                 Divider(),
                                 ListTile(
                                   title: CustomText(
-                                    text: "Tiền giảm",
+                                    text: "amount reduced".tr,
                                   ),
                                   trailing: CustomText(
                                     text: controller.discountPrice
@@ -592,7 +592,7 @@ class DiscountWidget extends GetView<PaymentController> {
                       height: 3,
                     ),
                     Text(
-                      'DISCOUNT ${rewardModel.percentDiscount}%',
+                      'discount'.tr + ' ${rewardModel.percentDiscount}%',
                       textAlign: TextAlign.start,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
