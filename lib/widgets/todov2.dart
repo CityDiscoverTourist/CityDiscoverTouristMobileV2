@@ -201,10 +201,17 @@ class TodoWidgetV2 extends StatelessWidget {
                                 size: 30,
                               ),
                             ),
-                            BigText(
-                              text: 'user reviews'.tr,
-                              color: Colors.white,
-                            ),
+                            Expanded(
+                              child: BigText(
+                                text: 'user reviews'.tr,
+                                color: Colors.white,
+                              ),
+                              flex: 1,
+                            )
+                            // BigText(
+                            //   text: 'user reviews'.tr,
+                            //   color: Colors.white,
+                            // ),
                           ])),
                   onTap: () async => {
                         print("TODO :" + questDetailModel!.id.toString()),

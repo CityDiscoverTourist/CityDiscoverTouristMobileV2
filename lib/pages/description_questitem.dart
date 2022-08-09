@@ -43,57 +43,146 @@ class _DescriptionAnsState extends State<DescriptionAns> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
-          title: Text('description page'.tr), automaticallyImplyLeading: false),
+          backgroundColor: Colors.redAccent,
+          title: Text('description page'.tr),
+          automaticallyImplyLeading: false),
       // backgroundColor: Colors.redAccent,
-      body: Column(
-        children: [
-          SingleChildScrollView(
-            child: Html(
-              data: controller.description,
-              // customRender: {
-              //     'flutter' : (RenderContext context, Widget child, attributes, _){
-              //       return FlutterLogo(
-              //         style: FlutterLogoStyle.horizontal,
-              //         textColor: Colors.blue,
-              //         size: 100.0,
-              //       );
-              //     }
-              // },
-              style: {
-                'html': Style(backgroundColor: Colors.white12),
-                'table': Style(backgroundColor: Colors.grey.shade200),
-                'td': Style(
-                  backgroundColor: Colors.grey.shade400,
-                  padding: EdgeInsets.all(10),
-                ),
-                'th': Style(padding: EdgeInsets.all(10), color: Colors.black),
-                'tr': Style(
-                    backgroundColor: Colors.grey.shade300,
-                    border:
-                        Border(bottom: BorderSide(color: Colors.greenAccent))),
-              },
-              // onLinkTap: (url){
-              //     print('Open the url $url......');
-              // },
-              // onImageTap: (img){
-              //     print('Image $img');
-              // },
-              // onImageError: (exception, stacktrace){
-              //     print(exception);
-              // },
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SingleChildScrollView(
+              child: Html(
+                data: controller.description,
+                // customRender: {
+                //     'flutter' : (RenderContext context, Widget child, attributes, _){
+                //       return FlutterLogo(
+                //         style: FlutterLogoStyle.horizontal,
+                //         textColor: Colors.blue,
+                //         size: 100.0,
+                //       );
+                //     }
+                // },
+                style: {
+                  'html': Style(backgroundColor: Colors.white12),
+                  'table': Style(backgroundColor: Colors.grey.shade200),
+                  'td': Style(
+                    backgroundColor: Colors.grey.shade400,
+                    padding: EdgeInsets.all(10),
+                  ),
+                  'th': Style(padding: EdgeInsets.all(10), color: Colors.black),
+                  'tr': Style(
+                      backgroundColor: Colors.grey.shade300,
+                      border: Border(
+                          bottom: BorderSide(color: Colors.greenAccent))),
+                },
+                // onLinkTap: (url){
+                //     print('Open the url $url......');
+                // },
+                // onImageTap: (img){
+                //     print('Image $img');
+                // },
+                // onImageError: (exception, stacktrace){
+                //     print(exception);
+                // },
+              ),
             ),
-          ),
-          SafeArea(
-              child: TextButton(
-            child: Text('next'.tr),
-            onPressed: () {
-              controller.numQuest++;
-              Get.to(StoryDescription());
-            },
-          ))
-        ],
+
+            // SafeArea(
+            //     child: TextButton(
+            //   child: Text('next'.tr),
+            //   onPressed: () {
+            //     controller.numQuest++;
+            //     Get.to(StoryDescription());
+            //   },
+            // ))
+          ],
+        ),
       ),
+      // Column(
+      //   children: [
+      //     SingleChildScrollView(
+      //       child: Html(
+      //         data: controller.description,
+      //         // customRender: {
+      //         //     'flutter' : (RenderContext context, Widget child, attributes, _){
+      //         //       return FlutterLogo(
+      //         //         style: FlutterLogoStyle.horizontal,
+      //         //         textColor: Colors.blue,
+      //         //         size: 100.0,
+      //         //       );
+      //         //     }
+      //         // },
+      //         style: {
+      //           'html': Style(backgroundColor: Colors.white12),
+      //           'table': Style(backgroundColor: Colors.grey.shade200),
+      //           'td': Style(
+      //             backgroundColor: Colors.grey.shade400,
+      //             padding: EdgeInsets.all(10),
+      //           ),
+      //           'th': Style(padding: EdgeInsets.all(10), color: Colors.black),
+      //           'tr': Style(
+      //               backgroundColor: Colors.grey.shade300,
+      //               border:
+      //                   Border(bottom: BorderSide(color: Colors.greenAccent))),
+      //         },
+      //         // onLinkTap: (url){
+      //         //     print('Open the url $url......');
+      //         // },
+      //         // onImageTap: (img){
+      //         //     print('Image $img');
+      //         // },
+      //         // onImageError: (exception, stacktrace){
+      //         //     print(exception);
+      //         // },
+      //       ),
+      //     ),
+
+      //     // SafeArea(
+      //     //     child: TextButton(
+      //     //   child: Text('next'.tr),
+      //     //   onPressed: () {
+      //     //     controller.numQuest++;
+      //     //     Get.to(StoryDescription());
+      //     //   },
+      //     // ))
+      //   ],
+      // ),
+      bottomNavigationBar: BottomAppBar(
+          child: SizedBox(
+              height: 70,
+              child: ElevatedButton(
+                onPressed: () {
+                  // if (controller.isDisableTextField.isTrue)
+                  // else {
+                  //   controller.currentAns.value =
+                  //           myController.text;
+                  //   myController.text = "";
+                  // }
+                  controller.numQuest++;
+                  Get.off(StoryDescription());
+                  // controller.clickAnswer();
+                },
+                child: Text('next'.tr, style: TextStyle(fontSize: 16)),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.redAccent,
+                  onPrimary: Colors.white,
+                  padding: const EdgeInsets.only(
+                      left: 40.0, top: 16.0, bottom: 16.0, right: 40.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12), // <-- Radius
+                  ),
+                ),
+              )
+              // SafeArea(
+
+              //     child: TextButton(
+              //   child: Text('next'.tr),
+              //   onPressed: () {
+              //     controller.numQuest++;
+              //     Get.to(StoryDescription());
+              //   },
+              // )))
+              )),
     );
   }
 }
