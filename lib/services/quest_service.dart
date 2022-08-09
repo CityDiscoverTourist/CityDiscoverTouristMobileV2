@@ -115,7 +115,7 @@ class QuestService {
     // WelcomeController homeController = Get.find<WelcomeController>();
     var response = await http.get(
         Uri.parse(
-            'https://citytourist.azurewebsites.net/api/v1/quests?Name=${name}&Status=Activelanguage=' +
+            'https://citytourist.azurewebsites.net/api/v1/quests?Name=${name}&Status=Active&language=' +
                 Get.find<LoginControllerV2>().language.value.toString()),
         headers: {
           "Accept": "application/json",
