@@ -96,8 +96,7 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
                             //     );
                             //   } else {
                             // return
-                            Obx(() => 
-                            RefreshIndicator(
+                            Obx(() => RefreshIndicator(
                                 child:
                                     //  myController.lastVisible.value == 0
                                     // ? LoadingCard(height: 100)
@@ -236,7 +235,11 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
             child:
                 // d.imageUrl!=null?CachedNetworkImageProvider(imageUrl: d.imageUrl):Image.asset('assets/images/logo.png'),
                 d.imagePath != null
-                    ? CustomCacheImage(imageUrl: d.imagePath)
+                    ? CircleAvatar(
+                        radius: 30.0,
+                        backgroundImage: NetworkImage("${d.imagePath}"),
+                        backgroundColor: Colors.transparent,
+                      )
                     : Image.asset('assets/images/logo.png'),
 
             // d.imageUrl!=null?CachedNetworkImage(imageUrl: d.imageUrl):Image.asset('assets/images/logo.png'),
