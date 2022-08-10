@@ -616,7 +616,7 @@ class PlayService {
       var response3 = await http.put(
         Uri.parse(Api.baseUrl +
             ApiEndPoints.skipCustomerTask +
-            "1?questItemId=" +
+            "?questItemId=" +
             questItemId +
             "&customerQuestId=" +
             customerQuestId),
@@ -629,7 +629,10 @@ class PlayService {
       print("Skip CustomerTask :  " +
           Api.baseUrl +
           ApiEndPoints.skipCustomerTask +
-          customerTaskId.toString());
+          "1?questItemId=" +
+          questItemId +
+          "&customerQuestId=" +
+          customerQuestId);
       print("Skip CustomerTask :  " + response3.body);
       if (response3.statusCode == 200) {
         var data = json.decode(response3.body);
@@ -716,7 +719,7 @@ class PlayService {
             request.files.add(pic);
           }
           var response = await request.send().timeout(Duration(minutes: 15));
-          // print("Status code:" + response.statusCode.toString());
+          print("Status code:" + response.statusCode.toString());
           String reply = await response.stream.transform(utf8.decoder).join();
           // print(reply);
           if (response.statusCode == 200) {
