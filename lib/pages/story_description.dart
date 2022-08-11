@@ -146,7 +146,7 @@ class _StoryDescriptionState extends State<StoryDescription> {
               height: 70,
               child: ElevatedButton(
                 onPressed: () {
-                  Get.off(AnswerPage());
+                  Get.to(AnswerPage());
                 },
                 child: Text('next'.tr, style: TextStyle(fontSize: 16)),
                 style: ElevatedButton.styleFrom(

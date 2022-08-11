@@ -207,6 +207,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 conId: "",
               );
               chatController.sendChatMessage(chatMessage);
+              setState(() {
+                messageCtr.text="";
+              });
               // controller.messages.add(chatMessage);
             },
           ),

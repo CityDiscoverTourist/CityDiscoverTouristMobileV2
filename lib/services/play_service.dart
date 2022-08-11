@@ -616,7 +616,7 @@ class PlayService {
       var response3 = await http.put(
         Uri.parse(Api.baseUrl +
             ApiEndPoints.skipCustomerTask +
-            "1?questItemId=" +
+            "?questItemId=" +
             questItemId +
             "&customerQuestId=" +
             customerQuestId),

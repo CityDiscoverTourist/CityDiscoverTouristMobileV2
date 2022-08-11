@@ -71,15 +71,27 @@ class AnswerPage extends StatelessWidget {
                 SizedBox(
                   width: 10,
                 ),
-                IconButton(
-                    onPressed: () {
-                      Get.put(ChatController());
-                      Get.to(ChatScreen());
-                    },
-                    icon: Icon(
-                      Icons.support_agent,
-                      color: Colors.white,
-                    )),
+                Stack(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Get.put(ChatController());
+                          Get.to(ChatScreen());
+                        },
+                        icon: Icon(
+                          Icons.support_agent,
+                          color: Colors.white,
+                        )),
+                        // Positioned(
+                        //   top: 0,
+                        //   right: 14,
+
+                        //   child: SizedBox(
+                        //     height: 15,
+                        //     width: 15,
+                        //     child: CircleAvatar(radius: 80,backgroundColor: Colors.yellow,)))
+                  ],
+                ),
                 IconButton(
                     onPressed: () {
                       showAlertDialogCofirmSkip(context);

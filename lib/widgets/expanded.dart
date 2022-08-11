@@ -114,7 +114,7 @@ class _ExpandedWidgetState extends State<ExpandedWidget> {
                 //     print('Open the url $url......');
                 // },
                 // onImageTap: (img){
-                //     print('Image $img');
+                //     print('Image $img');  
                 // },
                 // onImageError: (exception, stacktrace){
                 //     print(exception);

@@ -21,6 +21,8 @@ class PlayControllerV2 extends GetxController {
   var isDisableTextField = false.obs;
   var isLoading = false.obs;
 
+  var indexTypePage=0.obs;
+
   late PurchasedQuest pQuest;
 
   late CustomerTask cusTask;

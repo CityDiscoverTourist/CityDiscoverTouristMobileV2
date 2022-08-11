@@ -10,8 +10,8 @@ class QuestTypeService {
     // WelcomeController homeController = Get.find<WelcomeController>();
     print('JWT TYPE: ' + jwtToken);
     var response = await http.get(
-        Uri.parse('https://citytourist.azurewebsites.net/api/v1/quest-types' +
-            "?language=" +
+        Uri.parse('https://citytourist.azurewebsites.net/api/v1/quest-types?Status=active&' +
+            "language=" +
             Get.find<LoginControllerV2>().language.value.toString()),
         headers: {
           "Accept": "application/json",
