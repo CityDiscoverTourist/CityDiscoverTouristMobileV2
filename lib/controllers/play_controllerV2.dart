@@ -21,6 +21,11 @@ class PlayControllerV2 extends GetxController {
   var isDisableTextField = false.obs;
   var isLoading = false.obs;
 
+  var indexTypePage = 0.obs;
+  //0 Story
+  //1 Ans
+  //2 Des
+
   late PurchasedQuest pQuest;
 
   late CustomerTask cusTask;
@@ -269,7 +274,10 @@ class PlayControllerV2 extends GetxController {
         print('CheckErr ' + checkErr.toString());
         cusTask.questItemId = nextQuestItemId;
         if (nextQuestItemId != -1) {
-          Get.to(DescriptionAns());
+          // Get.to(DescriptionAns());
+
+          indexTypePage.value = 2;
+
           isLoading(true);
           isDisableTextField(false);
           questItemCurrent = await PlayService.fetchQuestItem(nextQuestItemId);

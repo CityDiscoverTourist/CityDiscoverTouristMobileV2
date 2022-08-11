@@ -159,7 +159,7 @@ class _DescriptionAnsState extends State<DescriptionAns> {
                   //   myController.text = "";
                   // }
                   controller.numQuest++;
-                  Get.off(StoryDescription());
+                  Get.to(StoryDescription());
                   // controller.clickAnswer();
                 },
                 child: Text('next'.tr, style: TextStyle(fontSize: 16)),

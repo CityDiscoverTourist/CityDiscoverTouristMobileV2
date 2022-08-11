@@ -70,6 +70,7 @@ class CommentController extends GetxController {
     lastVisible(false);
     isMoreLoading.value = true;
     indexPage.value=1;
+    dataComment.clear();
     getCommentData();
   }
 

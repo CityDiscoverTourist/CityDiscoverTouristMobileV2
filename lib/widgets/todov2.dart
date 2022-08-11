@@ -80,9 +80,12 @@ class TodoWidgetV2 extends StatelessWidget {
                                 size: 30,
                               ),
                             ),
-                            SmallText(
-                              text: 'total distance:'.tr,
-                              color: Colors.white,
+                            Expanded(
+                              child: SmallText(
+                                text: 'total distance:'.tr,
+                                color: Colors.white,
+                              ),
+                              flex: 1,
                             ),
                             BigText(
                               text: questDetailModel!.estimatedDistance
@@ -122,9 +125,12 @@ class TodoWidgetV2 extends StatelessWidget {
                                 size: 30,
                               ),
                             ),
-                            SmallText(
-                              text: 'total time:'.tr,
-                              color: Colors.white,
+                            Expanded(
+                              child: SmallText(
+                                text: 'total time:'.tr,
+                                color: Colors.white,
+                              ),
+                              flex: 1,
                             ),
                             BigText(
                               text: questDetailModel!.estimatedTime.toString() +
@@ -161,9 +167,12 @@ class TodoWidgetV2 extends StatelessWidget {
                                 size: 30,
                               ),
                             ),
-                            SmallText(
-                              text: 'number of question:'.tr,
-                              color: Colors.white,
+                            Expanded(
+                              child: SmallText(
+                                text: 'number of question:'.tr,
+                                color: Colors.white,
+                              ),
+                              flex: 1,
                             ),
                             BigText(
                               text: questDetailModel!.countQuestItem.toString(),
