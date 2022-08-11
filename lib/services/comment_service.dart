@@ -28,6 +28,7 @@ class CommentService {
           'Authorization': 'Bearer ' + jwtToken
         });
     print("fetchCommentsData Status_code: " '${response.statusCode}');
+    print(idQuest);
     Map data = jsonDecode(response.body);
     // Iterable list = dbc;
     Iterable list = data['data'];

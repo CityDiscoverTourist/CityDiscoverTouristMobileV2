@@ -157,7 +157,8 @@ class _RulePageState extends State<RulePage> {
                 backgroundColor: Colors.redAccent,
                 child: Text('get started'.tr),
                 onPressed: () {
-                  Get.to(StoryDescription());
+                  // Get.to(StoryDescription());
+                   Get.to(AnswerPage());
                 },
               );
             }
