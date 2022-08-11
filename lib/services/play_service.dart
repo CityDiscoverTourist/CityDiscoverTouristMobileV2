@@ -120,15 +120,17 @@ class PlayService {
       return Future<QuestItem>.value(null);
     }
   }
+
   // static void startQuest(String questID,String idPayment,String customer)async{
   //   Map body={
   //     'id':''
   //   };
   //   var response=await http.post(Uri.parse("https://citytourist.azurewebsites.net/api/v1/customer-tasks/questId=${questID}"),headers:{"Content-Type": "application/json" },body: )
   // }
-static Future<bool> cancelCustomerQuest(int idCusQuest)async{
-   var response = await http.put(
-        Uri.parse('https://citytourist.azurewebsites.net/api/v1/customer-quests/force-delete/${idCusQuest}?forceDelete=true'),
+  static Future<bool> cancelCustomerQuest(int idCusQuest) async {
+    var response = await http.put(
+        Uri.parse(
+            'https://citytourist.azurewebsites.net/api/v1/customer-quests/force-delete/${idCusQuest}?forceDelete=true'),
         headers: {
           "Content-Type": "application/json",
           'Authorization':
@@ -144,14 +146,14 @@ static Future<bool> cancelCustomerQuest(int idCusQuest)async{
     print("cancelCustomerQuest " + response.statusCode.toString());
     if (response.statusCode == 200) {
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
-    
+
       // print(rs.toString());    // print(data);
       // print("checkAnswer " + rs.countWrongAnswer.toString());
       // print("checkAnswer " + rs.countWrongAnswer.toString());
       return Future<bool>.value(true);
     }
     return Future<bool>.value(false);
-}
+  }
 
   Future<QuestItem> fetchDataQuestItem() {
     QuestItem? questItem;
@@ -700,25 +702,17 @@ static Future<bool> cancelCustomerQuest(int idCusQuest)async{
             ApiEndPoints.checkAnswer +
             customerQuestId.toString() +
             "?customerReply=" +
-            "1" +
+            "ss hình" +
             "&questItemId=" +
             questItemId.toString() +
             "&language=" +
             Get.find<LoginControllerV2>().language.value.toString();
         // requestUrl =
         //     "https://citytourist.azurewebsites.net/weather-forecast/demo2?api-version=1";
-        // final ImagePicker imagePicker = ImagePicker();
-        // List<XFile>? imageFileList = [];
-        // final List<XFile>? selectedImages = await imagePicker.pickMultiImage(
-        //     maxHeight: 480, maxWidth: 640, imageQuality: 50);
-        // if (selectedImages!.isNotEmpty) {
-        //   imageFileList.addAll(selectedImages);
-        // }
 
         final ImagePicker _picker = ImagePicker();
-        // print(requestUrl);
-        final XFile? pickedFile =
-            await _picker.pickImage(source: ImageSource.camera);
+        final XFile? pickedFile = await _picker.pickImage(
+            source: ImageSource.camera, imageQuality: 100);
         if (pickedFile != null) {
           final LostDataResponse response2 = await _picker.retrieveLostData();
           File file = File(pickedFile.path);
