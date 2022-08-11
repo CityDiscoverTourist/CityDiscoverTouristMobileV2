@@ -73,7 +73,7 @@ class PlayControllerV2 extends GetxController {
 
   var ruleIndex = 1.obs;
   var displayTime = "".obs;
-
+var isCancel=false.obs;
   increaseIndexRule() {
     print(ruleIndex);
     ruleIndex++;
@@ -139,9 +139,11 @@ class PlayControllerV2 extends GetxController {
 
   @override
   void onClose() async {
+    if(isCancel.isTrue){
     await PlayService.cancelCustomerQuest(customerQuestID.value);
+    Get.offAllNamed(KWelcomeScreen);
+    }
     print("GOOD BYE CONTROLLER");
-      Get.offAllNamed(KWelcomeScreen);
     super.onClose();
   }
 
@@ -412,4 +414,5 @@ class PlayControllerV2 extends GetxController {
   Future<bool> checkUserLocation(String questID) async {
     return await PlayService().checkLocation(questID);
   }
+  
 }

@@ -468,6 +468,7 @@ showAlertDialogCofirmOut(BuildContext context) {
       // ));
       //  vao trang huong dan
       Navigator.of(context).pop();
+      Get.find<PlayControllerV2>().isCancel.value=true;
       Get.delete<PlayControllerV2>();
     
     },
