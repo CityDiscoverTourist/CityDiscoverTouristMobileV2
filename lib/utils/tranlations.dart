@@ -258,6 +258,7 @@ class Translation extends Translations {
           "info purchase": "Info purchase",
           "do you want to show suggestion(you will be minus 75 point)":
               "Bạn có muốn hiện gợi ý không (Bạn sẽ bị trừ 75 điểm)",
+              "You will lose this turn and cannot play again":"Bạn sẽ mất lượt này và không thể chơi lại"
         },
         'vn': {
           "welcome message":
@@ -519,6 +520,7 @@ class Translation extends Translations {
           "info purchase": "Thông tin mua hàng",
           "do you want to show suggestion(you will be minus 75 point)":
               "Bạn có muốn hiện gợi ý không (Bạn sẽ bị trừ 75 điểm)",
+               "You will lose this turn and cannot play again":"Bạn sẽ mất lượt này và không thể chơi lại"
         }
       };
 }

@@ -9,6 +9,7 @@ import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/pages/completed_questV2.dart';
 import 'package:travel_hour/pages/description_questitem.dart';
 import 'package:travel_hour/pages/rulepage.dart';
+import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/services/play_service.dart';
 import 'package:travel_hour/services/quest_service.dart';
 
@@ -138,6 +139,9 @@ class PlayControllerV2 extends GetxController {
 
   @override
   void onClose() async {
+    await PlayService.cancelCustomerQuest(customerQuestID.value);
+    print("GOOD BYE CONTROLLER");
+      Get.offAllNamed(KWelcomeScreen);
     super.onClose();
   }
 

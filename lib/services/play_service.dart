@@ -126,6 +126,32 @@ class PlayService {
   //   };
   //   var response=await http.post(Uri.parse("https://citytourist.azurewebsites.net/api/v1/customer-tasks/questId=${questID}"),headers:{"Content-Type": "application/json" },body: )
   // }
+static Future<bool> cancelCustomerQuest(int idCusQuest)async{
+   var response = await http.put(
+        Uri.parse('https://citytourist.azurewebsites.net/api/v1/customer-quests/force-delete/${idCusQuest}?forceDelete=true'),
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':
+              'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+        });
+    // print(Api.baseUrl +
+    //     ApiEndPoints.checkAnswer +
+    //     customerQuestId +
+    //     "?customerReply=" +
+    //     customerReply +
+    //     "&questItemId=" +
+    //     questItemId);
+    print("cancelCustomerQuest " + response.statusCode.toString());
+    if (response.statusCode == 200) {
+      // print("OKkkkkkkkkkkkkkkkkkkkkk");
+    
+      // print(rs.toString());    // print(data);
+      // print("checkAnswer " + rs.countWrongAnswer.toString());
+      // print("checkAnswer " + rs.countWrongAnswer.toString());
+      return Future<bool>.value(true);
+    }
+    return Future<bool>.value(false);
+}
 
   Future<QuestItem> fetchDataQuestItem() {
     QuestItem? questItem;
