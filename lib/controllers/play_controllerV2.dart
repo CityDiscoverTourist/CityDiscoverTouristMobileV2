@@ -9,6 +9,7 @@ import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/pages/completed_questV2.dart';
 import 'package:travel_hour/pages/description_questitem.dart';
 import 'package:travel_hour/pages/rulepage.dart';
+import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/services/play_service.dart';
 import 'package:travel_hour/services/quest_service.dart';
 
@@ -72,7 +73,7 @@ class PlayControllerV2 extends GetxController {
 
   var ruleIndex = 1.obs;
   var displayTime = "".obs;
-
+var isCancel=false.obs;
   increaseIndexRule() {
     print(ruleIndex);
     ruleIndex++;
@@ -138,6 +139,11 @@ class PlayControllerV2 extends GetxController {
 
   @override
   void onClose() async {
+    if(isCancel.isTrue){
+    await PlayService.cancelCustomerQuest(customerQuestID.value);
+    Get.offAllNamed(KWelcomeScreen);
+    }
+    print("GOOD BYE CONTROLLER");
     super.onClose();
   }
 
@@ -408,4 +414,5 @@ class PlayControllerV2 extends GetxController {
   Future<bool> checkUserLocation(String questID) async {
     return await PlayService().checkLocation(questID);
   }
+  
 }

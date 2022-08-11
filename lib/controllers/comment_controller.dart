@@ -114,9 +114,7 @@ class CommentController extends GetxController {
       String commentStr, BuildContext context, int customerQuestID) async {
     try {
       isLoading(true);
-      if (commentStr.isEmpty) {
-        print('Comment is empty');
-      } else {
+
         await AppService().checkInternet().then((hasInternet) async {
           if (hasInternet == false) {
             openToast(context, 'no internet');
@@ -135,7 +133,7 @@ class CommentController extends GetxController {
             // refeshData();
           }
         });
-      }
+      
     } finally {
       Get.delete<PlayControllerV2>();
       Get.delete<QuestPurchasedController>();
