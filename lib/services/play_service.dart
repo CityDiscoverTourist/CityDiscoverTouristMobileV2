@@ -682,6 +682,21 @@ class PlayService {
         if (response2.statusCode == 200) {
           var data = json.decode(response2.body);
           rs = CustomerTask.fromJson(data["data"]);
+          Map mydata = {
+            'customerTaskId': rs.id,
+            'questItemId': questItemId,
+          };
+          var body = json.encode(mydata);
+          var response4 = await http.post(
+            Uri.parse(
+                "https://citytourist.azurewebsites.net/api/v1/customer-tasks/internal-save"),
+            body: body,
+            headers: {
+              "Content-Type": "application/json",
+              'Authorization':
+                  'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+            },
+          );
           return Future<CustomerTask>.value(rs);
         }
         // Get.find<PlayControllerV2>().isSkip.value = false;
