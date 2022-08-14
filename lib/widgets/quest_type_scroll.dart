@@ -112,28 +112,14 @@ class _ItemList extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20))),
           ),
         ]),
-<<<<<<< HEAD
         onTap: (){
-           Get.toNamed(KQuestByType, parameters: {
-=======
-        onTap: () {
           Get.toNamed(KQuestByType, parameters: {
->>>>>>> ec01a45dc8137d8a5f7fd1050eabf6a82b671871
             "title": q.name,
             "idQuestType": q.id.toString(),
             "idArea": Get.find<HomeController>().areaIdChoice.toString()
           });
         });
-<<<<<<< HEAD
-        //  Get.to(MoreQuestPage(
-        //     title: q.name,
-        //     color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-        //         .withOpacity(1.0))));
-=======
-    //  Get.to(MoreQuestPage(
-    //     title: q.name,
-    //     color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-    //         .withOpacity(1.0))));
->>>>>>> ec01a45dc8137d8a5f7fd1050eabf6a82b671871
+
+
   }
 }
