@@ -15,6 +15,7 @@ import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/schedule_container.dart';
 
+import '../config/colors.dart';
 import '../controllers/play_controllerV2.dart';
 import '../widgets/custom_cache_image.dart';
 import 'package:animations/animations.dart';
@@ -42,7 +43,7 @@ class _StoryDescriptionState extends State<StoryDescription> {
 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.redAccent,
+          backgroundColor: AppColors.mainColor,
           title: Text('story page'.tr),
           automaticallyImplyLeading: false),
       body: SingleChildScrollView(
@@ -150,7 +151,7 @@ class _StoryDescriptionState extends State<StoryDescription> {
                 },
                 child: Text('next'.tr, style: TextStyle(fontSize: 16)),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.redAccent,
+                  primary: AppColors.mainColor,
                   onPrimary: Colors.white,
                   padding: const EdgeInsets.only(
                       left: 40.0, top: 16.0, bottom: 16.0, right: 40.0),

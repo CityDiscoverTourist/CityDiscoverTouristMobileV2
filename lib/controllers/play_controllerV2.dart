@@ -5,6 +5,7 @@ import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:travel_hour/controllers/comment_controller.dart';
 import 'package:travel_hour/controllers/questpurchased_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
+import 'package:travel_hour/models/customer_quest.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/pages/completed_questV2.dart';
 import 'package:travel_hour/pages/description_questitem.dart';
@@ -37,6 +38,7 @@ class PlayControllerV2 extends GetxController {
   late QuestItem questItemCurrent;
   var sugggestion = "".obs;
   var isShowSuggestion = false.obs;
+  var haveSuggestion = false.obs;
   var isSkip = false.obs;
   //Handle button submit Answer in Answer_questItem Page
   var clickAns = false.obs;
@@ -68,12 +70,12 @@ class PlayControllerV2 extends GetxController {
   var index = 0.obs;
   var numQuest = 0.obs;
   var totalQuestItem = 0.obs;
-  late String endPoint;
+  late CustomerQuest endPoint;
   var checkErr = "".obs;
 
   var ruleIndex = 1.obs;
   var displayTime = "".obs;
-var isCancel=false.obs;
+  var isCancel = false.obs;
   increaseIndexRule() {
     print(ruleIndex);
     ruleIndex++;
@@ -139,9 +141,9 @@ var isCancel=false.obs;
 
   @override
   void onClose() async {
-    if(isCancel.isTrue){
-    await PlayService.cancelCustomerQuest(customerQuestID.value);
-    Get.offAllNamed(KWelcomeScreen);
+    if (isCancel.isTrue) {
+      await PlayService.cancelCustomerQuest(customerQuestID.value);
+      Get.offAllNamed(KWelcomeScreen);
     }
     print("GOOD BYE CONTROLLER");
     super.onClose();
@@ -199,6 +201,12 @@ var isCancel=false.obs;
           if (questItemCurrent != null) {
             sugggestion.value =
                 await PlayService().getSuggestion(questItemCurrent.id);
+                 if (sugggestion.isEmpty) {
+            print("isEmpty");
+            haveSuggestion(false);
+          } else {
+            haveSuggestion(true);
+          }
           }
         }
       }
@@ -260,6 +268,7 @@ var isCancel=false.obs;
                 color: Colors.red,
               ));
         } else {
+          // if(cusTask.countWrongAnswer>4)
           Get.snackbar('right answer'.tr, 'congratulations'.tr,
               duration: Duration(seconds: 2),
               backgroundColor: Colors.black,
@@ -291,6 +300,12 @@ var isCancel=false.obs;
 
           sugggestion.value =
               await PlayService().getSuggestion(questItemCurrent.id);
+          if (sugggestion.isEmpty) {
+            print("isEmpty");
+            haveSuggestion(false);
+          } else {
+            haveSuggestion(true);
+          }
           isLoading(false);
 
           update();
@@ -301,7 +316,11 @@ var isCancel=false.obs;
           _stopWatchTimer.rawTime.listen((value) => displayTime.value =
               StopWatchTimer.getDisplayTime(value, milliSecond: false)
                   .toString());
-          endPoint = await PlayService.updateEndPoint(customerQuestID.value);
+          var cusQuestEnd =
+              await PlayService.updateEndPoint(customerQuestID.value);
+          if (cusQuestEnd != null) {
+            endPoint = cusQuestEnd;
+          }
           Get.lazyPut(() => CommentController());
           Get.to(CompletedPageV2());
         }
@@ -367,7 +386,7 @@ var isCancel=false.obs;
   }
 
   void showSuggestion() async {
-    if (isShowSuggestion.value == false) {
+    if (isShowSuggestion.value == false&&haveSuggestion.isTrue) {
       try {
         isLoading(true);
         cusTask =
@@ -414,5 +433,4 @@ var isCancel=false.obs;
   Future<bool> checkUserLocation(String questID) async {
     return await PlayService().checkLocation(questID);
   }
-  
 }

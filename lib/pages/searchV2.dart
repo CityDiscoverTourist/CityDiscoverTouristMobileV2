@@ -15,6 +15,8 @@ import 'package:travel_hour/utils/loading_cards.dart';
 import 'package:travel_hour/utils/snacbar.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 
+import '../config/colors.dart';
+
 class SearchPageV2 extends StatelessWidget {
   var controllerS = Get.find<SearchController>();
 
@@ -28,7 +30,7 @@ class SearchPageV2 extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.redAccent,
+          backgroundColor: AppColors.mainColor,
           title: _searchBar(),
           automaticallyImplyLeading: true,
         ),

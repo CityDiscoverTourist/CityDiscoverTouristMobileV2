@@ -11,6 +11,7 @@ import '../controllers/home_controller.dart';
 import '../models/quest_type.dart';
 import '../pages/more_quests.dart';
 import '../pages/quest_type.dart';
+import '../routes/app_routes.dart';
 import 'custom_cache_image.dart';
 
 class QuestTypeScroll extends StatelessWidget {
@@ -111,7 +112,13 @@ class _ItemList extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20))),
           ),
         ]),
-        onTap: (){});
+        onTap: (){
+           Get.toNamed(KQuestByType, parameters: {
+            "title": q.name,
+            "idQuestType": q.id.toString(),
+            "idArea": Get.find<HomeController>().areaIdChoice.toString()
+          });
+        });
         //  Get.to(MoreQuestPage(
         //     title: q.name,
         //     color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())

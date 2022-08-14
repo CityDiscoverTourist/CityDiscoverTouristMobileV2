@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   
   get:
+  money_formatter: ^0.0.3
   flutter_countdown_timer: ^4.1.0
   font_awesome_flutter: ^9.0.0
   bottom_navy_bar:

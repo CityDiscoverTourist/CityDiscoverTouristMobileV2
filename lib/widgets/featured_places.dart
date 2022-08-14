@@ -147,8 +147,24 @@ class _FeaturedItemList extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Expanded(
-                              child: RatingBarIndicator(
+                            // Expanded(
+                            //   child: RatingBarIndicator(
+                            //     rating: q.averageStar.toDouble(),
+                            //     itemBuilder: (context, index) => Icon(
+                            //       Icons.star,
+                            //       color: Colors.amber,
+                            //     ),
+                            //     itemCount: 5,
+                            //     itemSize: 10.0,
+                            //     direction: Axis.horizontal,
+                            //   ),
+                            // ),
+                            Text(q.averageStar.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey)),
+                                    // Icon(Icons.star,size: 13,color: Colors.yellow,),
+                                    RatingBarIndicator(
                                 rating: q.averageStar.toDouble(),
                                 itemBuilder: (context, index) => Icon(
                                   Icons.star,
@@ -158,11 +174,6 @@ class _FeaturedItemList extends StatelessWidget {
                                 itemSize: 10.0,
                                 direction: Axis.horizontal,
                               ),
-                            ),
-                            Text(q.averageStar.toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey)),
                             SizedBox(
                               width: 10,
                             ),
@@ -211,7 +222,7 @@ class _FeaturedItemList extends StatelessWidget {
                                 color: Colors.orange,
                               ),
                               Text(
-                                q.estimatedTime + 'minutes'.tr,
+                                q.estimatedTime + " "+'minutes'.tr,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,

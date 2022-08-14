@@ -28,7 +28,7 @@ class CommentController extends GetxController {
   //Biến Comment và rating
   var indexCount = 1.obs;
 
-  var rating = 1.obs;
+  var rating = 4.obs;
   var comment = "".obs;
   var isCommented = 0.obs;
   late Comment myComment;

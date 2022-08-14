@@ -5,11 +5,13 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:money_formatter/money_formatter.dart';
 import 'package:travel_hour/controllers/loadquest_controller.dart';
 
 import 'package:travel_hour/pages/quest_details.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/routes/app_routes.dart';
+import 'package:travel_hour/utils/empty.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 
 import '../controllers/home_controller.dart';
@@ -39,72 +41,87 @@ class MoreQuestPage extends GetView<LoadQuestController> {
   @override
   Widget build(BuildContext context) {
     // var myController = Get.find<HomeController>();
-    return 
-    Obx(()=>controller.isLoading.isTrue?SplashStart():
-    Scaffold(
-      body: RefreshIndicator(
-        child: CustomScrollView(
-          controller: controllerScroll,
-          slivers: <Widget>[
-            SliverAppBar(
-              automaticallyImplyLeading: false,
-              pinned: true,
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.keyboard_arrow_left,
-                    color: Colors.white,
+    return Obx(() => controller.isLoading.isTrue
+        ? SplashStart()
+       
+        :Scaffold(
+            body:
+          
+             RefreshIndicator(
+              child: CustomScrollView(
+                controller: controllerScroll,
+                slivers: <Widget>[
+                  SliverAppBar(
+                    automaticallyImplyLeading: false,
+                    pinned: true,
+                    actions: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.keyboard_arrow_left,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      )
+                    ],
+                    backgroundColor: color,
+                    expandedHeight: 140,
+                    flexibleSpace: FlexibleSpaceBar(
+                      centerTitle: false,
+                      background: Container(
+                        color: color,
+                        height: 140,
+                        width: double.infinity,
+                      ),
+                      title: BigText(
+                        // text: widget.title,
+                        text: Get.parameters['title'].toString(),
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                      titlePadding:
+                          EdgeInsets.only(left: 20, bottom: 15, right: 15),
+                    ),
                   ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
-              ],
-              backgroundColor: color,
-              expandedHeight: 140,
-              flexibleSpace: FlexibleSpaceBar(
-                centerTitle: false,
-                background: Container(
-                  color: color,
-                  height: 140,
-                  width: double.infinity,
-                ),
-                title: BigText(
-                  // text: widget.title,
-                         text: Get.parameters['title'].toString(),
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-                titlePadding: EdgeInsets.only(left: 20, bottom: 15, right: 15),
+                  SliverPadding(
+                    padding: EdgeInsets.all(15),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          return
+          //                    controller.questList.length==0? 
+          // // EmptyPage(
+          // //         icon: Icons.card_giftcard,
+          // //         message: 'no reward found'.tr,
+          // //         message1: ''.tr,
+          // //       )
+          // // Center(child: Text("hhhhhhhhh"),)
+          //       :
+                           _ListItem(
+                            q: controller.questList[index],
+                            // tag: '${widget.title}$index',
+                          );
+                        },
+                        childCount: controller.questList.length,
+                      ),
+                    ),
+                  )
+                ],
               ),
+              onRefresh: () async => () {},
             ),
-            SliverPadding(
-              padding: EdgeInsets.all(15),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return _ListItem(
-                      q: controller.questList[index],
-                      // tag: '${widget.title}$index',
-                    );
-                  },
-                  childCount: controller.questList.length,
-                ),
-              ),
-            )
-          ],
-        ),
-        onRefresh: () async => () {},
-      ),
-    ));
+          ));
   }
 }
 
 class _ListItem extends StatelessWidget {
   final Quest q;
   // final tag;
-  const _ListItem({Key? key, required this.q,})
-      : super(key: key);
+  const _ListItem({
+    Key? key,
+    required this.q,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -229,7 +246,13 @@ class _ListItem extends StatelessWidget {
                             Container(
                               child: Center(
                                   child: BigText(
-                                text: q.price.truncate().toString() + " VNĐ",
+                                text:
+                                    //  q.price.truncate().toString()
+                                    MoneyFormatter(amount: q.price)
+                                            .output
+                                            .withoutFractionDigits
+                                            .toString() +
+                                        " VNĐ",
                                 fontWeight: FontWeight.w700,
                               )),
                               width: MediaQuery.of(context).size.width * 0.25,
@@ -248,9 +271,8 @@ class _ListItem extends StatelessWidget {
         ),
         onTap: () {
           // Get.find<HomeController>().idQuestCurrent.value = q.id;
-          Get.toNamed(KQuestDetailPage,parameters: {
-            'idQuest':q.id.toString()
-          });
+          Get.toNamed(KQuestDetailPage,
+              parameters: {'idQuest': q.id.toString()});
         }
         // => Get.to(() => QuestDetails(data: q, tag: tag)),
         );

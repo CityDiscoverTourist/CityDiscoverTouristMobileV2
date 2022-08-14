@@ -13,6 +13,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:travel_hour/widgets/dash.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 
+import '../config/colors.dart';
+
 class PaymentDetail extends StatelessWidget {
   final PurchasedQuest? purchasedQuest;
   const PaymentDetail({Key? key, this.purchasedQuest}) : super(key: key);
@@ -34,7 +36,7 @@ class PaymentDetail extends StatelessWidget {
               color: Colors.white,
             ),
             centerTitle: true,
-            backgroundColor: Colors.redAccent,
+            backgroundColor: AppColors.mainColor,
           ),
           body: Padding(
             padding: EdgeInsets.all(10),

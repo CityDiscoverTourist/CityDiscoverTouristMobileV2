@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:travel_hour/config/colors.dart';
 import 'package:travel_hour/controllers/comment_controllerV4.dart';
 import 'package:travel_hour/models/place.dart';
 import 'package:travel_hour/models/quest.dart';
@@ -38,7 +39,7 @@ class TodoWidgetV2 extends StatelessWidget {
           height: 3,
           width: 50,
           decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
+              color: AppColors.mainColor,
               borderRadius: BorderRadius.circular(40)),
         ),
         Container(
@@ -133,7 +134,7 @@ class TodoWidgetV2 extends StatelessWidget {
                               flex: 1,
                             ),
                             BigText(
-                              text: questDetailModel!.estimatedTime.toString() +
+                              text: questDetailModel!.estimatedTime.toString() +" "+
                                   'minutes'.tr,
                               color: Colors.white,
                             ),

@@ -8,6 +8,7 @@ import 'package:gender_picker/source/gender_picker.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_hour/config/colors.dart';
 // import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/services/app_service.dart';
@@ -167,6 +168,7 @@ class _EditProfileState extends State<EditProfile> {
     return Scaffold(
         key: scaffoldKey,
         appBar: AppBar(
+          backgroundColor: AppColors.mainColor,
           title: Text('edit profile'.tr),
         ),
         body: ListView(
@@ -214,7 +216,7 @@ class _EditProfileState extends State<EditProfile> {
               child: ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith(
-                        (states) => Theme.of(context).primaryColor),
+                        (states) => AppColors.mainColor),
                     textStyle: MaterialStateProperty.resolveWith(
                         (states) => TextStyle(color: Colors.white))),
                 child: loading == true

@@ -13,6 +13,8 @@ import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/snacbar.dart';
 
+import '../config/colors.dart';
+
 class ChangePassword extends StatefulWidget {
   const ChangePassword({
     Key? key,
@@ -78,6 +80,7 @@ class _ChangePasswordState extends State<ChangePassword> {
         key: scaffoldKey,
         appBar: AppBar(
           title: Text('change password'.tr),
+          backgroundColor: AppColors.mainColor,
         ),
         body: ListView(
           padding: const EdgeInsets.all(25),
@@ -95,7 +98,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith(
-                        (states) => Theme.of(context).primaryColor),
+                        (states) => AppColors.mainColor),
                     textStyle: MaterialStateProperty.resolveWith(
                         (states) => TextStyle(color: Colors.white))),
                 child: loading == true

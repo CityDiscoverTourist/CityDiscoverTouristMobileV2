@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:momo_vn/momo_vn.dart';
+import 'package:money_formatter/money_formatter.dart';
 import 'package:travel_hour/controllers/payment_controller.dart';
 import 'package:travel_hour/controllers/play_controller.dart';
 import 'package:travel_hour/controllers/play_controllerV2.dart';
@@ -20,12 +21,14 @@ import 'package:http/http.dart' as http;
 import 'package:travel_hour/models/quest_detail.dart';
 import 'package:travel_hour/pages/momo_web_payment.dart';
 import 'package:travel_hour/pages/splashV2.dart';
+import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 // import 'package:travel_hour/widgets/discount.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 import 'package:uuid/uuid.dart';
 
+import '../config/colors.dart';
 import '../controllers/questpurchased_controller.dart';
 import '../controllers/home_controller.dart';
 import '../controllers/login_controller_V2.dart';
@@ -49,7 +52,7 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
     return Obx(
       () => controller.isLoading.isTrue
           ? Center(
-              child: CircularProgressIndicator(color: Colors.redAccent),
+              child: CircularProgressIndicator(color: AppColors.mainColor),
             )
           : WillPopScope(
               onWillPop: () async {
@@ -60,7 +63,7 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
               child: Scaffold(
                 appBar: AppBar(
                   title: Text('payment page'.tr),
-                  backgroundColor: Colors.redAccent,
+                  backgroundColor: AppColors.mainColor,
                   // actions: [
                   //   IconButton(
                   //       onPressed: () {
@@ -113,7 +116,7 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                           ),
                           // Row(children: [
                           //Container Giam gia
-                          Get.find<RewardController>().rewardsList.length != 0
+                          Get.find<RewardController>().rewardsList.length != 0&&controller.paymentStatus.isEmpty
                               ? RewardWidget()
                               : SizedBox.shrink(),
                           //Container code san
@@ -298,7 +301,11 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                                   ),
                                   trailing: CustomText(
                                     text:
-                                        controller.total.truncate().toString() +
+                                        // controller.total.truncate()
+                                          MoneyFormatter(amount:controller.total.value)
+                                            .output
+                                            .withoutFractionDigits.toString()
+                                         +
                                             " VND",
                                     color: Colors.green,
                                   ),
@@ -310,9 +317,14 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                                     text: "amount reduced".tr,
                                   ),
                                   trailing: CustomText(
-                                    text: controller.discountPrice
-                                            .truncate()
-                                            .toString() +
+                                    text:
+                                    //  controller.discountPrice
+                                    //         .truncate()
+                                      MoneyFormatter(amount:controller.discountPrice.value)
+                                            .output
+                                            .withoutFractionDigits
+                                            .toString()
+                                             +
                                         " VND",
                                     color: Colors.green,
                                   ),
@@ -325,9 +337,15 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                                     text: "total price".tr,
                                   ),
                                   trailing: CustomText(
-                                    text: controller.finalTotal
-                                            .truncate()
-                                            .toString() +
+                                    text: 
+                                       MoneyFormatter(amount:controller.finalTotal.value)
+                                            .output
+                                            .withoutFractionDigits
+                                            .toString()
+                                    // controller.finalTotal
+                                    //         .truncate()
+                                    //         .toString() 
+                                            +
                                         " VND",
                                     color: Colors.green,
                                   ),
@@ -424,7 +442,7 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                       left: 0,
                       right: 0,
                       child: RaisedButton(
-                        color: Colors.redAccent,
+                        color: AppColors.mainColor,
                         // child: const Text('Xác nhận thanh toán'),
                         child: controller.paymentStatus.isEmpty
                             ? BigText(text: 'cofirm payment'.tr)
@@ -432,7 +450,7 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                         onPressed: controller.paymentStatus.value.isEmpty
                             ? _sendToServer
                             : () {
-                                Navigator.pop(context);
+                              Get.offNamed(KPlayingQuest);
                               },
                       ),
                     ),
@@ -450,7 +468,7 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
           Get.find<LoginControllerV2>().sp.id,
           Get.find<QuestDetailController>().questDetail.id.toString(),
           controller.quantity2.value,
-          controller.finalTotal.value,
+          controller.total.value,
           controller.idRewardChoose.value);
       if (map != null) {
         Get.to(() => MoMoWebView(
@@ -497,22 +515,27 @@ class RewardWidget extends StatelessWidget {
           boxShadow: [
             BoxShadow(color: Colors.grey.withOpacity(.5), blurRadius: 15)
           ]),
-      child: Expanded(
-          flex: 90,
-          child: ListView.builder(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: Get.find<HomeController>().rewardList.length - 1,
-            itemBuilder: (context, index) => Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                DiscountWidget(
-                    rewardModel:
-                        Get.find<RewardController>().rewardsList[index]),
-              ],
-            ),
-          )),
+      child: Column(
+        children: [
+          // Text("Mã giảm giá"),
+          Expanded(
+              flex: 90,
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: Get.find<HomeController>().rewardList.length - 1,
+                itemBuilder: (context, index) => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    DiscountWidget(
+                        rewardModel:
+                            Get.find<RewardController>().rewardsList[index]),
+                  ],
+                ),
+              )),
+        ],
+      ),
     );
   }
 }
@@ -534,7 +557,7 @@ class DiscountWidget extends GetView<PaymentController> {
               width: 7,
               height: 90,
               decoration: const BoxDecoration(
-                color: Colors.redAccent,
+                color: Color(0xFFff7221),
                 borderRadius: BorderRadius.horizontal(
                   left: Radius.circular(5),
                 ),
@@ -560,7 +583,7 @@ class DiscountWidget extends GetView<PaymentController> {
                 padding: const EdgeInsets.only(left: 20),
                 decoration: BoxDecoration(
                   color: controller.idRewardChoose.value == rewardModel.code
-                      ? Colors.redAccent.withOpacity(0.1)
+                      ? AppColors.mainColor.withOpacity(0.1)
                       : Colors.white,
                   borderRadius: const BorderRadius.horizontal(
                     right: Radius.circular(20),

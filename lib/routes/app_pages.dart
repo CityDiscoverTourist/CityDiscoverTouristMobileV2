@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:travel_hour/bindings/quest_binding.dart';
 import 'package:travel_hour/bindings/questdetail_binding.dart';
+import 'package:travel_hour/config/colors.dart';
 import 'package:travel_hour/pages/completed_questV2.dart';
 import 'package:travel_hour/pages/history.dart';
 import 'package:travel_hour/pages/more_quests.dart';
@@ -81,8 +82,7 @@ class AppPages {
           binding: QuestDetailBinding()),
            GetPage(
           name: KQuestByType,
-          page: () => MoreQuestPage( color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                .withOpacity(1.0)),
+          page: () => MoreQuestPage( color:AppColors.mainColor.withOpacity(1.0)),
           binding: QuestBinding()),
        GetPage(name: KPaymentMoMo, page: ()=>PaymentWidgetV2(),binding: PaymentBinding())
     ];

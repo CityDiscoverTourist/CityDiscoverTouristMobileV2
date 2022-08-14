@@ -481,4 +481,7 @@ class LoginControllerV2 extends GetxController {
       // update();
     }
   }
+    void changeLanguagev2(String language) {
+    Get.updateLocale(Locale(language));
+  }
 }

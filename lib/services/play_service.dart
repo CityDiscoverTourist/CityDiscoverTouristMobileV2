@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/controllers/play_controllerV2.dart';
+import 'package:travel_hour/models/customer_quest.dart';
 import 'package:travel_hour/models/customer_task.dart';
 import 'package:travel_hour/models/payment.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
@@ -198,8 +199,7 @@ static Future<bool> cancelCustomerQuest(int idCusQuest)async{
     return Future<CustomerTask>.value(null);
   }
 
-  static Future<String> updateEndPoint(int customerQuestId) async {
-    String rs;
+  static Future<CustomerQuest?> updateEndPoint(int customerQuestId) async {
     var response = await http.put(
         Uri.parse(
             'https://citytourist.azurewebsites.net/api/v1/customer-quests/update-end-point/${customerQuestId}'),
@@ -215,11 +215,13 @@ static Future<bool> cancelCustomerQuest(int idCusQuest)async{
       // print('object');
       print("updateEndPoint OK");
       Map data = jsonDecode(response.body);
-      rs = data['data']['endPoint'];
-      return Future<String>.value(rs);
+    CustomerQuest rs;
+    rs=CustomerQuest.fromJson(data['data']);
+      // rs = data['data']['endPoint'];
+      return Future<CustomerQuest>.value(rs);
     } else {
       print('fail');
-      return Future<String>.value("");
+      return null;
     }
   }
 
@@ -389,6 +391,7 @@ static Future<bool> cancelCustomerQuest(int idCusQuest)async{
           'Authorization':
               'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         });
+        print("checkCoupon "+response.statusCode.toString());
     if (response.statusCode == 200) {
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
       var data = json.decode(response.body);

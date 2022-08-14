@@ -4,6 +4,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:travel_hour/controllers/questpurchased_controller.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
@@ -14,6 +15,7 @@ import 'package:travel_hour/pages/payment_detail.dart';
 import 'package:travel_hour/pages/qr_scanner.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/pages/rulepage.dart';
+import 'package:travel_hour/utils/empty.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 import 'package:travel_hour/widgets/small_text.dart';
@@ -21,6 +23,7 @@ import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../common/customFullScreenDialog.dart';
+import '../config/colors.dart';
 import '../controllers/chat_controller.dart';
 import '../controllers/play_controllerV2.dart';
 import '../models/quest.dart';
@@ -45,7 +48,7 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
             },
           ),
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.redAccent,
+          backgroundColor: AppColors.mainColor,
           title: BigText(
             text: 'my quest'.tr,
             color: Colors.white,
@@ -81,13 +84,21 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
         body: Obx((() {
           if (controller.isLoading.value == false) {
             print(controller.purchsedQuestList.length);
-            return ListView.builder(
-              itemCount: controller.purchsedQuestList.length,
-              itemBuilder: (_, _currentIndex) {
-                return cardPurchagedQuest(
-                    controller.purchsedQuestList[_currentIndex], context);
-              },
-            );
+            if (controller.purchsedQuestList.length != 0) {
+              return ListView.builder(
+                itemCount: controller.purchsedQuestList.length,
+                itemBuilder: (_, _currentIndex) {
+                  return cardPurchagedQuest(
+                      controller.purchsedQuestList[_currentIndex], context);
+                },
+              );
+            } else {
+              return    EmptyPage(
+                  icon: Feather.book,
+                  message: 'Khong tim thay quest nao'.tr,
+                  message1: 'Mua quest di nha'.tr,
+                );
+            }
           } else {
             return SplashStart(
               content: "waiting.....".tr,
@@ -95,7 +106,7 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
           }
         })),
         // floatingActionButton: FloatingActionButton(
-        //   backgroundColor: Colors.redAccent,
+
         //   child: Icon(
         //     Icons.add,
         //   ),
@@ -252,7 +263,7 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
                     ),
                   ],
                   icon: CircleAvatar(
-                    backgroundColor: Colors.redAccent,
+                    backgroundColor: AppColors.mainColor,
                     // backgroundImage: const NetworkImage(
                     //   'https://images.unsplash.com/photo-1644982647869-e1337f992828?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80',
                     // ),
@@ -286,7 +297,7 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
         //           }
         //         },
         //         child: CircleAvatar(
-        //           backgroundColor: Colors.redAccent,
+        //
         //           radius: 30,
         //           child: Icon(
         //             Icons.play_arrow,

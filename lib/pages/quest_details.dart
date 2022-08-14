@@ -394,7 +394,7 @@
 //                     gradient: LinearGradient(
 //                       begin: Alignment.topRight,
 //                       end: Alignment.bottomLeft,
-//                       colors: [Colors.white, Colors.redAccent, Colors.white],
+//                    
 //                     ),
 //                     borderRadius: BorderRadius.circular(10)),
 //               ),

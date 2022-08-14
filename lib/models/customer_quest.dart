@@ -4,65 +4,90 @@
 
 import 'dart:convert';
 
-List<CustomerQuest> customerQuestFromJson(String str) =>
-    List<CustomerQuest>.from(
-        json.decode(str).map((x) => CustomerQuest.fromJson(x)));
+CustomerQuest customerQuestFromJson(String str) => CustomerQuest.fromJson(json.decode(str));
 
-String customerQuestToJson(List<CustomerQuest> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String customerQuestToJson(CustomerQuest data) => json.encode(data.toJson());
 
 class CustomerQuest {
-  CustomerQuest({
-    required this.id,
-    required this.beginPoint,
-    this.endPoint,
-    this.createdDate,
-    required this.rating,
-    required this.feedBack,
-    required this.customerId,
-    required this.isFinished,
-    required this.questId,
-    this.status,
-    this.paymentMethod,
-  });
+    CustomerQuest({
+        this.id,
+        this.beginPoint,
+        this.endPoint,
+        required this.createdDate,
+        this.rating,
+        this.feedBack,
+        this.customerId,
+        this.customerName,
+        this.isFinished,
+        this.questId,
+        required this.questName,
+        this.imagePath,
+        this.paymentId,
+        this.status,
+        this.isFeedbackApproved,
+        this.rewardCode,
+        this.percentDiscount,
+        this.percentPointRemain,
+    });
 
-  int id;
-  String beginPoint;
-  dynamic endPoint;
-  dynamic createdDate;
-  int rating;
-  String feedBack;
-  String customerId;
-  bool isFinished;
-  int questId;
-  dynamic status;
-  dynamic paymentMethod;
+    int? id;
+    String? beginPoint;
+    String? endPoint;
+    DateTime createdDate;
+    int? rating;
+    String? feedBack;
+    String? customerId;
+    String? customerName;
+    bool? isFinished;
+    int? questId;
+    String? questName;
+    String? imagePath;
+    String? paymentId;
+    String? status;
+    bool? isFeedbackApproved;
+    String? rewardCode;
+    int? percentDiscount;
+    double? percentPointRemain;
 
-  factory CustomerQuest.fromJson(Map<String, dynamic> json) => CustomerQuest(
+    factory CustomerQuest.fromJson(Map<String, dynamic> json) => CustomerQuest(
         id: json["id"],
         beginPoint: json["beginPoint"],
         endPoint: json["endPoint"],
-        createdDate: json["createdDate"],
+        createdDate: DateTime.parse(json["createdDate"]),
         rating: json["rating"],
         feedBack: json["feedBack"],
         customerId: json["customerId"],
+        customerName: json["customerName"],
         isFinished: json["isFinished"],
         questId: json["questId"],
+        questName: json["questName"],
+        imagePath: json["imagePath"],
+        paymentId: json["paymentId"],
         status: json["status"],
-        paymentMethod: json["paymentMethod"],
-      );
+        isFeedbackApproved: json["isFeedbackApproved"],
+        rewardCode: json["rewardCode"],
+        percentDiscount: json["percentDiscount"],
+        percentPointRemain: json["percentPointRemain"],
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "id": id,
         "beginPoint": beginPoint,
         "endPoint": endPoint,
-        "createdDate": createdDate,
+        "createdDate": createdDate.toString(),
         "rating": rating,
         "feedBack": feedBack,
         "customerId": customerId,
+        "customerName": customerName,
         "isFinished": isFinished,
         "questId": questId,
+        "questName": questName,
+        "imagePath": imagePath,
+        "paymentId": paymentId,
         "status": status,
-        "paymentMethod": paymentMethod,
-      };
+        "isFeedbackApproved": isFeedbackApproved,
+        "rewardCode": rewardCode,
+        "percentDiscount": percentDiscount,
+        "percentPointRemain": percentPointRemain,
+    };
 }

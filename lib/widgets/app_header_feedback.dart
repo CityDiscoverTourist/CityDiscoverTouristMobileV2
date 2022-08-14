@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../config/colors.dart';
+
 class AppHeader extends StatelessWidget {
   const AppHeader({
     Key? key,
@@ -12,7 +14,7 @@ class AppHeader extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 350.0,
-        color:Colors.redAccent
+        color:AppColors.mainColor
       ),
     );
   }

@@ -22,6 +22,7 @@ import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/widgets/language.dart';
 
+import '../config/colors.dart';
 import '../controllers/home_controller.dart';
 // import 'package:easy_localization/easy_localization.dart';
 
@@ -95,6 +96,7 @@ class _ProfilePageState extends State<ProfilePage>
         appBar: AppBar(
           title: Text('profile'.tr),
           centerTitle: false,
+          backgroundColor: AppColors.mainColor,
           // actions: [
           //   IconButton(
           //       icon: Icon(LineIcons.bell, size: 25),
@@ -217,7 +219,7 @@ class _ProfilePageState extends State<ProfilePage>
                 height: 30,
                 width: 30,
                 decoration: BoxDecoration(
-                    color: Colors.redAccent,
+                    color: AppColors.mainColor,
                     borderRadius: BorderRadius.circular(5)),
                 child: Icon(Feather.lock, size: 20, color: Colors.white),
               ),
@@ -282,7 +284,7 @@ class _ProfilePageState extends State<ProfilePage>
                 height: 30,
                 width: 30,
                 decoration: BoxDecoration(
-                    color: Colors.redAccent,
+                    color: AppColors.mainColor,
                     borderRadius: BorderRadius.circular(5)),
                 child: Icon(Feather.youtube, size: 20, color: Colors.white),
               ),
@@ -489,7 +491,7 @@ class UserUI extends StatelessWidget {
             height: 30,
             width: 30,
             decoration: BoxDecoration(
-                color: Colors.redAccent,
+                color: AppColors.mainColor,
                 borderRadius: BorderRadius.circular(5)),
             child: Icon(Feather.log_out, size: 20, color: Colors.white),
           ),

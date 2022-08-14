@@ -9,6 +9,7 @@ import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 
+import '../config/colors.dart';
 import '../controllers/play_controllerV2.dart';
 
 class RatingQuest extends StatelessWidget {
@@ -68,7 +69,7 @@ class RatingQuest extends StatelessWidget {
                         itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                         itemBuilder: (context, _) => Icon(
                           Icons.star,
-                          color: Colors.redAccent,
+                          color: AppColors.mainColor,
                         ),
                         onRatingUpdate: (rating) {
                           print(rating);
@@ -131,7 +132,7 @@ class RatingQuest extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 height: 50,
-                color: Colors.redAccent,
+                color: AppColors.mainColor,
                 child: Center(
                     child: BigText(
                   text: "Submit",

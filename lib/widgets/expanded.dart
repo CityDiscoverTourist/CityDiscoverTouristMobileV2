@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:travel_hour/config/colors.dart';
 
 class ExpandedWidget extends StatefulWidget {
   final String text;
@@ -129,12 +130,12 @@ class _ExpandedWidgetState extends State<ExpandedWidget> {
                     child: Row(
                       children: [
                         Text(
-                          "Show more",
-                          style: TextStyle(color: (Colors.blueAccent)),
+                         flag?"Show more":"Collapse",
+                          style: TextStyle(color: (AppColors.mainColor)),
                         ),
                         Icon(
                         flag?  Icons.keyboard_arrow_down:Icons.keyboard_arrow_up,
-                          color: (Colors.blueAccent),
+                          color: (AppColors.mainColor),
                         )
                       ],
                     ),

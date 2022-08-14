@@ -163,6 +163,7 @@ class PaymentController extends FullLifeCycleController
     } else {
       print('không giảm giá');
       finalTotal.value = total.value;
+      discountPrice.value=0;
     }
   }
 

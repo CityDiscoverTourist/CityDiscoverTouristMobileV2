@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
+import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/controllers/history_controller.dart';
 import 'package:travel_hour/controllers/questpurchased_controller.dart';
 import 'package:travel_hour/controllers/voucher_controller.dart';
@@ -15,6 +16,8 @@ import 'package:travel_hour/pages/quest_play.dart';
 import 'package:travel_hour/pages/profile.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/pages/voucher.dart';
+import 'package:travel_hour/utils/format_hexcolor.dart';
+import '../config/colors.dart';
 import '../controllers/chat_controller.dart';
 import '../controllers/home_controller.dart';
 import 'explore.dart';
@@ -58,7 +61,7 @@ class HomePage extends GetView<HomeController> {
           }
         }),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.redAccent,
+          backgroundColor: AppColors.mainColor,
           child: Icon(Icons.play_arrow_sharp),
           onPressed: () {
             Get.lazyPut(() => QuestPurchasedController());

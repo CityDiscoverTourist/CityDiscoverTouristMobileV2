@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
+import 'package:travel_hour/models/customer_quest.dart';
 import 'package:travel_hour/models/quest.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/utils/empty.dart';
 import 'package:travel_hour/utils/list_card.dart';
+import 'package:travel_hour/utils/list_card_history.dart';
 import 'package:travel_hour/utils/loading_cards.dart';
 
+import '../config/colors.dart';
 import '../controllers/history_controller.dart';
 import '../controllers/home_controller.dart';
 
@@ -22,7 +25,7 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage>
     with AutomaticKeepAliveClientMixin {
   // var controller = Get.find<HomeController>();
-  List<Quest> list = Get.find<HistoryController>().historyQuestList;
+  List<CustomerQuest> list = Get.find<HistoryController>().historyQuestList;
   @override
   void initState() {
     super.initState();
@@ -44,6 +47,7 @@ class _HistoryPageState extends State<HistoryPage>
             title: Text('playing history'.tr),
             centerTitle: false,
             titleSpacing: 20,
+            backgroundColor: AppColors.mainColor,
           ),
           body: RefreshIndicator(
               child: Container(
@@ -60,7 +64,7 @@ class _HistoryPageState extends State<HistoryPage>
                           height: 5,
                         ),
                         itemBuilder: (BuildContext context, int index) {
-                          return ListCard(
+                          return ListCardHistory(
                             d: list[index],
                             tag: "bookmark$index",
                             color: Colors.white,

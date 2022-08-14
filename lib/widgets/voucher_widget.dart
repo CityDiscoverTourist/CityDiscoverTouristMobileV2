@@ -3,8 +3,12 @@ import 'dart:math';
 import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_countdown_timer/current_remaining_time.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:travel_hour/models/reward.dart';
+
+import 'big_text.dart';
 
 class VoucherWidget extends StatefulWidget {
   final Reward reward;
@@ -20,9 +24,10 @@ class _VoucherWidgetState extends State<VoucherWidget> {
     super.initState();
     //YOUR CHANGE PAGE METHOD HERE
   }
-
   @override
   Widget build(BuildContext context) {
+ int endTime = widget.reward.expiredDate.millisecondsSinceEpoch + 172800000;
+
     return CouponCard(
       height: 300,
       curvePosition: 180,
@@ -58,14 +63,49 @@ class _VoucherWidgetState extends State<VoucherWidget> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          Text(
-            widget.reward.expiredDate.toString(),
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          // Text(
+          //   widget.reward.expiredDate.toString(),
+          //   style: TextStyle(
+          //     color: Colors.white,
+          //     fontSize: 26,
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          // ),
+          SizedBox(height: 15,),
+          CountdownTimer(
+                        endTime: endTime,
+                        widgetBuilder: (_, CurrentRemainingTime? time) {
+                          if (time == null) {
+                            return Text('time up'.tr);
+                          }
+                          // return BigText(
+                          //   text:
+                          //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
+                          //   color: Colors.green,
+                          // );
+                          else {
+                            return BigText(
+                              text: (() {
+                                if (time.days != null) {
+                                  return "time remaining".tr +
+                                      " ${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
+                                } else if (time.min == null) {
+                                  return "time remaining".tr + " ${time.sec}s";
+                                } else if (time.hours == null) {
+                                  return "time remaining".tr +
+                                      "${time.min}m:${time.sec}s";
+                                } else if (time.days == null) {
+                                  return "time remaining".tr +
+                                      " ${time.hours}h:${time.min}m:${time.sec}s";
+                                } else {
+                                  return "time up".tr;
+                                }
+                              })(),
+                              color: Colors.white,fontWeight: FontWeight.bold,
+                            );
+                          }
+                        },
+                      ),
         ],
       ),
       secondChild: Container(

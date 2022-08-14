@@ -257,8 +257,14 @@ class Translation extends Translations {
           "question no": "Question No",
           "info purchase": "Info purchase",
           "do you want to show suggestion(you will be minus 75 point)":
-              "Bạn có muốn hiện gợi ý không (Bạn sẽ bị trừ 75 điểm)",
-              "You will lose this turn and cannot play again":"Bạn sẽ mất lượt này và không thể chơi lại"
+              "do you want to show suggestion(you will be minus 75 point)",
+          "You will lose this turn and cannot play again":
+              "You will lose this turn and cannot play again",
+          "Score achieved": "Score achieved",
+          "Buy again": "Buy again",
+          "You received a discount code":"You received a discount code",
+          "You get a discount code for your next order":"You get a discount code for your next order",
+          "submitComment":"submit"
         },
         'vn': {
           "welcome message":
@@ -520,7 +526,13 @@ class Translation extends Translations {
           "info purchase": "Thông tin mua hàng",
           "do you want to show suggestion(you will be minus 75 point)":
               "Bạn có muốn hiện gợi ý không (Bạn sẽ bị trừ 75 điểm)",
-               "You will lose this turn and cannot play again":"Bạn sẽ mất lượt này và không thể chơi lại"
+          "You will lose this turn and cannot play again":
+              "Bạn sẽ mất lượt này và không thể chơi lại",
+          "Score achieved": "Số điểm đạt được",
+          "Buy again": "Mua lại",
+          "You received a discount code":"Bạn đã nhận được một mã giảm giá",
+          "You get a discount code for your next order":"Bạn nhận được mã giảm giá cho đơn hàng tiếp theo",
+           "submitComment":"Gửi"
         }
       };
 }

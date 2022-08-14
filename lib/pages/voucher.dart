@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:travel_hour/common/customFullScreenDialog.dart';
+import 'package:travel_hour/config/colors.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/models/reward.dart';
 import 'package:travel_hour/pages/intro.dart';
@@ -67,6 +68,7 @@ class VoucherPage extends GetView<RewardController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: AppColors.mainColor,
           title: Text("your reward".tr),
         ),
         body: Obx(()=>controller.isLoading.isTrue?SplashStart()

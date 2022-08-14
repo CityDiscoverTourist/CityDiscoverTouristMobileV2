@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_hour/config/colors.dart';
 // import 'package:travel_hour/blocs/comments_bloc.dart';
 // import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/controllers/comment_controller.dart';
@@ -63,6 +64,7 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: false,
+          backgroundColor: AppColors.mainColor,
           title: Text('comments'.tr),
           titleSpacing: 0,
           actions: [

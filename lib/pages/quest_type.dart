@@ -100,11 +100,7 @@ class _ItemList extends StatelessWidget {
               ],
             )),
         onTap: () {
-          var data = {
-            "title": d.name,
-            "idQuestType": d.id,
-            "idArea": Get.find<HomeController>().areaIdChoice.value
-          };
+
           // Get.toNamed(YourRouteName.name, parameters: data);
           Get.toNamed(KQuestByType, parameters: {
             "title": d.name,

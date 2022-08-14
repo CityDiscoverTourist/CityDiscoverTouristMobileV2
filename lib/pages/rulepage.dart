@@ -15,6 +15,7 @@ import 'package:travel_hour/pages/story_description.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/schedule_container.dart';
 
+import '../config/colors.dart';
 import '../controllers/play_controllerV2.dart';
 import '../widgets/custom_cache_image.dart';
 import 'package:animations/animations.dart';
@@ -88,7 +89,7 @@ class _RulePageState extends State<RulePage> {
     const transitionType = ContainerTransitionType.fade;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: AppColors.mainColor,
         title: BigText(
           text: "rulepage".tr,
           fontWeight: FontWeight.w700,
@@ -109,7 +110,7 @@ class _RulePageState extends State<RulePage> {
           builder: (_, check, widget) {
             if (check == 0) {
               return FloatingActionButton(
-                backgroundColor: Colors.redAccent,
+                backgroundColor: AppColors.mainColor,
                 child: Icon(Icons.arrow_forward),
                 onPressed: () {
                   if (_selectedItemIndex != _items.length - 1) {
@@ -128,7 +129,7 @@ class _RulePageState extends State<RulePage> {
                     Padding(
                         padding: const EdgeInsets.only(left: 30.0),
                         child: FloatingActionButton(
-                          backgroundColor: Colors.redAccent,
+                          backgroundColor: AppColors.mainColor,
                           child: Icon(Icons.arrow_back),
                           onPressed: () {
                             // if(_selectedItemIndex!=_items.length-1){
@@ -140,7 +141,7 @@ class _RulePageState extends State<RulePage> {
                           },
                         )),
                     FloatingActionButton(
-                      backgroundColor: Colors.redAccent,
+                      backgroundColor: AppColors.mainColor,
                       child: Icon(Icons.arrow_forward),
                       onPressed: () {
                         if (_selectedItemIndex != _items.length - 1) {
@@ -154,7 +155,7 @@ class _RulePageState extends State<RulePage> {
                   ]);
             } else {
               return FloatingActionButton(
-                backgroundColor: Colors.redAccent,
+                backgroundColor: AppColors.mainColor,
                 child: Text('get started'.tr),
                 onPressed: () {
                   // Get.to(StoryDescription());
@@ -222,7 +223,7 @@ class _RulePageState extends State<RulePage> {
                         child: Card(
                           // make selected item background color is differ from the rest
                           color: e == "Cách tính điểm"
-                              ? Colors.redAccent
+                              ? AppColors.mainColor
                               : Colors.indigo,
                           child: Center(
                             child: BigText(

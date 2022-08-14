@@ -4,6 +4,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:money_formatter/money_formatter.dart';
 import 'package:travel_hour/controllers/payment_controller.dart';
 import 'package:travel_hour/controllers/questdetail_controller.dart';
 import 'package:travel_hour/pages/splashV2.dart';
@@ -13,6 +14,7 @@ import 'package:travel_hour/widgets/expanded.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 import 'package:travel_hour/widgets/todov2.dart';
 
+import '../config/colors.dart';
 import '../widgets/custom_cache_image.dart';
 import '../widgets/payment_widgetV2.dart';
 
@@ -46,7 +48,7 @@ class QuestDetailsPageV2 extends GetView<QuestDetailController> {
                               child: SafeArea(
                                 child: CircleAvatar(
                                   backgroundColor:
-                                      Colors.redAccent.withOpacity(0.9),
+                                      AppColors.mainColor.withOpacity(0.9),
                                   child: IconButton(
                                     icon: Icon(
                                       LineIcons.arrowLeft,
@@ -153,7 +155,7 @@ class QuestDetailsPageV2 extends GetView<QuestDetailController> {
                                     height: 3,
                                     width: 150,
                                     decoration: BoxDecoration(
-                                        color: Theme.of(context).primaryColor,
+                                        color: AppColors.mainColor,
                                         borderRadius:
                                             BorderRadius.circular(40)),
                                   ),
@@ -237,9 +239,16 @@ class QuestDetailsPageV2 extends GetView<QuestDetailController> {
                                         padding:
                                             const EdgeInsets.only(left: 20),
                                         child: BigText(
-                                          text: controller.questDetail.price
-                                                  .truncate()
-                                                  .toString() +
+                                          text: MoneyFormatter(
+                                                      amount: controller
+                                                          .questDetail.price)
+                                                  .output
+                                                  .withoutFractionDigits
+                                                  .toString()
+                                              // controller.questDetail.price
+                                              //         .truncate()
+                                              //         .toString()
+                                              +
                                               " VNĐ",
                                           color: Colors.black,
                                           size: 32,
@@ -265,7 +274,7 @@ class QuestDetailsPageV2 extends GetView<QuestDetailController> {
                                           color: Colors.white,
                                         ),
                                         style: ElevatedButton.styleFrom(
-                                          primary: Colors.redAccent,
+                                          primary: AppColors.mainColor,
                                           padding: const EdgeInsets.only(
                                               left: 40.0,
                                               top: 16.0,

@@ -29,7 +29,7 @@ class HomeController extends GetxController {
   // var isStartTest = true.obs;
   var questList = List<Quest>.empty().obs;
   // var puQuestList = List<Quest>.empty().obs;
-  var hisQuestList = List<Quest>.empty().obs;
+  // var hisQuestList = List<Quest>.empty().obs;
   var cityList = List<City>.empty().obs;
   var rewardList = List<Reward>.empty().obs;
   var questTypeList = List<QuestType>.empty().obs;

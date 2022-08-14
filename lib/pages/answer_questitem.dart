@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:status_view/status_view.dart';
@@ -15,6 +16,7 @@ import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 
+import '../config/colors.dart';
 import '../controllers/chat_controller.dart';
 import 'chat.dart';
 
@@ -51,7 +53,7 @@ class AnswerPage extends StatelessWidget {
                   //Man ans
                   controller.indexTypePage.value == 1
                       ? AppBar(
-                          backgroundColor: Colors.redAccent,
+                          backgroundColor: AppColors.mainColor,
                           centerTitle: true,
                           automaticallyImplyLeading: false,
                           title: Column(
@@ -74,9 +76,23 @@ class AnswerPage extends StatelessWidget {
                             controller.isDisableTextField.isFalse
                                 ? IconButton(
                                     onPressed: () {
-                                      controller.showSuggestion();
-                                      showAlertDialogCofirmShowSuggestion(
-                                          context, controller.sugggestion.value);
+                                      if(controller.haveSuggestion.isTrue){
+                                        if(controller.isShowSuggestion.isTrue){
+                                            showAlertDialog(context, controller.sugggestion.value);
+                                        }else{
+                                            showAlertDialogCofirmShowSuggestion(
+                                          context, controller);
+                                        }
+                                    
+                                      }else{
+                                        Fluttertoast.showToast(
+        msg: "Cau hoi chua co goi y",  // message
+        toastLength: Toast.LENGTH_SHORT, // length
+        gravity: ToastGravity.CENTER,    // location
+        timeInSecForIosWeb: 1              // duration
+    );
+                                      }
+                                    
                                     },
                                     icon: Icon(Icons.notifications))
                                 : SizedBox.shrink(),
@@ -104,6 +120,7 @@ class AnswerPage extends StatelessWidget {
                                 //     child: CircleAvatar(radius: 80,backgroundColor: Colors.yellow,)))
                               ],
                             ),
+                                controller.isDisableTextField.isFalse?
                             IconButton(
                                 onPressed: () {
                                   showAlertDialogCofirmSkip(context);
@@ -111,11 +128,11 @@ class AnswerPage extends StatelessWidget {
                                 icon: Icon(
                                   Icons.skip_next,
                                   color: Colors.white,
-                                )),
+                                )):SizedBox.shrink()
                           ],
                         )
                       : AppBar(
-                          backgroundColor: Colors.redAccent,
+                          backgroundColor: AppColors.mainColor,
                           title: Text(controller.indexTypePage.value == 2
                               ? 'description page'.tr
                               : 'story page'.tr),
@@ -138,7 +155,7 @@ class AnswerPage extends StatelessWidget {
                         },
                         child: Text('next'.tr, style: TextStyle(fontSize: 16)),
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.redAccent,
+                          primary: AppColors.mainColor,
                           onPrimary: Colors.white,
                           padding: const EdgeInsets.only(
                               left: 40.0, top: 16.0, bottom: 16.0, right: 40.0),
@@ -158,12 +175,15 @@ class AnswerPage extends StatelessWidget {
                               //           myController.text;
                               //   myController.text = "";
                               // }
+                              // controller.currentAns.value="";
                               controller.clickAnswer();
+                               myController.text="";
+
                             },
                             child:
                                 Text('submit'.tr, style: TextStyle(fontSize: 16)),
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.redAccent,
+                              primary: AppColors.mainColor,
                               onPrimary: Colors.white,
                               padding: const EdgeInsets.only(
                                   left: 40.0,
@@ -193,7 +213,7 @@ class AnswerPage extends StatelessWidget {
                             child:
                                 Text('submit'.tr, style: TextStyle(fontSize: 16)),
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.redAccent,
+                              primary: AppColors.mainColor,
                               onPrimary: Colors.white,
                               padding: const EdgeInsets.only(
                                   left: 40.0,
@@ -418,17 +438,18 @@ showAlertDialog(BuildContext context, String sugg) {
   );
 }
 
-showAlertDialogCofirmShowSuggestion(BuildContext context, String sugg) {
+showAlertDialogCofirmShowSuggestion(BuildContext context, PlayControllerV2 playControllerV2) {
   // Create button
   Widget okButton = FlatButton(
     child: Text("ok".tr),
     onPressed: () {
+      playControllerV2.showSuggestion();
       // Get.to(RulePage(
       //   pQuest: pQuest,
       // ));
       //  vao trang huong dan
       Navigator.of(context).pop();
-      showAlertDialog(context, sugg);
+      showAlertDialog(context, playControllerV2.sugggestion.value);
     },
   );
   Widget cancelButton = FlatButton(
@@ -442,11 +463,11 @@ showAlertDialogCofirmShowSuggestion(BuildContext context, String sugg) {
   // Create AlertDialog
   AlertDialog alert = AlertDialog(
     title:
-        Text("do you want to show suggestion(you will be minus 75 point)".tr),
+        Text("confirm".tr),
     content: BigText(
-      text: sugg,
+      text: "do you want to show suggestion(you will be minus 75 point)".tr,
     ),
-    actions: [okButton],
+    actions: [okButton,cancelButton],
   );
 
   // show the dialog
