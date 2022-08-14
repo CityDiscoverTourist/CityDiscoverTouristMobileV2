@@ -121,15 +121,17 @@ class PlayService {
       return Future<QuestItem>.value(null);
     }
   }
+
   // static void startQuest(String questID,String idPayment,String customer)async{
   //   Map body={
   //     'id':''
   //   };
   //   var response=await http.post(Uri.parse("https://citytourist.azurewebsites.net/api/v1/customer-tasks/questId=${questID}"),headers:{"Content-Type": "application/json" },body: )
   // }
-static Future<bool> cancelCustomerQuest(int idCusQuest)async{
-   var response = await http.put(
-        Uri.parse('https://citytourist.azurewebsites.net/api/v1/customer-quests/force-delete/${idCusQuest}?forceDelete=true'),
+  static Future<bool> cancelCustomerQuest(int idCusQuest) async {
+    var response = await http.put(
+        Uri.parse(
+            'https://citytourist.azurewebsites.net/api/v1/customer-quests/force-delete/${idCusQuest}?forceDelete=true'),
         headers: {
           "Content-Type": "application/json",
           'Authorization':
@@ -145,14 +147,14 @@ static Future<bool> cancelCustomerQuest(int idCusQuest)async{
     print("cancelCustomerQuest " + response.statusCode.toString());
     if (response.statusCode == 200) {
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
-    
+
       // print(rs.toString());    // print(data);
       // print("checkAnswer " + rs.countWrongAnswer.toString());
       // print("checkAnswer " + rs.countWrongAnswer.toString());
       return Future<bool>.value(true);
     }
     return Future<bool>.value(false);
-}
+  }
 
   Future<QuestItem> fetchDataQuestItem() {
     QuestItem? questItem;
@@ -658,7 +660,10 @@ static Future<bool> cancelCustomerQuest(int idCusQuest)async{
       print("Skip CustomerTask :  " +
           Api.baseUrl +
           ApiEndPoints.skipCustomerTask +
-          customerTaskId.toString());
+          "1?questItemId=" +
+          questItemId +
+          "&customerQuestId=" +
+          customerQuestId);
       print("Skip CustomerTask :  " + response3.body);
       if (response3.statusCode == 200) {
         var data = json.decode(response3.body);
@@ -680,6 +685,21 @@ static Future<bool> cancelCustomerQuest(int idCusQuest)async{
         if (response2.statusCode == 200) {
           var data = json.decode(response2.body);
           rs = CustomerTask.fromJson(data["data"]);
+          Map mydata = {
+            'customerTaskId': rs.id,
+            'questItemId': questItemId,
+          };
+          var body = json.encode(mydata);
+          var response4 = await http.post(
+            Uri.parse(
+                "https://citytourist.azurewebsites.net/api/v1/customer-tasks/internal-save"),
+            body: body,
+            headers: {
+              "Content-Type": "application/json",
+              'Authorization':
+                  'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+            },
+          );
           return Future<CustomerTask>.value(rs);
         }
         // Get.find<PlayControllerV2>().isSkip.value = false;
@@ -700,25 +720,17 @@ static Future<bool> cancelCustomerQuest(int idCusQuest)async{
             ApiEndPoints.checkAnswer +
             customerQuestId.toString() +
             "?customerReply=" +
-            "1" +
+            "ss hình" +
             "&questItemId=" +
             questItemId.toString() +
             "&language=" +
             Get.find<LoginControllerV2>().language.value.toString();
         // requestUrl =
         //     "https://citytourist.azurewebsites.net/weather-forecast/demo2?api-version=1";
-        // final ImagePicker imagePicker = ImagePicker();
-        // List<XFile>? imageFileList = [];
-        // final List<XFile>? selectedImages = await imagePicker.pickMultiImage(
-        //     maxHeight: 480, maxWidth: 640, imageQuality: 50);
-        // if (selectedImages!.isNotEmpty) {
-        //   imageFileList.addAll(selectedImages);
-        // }
 
         final ImagePicker _picker = ImagePicker();
-        // print(requestUrl);
-        final XFile? pickedFile =
-            await _picker.pickImage(source: ImageSource.camera);
+        final XFile? pickedFile = await _picker.pickImage(
+            source: ImageSource.camera, imageQuality: 100);
         if (pickedFile != null) {
           final LostDataResponse response2 = await _picker.retrieveLostData();
           File file = File(pickedFile.path);
@@ -745,7 +757,7 @@ static Future<bool> cancelCustomerQuest(int idCusQuest)async{
             request.files.add(pic);
           }
           var response = await request.send().timeout(Duration(minutes: 15));
-          // print("Status code:" + response.statusCode.toString());
+          print("Status code:" + response.statusCode.toString());
           String reply = await response.stream.transform(utf8.decoder).join();
           // print(reply);
           if (response.statusCode == 200) {
