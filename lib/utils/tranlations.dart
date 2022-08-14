@@ -5,7 +5,7 @@ class Translation extends Translations {
   Map<String, Map<String, String>> get keys => {
         'en': {
           "welcome message":
-              "Explore every famous place in Bangladesh and find nearby hotels and restaurants with the easiest way. Get realtime directions, estimated costs, travel blogs, and more...",
+              "Discover the endless beauty of Vietnam through meaningful Game Tours, receive special gifts after completing a trip and much more...",
           "welcome to": "Welcome to",
           "intro-title1": "No Matter Where You Are",
           "intro-title2": "Explore Nearby Stuffs",
@@ -258,11 +258,12 @@ class Translation extends Translations {
           "info purchase": "Info purchase",
           "do you want to show suggestion(you will be minus 75 point)":
               "Bạn có muốn hiện gợi ý không (Bạn sẽ bị trừ 75 điểm)",
-              "You will lose this turn and cannot play again":"Bạn sẽ mất lượt này và không thể chơi lại"
+          "You will lose this turn and cannot play again":
+              "Bạn sẽ mất lượt này và không thể chơi lại"
         },
         'vn': {
           "welcome message":
-              "Khám phá mọi địa điểm nổi tiếng ở Việt Nam và tìm các khách sạn và nhà hàng lân cận một cách dễ dàng nhất. Nhận chỉ đường theo thời gian thực, chi phí ước tính, blog du lịch, v.v.",
+              "Khám phá nét đẹp vô tận của Việt Nam thông qua những Game Tour đầy ý nghĩa, nhận những phần quà đặc sắc sau khi hoàn thành một chuyến đi và còn nhiều hơn nữa...",
           "welcome to": "Chào mừng đến với",
           "intro-title1": "Không quan trọng bạn đang ở đâu",
           "intro-title2": "Khám phá Nội dung lân cận",
@@ -520,7 +521,8 @@ class Translation extends Translations {
           "info purchase": "Thông tin mua hàng",
           "do you want to show suggestion(you will be minus 75 point)":
               "Bạn có muốn hiện gợi ý không (Bạn sẽ bị trừ 75 điểm)",
-               "You will lose this turn and cannot play again":"Bạn sẽ mất lượt này và không thể chơi lại"
+          "You will lose this turn and cannot play again":
+              "Bạn sẽ mất lượt này và không thể chơi lại"
         }
       };
 }

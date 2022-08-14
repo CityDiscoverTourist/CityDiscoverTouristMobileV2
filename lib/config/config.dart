@@ -14,9 +14,9 @@ class Config {
   final String iOSAppId = '000000';
 
   final String yourWebsiteUrl = 'https://www.citydiscovery.tech/';
-  final String facebookPageUrl = 'https://www.facebook.com/';
-  final String youtubeChannelUrl =
-      'https://www.youtube.com/channel/UCnNr2eppWVVo-NpRIy1ra7A';
+  final String facebookPageUrl =
+      'https://www.facebook.com/24htrip-242788142556987/?ref=page_internal';
+  final String youtubeChannelUrl = 'https://www.youtube.com/';
 
   // app theme color - primary color
   static final Color appThemeColor = Colors.blueAccent;
