@@ -26,6 +26,7 @@ class QuestItem {
     required this.listImages,
     // required this.suggestions,
     required this.itemId,
+    this.imageDescription
   });
 
   int id;
@@ -44,6 +45,7 @@ class QuestItem {
   List<String> listImages;
   // List<Suggestion> suggestions;
   int itemId;
+  dynamic imageDescription;
 
   factory QuestItem.fromJson(Map<String, dynamic> json) => QuestItem(
         id: json["id"],
@@ -62,6 +64,7 @@ class QuestItem {
         listImages: List<String>.from(json["listImages"].map((x) => x)),
         // suggestions: List<Suggestion>.from(json["suggestions"].map((x) => Suggestion.fromJson(x))),
         itemId: json["itemId"],
+        imageDescription:json["imageDescription"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -81,5 +84,6 @@ class QuestItem {
         "listImages": List<dynamic>.from(listImages.map((x) => x)),
         // "suggestions": List<dynamic>.from(suggestions.map((x) => x.toJson())),
         "itemId": itemId,
+         "imageDescription":imageDescription
       };
 }

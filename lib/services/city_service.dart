@@ -23,7 +23,7 @@ class CityService {
           'Authorization':
               'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         });
-    print("API SCHEDULE Status_code: " '${response.statusCode}');
+    print("fetchCityData: " '${response.statusCode}');
     // if (response.statusCode == 200) {
     Map data = jsonDecode(response.body);
     // Iterable list = dbc;

@@ -294,12 +294,27 @@ class AnswerPage extends StatelessWidget {
                                                 2
                                             ? SingleChildScrollView(
                                                 child: Column(children: [
-                                                BigText(
-                                                  text:
-                                                      "please find and take a photo of something similar to the one below (please let the app use your camera)"
-                                                          .tr,
-                                                  fontWeight: FontWeight.bold,
+                                                Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      10.0),
+                                                  child: Text(
+                                                    "please find and take a photo of something similar to the one below (please let the app use your camera)"
+                                                        .tr,
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20,
+                                                    ),
+                                                  ),
                                                 ),
+                                                // BigText(
+                                                //   text:
+                                                //       "please find and take a photo of something similar to the one below (please let the app use your camera)"
+                                                //           .tr,
+                                                //   fontWeight: FontWeight.bold,
+                                                // ),
                                                 Image.network(
                                                     controller.questItemCurrent
                                                         .listImages[1],
@@ -307,8 +322,37 @@ class AnswerPage extends StatelessWidget {
                                                     height: 400,
                                                     fit: BoxFit.fill)
                                               ]))
-                                            : Text(controller
-                                                .questItemCurrent.content),
+                                            : SingleChildScrollView(
+                                                child: Column(children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      10.0),
+                                                  child: Text(
+                                                    controller.questItemCurrent
+                                                        .content,
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20,
+                                                    ),
+                                                  ),
+                                                ),
+                                                controller.questItemCurrent
+                                                            .imageDescription !=
+                                                        null
+                                                    ? Image.network(
+                                                        controller
+                                                            .questItemCurrent
+                                                            .imageDescription,
+                                                        width: 400,
+                                                        height: 400,
+                                                        fit: BoxFit.fill)
+                                                    : SizedBox.shrink()
+                                              ])),
+                                        //  Text(controller
+                                        //     .questItemCurrent.content),
                                         SizedBox(height: 30),
                                         Column(
                                           children: [
