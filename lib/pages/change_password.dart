@@ -185,11 +185,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$';
             RegExp regExp = new RegExp(patttern);
             if (value == "") {
-              return "Password is Required";
+              return "password is required".tr;
             } else if (value!.length < 6) {
-              return "Password must minimum six characters";
+              return "password must minimum six characters".tr;
             } else if (!regExp.hasMatch(value)) {
-              return "Password at least one uppercase letter, one lowercase letter, one specical character and one number";
+              return "password at least one uppercase letter, one lowercase letter, one specical character and one number"
+                  .tr;
             }
             return null;
           },
@@ -223,7 +224,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           controller: conPassCtrl,
           validator: (value) {
             if (value != newPassCtrl.text) {
-              return "new password and cofirm password must be the same!";
+              return "new password and cofirm password must be the same!".tr;
             }
             return null;
           },

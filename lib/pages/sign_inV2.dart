@@ -18,6 +18,7 @@ import 'package:travel_hour/utils/snacbar.dart';
 // import 'package:easy_localization/easy_localization.dart';
 import 'package:travel_hour/widgets/language.dart';
 
+import '../config/colors.dart';
 import '../controllers/play_controller.dart';
 import '../controllers/play_controllerV2.dart';
 import 'login_username_password.dart';
@@ -198,28 +199,29 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.white,
       key: scaffoldKey,
       appBar: AppBar(
-        actions: [
-          widget.tag != null
-              ? Container()
-              : TextButton(
-                  onPressed: () => handleSkip(),
-                  child: Text('skip'.tr,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ))),
-          // IconButton(
-          //   alignment: Alignment.center,
-          //   padding: EdgeInsets.all(0),
-          //   iconSize: 22,
-          //   icon: Icon(
-          //     Icons.language,
-          //   ),
-          //   onPressed: () {
-          //     nextScreenPopup(context, LanguagePopup());
-          //   },
-          // ),
-        ],
+        backgroundColor: AppColors.mainColor,
+        // actions: [
+        //   widget.tag != null
+        //       ? Container()
+        //       : TextButton(
+        //           onPressed: () => handleSkip(),
+        //           child: Text('skip'.tr,
+        //               style: TextStyle(
+        //                 fontSize: 16,
+        //                 fontWeight: FontWeight.w500,
+        //               ))),
+        //   // IconButton(
+        //   //   alignment: Alignment.center,
+        //   //   padding: EdgeInsets.all(0),
+        //   //   iconSize: 22,
+        //   //   icon: Icon(
+        //   //     Icons.language,
+        //   //   ),
+        //   //   onPressed: () {
+        //   //     nextScreenPopup(context, LanguagePopup());
+        //   //   },
+        //   // ),
+        // ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

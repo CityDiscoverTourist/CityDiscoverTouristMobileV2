@@ -191,7 +191,7 @@ class _ChatScreenState extends State<ChatScreen> {
             child: TextField(
               controller: messageCtr,
               decoration: InputDecoration.collapsed(
-                hintText: 'Send a message..',
+                hintText: 'send a message..'.tr,
               ),
               textCapitalization: TextCapitalization.sentences,
             ),
@@ -208,7 +208,7 @@ class _ChatScreenState extends State<ChatScreen> {
               );
               chatController.sendChatMessage(chatMessage);
               setState(() {
-                messageCtr.text="";
+                messageCtr.text = "";
               });
               // controller.messages.add(chatMessage);
             },
@@ -238,22 +238,22 @@ class _ChatScreenState extends State<ChatScreen> {
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                   )),
-              TextSpan(text: '\n'),
-              check == true
-                  ? TextSpan(
-                      text: 'Online',
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    )
-                  : TextSpan(
-                      text: 'Offline',
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    )
+              // TextSpan(text: '\n'),
+              // check == true
+              //     ? TextSpan(
+              //         text: 'Online',
+              //         style: TextStyle(
+              //           fontSize: 11,
+              //           fontWeight: FontWeight.w400,
+              //         ),
+              //       )
+              //     : TextSpan(
+              //         text: 'Offline',
+              //         style: TextStyle(
+              //           fontSize: 11,
+              //           fontWeight: FontWeight.w400,
+              //         ),
+              //       )
             ],
           ),
         ),

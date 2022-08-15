@@ -262,9 +262,14 @@ class Translation extends Translations {
               "You will lose this turn and cannot play again",
           "Score achieved": "Score achieved",
           "Buy again": "Buy again",
-          "You received a discount code":"You received a discount code",
-          "You get a discount code for your next order":"You get a discount code for your next order",
-          "submitComment":"submit",
+          "You received a discount code": "You received a discount code",
+          "You get a discount code for your next order":
+              "You get a discount code for your next order",
+          "submitComment": "submit",
+          "Khong tim thay quest nao": "Don't have any quest",
+          "Mua quest di nha": "Please buy some quest",
+          "Cau hoi chua co goi y": "This question has no suggestion",
+          "send a message..": "Send a message...",
         },
         'vn': {
           "welcome message":
@@ -526,12 +531,18 @@ class Translation extends Translations {
           "info purchase": "Thông tin mua hàng",
           "do you want to show suggestion(you will be minus 75 point)":
               "Bạn có muốn hiện gợi ý không (Bạn sẽ bị trừ 75 điểm)",
-          "You will lose this turn and cannot play again":"Bạn sẽ mất lượt này và không thể chơi lại",
+          "You will lose this turn and cannot play again":
+              "Bạn sẽ mất lượt này và không thể chơi lại",
           "Score achieved": "Số điểm đạt được",
           "Buy again": "Mua lại",
-          "You received a discount code":"Bạn đã nhận được một mã giảm giá",
-          "You get a discount code for your next order":"Bạn nhận được mã giảm giá cho đơn hàng tiếp theo",
-           "submitComment":"Gửi"
+          "You received a discount code": "Bạn đã nhận được một mã giảm giá",
+          "You get a discount code for your next order":
+              "Bạn nhận được mã giảm giá cho đơn hàng tiếp theo",
+          "submitComment": "Gửi",
+          "Khong tim thay quest nao": "Không tìm thấy quest nào",
+          "Mua quest di nha": "Hãy mua quest đi nhé",
+          "Cau hoi chua co goi y": "Câu hỏi này không có gợi ý",
+          "send a message..": "Gửi tin nhắn...",
         }
       };
 }

@@ -180,7 +180,9 @@ class _MoMoWebView extends State<MoMoWebView> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(),
+        appBar: AppBar(
+          backgroundColor: AppColors.mainColor,
+        ),
         body: WebviewScaffold(
           url: widget.url!,
           // javascriptChannels: jsChannels,

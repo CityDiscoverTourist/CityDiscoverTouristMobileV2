@@ -34,16 +34,20 @@ class CompletedPageV2State extends State<CompletedPageV2> {
   var commentController = Get.find<CommentController>();
   var textCtrl = TextEditingController();
   double ratingStar = 4;
+  bool firstTime = true;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     print(controller.endPoint.percentDiscount);
-   if(controller.endPoint.percentDiscount!=0){
-    Future.delayed(Duration.zero, () => 
-    // showAlertVoucher(context,controller)
-    showPromotionDialog(context, controller.endPoint.percentDiscount)
-    );
-   }
+    if (controller.endPoint.percentDiscount != 0 && firstTime) {
+      Future.delayed(
+          Duration.zero,
+          () =>
+              // showAlertVoucher(context,controller)
+              showPromotionDialog(
+                  context, controller.endPoint.percentDiscount));
+      firstTime = false;
+    }
     return Scaffold(
         body: SingleChildScrollView(
             child: Stack(
@@ -98,7 +102,9 @@ class CompletedPageV2State extends State<CompletedPageV2> {
                       title: "time".tr, value: controller.displayTime.value),
                   PlayInfo(
                       title: "point".tr,
-                      value:controller.endPoint.endPoint.toString()+"/"+ controller.endPoint.beginPoint.toString()),
+                      value: controller.endPoint.endPoint.toString() +
+                          "/" +
+                          controller.endPoint.beginPoint.toString()),
                   // PlayInfo(title: "Tỷ lệ", value: "75%")
                 ],
               ),
@@ -214,13 +220,18 @@ class PlayInfo extends StatelessWidget {
         text: TextSpan(children: [
       TextSpan(
           text: title + "\n",
-          style: TextStyle(color: Colors.grey, fontSize: 14,)),
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 14,
+          )),
       TextSpan(
-          text: value, style: TextStyle(color: AppColors.mainColor, fontSize: 18)),
+          text: value,
+          style: TextStyle(color: AppColors.mainColor, fontSize: 18)),
     ]));
   }
 }
-showAlertVoucher(BuildContext context,PlayControllerV2 controller) {
+
+showAlertVoucher(BuildContext context, PlayControllerV2 controller) {
   // Create button
   Widget okButton = FlatButton(
     child: Text("ok".tr),
@@ -232,30 +243,26 @@ showAlertVoucher(BuildContext context,PlayControllerV2 controller) {
       Navigator.of(context).pop();
       // Get.find<PlayControllerV2>().isCancel.value=true;
       // Get.delete<PlayControllerV2>();
-    
     },
   );
   Widget cancelButton = FlatButton(
     child: Text("cancel".tr),
     onPressed: () {
-     
       Navigator.of(context).pop();
     },
   );
-  
 
   // Create AlertDialog
   AlertDialog alert = AlertDialog(
-    title:
-        Text("congratulations".tr),
+    title: Text("congratulations".tr),
     content: Column(
       // mainAxisAlignment: MainAxisAlignment.center,
       children: [
         BigText(text: "You received a discount code".tr),
-        BigText(text: controller.endPoint.percentDiscount.toString()+"%")
+        BigText(text: controller.endPoint.percentDiscount.toString() + "%")
       ],
     ),
-    actions: [okButton,cancelButton],
+    actions: [okButton, cancelButton],
   );
 
   // show the dialog
@@ -266,6 +273,7 @@ showAlertVoucher(BuildContext context,PlayControllerV2 controller) {
     },
   );
 }
+
 void showPromotionDialog(context, percentDiscount) {
   showGeneralDialog(
       barrierLabel: 'label',
@@ -315,7 +323,7 @@ void showPromotionDialog(context, percentDiscount) {
                       height: 200,
                     ),
                     Text(
-                      "Discount "+percentDiscount.toString()+"%",
+                      "Discount " + percentDiscount.toString() + "%",
                       style: TextStyle(
                         color: Color(0xff81cffc),
                         fontWeight: FontWeight.bold,
@@ -340,14 +348,15 @@ void showPromotionDialog(context, percentDiscount) {
                         borderRadius: BorderRadius.circular(30),
                         color: Colors.red,
                         child: MaterialButton(
-                          onPressed: () {Navigator.pop(context);},
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Expanded(
                                   child: Text(
-                             
-                           "cofirm".tr,
+                                "cofirm".tr,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 20,
@@ -368,4 +377,3 @@ void showPromotionDialog(context, percentDiscount) {
         );
       });
 }
-
