@@ -93,11 +93,11 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
                 },
               );
             } else {
-              return    EmptyPage(
-                  icon: Feather.book,
-                  message: 'Khong tim thay quest nao'.tr,
-                  message1: 'Mua quest di nha'.tr,
-                );
+              return EmptyPage(
+                icon: Feather.book,
+                message: 'Khong tim thay quest nao'.tr,
+                message1: 'Mua quest di nha'.tr,
+              );
             }
           } else {
             return SplashStart(
@@ -232,8 +232,8 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
                           bool check = await playController
                               .checkUserLocation(pQuest.questId.toString());
                           CustomFullScreenDialog.cancelDialog();
-                          print("Check"+check.toString());
-                          if (check) {
+                          print("Check" + check.toString());
+                          if (true) {
                             showAlertDialog(context, pQuest);
                           } else {
                             showAlertDialogCheckLocation(context, pQuest);

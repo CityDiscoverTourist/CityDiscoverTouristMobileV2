@@ -270,9 +270,11 @@ class Translation extends Translations {
           "Mua quest di nha": "Please buy some quest",
           "Cau hoi chua co goi y": "This question has no suggestion",
           "send a message..": "Send a message...",
-          "Quest is not ready yet":"Quest is not ready yet",
+          "Quest is not ready yet": "Quest is not ready yet",
           "show more": "Show more",
-          "collapse": "Collapse"
+          "collapse": "Collapse",
+          "in put play code": "Input play code",
+          "payment detail": "Payment Detail"
         },
         'vn': {
           "welcome message":
@@ -546,9 +548,11 @@ class Translation extends Translations {
           "Mua quest di nha": "Hãy mua quest đi nhé",
           "Cau hoi chua co goi y": "Câu hỏi này không có gợi ý",
           "send a message..": "Gửi tin nhắn...",
-          "Quest is not ready yet":"Quest chưa sẵn sàng",
+          "Quest is not ready yet": "Quest chưa sẵn sàng",
           "show more": "Xem thêm",
           "collapse": "Thu gọn",
+          "in put play code": "Nhập mã chơi",
+          "payment detail": "Chi tiết đơn hàng",
         }
       };
 }
