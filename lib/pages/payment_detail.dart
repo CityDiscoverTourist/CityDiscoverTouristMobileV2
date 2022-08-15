@@ -10,7 +10,10 @@ import 'package:travel_hour/models/quest.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:travel_hour/widgets/dash.dart';
 import 'package:travel_hour/widgets/small_text.dart';
+
+import '../config/colors.dart';
 
 class PaymentDetail extends StatelessWidget {
   final PurchasedQuest? purchasedQuest;
@@ -18,12 +21,14 @@ class PaymentDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      int endTime = purchasedQuest!.createdDate.millisecondsSinceEpoch + 172800000;
+    int endTime =
+        purchasedQuest!.createdDate.millisecondsSinceEpoch + 172800000;
     return WillPopScope(
       onWillPop: () async {
         return true;
       },
       child: Scaffold(
+          backgroundColor: Colors.grey.shade200,
           appBar: AppBar(
             title: BigText(
               text: 'Payment Detail',
@@ -31,162 +36,157 @@ class PaymentDetail extends StatelessWidget {
               color: Colors.white,
             ),
             centerTitle: true,
-            backgroundColor: Colors.redAccent,
+            backgroundColor: AppColors.mainColor,
           ),
           body: Padding(
             padding: EdgeInsets.all(10),
-            child: Column(
+            child: SingleChildScrollView(
+                child: Column(
               children: [
-                SingleChildScrollView(
-                    child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.deepOrange.shade100,
-                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                      child: Column(
+                Container(
+                  margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(40.0))),
+                  child: Column(
+                    children: [
+                      BigText(
+                        text: purchasedQuest!.questName,
+                        size: 28,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      Image.asset('assets/images/logo.png'),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           BigText(
-                            text: purchasedQuest!.questName,
-                            size: 28,
-                            fontWeight: FontWeight.w500,
+                            text: "Ma dat quest:",
+                            fontWeight: FontWeight.w600,
                           ),
-                          Image.asset('assets/images/logo.png'),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  BigText(
-                                    text: "Ma dat quest:",
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  BigText(text: purchasedQuest!.id.toString()),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  BigText(
-                                    text: "Thoi gian: ",
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                   CountdownTimer(
-                        endTime: endTime,
-                        widgetBuilder: (_, CurrentRemainingTime? time) {
-                          if (time == null) {
-                            return Text('Time up');
-                          }
-                          // return BigText(
-                          //   text:
-                          //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
-                          //   color: Colors.green,
-                          // );
-                          else {
-                            return BigText(
-                              text: (() {
-                                if (time.days != null) {
-                                  return "${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
-                                } else if (time.min == null) {
-                                  return "${time.sec}s";
-                                } else if (time.hours == null) {
-                                  return "${time.min}m:${time.sec}s";
-                                } else if (time.days == null) {
-                                  return "${time.hours}h:${time.min}m:${time.sec}s";
-                                } else {
-                                  return "Time up";
-                                }
-                              })(),
-                              color: Colors.green,
-                            );
-                          }
-                        },
-                      ),
-                                ],
-                              ),
-                             
-                            ],
+                          SizedBox(
+                            height: 10,
                           ),
-                               Container(
-                                child: QrImage(
-                                  data: purchasedQuest!.id.toString(),
-                                  version: QrVersions.auto,
-                                  size: 200.0,
-                                ),
-                              ),
-                          DottedLine(
-                            dashGradient: [
-                              Colors.red,
-                              Colors.red.withAlpha(0),
-                            ],
-                            dashGapGradient: [
-                              Colors.blue,
-                              Colors.blue.withAlpha(0),
-                            ],
-                            dashLength: 10,
-                            dashGapLength: 10,
-                            lineThickness: 15,
+                          BigText(text: purchasedQuest!.id.toString()),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          BigText(
+                            text: "Thoi gian: ",
+                            fontWeight: FontWeight.w600,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CountdownTimer(
+                            endTime: endTime,
+                            widgetBuilder:
+                                (_, CurrentRemainingTime? time) {
+                              if (time == null) {
+                                return Text('Time up');
+                              }
+                              // return BigText(
+                              //   text:
+                              //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
+                              //   color: Colors.green,
+                              // );
+                              else {
+                                return BigText(
+                                  text: (() {
+                                    if (time.days != null) {
+                                      return "${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
+                                    } else if (time.min == null) {
+                                      return "${time.sec}s";
+                                    } else if (time.hours == null) {
+                                      return "${time.min}m:${time.sec}s";
+                                    } else if (time.days == null) {
+                                      return "${time.hours}h:${time.min}m:${time.sec}s";
+                                    } else {
+                                      return "Time up";
+                                    }
+                                  })(),
+                                  color: Colors.green,
+                                );
+                              }
+                            },
                           ),
                         ],
                       ),
-                    ),
-                    Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(left: 10, right: 10, top: 5),
-                        decoration: BoxDecoration(
-                          color: Colors.deepOrange.shade100,
-                          // borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                      Container(
+                        child: QrImage(
+                          data: purchasedQuest!.id.toString(),
+                          version: QrVersions.auto,
+                          size: 200.0,
                         ),
-                        child: Column(
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                    ),
+                    decoration: BoxDecoration(
+                        color: Colors.red.shade100,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(40),
+                             topRight: Radius.circular(40),
+                            )),
+                    child: Column(
+                      children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 25,right: 25),
+                        width: double.infinity,
+                        height: 5,
+                        // color: Colors.red,
+                        child: Dash(length: 300,dashThickness: 2,)
+                      ),
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SmallText(
+                                text: 'Amount:',
+                                size: 20,
+                              ),
+                              BigText(
+                                text: purchasedQuest!.totalAmount
+                                        .truncate()
+                                        .toString() +
+                                    " VNĐ",
+                                size: 32,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                    Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                SmallText(
-                                  text: 'Amount:',
-                                  size: 20,
-                                ),
-                                BigText(
-                                  text: purchasedQuest!.totalAmount.toString(),
-                                  size: 32,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ],
+                            SmallText(
+                              text: 'Quantity:',
+                              size: 20,
                             ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                SmallText(
-                                  text: 'Quantity:',
-                                  size: 20,
-                                ),
-                                BigText(
-                                  text: purchasedQuest!.quantity.toString(),
-                                  size: 22,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.blue,
-                                ),
-                              ],
+                            BigText(
+                              text: purchasedQuest!.quantity.toString(),
+                              size: 22,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.blue,
                             ),
                           ],
-                        )
-                        )
-                  ],
-                )),
-                SizedBox(
-                  height: 15,
-                ),
+                        ),)
+                      ],
+                    ))
               ],
-            ),
+            )),
           )),
     );
   }

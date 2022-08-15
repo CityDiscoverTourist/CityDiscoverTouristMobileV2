@@ -15,6 +15,7 @@ import 'package:travel_hour/pages/story_description.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/schedule_container.dart';
 
+import '../config/colors.dart';
 import '../controllers/play_controllerV2.dart';
 import '../widgets/custom_cache_image.dart';
 import 'package:animations/animations.dart';
@@ -76,6 +77,8 @@ class _RulePageState extends State<RulePage> {
       "each question you will get 300 points".tr,
       "you will be answered up to 5 times for a question".tr,
       "the 5th time you will be shown the answer".tr,
+      "with image scan quest if you answer 5th time wrong you will be move to next task"
+          .tr,
       "for each wrong answer, 50 points will be deducted".tr,
       "using seggestion will be deducted 75 points (1 time)".tr,
       // 'Monkey',
@@ -86,7 +89,7 @@ class _RulePageState extends State<RulePage> {
     const transitionType = ContainerTransitionType.fade;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: AppColors.mainColor,
         title: BigText(
           text: "rulepage".tr,
           fontWeight: FontWeight.w700,
@@ -107,7 +110,7 @@ class _RulePageState extends State<RulePage> {
           builder: (_, check, widget) {
             if (check == 0) {
               return FloatingActionButton(
-                backgroundColor: Colors.redAccent,
+                backgroundColor: AppColors.mainColor,
                 child: Icon(Icons.arrow_forward),
                 onPressed: () {
                   if (_selectedItemIndex != _items.length - 1) {
@@ -126,7 +129,7 @@ class _RulePageState extends State<RulePage> {
                     Padding(
                         padding: const EdgeInsets.only(left: 30.0),
                         child: FloatingActionButton(
-                          backgroundColor: Colors.redAccent,
+                          backgroundColor: AppColors.mainColor,
                           child: Icon(Icons.arrow_back),
                           onPressed: () {
                             // if(_selectedItemIndex!=_items.length-1){
@@ -138,7 +141,7 @@ class _RulePageState extends State<RulePage> {
                           },
                         )),
                     FloatingActionButton(
-                      backgroundColor: Colors.redAccent,
+                      backgroundColor: AppColors.mainColor,
                       child: Icon(Icons.arrow_forward),
                       onPressed: () {
                         if (_selectedItemIndex != _items.length - 1) {
@@ -152,10 +155,11 @@ class _RulePageState extends State<RulePage> {
                   ]);
             } else {
               return FloatingActionButton(
-                backgroundColor: Colors.redAccent,
-                child: Text('Start'),
+                backgroundColor: AppColors.mainColor,
+                child: Text('get started'.tr),
                 onPressed: () {
-                 Get.to(StoryDescription());
+                  // Get.to(StoryDescription());
+                   Get.to(AnswerPage());
                 },
               );
             }
@@ -219,7 +223,7 @@ class _RulePageState extends State<RulePage> {
                         child: Card(
                           // make selected item background color is differ from the rest
                           color: e == "Cách tính điểm"
-                              ? Colors.redAccent
+                              ? AppColors.mainColor
                               : Colors.indigo,
                           child: Center(
                             child: BigText(

@@ -3,12 +3,13 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:travel_hour/controllers/history_controller.dart';
+import 'package:travel_hour/controllers/questpurchased_controller.dart';
 import 'package:travel_hour/pages/home.dart';
 import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 
+import '../config/colors.dart';
 import '../controllers/play_controllerV2.dart';
 
 class RatingQuest extends StatelessWidget {
@@ -68,7 +69,7 @@ class RatingQuest extends StatelessWidget {
                         itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                         itemBuilder: (context, _) => Icon(
                           Icons.star,
-                          color: Colors.redAccent,
+                          color: AppColors.mainColor,
                         ),
                         onRatingUpdate: (rating) {
                           print(rating);
@@ -125,13 +126,13 @@ class RatingQuest extends StatelessWidget {
             InkWell(
               onTap: () {
                 Get.delete<PlayControllerV2>();
-                Get.delete<HistoryController>();
+                Get.delete<QuestPurchasedController>();
                 Get.toNamed(KWelcomeScreen);
               },
               child: Container(
                 width: double.infinity,
                 height: 50,
-                color: Colors.redAccent,
+                color: AppColors.mainColor,
                 child: Center(
                     child: BigText(
                   text: "Submit",

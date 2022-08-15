@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/pages/register.dart';
 
+import '../config/colors.dart';
+
 class UserLoginPage extends StatefulWidget {
   static String tag = 'login-page';
 
@@ -31,6 +33,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
+        backgroundColor: AppColors.mainColor,
       ),
       body: new Center(
         child: new SingleChildScrollView(

@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:travel_hour/config/colors.dart';
 import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
+import 'package:travel_hour/pages/history.dart';
 import 'package:travel_hour/pages/profile.dart';
 
+import '../controllers/history_controller.dart';
 import '../controllers/language_controller.dart';
 import '../pages/splashV2.dart';
 
@@ -24,6 +27,7 @@ class _LanguagePopupState extends State<LanguagePopup> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
+        backgroundColor:AppColors.mainColor,
         title: Text('select language'.tr),
       ),
       body: ListView.builder(
@@ -48,6 +52,10 @@ class _LanguagePopupState extends State<LanguagePopup> {
             if (d == 'English') {
               languageController.changeLanguage('en');
               Get.find<LoginControllerV2>().language.value = 0;
+               if(Get.isRegistered<HistoryController>()==true){
+                Get.off(HistoryPage());
+                  Get.find<HistoryController>().refeshData();
+                }
               Get.find<HomeController>().updateData();
             } else if (d == 'Spanish') {
               // context.setLocale(Locale('es'));
@@ -56,6 +64,10 @@ class _LanguagePopupState extends State<LanguagePopup> {
             } else if (d == 'Vietnamese') {
               Get.find<LoginControllerV2>().language.value = 1;
               languageController.changeLanguage('vn');
+               if(Get.isRegistered<HistoryController>()==true){
+                 Get.off(HistoryPage());
+                  Get.find<HistoryController>().refeshData();
+                }
               Get.find<HomeController>().updateData();
             }
 

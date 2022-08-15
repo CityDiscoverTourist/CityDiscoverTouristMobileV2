@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -12,6 +11,7 @@ import '../controllers/home_controller.dart';
 import '../models/quest_type.dart';
 import '../pages/more_quests.dart';
 import '../pages/quest_type.dart';
+import '../routes/app_routes.dart';
 import 'custom_cache_image.dart';
 
 class QuestTypeScroll extends StatelessWidget {
@@ -112,9 +112,14 @@ class _ItemList extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20))),
           ),
         ]),
-        onTap: () => Get.to(MoreQuestPage(
-            title: q.name,
-            color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                .withOpacity(1.0))));
+        onTap: (){
+          Get.toNamed(KQuestByType, parameters: {
+            "title": q.name,
+            "idQuestType": q.id.toString(),
+            "idArea": Get.find<HomeController>().areaIdChoice.toString()
+          });
+        });
+
+
   }
 }

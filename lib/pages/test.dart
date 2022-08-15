@@ -13,6 +13,8 @@ import 'package:travel_hour/models/questItem.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 
+import '../config/colors.dart';
+
 class AnswerPageV3 extends StatelessWidget {
   AnswerPageV3({Key? key}) : super(key: key);
   //   @override
@@ -47,7 +49,7 @@ class AnswerPageV3 extends StatelessWidget {
                       Container(
                         height: 250,
                         width: double.infinity,
-                        color: Colors.redAccent,
+                        color: AppColors.mainColor,
                         child: Align(
                           alignment: Alignment.bottomRight,
                           child: Column(

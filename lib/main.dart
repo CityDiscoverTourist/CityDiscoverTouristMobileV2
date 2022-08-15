@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:travel_hour/controllers/comment_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
+import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/routes/app_pages.dart';
 import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/utils/tranlations.dart';
@@ -33,7 +34,7 @@ Future<void> main() async {
     );
      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       // ignore: avoid_print
-      // Get.put(LoginControllerV2(),tag: "noty");
+    
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
@@ -53,12 +54,19 @@ Future<void> main() async {
             ));
       }
     });
+        FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+          Get.to(SplashStart(            
+          ));
+      print('A new onMessageOpenedApp event was published!');
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+         Get.put(LoginControllerV2(),tag: "noty");
+      }
+    });
   // Get.put(LoginController(), permanent: true);
 // Get.put( CommentController(),tag: "noty");
-  Get.put(
-    LoginControllerV2(),
-    permanent: true,
-  );
+
 
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,

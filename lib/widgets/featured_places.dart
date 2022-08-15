@@ -4,6 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 
@@ -42,7 +43,7 @@ class _FeaturedQuestState extends State<FeaturedQuest> {
                   setState(() {
                     position = index;
                   });
-                  controller.questList[index];
+                  // controller.questList[index];
                 },
                 itemBuilder: (BuildContext context, int index) {
                   // if(fb.data.isEmpty) return LoadingFeaturedCard();
@@ -146,8 +147,24 @@ class _FeaturedItemList extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Expanded(
-                              child: RatingBarIndicator(
+                            // Expanded(
+                            //   child: RatingBarIndicator(
+                            //     rating: q.averageStar.toDouble(),
+                            //     itemBuilder: (context, index) => Icon(
+                            //       Icons.star,
+                            //       color: Colors.amber,
+                            //     ),
+                            //     itemCount: 5,
+                            //     itemSize: 10.0,
+                            //     direction: Axis.horizontal,
+                            //   ),
+                            // ),
+                            Text(q.averageStar.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey)),
+                                    // Icon(Icons.star,size: 13,color: Colors.yellow,),
+                                    RatingBarIndicator(
                                 rating: q.averageStar.toDouble(),
                                 itemBuilder: (context, index) => Icon(
                                   Icons.star,
@@ -157,11 +174,6 @@ class _FeaturedItemList extends StatelessWidget {
                                 itemSize: 10.0,
                                 direction: Axis.horizontal,
                               ),
-                            ),
-                            Text(q.averageStar.toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey)),
                             SizedBox(
                               width: 10,
                             ),
@@ -210,7 +222,7 @@ class _FeaturedItemList extends StatelessWidget {
                                 color: Colors.orange,
                               ),
                               Text(
-                                q.estimatedTime + 'minutes'.tr,
+                                q.estimatedTime + " "+'minutes'.tr,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -243,7 +255,14 @@ class _FeaturedItemList extends StatelessWidget {
               ),
             ],
           ),
-          onTap: () => Get.to(() => QuestDetails(data: q, tag: q.title))),
+          onTap: (){
+          //  Get.to(() => QuestDetails(data: q, tag: q.title))
+        
+           Get.toNamed(KQuestDetailPage, parameters: {
+                          'idQuest': q.id.toString()
+                        });
+           }
+           ),
     );
   }
 }

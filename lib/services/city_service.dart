@@ -14,14 +14,16 @@ class CityService {
     // print('CITYSERVICE: '+controller.jwtToken.value.toString());
     print("object");
     var response = await http.get(
-        Uri.parse('https://citytourist.azurewebsites.net/api/v1/areas'),
+        Uri.parse('https://citytourist.azurewebsites.net/api/v1/areas' +
+            "?language=" +
+            Get.find<LoginControllerV2>().language.value.toString()),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",
           'Authorization':
               'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         });
-    print("API SCHEDULE Status_code: " '${response.statusCode}');
+    print("fetchCityData: " '${response.statusCode}');
     // if (response.statusCode == 200) {
     Map data = jsonDecode(response.body);
     // Iterable list = dbc;

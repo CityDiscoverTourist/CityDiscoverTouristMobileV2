@@ -5,7 +5,7 @@ class Translation extends Translations {
   Map<String, Map<String, String>> get keys => {
         'en': {
           "welcome message":
-              "Explore every famous place in Bangladesh and find nearby hotels and restaurants with the easiest way. Get realtime directions, estimated costs, travel blogs, and more...",
+              "Discover the endless beauty of Vietnam through meaningful Game Tours, receive special gifts after completing a trip and much more...",
           "welcome to": "Welcome to",
           "intro-title1": "No Matter Where You Are",
           "intro-title2": "Explore Nearby Stuffs",
@@ -182,7 +182,9 @@ class Translation extends Translations {
           "you will be answered up to 5 times for a question":
               "You will be answered up to 5 times for a question",
           "the 5th time you will be shown the answer":
-              "The 5th time you will be shown the answer",
+              "With text answer the 5th time you will be shown the answer",
+          "with image scan quest if you answer 5th time wrong you will be move to next task":
+              "With image scan quest if you answer 5th time wrong you will be move to next task",
           "for each wrong answer, 50 points will be deducted":
               "For each wrong answer, 50 points will be deducted",
           "using seggestion will be deducted 75 points (1 time)":
@@ -227,10 +229,53 @@ class Translation extends Translations {
           "rating quest": "Rating quest",
           "discount code is not valid": "Discount code is not valid",
           "voucher is wrong format": "Voucher is wrong format",
+          "skip question": "Skip question",
+          "show suggestion": "show suggestion",
+          "you will be move to next task": "You will be move to next task",
+          "do you want to skip this question?":
+              "Do you want to skip this question(you will be minus 100 point)?",
+          "skip success": "Skip success",
+          "try again next time": "Try again next time",
+          "error when skip questtion": "Error when skip questtion",
+          "description page": "Description page",
+          "story page": "Story page",
+          "next": "Next",
+          "account not allowed to login": "Account not allowed to login",
+          "update profile success": "Update profile success",
+          "update profile error": "Update profile error",
+          "play code not exist or expired": "Play code not exist or expired",
+          "please try again": "Please try again",
+          "reset": "Reset",
+          "scan qr code": "Scan QR code",
+          "payment page": "Payment Page",
+          "temporary amount": "Temporary amount",
+          "amount reduced": "Amount reduced",
+          "discount": "DISCOUNT",
+          "payment success": "Payment Success",
+          "please find and take a photo of something similar to the one below (please let the app use your camera)":
+              "Please find and take a photo of something similar to the one below (Please let the app use your camera)",
+          "question no": "Question No",
+          "info purchase": "Info purchase",
+          "do you want to show suggestion(you will be minus 75 point)":
+              "do you want to show suggestion(you will be minus 75 point)",
+          "You will lose this turn and cannot play again":
+              "You will lose this turn and cannot play again",
+          "Score achieved": "Score achieved",
+          "Buy again": "Buy again",
+          "You received a discount code": "You received a discount code",
+          "You get a discount code for your next order":
+              "You get a discount code for your next order",
+          "submitComment": "submit",
+          "Khong tim thay quest nao": "Don't have any quest",
+          "Mua quest di nha": "Please buy some quest",
+          "Cau hoi chua co goi y": "This question has no suggestion",
+          "send a message..": "Send a message...",
+          "show more": "Show more",
+          "collapse": "Collapse"
         },
         'vn': {
           "welcome message":
-              "Khám phá mọi địa điểm nổi tiếng ở Việt Nam và tìm các khách sạn và nhà hàng lân cận một cách dễ dàng nhất. Nhận chỉ đường theo thời gian thực, chi phí ước tính, blog du lịch, v.v.",
+              "Khám phá nét đẹp vô tận của Việt Nam thông qua những Game Tour đầy ý nghĩa, nhận những phần quà đặc sắc sau khi hoàn thành một chuyến đi và còn nhiều hơn nữa...",
           "welcome to": "Chào mừng đến với",
           "intro-title1": "Không quan trọng bạn đang ở đâu",
           "intro-title2": "Khám phá Nội dung lân cận",
@@ -352,7 +397,7 @@ class Translation extends Translations {
           "home": "Trang chủ",
           "reward": "Quà",
           "history": "Lịch sử",
-          "waiting loading data...": "Đang tải dử liệu...",
+          "waiting loading data...": "Đang tải dữ liệu...",
           "waiting.....": "Đang tải.....",
           "my quest": "Quest của tôi",
           "minutes": "phút",
@@ -401,7 +446,7 @@ class Translation extends Translations {
           "register": "Đăng ký",
           "time up": "Hết giờ",
           "time remaining": "Thời gian còn lại:",
-          "ok": "Đống ý",
+          "ok": "Đồng ý",
           "quests that have entered the game cannot be reused. do you want to confirm?":
               "Quest đã vào chơi không được sử dụng lại. Bạn có muốn xác nhận?",
           "copy code": "Sao chép mã",
@@ -410,7 +455,9 @@ class Translation extends Translations {
           "you will be answered up to 5 times for a question":
               "Bạn sẽ được trả lời tối đa 5 lần cho một câu hỏi",
           "the 5th time you will be shown the answer":
-              "Lần 5 bạn sẽ được hiện đáp án",
+              "Với câu hỏi trả lời bằng chữ Lần 5 bạn sẽ được hiện đáp án",
+          "with image scan quest if you answer 5th time wrong you will be move to next task":
+              "Với câu hỏi quét ảnh nêu bạn trả lời sai lần thứ 5 bạn sẽ được chuyển qua câu hỏi tiếp theo",
           "for each wrong answer, 50 points will be deducted":
               "Mỗi lần trả lời sai sẽ bị trừ 50 điểm",
           "using seggestion will be deducted 75 points (1 time)":
@@ -455,6 +502,51 @@ class Translation extends Translations {
           "rating quest": "Đánh giá chất lượng quest",
           "discount code is not valid": "Mã giảm giá không hợp lệ",
           "voucher is wrong format": "Mã giảm giá sai định dạng",
+          "skip question": "Bỏ qua câu hỏi",
+          "show suggestion": "Hiện gợi ý",
+          "you will be move to next task":
+              "Bạn sẽ được chuyển qua câu hỏi tiếp theo",
+          "do you want to skip this question?":
+              "Bạn muốn bỏ qua câu hỏi này(bạn sẽ bị trừ 100 điểm)?",
+          "skip success": "Bỏ qua thành công",
+          "try again next time": "Hãy cố gắng hơn vào lần sau nhé",
+          "error when skip questtion": "Lỗi khi bỏ qua câu hỏi",
+          "description page": "Trang tiến trình",
+          "story page": "Trang câu chuyện",
+          "next": "Tiếp tục",
+          "account not allowed to login": "Tài khoản không được phép đăng nhập",
+          "update profile success": "Câp nhật thông tin thành công",
+          "update profile error": "Lỗi khi cập nhật thông tin",
+          "play code not exist or expired":
+              "Mã chơi không tồn tại hoặc đã hết hạn",
+          "please try again": "Vui lòng thử lại",
+          "reset": "Đặt lại",
+          "scan qr code": "Quét mã QR",
+          "payment page": "Trang thanh toán",
+          "temporary amount": "Tạm tính",
+          "amount reduced": "Tiền giảm",
+          "discount": "GIẢM",
+          "payment success": "Thanh toán thành công",
+          "please find and take a photo of something similar to the one below (please let the app use your camera)":
+              "Bạn hãy tìm và chụp ảnh của giống với ảnh bên dưới nhé(Vui lòng cho app sử dụng camera của bạn)",
+          "question no": "Câu hỏi số",
+          "info purchase": "Thông tin mua hàng",
+          "do you want to show suggestion(you will be minus 75 point)":
+              "Bạn có muốn hiện gợi ý không (Bạn sẽ bị trừ 75 điểm)",
+          "You will lose this turn and cannot play again":
+              "Bạn sẽ mất lượt này và không thể chơi lại",
+          "Score achieved": "Số điểm đạt được",
+          "Buy again": "Mua lại",
+          "You received a discount code": "Bạn đã nhận được một mã giảm giá",
+          "You get a discount code for your next order":
+              "Bạn nhận được mã giảm giá cho đơn hàng tiếp theo",
+          "submitComment": "Gửi",
+          "Khong tim thay quest nao": "Không tìm thấy quest nào",
+          "Mua quest di nha": "Hãy mua quest đi nhé",
+          "Cau hoi chua co goi y": "Câu hỏi này không có gợi ý",
+          "send a message..": "Gửi tin nhắn...",
+          "show more": "Xem thêm",
+          "collapse": "Thu gọn",
         }
       };
 }

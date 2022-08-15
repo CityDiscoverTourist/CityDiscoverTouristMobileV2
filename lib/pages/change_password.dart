@@ -13,6 +13,8 @@ import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/snacbar.dart';
 
+import '../config/colors.dart';
+
 class ChangePassword extends StatefulWidget {
   const ChangePassword({
     Key? key,
@@ -78,6 +80,7 @@ class _ChangePasswordState extends State<ChangePassword> {
         key: scaffoldKey,
         appBar: AppBar(
           title: Text('change password'.tr),
+          backgroundColor: AppColors.mainColor,
         ),
         body: ListView(
           padding: const EdgeInsets.all(25),
@@ -95,7 +98,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith(
-                        (states) => Theme.of(context).primaryColor),
+                        (states) => AppColors.mainColor),
                     textStyle: MaterialStateProperty.resolveWith(
                         (states) => TextStyle(color: Colors.white))),
                 child: loading == true
@@ -182,11 +185,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$';
             RegExp regExp = new RegExp(patttern);
             if (value == "") {
-              return "Password is Required";
+              return "password is required".tr;
             } else if (value!.length < 6) {
-              return "Password must minimum six characters";
+              return "password must minimum six characters".tr;
             } else if (!regExp.hasMatch(value)) {
-              return "Password at least one uppercase letter, one lowercase letter, one specical character and one number";
+              return "password at least one uppercase letter, one lowercase letter, one specical character and one number"
+                  .tr;
             }
             return null;
           },
@@ -220,7 +224,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           controller: conPassCtrl,
           validator: (value) {
             if (value != newPassCtrl.text) {
-              return "new password and cofirm password must be the same!";
+              return "new password and cofirm password must be the same!".tr;
             }
             return null;
           },

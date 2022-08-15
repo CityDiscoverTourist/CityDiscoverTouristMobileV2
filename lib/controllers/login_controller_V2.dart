@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,20 +39,68 @@ class LoginControllerV2 extends GetxController {
   SharedPreferences? sharedPreferences;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-     final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+    final FirebaseMessaging _fcm = FirebaseMessaging.instance;
     _fcm
         .getToken()
         .then((token) => {print('The token||' + token!), deviceId = token});
     changeLanguage();
+    bool checkRegis = Get.isRegistered<LoginControllerV2>(tag: "noty");
+    if (checkRegis == true) {
+      ever(isSignIn, handleAuthStateChanged);
+      sharedPreferences = await SharedPreferences.getInstance();
+      print("hochi,");
+      if (sharedPreferences!.containsKey("loginFace")) {
+        isSignIn.value = true;
+      } else if (sharedPreferences!.containsKey("loginAccount")) {
+        isSignIn.value = true;
+      } else {
+        googleSign = GoogleSignIn();
+        isSignIn.value = firebaseAuth.currentUser != null;
+        firebaseAuth.authStateChanges().listen((event) {
+          isSignIn.value = event != null;
+        });
+      }
+    }
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // ignore: avoid_print
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+              ),
+            ));
+      }
+    });
   }
 
   @override
   void onReady() async {
     super.onReady();
     changeLanguage();
-      // var check=Get.isRegistered<LoginControllerV2>(tag: "noty");
+    // var check=Get.isRegistered<LoginControllerV2>(tag: "noty");
     // if(check==true) print("Hoan HÔ");
     sharedPreferences = await SharedPreferences.getInstance();
     print("[Login V2]-L28-ONREADY :");
@@ -67,8 +116,18 @@ class LoginControllerV2 extends GetxController {
         isSignIn.value = event != null;
       });
     }
-   
   }
+
+  static const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'high_importance_channel', // id
+      'High Importance Notifications', // title
+      description:
+          'This channel is used for important notifications.', // description
+      importance: Importance.high,
+      playSound: true);
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   void handleAuthStateChanged(isLoggedIn) async {
     print("[LoginController V2]-L162-DeviceID:" + deviceId);
@@ -77,20 +136,28 @@ class LoginControllerV2 extends GetxController {
       print("[LoginControllerV2]-L164: ");
       if (sharedPreferences!.containsKey("loginFace")) {
         String? token = sharedPreferences!.getString("resource");
-        sp = await LoginService().checkFacebookLogin(token!);
+        sp = await LoginService().checkFacebookLogin(token!, deviceId);
       } else if (sharedPreferences!.containsKey("loginAccount")) {
         String? userName = sharedPreferences!.getString("userName");
         String? password = sharedPreferences!.getString("password");
         loginUsernamePassword(userName!, password!);
       } else {
-        print("ahaha"+deviceId);
+        print("ahaha" + deviceId);
         sp = await LoginService().apiCheckLogin(
             await firebaseAuth.currentUser!.getIdToken(), deviceId);
       }
 
       if (sp != null) {
         //  Get.put(HomeController(),permanent: true);
-        Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
+        bool checkRegis = Get.isRegistered<LoginControllerV2>(tag: "noty");
+        if (checkRegis == true) {
+          print("hochi,");
+          // Get.push()
+          Get.offAllNamed(KPlayingQuest);
+        } else {
+          Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
+          print("hochi3,");
+        }
       } else {
         await googleSign.disconnect();
         await firebaseAuth.signOut();
@@ -119,12 +186,15 @@ class LoginControllerV2 extends GetxController {
   }
 
   void logout() async {
-    if (!sharedPreferences!.containsKey("loginAccount") ||
-        sharedPreferences!.containsKey("loginFace")) {
-      await GoogleSignIn().signOut();
-      await firebaseAuth.signOut();
-    }
     sharedPreferences = await SharedPreferences.getInstance();
+    if (!sharedPreferences!.containsKey("loginAccount") &&
+        !sharedPreferences!.containsKey("loginFace")) {
+      print("OK");
+      await googleSign.signOut();
+      await firebaseAuth.signOut();
+      sharedPreferences?.clear();
+    }
+    print("Not ok");
     sharedPreferences?.clear();
     Get.offAll(LoginScreen());
   }
@@ -134,7 +204,7 @@ class LoginControllerV2 extends GetxController {
     final LoginResult facebookLoginResult = await FacebookAuth.instance
         .login(permissions: ['email', 'public_profile']);
     final accessToken = await FacebookAuth.instance.accessToken;
-
+    print("DeviceId In Facebook:" + deviceId);
     final AuthCredential credential =
         FacebookAuthProvider.credential(accessToken!.token);
     // print(accessToken.token);
@@ -144,7 +214,9 @@ class LoginControllerV2 extends GetxController {
         Uri.parse(Api.baseUrl +
             ApiEndPoints.loginFacebook +
             '?resource=' +
-            accessToken.token),
+            accessToken.token +
+            "&deviceId=" +
+            deviceId),
         headers: {"Content-Type": "application/json"},
         body: body);
     // print(response.body);
@@ -168,7 +240,7 @@ class LoginControllerV2 extends GetxController {
         // print(sp);
         Get.offAllNamed(KWelcomeScreen, arguments: firebaseAuth.currentUser);
       }
-    }
+    } else {}
   }
 
   void loginUsernamePassword(String userName, String password) async {
@@ -176,7 +248,7 @@ class LoginControllerV2 extends GetxController {
     //   CustomFullScreenDialog.showDialog();
     // }
 
-    Map data2 = {'email': userName, 'password': password};
+    Map data2 = {'email': userName, 'password': password, "deviceId": deviceId};
     var body = json.encode(data2);
     var response = await http.post(
         Uri.parse(Api.baseUrl + ApiEndPoints.loginUsenamePassword),
@@ -211,6 +283,18 @@ class LoginControllerV2 extends GetxController {
       // if (!sharedPreferences!.containsKey("loginAccount")) {
       //   CustomFullScreenDialog.cancelDialog();
       // }
+      if (responseData['message'] == "Account not allowed to login") {
+        Get.snackbar("error".tr, 'account not allowed to login'.tr,
+            duration: Duration(seconds: 5),
+            backgroundColor: Colors.black,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+            icon: Icon(
+              Icons.error,
+              color: Colors.red,
+            ));
+        logout();
+      }
       Get.snackbar(
           "error".tr, 'user not exist or wrong username and password'.tr,
           duration: Duration(seconds: 5),
@@ -322,7 +406,11 @@ class LoginControllerV2 extends GetxController {
     var response = await http.post(
       Uri.parse(
           Api.baseUrl + ApiEndPoints.forgotPassword + "?email=" + userName),
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization':
+            'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+      },
     );
     if (response.statusCode == 200) {
       Get.snackbar("success".tr, 'check you email to get new password'.tr,
@@ -342,24 +430,39 @@ class LoginControllerV2 extends GetxController {
     var request = new http.MultipartRequest("PUT",
         Uri.parse("https://citytourist.azurewebsites.net/api/v1/customers"));
     if (image != null) {
+      print("file is not null");
       var file = File(image.path);
       request.files.add(await http.MultipartFile.fromPath("image", file.path));
+    } else {
+      print("file is null");
     }
+    print(Get.find<LoginControllerV2>().sp.id);
     request.fields["Id"] = Get.find<LoginControllerV2>().sp.id;
     request.fields["Address"] = address;
     request.fields["Gender"] = gender.toString();
     request.headers["accept"] = "text/plain";
     request.headers["Content-Type"] = "multipart/form-data";
+    request.headers["Authorization"] =
+        "Bearer " + Get.find<LoginControllerV2>().jwtToken.value;
     print("Request:" + request.toString());
     var response = await request.send();
     print("Status code:" + response.statusCode.toString());
     if (response.statusCode == 200) {
-      response.stream.transform(utf8.decoder).listen((value) {
-        // print(value);
-        Map<String, dynamic> result = jsonDecode(value);
-        // print(result["data"]);
-        Get.find<LoginControllerV2>().sp = Customer.fromJson(result["data"]);
-      });
+      String reply = await response.stream.transform(utf8.decoder).join();
+      // response.stream.transform(utf8.decoder).listen((value) {
+      // print(value);
+      Map<String, dynamic> result = jsonDecode(reply);
+      print(reply);
+      Customer newCustomer = Customer.fromJson(result["data"]);
+      if (newCustomer.imagePath != null) {
+        print("response image path is not null");
+        Get.find<LoginControllerV2>().sp = newCustomer;
+      } else {
+        print("response image path is null");
+        Get.find<LoginControllerV2>().sp.address = newCustomer.address;
+        Get.find<LoginControllerV2>().sp.gender = newCustomer.gender;
+      }
+      // });
       return true;
     }
     return false;
@@ -377,5 +480,8 @@ class LoginControllerV2 extends GetxController {
       print(language);
       // update();
     }
+  }
+    void changeLanguagev2(String language) {
+    Get.updateLocale(Locale(language));
   }
 }

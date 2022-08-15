@@ -8,6 +8,7 @@ import 'package:gender_picker/source/gender_picker.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_hour/config/colors.dart';
 // import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/services/app_service.dart';
@@ -91,15 +92,47 @@ class _EditProfileState extends State<EditProfile> {
       formKey.currentState!.save();
       setState(() => loading = true);
       if (imageFile != null) {
-        if (Get.find<LoginControllerV2>()
-                .editProfile(addressCtrl.text, updateGender, imageFile) ==
-            true) {
+        bool check = await Get.find<LoginControllerV2>()
+            .editProfile(addressCtrl.text, updateGender, imageFile);
+        if (check) {
+          Get.snackbar("success".tr, 'update profile success'.tr,
+              duration: Duration(seconds: 5),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM,
+              icon: Icon(
+                Icons.error,
+                color: Colors.green,
+              ));
           setState(() => loading = false);
         }
       } else {
-        Get.find<LoginControllerV2>()
+        bool check = await Get.find<LoginControllerV2>()
             .editProfile(addressCtrl.text, updateGender, null);
-        setState(() {});
+        if (check) {
+          Get.snackbar("success".tr, 'update profile success'.tr,
+              duration: Duration(seconds: 5),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM,
+              icon: Icon(
+                Icons.error,
+                color: Colors.green,
+              ));
+          setState(() {
+            loading = false;
+          });
+        } else {
+          Get.snackbar("error".tr, 'update profile error'.tr,
+              duration: Duration(seconds: 5),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM,
+              icon: Icon(
+                Icons.error,
+                color: Colors.red,
+              ));
+        }
       }
       // imageFile == null
       //     ? await sb
@@ -135,6 +168,7 @@ class _EditProfileState extends State<EditProfile> {
     return Scaffold(
         key: scaffoldKey,
         appBar: AppBar(
+          backgroundColor: AppColors.mainColor,
           title: Text('edit profile'.tr),
         ),
         body: ListView(
@@ -153,7 +187,7 @@ class _EditProfileState extends State<EditProfile> {
                       shape: BoxShape.circle,
                       image: DecorationImage(
                           image: (imageFile == null
-                              ? CachedNetworkImageProvider(imageUrl!)
+                              ? NetworkImage(imageUrl!)
                               : FileImage(imageFile!)) as ImageProvider<Object>,
                           fit: BoxFit.cover)),
                   child: Align(
@@ -182,7 +216,7 @@ class _EditProfileState extends State<EditProfile> {
               child: ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith(
-                        (states) => Theme.of(context).primaryColor),
+                        (states) => AppColors.mainColor),
                     textStyle: MaterialStateProperty.resolveWith(
                         (states) => TextStyle(color: Colors.white))),
                 child: loading == true

@@ -12,9 +12,9 @@ import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
 import '../../config/config.dart';
 import '../controllers/home_controller.dart';
-
 import '../widgets/featured_places.dart';
 import '../widgets/quest_type_scroll.dart';
+// import 'package:flutter_intro/flutter_intro.dart';
 
 class Explore extends StatefulWidget {
   Explore({Key? key}) : super(key: key);
@@ -23,6 +23,11 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -49,7 +54,9 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
 }
 
 class Header extends StatelessWidget {
-  const Header({Key? key}) : super(key: key);
+  const Header({
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     var controller = Get.find<HomeController>();

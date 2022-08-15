@@ -10,6 +10,8 @@ import 'package:travel_hour/widgets/payment_widget.dart';
 // import 'package:flutterappmomo/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import '../config/colors.dart';
 // import 'package:flutterappmomo/main.dart';
 
 const kAndroidUserAgent =
@@ -178,7 +180,9 @@ class _MoMoWebView extends State<MoMoWebView> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(),
+        appBar: AppBar(
+          backgroundColor: AppColors.mainColor,
+        ),
         body: WebviewScaffold(
           url: widget.url!,
           // javascriptChannels: jsChannels,
@@ -192,7 +196,7 @@ class _MoMoWebView extends State<MoMoWebView> {
           allowFileURLs: true,
           // hidden: true,
           initialChild: Container(
-            color: Colors.redAccent,
+            color: AppColors.mainColor,
             child: Center(
               child: Text('waiting.....'.tr),
             ),

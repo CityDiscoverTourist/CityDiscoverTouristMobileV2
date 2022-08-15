@@ -3,7 +3,12 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import '../controllers/play_controllerV2.dart';
+import '../models/purchased_quest.dart';
+
 class QRViewExample extends StatefulWidget {
   const QRViewExample({Key? key}) : super(key: key);
 
@@ -21,22 +26,25 @@ class _QRViewExampleState extends State<QRViewExample> {
   @override
   void reassemble() {
     super.reassemble();
-    if (Platform.isAndroid) {
-      controller!.pauseCamera();
-    }
+    if (Platform.isAndroid) {}
+    controller!.pauseCamera();
     controller!.resumeCamera();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (controller != null && mounted) {
+      controller!.pauseCamera();
+      controller!.resumeCamera();
+    }
     return WillPopScope(
-      onWillPop: ()async{
+      onWillPop: () async {
         return true;
       },
       child: Scaffold(
         body: Column(
           children: <Widget>[
-            Expanded(flex: 4, child: _buildQrView(context)),
+            Expanded(flex: 7, child: _buildQrView(context)),
             Expanded(
               flex: 1,
               child: FittedBox(
@@ -45,47 +53,46 @@ class _QRViewExampleState extends State<QRViewExample> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     if (result != null)
-                      Text(
-                          'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                      Text('${result!.code}')
                     else
-                      const Text('Scan a code'),
+                      Text('scan qr code'.tr),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.all(8),
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                await controller?.toggleFlash();
-                                setState(() {});
-                              },
-                              child: FutureBuilder(
-                                future: controller?.getFlashStatus(),
-                                builder: (context, snapshot) {
-                                  return Text('Flash: ${snapshot.data}');
-                                },
-                              )),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(8),
-                          child: ElevatedButton(
-                              onPressed: () async {
-                                await controller?.flipCamera();
-                                setState(() {});
-                              },
-                              child: FutureBuilder(
-                                future: controller?.getCameraInfo(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.data != null) {
-                                    return Text(
-                                        'Camera facing ${describeEnum(snapshot.data!)}');
-                                  } else {
-                                    return const Text('loading');
-                                  }
-                                },
-                              )),
-                        )
+                        // Container(
+                        //   margin: const EdgeInsets.all(8),
+                        //   child: ElevatedButton(
+                        //       onPressed: () async {
+                        //         await controller?.toggleFlash();
+                        //         setState(() {});
+                        //       },
+                        //       child: FutureBuilder(
+                        //         future: controller?.getFlashStatus(),
+                        //         builder: (context, snapshot) {
+                        //           return Text('Flash: ${snapshot.data}');
+                        //         },
+                        //       )),
+                        // ),
+                        // Container(
+                        //   margin: const EdgeInsets.all(8),
+                        //   child: ElevatedButton(
+                        //       onPressed: () async {
+                        //         await controller?.flipCamera();
+                        //         setState(() {});
+                        //       },
+                        //       child: FutureBuilder(
+                        //         future: controller?.getCameraInfo(),
+                        //         builder: (context, snapshot) {
+                        //           if (snapshot.data != null) {
+                        //             return Text(
+                        //                 'Camera facing ${describeEnum(snapshot.data!)}');
+                        //           } else {
+                        //             return const Text('loading');
+                        //           }
+                        //         },
+                        //       )),
+                        // )
                       ],
                     ),
                     Row(
@@ -93,25 +100,39 @@ class _QRViewExampleState extends State<QRViewExample> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          margin: const EdgeInsets.all(8),
+                          margin: const EdgeInsets.all(5),
                           child: ElevatedButton(
                             onPressed: () async {
-                              await controller?.pauseCamera();
+                              setState(() {
+                                result = null;
+                              });
                             },
-                            child: const Text('pause',
-                                style: TextStyle(fontSize: 20)),
+                            child: Text('reset'.tr,
+                                style: TextStyle(fontSize: 10)),
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.all(8),
+                          margin: const EdgeInsets.all(5),
                           child: ElevatedButton(
                             onPressed: () async {
-                              await controller?.resumeCamera();
+                              // await controller?.pauseCamera();
+                              String? code = result?.code;
+                              showAlertDialog(context, code!);
                             },
-                            child: const Text('resume',
-                                style: TextStyle(fontSize: 20)),
+                            child:
+                                Text('ok'.tr, style: TextStyle(fontSize: 10)),
                           ),
-                        )
+                        ),
+                        // Container(
+                        //   margin: const EdgeInsets.all(8),
+                        //   child: ElevatedButton(
+                        //     onPressed: () async {
+                        //       await controller?.resumeCamera();
+                        //     },
+                        //     child: const Text('resume',
+                        //         style: TextStyle(fontSize: 20)),
+                        //   ),
+                        // )
                       ],
                     ),
                   ],
@@ -169,5 +190,62 @@ class _QRViewExampleState extends State<QRViewExample> {
   void dispose() {
     controller?.dispose();
     super.dispose();
+  }
+
+  showAlertDialog(BuildContext context, String code) {
+    // Create button
+    Widget okButton = FlatButton(
+      child: Text("ok".tr),
+      onPressed: () async {
+        PlayControllerV2 controller = new PlayControllerV2();
+        PurchasedQuest? purchasedQuest =
+            await controller.getPuQuestById(result!.code);
+        if (purchasedQuest != null) {
+          Get.put(PlayControllerV2()).pQuest = purchasedQuest;
+          Navigator.of(context).pop();
+        } else {
+          Get.snackbar(
+              'play code not exist or expired'.tr, 'please try again'.tr,
+              duration: Duration(seconds: 2),
+              backgroundColor: Colors.black,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.BOTTOM,
+              icon: Icon(
+                Icons.error,
+                color: Colors.red,
+              ));
+          Navigator.of(context).pop();
+        }
+
+        // Get.to(RulePage(
+        //   pQuest: pQuest,
+        // ));
+        //  vao trang huong dan
+        // Navigator.of(context).pop();
+      },
+    );
+    Widget cancelButton = FlatButton(
+      child: Text("cancel".tr),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("cofirm".tr),
+      content: Text(
+          "quests that have entered the game cannot be reused. do you want to confirm?"
+              .tr),
+      actions: [okButton, cancelButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "586319496318-20moheejc97i2ovnn1f6hu6dtskb1seo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.citydiscovertourist",
+            "certificate_hash": "e50cd736ceef26c4a426266af77ddeb134247204"
+          }
+        },
+        {
           "client_id": "586319496318-bnnces789vhdd0cc9sctuog5nq2vms8b.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -6,22 +6,36 @@ import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
+import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/controllers/history_controller.dart';
+import 'package:travel_hour/controllers/questpurchased_controller.dart';
+import 'package:travel_hour/controllers/voucher_controller.dart';
 import 'package:travel_hour/pages/guide.dart';
 import 'package:travel_hour/pages/quest_play.dart';
 
 import 'package:travel_hour/pages/profile.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/pages/voucher.dart';
+import 'package:travel_hour/utils/format_hexcolor.dart';
+import '../config/colors.dart';
+import '../controllers/chat_controller.dart';
 import '../controllers/home_controller.dart';
 import 'explore.dart';
 import 'history.dart';
 
-class HomePage extends StatelessWidget {
-  HomeController myController = Get.put(HomeController());
+class HomePage extends GetView<HomeController> {
+  HomeController controller = Get.put(HomeController());
+    // Get.lazyPut(()=>RewardController());
+    final GlobalKey _one = GlobalKey();
+  final GlobalKey _two = GlobalKey();
+  final GlobalKey _three = GlobalKey();
+  final GlobalKey _four = GlobalKey();
+  final GlobalKey _five = GlobalKey();
+  
   @override
   Widget build(BuildContext context) {
-    var _currentIndex = myController.indexHomePage;
+ 
+    var _currentIndex = controller.indexHomePage;
     final views = [
       Explore(),
       VoucherPage(),
@@ -31,19 +45,26 @@ class HomePage extends StatelessWidget {
     return Scaffold(
         // appBar: AppBar(title: Text("Flutter Demo")),
         body: Obx(() {
-          if (myController.isLoading.value == true) {
+          if (controller.isLoading.value == true) {
             // print("true nef");
             return SplashStart(
               content: 'waiting loading data...'.tr,
             );
-          } else
+          } else{
+            if(_currentIndex.value==1){
+            Get.put(RewardController());
+            }
+             if(_currentIndex.value==2){
+            Get.put(HistoryController());
+            }
             return views[_currentIndex.value];
+          }
         }),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.redAccent,
+          backgroundColor: AppColors.mainColor,
           child: Icon(Icons.play_arrow_sharp),
           onPressed: () {
-            Get.lazyPut(()=>HistoryController());
+            Get.lazyPut(() => QuestPurchasedController());
             Get.to(QuestsPlayPage());
           },
         ),

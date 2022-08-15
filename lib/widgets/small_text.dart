@@ -22,11 +22,14 @@ class SmallText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+       maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            softWrap: false,
       style: TextStyle(
           fontFamily: 'Roboto',
           color: color,
           fontSize: size,
-          height: height),
+          height: height,),
     );
   }
 }

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/models/place.dart';
 import 'package:travel_hour/models/quest.dart';
-import 'package:travel_hour/pages/comments.dart';
 import 'package:travel_hour/pages/comments_v2.dart';
 import 'package:travel_hour/pages/guide.dart';
 // import 'package:travel_hour/pages/hotel.dart';
@@ -201,9 +200,8 @@ class TodoWidget extends StatelessWidget {
                               color: Colors.white,
                             ),
                           ])),
-                  onTap: () async=> {
+                  onTap: () async => {
                         print("TODO :" + questData!.id.toString()),
-                    
                         Get.put(CommentController()).idQuest.value =
                             questData!.id,
                         Get.to(CommentsPageV2())

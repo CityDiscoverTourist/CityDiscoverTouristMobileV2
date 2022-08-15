@@ -7,6 +7,9 @@ class LoginBinding implements Bindings {
   @override
   void dependencies() {
     // Get.put(() => LoginController(), permanent: true);
-    Get.put(() => LoginControllerV2(), permanent: true);
+     Get.put(
+    LoginControllerV2(),
+    permanent: true,
+  );
   }
 }
