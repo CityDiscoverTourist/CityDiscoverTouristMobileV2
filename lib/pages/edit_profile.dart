@@ -187,7 +187,7 @@ class _EditProfileState extends State<EditProfile> {
                       shape: BoxShape.circle,
                       image: DecorationImage(
                           image: (imageFile == null
-                              ? CachedNetworkImageProvider(imageUrl!)
+                              ? NetworkImage(imageUrl!)
                               : FileImage(imageFile!)) as ImageProvider<Object>,
                           fit: BoxFit.cover)),
                   child: Align(
