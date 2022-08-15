@@ -317,7 +317,7 @@ class AnswerPage extends StatelessWidget {
                                                 // ),
                                                 Image.network(
                                                     controller.questItemCurrent
-                                                        .listImages[1],
+                                                        .listImages.first,
                                                     width: 400,
                                                     height: 400,
                                                     fit: BoxFit.fill)
@@ -340,8 +340,12 @@ class AnswerPage extends StatelessWidget {
                                                   ),
                                                 ),
                                                 controller.questItemCurrent
-                                                            .imageDescription !=
-                                                        null
+                                                                .imageDescription !=
+                                                            "null" &&
+                                                        controller
+                                                                .questItemCurrent
+                                                                .imageDescription !=
+                                                            null
                                                     ? Image.network(
                                                         controller
                                                             .questItemCurrent

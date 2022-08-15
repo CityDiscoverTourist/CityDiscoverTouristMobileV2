@@ -183,6 +183,18 @@ class PlayControllerV2 extends GetxController {
               color: Colors.red,
             ));
         Get.delete<PlayControllerV2>();
+      }else if (checkErr.value == "Quest is not available") {
+        print("Lỗi chưa kết thúc");
+        Get.snackbar('error'.tr, 'Quest is not ready yet'.tr,
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.black,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+            icon: Icon(
+              Icons.error,
+              color: Colors.red,
+            ));
+        Get.delete<PlayControllerV2>();
       }
       //Xác nhận đã StartQuest
       else {

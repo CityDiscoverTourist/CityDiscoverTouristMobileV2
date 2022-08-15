@@ -4,6 +4,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:get/get.dart';
 import 'package:travel_hour/models/payment.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/models/quest.dart';
@@ -31,7 +32,7 @@ class PaymentDetail extends StatelessWidget {
           backgroundColor: Colors.grey.shade200,
           appBar: AppBar(
             title: BigText(
-              text: 'Payment Detail',
+              text: 'payment detail'.tr,
               fontWeight: FontWeight.w700,
               color: Colors.white,
             ),
@@ -47,8 +48,7 @@ class PaymentDetail extends StatelessWidget {
                   margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(40.0))),
+                      borderRadius: BorderRadius.all(Radius.circular(40.0))),
                   child: Column(
                     children: [
                       BigText(
@@ -56,12 +56,16 @@ class PaymentDetail extends StatelessWidget {
                         size: 28,
                         fontWeight: FontWeight.w500,
                       ),
-                      Image.asset('assets/images/logo.png'),
+                      purchasedQuest?.imagePath != null
+                          ? Image.network(purchasedQuest!.imagePath,
+                              width: 300, height: 150, fit: BoxFit.fill)
+                          : Container(),
+                      // Image.asset('assets/images/logo.png'),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           BigText(
-                            text: "Ma dat quest:",
+                            text: "play code".tr,
                             fontWeight: FontWeight.w600,
                           ),
                           SizedBox(
@@ -72,7 +76,7 @@ class PaymentDetail extends StatelessWidget {
                             height: 15,
                           ),
                           BigText(
-                            text: "Thoi gian: ",
+                            text: "time remaining".tr,
                             fontWeight: FontWeight.w600,
                           ),
                           SizedBox(
@@ -80,10 +84,9 @@ class PaymentDetail extends StatelessWidget {
                           ),
                           CountdownTimer(
                             endTime: endTime,
-                            widgetBuilder:
-                                (_, CurrentRemainingTime? time) {
+                            widgetBuilder: (_, CurrentRemainingTime? time) {
                               if (time == null) {
-                                return Text('Time up');
+                                return Text('time up'.tr);
                               }
                               // return BigText(
                               //   text:
@@ -131,25 +134,27 @@ class PaymentDetail extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.red.shade100,
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(40),
-                             topRight: Radius.circular(40),
-                            )),
+                          topLeft: Radius.circular(40),
+                          topRight: Radius.circular(40),
+                        )),
                     child: Column(
                       children: [
-                      Container(
-                        margin: EdgeInsets.only(left: 25,right: 25),
-                        width: double.infinity,
-                        height: 5,
-                        // color: Colors.red,
-                        child: Dash(length: 300,dashThickness: 2,)
-                      ),
+                        Container(
+                            margin: EdgeInsets.only(left: 25, right: 25),
+                            width: double.infinity,
+                            height: 5,
+                            // color: Colors.red,
+                            child: Dash(
+                              length: 300,
+                              dashThickness: 2,
+                            )),
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SmallText(
-                                text: 'Amount:',
+                                text: 'total price'.tr,
                                 size: 20,
                               ),
                               BigText(
@@ -166,23 +171,24 @@ class PaymentDetail extends StatelessWidget {
                         SizedBox(
                           height: 15,
                         ),
-                    Padding(
+                        Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SmallText(
-                              text: 'Quantity:',
-                              size: 20,
-                            ),
-                            BigText(
-                              text: purchasedQuest!.quantity.toString(),
-                              size: 22,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.blue,
-                            ),
-                          ],
-                        ),)
+                            children: [
+                              SmallText(
+                                text: 'quantity'.tr,
+                                size: 20,
+                              ),
+                              BigText(
+                                text: purchasedQuest!.quantity.toString(),
+                                size: 22,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.blue,
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ))
               ],
