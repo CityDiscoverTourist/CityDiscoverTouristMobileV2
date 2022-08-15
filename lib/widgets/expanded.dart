@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:get/get.dart';
 import 'package:travel_hour/config/colors.dart';
 
 class ExpandedWidget extends StatefulWidget {
@@ -33,8 +34,7 @@ class _ExpandedWidgetState extends State<ExpandedWidget> {
   Widget build(BuildContext context) {
     return Container(
         child: secondHalf.length == ""
-            ? 
-            Html(
+            ? Html(
                 data: widget.text,
                 // customRender: {
                 //     'flutter' : (RenderContext context, Widget child, attributes, _){
@@ -88,53 +88,56 @@ class _ExpandedWidgetState extends State<ExpandedWidget> {
                   //   ),
                   // ),
                   Html(
-                data: flag?  firstHalf:widget.text,
-                // customRender: {
-                //     'flutter' : (RenderContext context, Widget child, attributes, _){
-                //       return FlutterLogo(
-                //         style: FlutterLogoStyle.horizontal,
-                //         textColor: Colors.blue,
-                //         size: 100.0,
-                //       );
-                //     }
-                // },
-                style: {
-                  'html': Style(backgroundColor: Colors.white12),
-                  'table': Style(backgroundColor: Colors.grey.shade200),
-                  'td': Style(
-                    backgroundColor: Colors.grey.shade400,
-                    padding: EdgeInsets.all(10),
+                    data: flag ? firstHalf : widget.text,
+                    // customRender: {
+                    //     'flutter' : (RenderContext context, Widget child, attributes, _){
+                    //       return FlutterLogo(
+                    //         style: FlutterLogoStyle.horizontal,
+                    //         textColor: Colors.blue,
+                    //         size: 100.0,
+                    //       );
+                    //     }
+                    // },
+                    style: {
+                      'html': Style(backgroundColor: Colors.white12),
+                      'table': Style(backgroundColor: Colors.grey.shade200),
+                      'td': Style(
+                        backgroundColor: Colors.grey.shade400,
+                        padding: EdgeInsets.all(10),
+                      ),
+                      'th': Style(
+                          padding: EdgeInsets.all(10), color: Colors.black),
+                      'tr': Style(
+                          backgroundColor: Colors.grey.shade300,
+                          border: Border(
+                              bottom: BorderSide(color: Colors.greenAccent))),
+                    },
+                    // onLinkTap: (url){
+                    //     print('Open the url $url......');
+                    // },
+                    // onImageTap: (img){
+                    //     print('Image $img');
+                    // },
+                    // onImageError: (exception, stacktrace){
+                    //     print(exception);
+                    // },
                   ),
-                  'th': Style(padding: EdgeInsets.all(10), color: Colors.black),
-                  'tr': Style(
-                      backgroundColor: Colors.grey.shade300,
-                      border: Border(
-                          bottom: BorderSide(color: Colors.greenAccent))),
-                },
-                // onLinkTap: (url){
-                //     print('Open the url $url......');
-                // },
-                // onImageTap: (img){
-                //     print('Image $img');  
-                // },
-                // onImageError: (exception, stacktrace){
-                //     print(exception);
-                // },
-              ),
                   InkWell(
                     onTap: () {
-                    setState(() {
+                      setState(() {
                         flag = !flag;
-                    });
+                      });
                     },
                     child: Row(
                       children: [
                         Text(
-                         flag?"Show more":"Collapse",
+                          flag ? "show more".tr : "collapse".tr,
                           style: TextStyle(color: (AppColors.mainColor)),
                         ),
                         Icon(
-                        flag?  Icons.keyboard_arrow_down:Icons.keyboard_arrow_up,
+                          flag
+                              ? Icons.keyboard_arrow_down
+                              : Icons.keyboard_arrow_up,
                           color: (AppColors.mainColor),
                         )
                       ],
