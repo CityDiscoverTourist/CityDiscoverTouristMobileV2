@@ -270,6 +270,7 @@ class Translation extends Translations {
           "Mua quest di nha": "Please buy some quest",
           "Cau hoi chua co goi y": "This question has no suggestion",
           "send a message..": "Send a message...",
+          "Quest is not ready yet":"Quest is not ready yet"
         },
         'vn': {
           "welcome message":
@@ -543,6 +544,7 @@ class Translation extends Translations {
           "Mua quest di nha": "Hãy mua quest đi nhé",
           "Cau hoi chua co goi y": "Câu hỏi này không có gợi ý",
           "send a message..": "Gửi tin nhắn...",
+          "Quest is not ready yet":"Quest chưa sẵn sàng"
         }
       };
 }

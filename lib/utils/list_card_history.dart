@@ -33,8 +33,8 @@ class ListCardHistory extends StatelessWidget {
         // Get.find<HomeController>().idQuestCurrent.value =
         //                 d!.id;
         //             Get.toNamed(KQuestDetailPage);
-        Get.toNamed(KQuestDetailPage,
-            parameters: {'idQuest': d!.questId.toString()});
+        // Get.toNamed(KQuestDetailPage,
+        //     parameters: {'idQuest': d!.questId.toString()});
       },
       child: Stack(
         children: <Widget>[
@@ -103,7 +103,8 @@ class ListCardHistory extends StatelessWidget {
                         Expanded(
                           child: Align(alignment: Alignment.bottomRight,child: ElevatedButton(
                               onPressed: () {
-
+  Get.toNamed(KQuestDetailPage,
+            parameters: {'idQuest': d!.questId.toString()});
                               },
                               child:
                                   Text("Buy again".tr, style: TextStyle(fontSize: 16)),
