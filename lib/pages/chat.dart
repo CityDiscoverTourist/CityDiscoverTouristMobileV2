@@ -5,6 +5,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:travel_hour/controllers/chat_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/chatmessage.dart';
+
+import '../config/colors.dart';
 // import 'package:flutter_chat_app/models/message_model.dart';
 // import 'package:flutter_chat_app/models/user_model.dart';
 
@@ -228,6 +230,7 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         brightness: Brightness.dark,
         centerTitle: true,
+        backgroundColor: AppColors.mainColor,
         title: RichText(
           textAlign: TextAlign.center,
           text: TextSpan(
