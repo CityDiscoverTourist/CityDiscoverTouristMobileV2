@@ -156,9 +156,11 @@ class _EditProfileState extends State<EditProfile> {
   void initState() {
     super.initState();
     nameCtrl.text = widget.name!;
-    if (widget.address != null) {
+    if (widget.address != null&&widget.address!="null") {
       print("Lay dc address");
       addressCtrl.text = widget.address!;
+    }else{
+         addressCtrl.text="";
     }
     updateGender = widget.gender;
   }
