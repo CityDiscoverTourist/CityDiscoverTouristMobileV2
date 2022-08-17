@@ -274,7 +274,11 @@ class Translation extends Translations {
           "show more": "Show more",
           "collapse": "Collapse",
           "in put play code": "Input play code",
-          "payment detail": "Payment Detail"
+          "payment detail": "Payment Detail",
+          "enter new address": "Enter new address",
+          "address can't be empty": "Address can't be empty",
+          "male": "Male",
+          "female": "Female",
         },
         'vn': {
           "welcome message":
@@ -553,6 +557,10 @@ class Translation extends Translations {
           "collapse": "Thu gọn",
           "in put play code": "Nhập mã chơi",
           "payment detail": "Chi tiết đơn hàng",
+          "enter new address": "Nhập địa chỉ mới",
+          "address can't be empty": "Địa chỉ không thể để trống",
+          "male": "Nam",
+          "female": "Nữ",
         }
       };
 }

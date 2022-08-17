@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_hour/config/colors.dart';
-// import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/services/app_service.dart';
 import 'package:travel_hour/utils/snacbar.dart';
@@ -156,9 +155,11 @@ class _EditProfileState extends State<EditProfile> {
   void initState() {
     super.initState();
     nameCtrl.text = widget.name!;
-    if (widget.address != null) {
+    if (widget.address != null&&widget.address!="null") {
       print("Lay dc address");
       addressCtrl.text = widget.address!;
+    }else{
+         addressCtrl.text="";
     }
     updateGender = widget.gender;
   }
@@ -269,7 +270,7 @@ class _EditProfileState extends State<EditProfile> {
           ),
           controller: addressCtrl,
           validator: (value) {
-            if (value!.length == 0) return "Address can't be empty";
+            // if (value!.length == 0) return "address can't be empty".tr;
             return null;
           },
           // onSaved: (String? value) {
@@ -289,7 +290,9 @@ class _EditProfileState extends State<EditProfile> {
             print(gender.toString());
             if (gender.toString() == "Gender.Female") {
               updateGender = false;
+              print("Female");
             } else {
+              print("male");
               updateGender = true;
             }
           },

@@ -25,16 +25,15 @@ import 'history.dart';
 
 class HomePage extends GetView<HomeController> {
   HomeController controller = Get.put(HomeController());
-    // Get.lazyPut(()=>RewardController());
-    final GlobalKey _one = GlobalKey();
+  // Get.lazyPut(()=>RewardController());
+  final GlobalKey _one = GlobalKey();
   final GlobalKey _two = GlobalKey();
   final GlobalKey _three = GlobalKey();
   final GlobalKey _four = GlobalKey();
   final GlobalKey _five = GlobalKey();
-  
+
   @override
   Widget build(BuildContext context) {
- 
     var _currentIndex = controller.indexHomePage;
     final views = [
       Explore(),
@@ -50,12 +49,12 @@ class HomePage extends GetView<HomeController> {
             return SplashStart(
               content: 'waiting loading data...'.tr,
             );
-          } else{
-            if(_currentIndex.value==1){
-            Get.put(RewardController());
+          } else {
+            if (_currentIndex.value == 1) {
+              Get.put(RewardController());
             }
-             if(_currentIndex.value==2){
-            Get.put(HistoryController());
+            if (_currentIndex.value == 2) {
+              Get.put(HistoryController());
             }
             return views[_currentIndex.value];
           }
@@ -74,9 +73,6 @@ class HomePage extends GetView<HomeController> {
             return NavigationBar(
               backgroundColor: Colors.white,
               selectedIndex: _currentIndex.value,
-              // showElevation: true,
-              // itemCornerRadius: 24,
-              // curve: Curves.easeIn,
               onDestinationSelected: _currentIndex,
               destinations: <NavigationDestination>[
                 NavigationDestination(
@@ -86,8 +82,6 @@ class HomePage extends GetView<HomeController> {
                 NavigationDestination(
                   icon: Icon(Icons.card_giftcard),
                   label: 'reward'.tr,
-                  // activeColor: Colors.purpleAccent,
-                  // textAlign: TextAlign.center,
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.history_sharp),
