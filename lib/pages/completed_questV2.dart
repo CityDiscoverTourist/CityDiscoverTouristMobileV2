@@ -79,8 +79,8 @@ class CompletedPageV2State extends State<CompletedPageV2> {
                         height: 150,
                         fit: BoxFit.cover,
                       )
-                    : Image.asset(
-                        'assets/images/logo.png',
+                    : Image.network(
+                        "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
                         width: 150,
                         height: 150,
                         fit: BoxFit.cover,
@@ -234,7 +234,7 @@ class PlayInfo extends StatelessWidget {
 showAlertVoucher(BuildContext context, PlayControllerV2 controller) {
   // Create button
   Widget okButton = FlatButton(
-    child: Text("ok".tr),
+    child: Text("cofirm".tr),
     onPressed: () {
       // Get.to(RulePage(
       //   pQuest: pQuest,

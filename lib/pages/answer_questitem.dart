@@ -1,18 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:status_view/status_view.dart';
-import 'package:travel_hour/controllers/play_controller.dart';
 import 'package:travel_hour/controllers/play_controllerV2.dart';
-import 'package:travel_hour/models/questItem.dart';
 import 'package:travel_hour/pages/splashV2.dart';
-import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 
@@ -22,21 +13,6 @@ import 'chat.dart';
 
 class AnswerPage extends StatelessWidget {
   AnswerPage({Key? key}) : super(key: key);
-  //   @override
-  // Widget build(BuildContext context) {
-  //   final myController = TextEditingController();
-  //   var controller=Get.find<PlayControllerV2>();
-  //   return Scaffold(
-  //       body: Obx((){
-  //         if(controller.isLoading.value==true){
-  //           return SplashStart();
-  //         }else
-  //         return
-  //         Column(mainAxisAlignment: MainAxisAlignment.center,children: [Text(controller.questItemCurrent.description)]);
-  //       }
-  //       )
-  //       );
-  // }
   final myController = TextEditingController();
   var controller = Get.find<PlayControllerV2>();
   @override
@@ -206,10 +182,6 @@ class AnswerPage extends StatelessWidget {
                             )
                           : ElevatedButton(
                               onPressed: () {
-                                // if (controller.isDisableTextField.isFalse)
-                                // myController.text =
-                                //     controller.currentAns.value;
-                                // else {
                                 controller.currentAns.value = myController.text;
                                 if (controller.currentAns.isEmpty) {
                                   controller.currentAns.value = "N/A";
@@ -266,15 +238,6 @@ class AnswerPage extends StatelessWidget {
                                               bottom: BorderSide(
                                                   color: Colors.greenAccent))),
                                     },
-                                    // onLinkTap: (url){
-                                    //     print('Open the url $url......');
-                                    // },
-                                    // onImageTap: (img){
-                                    //     print('Image $img');
-                                    // },
-                                    // onImageError: (exception, stacktrace){
-                                    //     print(exception);
-                                    // },
                                   ),
                                 ),
                               ],
@@ -298,8 +261,8 @@ class AnswerPage extends StatelessWidget {
                                                   padding: const EdgeInsets.all(
                                                       10.0),
                                                   child: Text(
-                                                    "please find and take a photo of something similar to the one below (please let the app use your camera)"
-                                                        .tr,
+                                                    controller.questItemCurrent
+                                                        .content,
                                                     textAlign:
                                                         TextAlign.justify,
                                                     style: TextStyle(
@@ -473,7 +436,7 @@ class AnswerPage extends StatelessWidget {
 showAlertDialog(BuildContext context, String sugg) {
   // Create button
   Widget okButton = FlatButton(
-    child: Text("ok".tr),
+    child: Text("cofirm".tr),
     onPressed: () {
       // Get.to(RulePage(
       //   pQuest: pQuest,
@@ -511,7 +474,7 @@ showAlertDialogCofirmShowSuggestion(
     BuildContext context, PlayControllerV2 playControllerV2) {
   // Create button
   Widget okButton = FlatButton(
-    child: Text("ok".tr),
+    child: Text("cofirm".tr),
     onPressed: () {
       playControllerV2.showSuggestion();
       // Get.to(RulePage(
@@ -531,11 +494,12 @@ showAlertDialogCofirmShowSuggestion(
 
   // Create AlertDialog
   AlertDialog alert = AlertDialog(
-    title: Text("confirm".tr),
+    title: Text("cofirm".tr),
     content: BigText(
       text: "do you want to show suggestion(you will be minus 75 point)".tr,
     ),
-    actions: [okButton, cancelButton],
+    // actions: [okButton, cancelButton],
+    actions: [cancelButton, okButton],
   );
 
   // show the dialog
@@ -550,7 +514,7 @@ showAlertDialogCofirmShowSuggestion(
 showAlertDialogCofirmOut(BuildContext context) {
   // Create button
   Widget okButton = FlatButton(
-    child: Text("ok".tr),
+    child: Text("cofirm".tr),
     onPressed: () {
       // Get.to(RulePage(
       //   pQuest: pQuest,
@@ -574,7 +538,8 @@ showAlertDialogCofirmOut(BuildContext context) {
     content: BigText(
       text: "You will lose this turn and cannot play again".tr,
     ),
-    actions: [okButton, cancelButton],
+    // actions: [okButton, cancelButton],
+    actions: [cancelButton, okButton],
   );
 
   // show the dialog
@@ -589,7 +554,7 @@ showAlertDialogCofirmOut(BuildContext context) {
 showAlertDialogCofirmSkip(BuildContext context) async {
   // Create button
   Widget okButton = FlatButton(
-    child: Text("ok".tr),
+    child: Text("cofirm".tr),
     onPressed: () async {
       Get.find<PlayControllerV2>().isSkip.value = true;
       Get.find<PlayControllerV2>().clickAnswer();
@@ -607,7 +572,8 @@ showAlertDialogCofirmSkip(BuildContext context) async {
   AlertDialog alert = AlertDialog(
     title: Text("cofirm".tr),
     content: Text("do you want to skip this question?".tr),
-    actions: [okButton, cancelButton],
+    // actions: [okButton, cancelButton],
+    actions: [cancelButton, okButton],
   );
   showDialog(
     context: context,
@@ -662,31 +628,3 @@ void showCustomDialog(BuildContext context, String? sugg) {
     },
   );
 }
-
-//  body: GetBuilder<PlayController>(
-//       builder: (controller) {
-//         return Center(
-//           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-//             Text(controller.questItemCurrent.name),
-//             TextField(
-//               controller: myController,
-//             ),
-//             ElevatedButton(
-//               onPressed: () {
-//                 controller.currentAns.value = myController.text;
-//                 myController.text = "";
-//                 controller.clickAnswer();
-//               },
-//               child: Text('Submit', style: TextStyle(fontSize: 16)),
-//               style: ElevatedButton.styleFrom(
-//                 padding: const EdgeInsets.only(
-//                     left: 40.0, top: 16.0, bottom: 16.0, right: 40.0),
-//                 shape: RoundedRectangleBorder(
-//                   borderRadius: BorderRadius.circular(12), // <-- Radius
-//                 ),
-//               ),
-//             ),
-//           ]),
-//         );
-//       },
-//     )
