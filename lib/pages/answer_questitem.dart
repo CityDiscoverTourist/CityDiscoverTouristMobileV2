@@ -237,6 +237,12 @@ class AnswerPage extends StatelessWidget {
                                           border: Border(
                                               bottom: BorderSide(
                                                   color: Colors.greenAccent))),
+                                      'p': Style(
+                                        fontSize: FontSize.large,
+                                          backgroundColor: Colors.grey.shade300,
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.greenAccent))),
                                     },
                                   ),
                                 ),
