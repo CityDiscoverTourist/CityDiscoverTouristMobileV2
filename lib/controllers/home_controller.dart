@@ -106,6 +106,7 @@ class HomeController extends GetxController {
        await fetchCityData();
       await fetchQuestFeatureData();
       await fetchQuestTypeData();
+       dropdownValue = cityList[1];
     } finally {
       isLoading(false);
     }
