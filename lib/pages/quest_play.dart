@@ -233,7 +233,7 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
                               .checkUserLocation(pQuest.questId.toString());
                           CustomFullScreenDialog.cancelDialog();
                           print("Check" + check.toString());
-                          if (check) {
+                          if (true) {
                             showAlertDialog(context, pQuest);
                           } else {
                             showAlertDialogCheckLocation(context, pQuest);

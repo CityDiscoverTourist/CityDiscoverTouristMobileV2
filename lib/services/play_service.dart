@@ -54,6 +54,8 @@ class PlayService {
       Map data = jsonDecode(response.body);
 
       int idCusQuest = data['data']['id'];
+      Get.find<PlayControllerV2>().totalQuestItem.value=data['data']['countQuestItem'];
+      print('createCustomerQuest '+data['data']['countQuestItem'].toString());
       return Future<String>.value(idCusQuest.toString());
     } else if (response.statusCode == 400) {
       Map data = jsonDecode(response.body);

@@ -42,8 +42,8 @@ class AnswerPage extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                                 SmallText(
-                                  text: 'question no'.tr +
-                                      ' ${controller.numQuest}',
+                                  text: 'question no'.tr + 
+                                      ' ${controller.numQuest}'+"/${controller.totalQuestItem}",
                                   color: Colors.white,
                                 )
                               ],
@@ -238,7 +238,7 @@ class AnswerPage extends StatelessWidget {
                                               bottom: BorderSide(
                                                   color: Colors.greenAccent))),
                                       'p': Style(
-                                        fontSize: FontSize.large,
+                                        fontSize: FontSize.xxLarge,
                                           backgroundColor: Colors.grey.shade300,
                                           border: Border(
                                               bottom: BorderSide(

@@ -103,10 +103,9 @@ class HomeController extends GetxController {
   updateData() async {
     try {
       isLoading(true);
+       await fetchCityData();
       await fetchQuestFeatureData();
-      // await fetchPlayingHistory(Get.find<LoginControllerV2>().sp.id);
       await fetchQuestTypeData();
-      // await fetchQuestTypeData();
     } finally {
       isLoading(false);
     }
