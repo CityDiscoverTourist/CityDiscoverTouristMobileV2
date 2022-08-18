@@ -257,7 +257,7 @@ class Translation extends Translations {
           "question no": "Question No",
           "info purchase": "Info purchase",
           "do you want to show suggestion(you will be minus 75 point)":
-              "do you want to show suggestion(you will be minus 75 point)",
+              "Do you want to show suggestion(you will be minus 75 point)",
           "You will lose this turn and cannot play again":
               "You will lose this turn and cannot play again",
           "Score achieved": "Score achieved",
@@ -265,7 +265,7 @@ class Translation extends Translations {
           "You received a discount code": "You received a discount code",
           "You get a discount code for your next order":
               "You get a discount code for your next order",
-          "submitComment": "submit",
+          "submitComment": "Submit",
           "Khong tim thay quest nao": "Don't have any quest",
           "Mua quest di nha": "Please buy some quest",
           "Cau hoi chua co goi y": "This question has no suggestion",
@@ -279,6 +279,7 @@ class Translation extends Translations {
           "address can't be empty": "Address can't be empty",
           "male": "Male",
           "female": "Female",
+          "finish":"Finish"
         },
         'vn': {
           "welcome message":
@@ -561,6 +562,7 @@ class Translation extends Translations {
           "address can't be empty": "Địa chỉ không thể để trống",
           "male": "Nam",
           "female": "Nữ",
+          "finish":"Kết thúc"
         }
       };
 }

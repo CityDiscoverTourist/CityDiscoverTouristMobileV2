@@ -1,17 +1,12 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:gender_picker/source/enums.dart';
 import 'package:gender_picker/source/gender_picker.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 import 'package:travel_hour/config/colors.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
-import 'package:travel_hour/services/app_service.dart';
-import 'package:travel_hour/utils/snacbar.dart';
 
 class EditProfile extends StatefulWidget {
   final String? name;
@@ -62,31 +57,13 @@ class _EditProfileState extends State<EditProfile> {
         fileName = (imageFile!.path);
       });
     } else {
-      print('No image has is selected!');
     }
   }
 
-  // Future uploadPicture() async {
-  //   // final SignInBloc sb = context.read<SignInBloc>();
-  //   // Reference storageReference =
-  //   //     FirebaseStorage.instance.ref().child('Profile Pictures/${sb.uid}');
-  //   UploadTask uploadTask = storageReference.putFile(imageFile!);
-
-  //   await uploadTask.whenComplete(() async {
-  //     var _url = await storageReference.getDownloadURL();
-  //     var _imageUrl = _url.toString();
-  //     setState(() {
-  //       imageUrl = _imageUrl;
-  //     });
-  //   });
-  // }
+ 
 
   Future handleUpdateData() async {
-    // final sb = context.read<SignInBloc>();
-    // await AppService().checkInternet().then((hasInternet) async {
-    //   if (hasInternet == false) {
-    //     openSnacbar(scaffoldKey, 'no internet'.tr);
-    //   } else {
+   
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       setState(() => loading = true);
@@ -156,7 +133,6 @@ class _EditProfileState extends State<EditProfile> {
     super.initState();
     nameCtrl.text = widget.name!;
     if (widget.address != null&&widget.address!="null") {
-      print("Lay dc address");
       addressCtrl.text = widget.address!;
     }else{
          addressCtrl.text="";
@@ -287,12 +263,9 @@ class _EditProfileState extends State<EditProfile> {
           unSelectedGenderTextStyle:
               TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
           onChanged: (Gender? gender) {
-            print(gender.toString());
             if (gender.toString() == "Gender.Female") {
               updateGender = false;
-              print("Female");
             } else {
-              print("male");
               updateGender = true;
             }
           },

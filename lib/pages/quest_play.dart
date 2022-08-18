@@ -6,20 +6,15 @@ import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
-import 'package:travel_hour/controllers/questpurchased_controller.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
-import 'package:travel_hour/controllers/login_controller_V2.dart';
+import 'package:travel_hour/controllers/questpurchased_controller.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/pages/chat.dart';
 import 'package:travel_hour/pages/payment_detail.dart';
 import 'package:travel_hour/pages/qr_scanner.dart';
 import 'package:travel_hour/pages/splashV2.dart';
-import 'package:travel_hour/pages/rulepage.dart';
 import 'package:travel_hour/utils/empty.dart';
 import 'package:travel_hour/widgets/big_text.dart';
-import 'package:travel_hour/widgets/custom_cache_image.dart';
-import 'package:travel_hour/widgets/small_text.dart';
-import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../common/customFullScreenDialog.dart';
@@ -27,7 +22,6 @@ import '../config/colors.dart';
 import '../controllers/chat_controller.dart';
 import '../controllers/play_controllerV2.dart';
 import '../models/quest.dart';
-import '../routes/app_routes.dart';
 
 class QuestsPlayPage extends GetView<QuestPurchasedController> {
   const QuestsPlayPage({Key? key}) : super(key: key);
@@ -83,7 +77,6 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
         ),
         body: Obx((() {
           if (controller.isLoading.value == false) {
-            print(controller.purchsedQuestList.length);
             if (controller.purchsedQuestList.length != 0) {
               return ListView.builder(
                 itemCount: controller.purchsedQuestList.length,
@@ -232,7 +225,6 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
                           bool check = await playController
                               .checkUserLocation(pQuest.questId.toString());
                           CustomFullScreenDialog.cancelDialog();
-                          print("Check" + check.toString());
                           if (true) {
                             showAlertDialog(context, pQuest);
                           } else {
@@ -362,7 +354,6 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
         "https://www.google.com/maps/search/?api=1&query=" +
             quest.latLong.toString();
     String encodedURl = Uri.encodeFull(googleMapslocationUrl);
-    print(googleMapslocationUrl);
     CustomFullScreenDialog.cancelDialog();
     Widget okButton = FlatButton(
       child: Text("open map".tr),
@@ -371,14 +362,9 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
         if (await canLaunch(encodedURl)) {
           await launch(encodedURl);
         } else {
-          print('Could not launch $encodedURl');
           throw 'Could not launch $encodedURl';
         }
-        // Get.to(RulePage(
-        //   pQuest: pQuest,
-        // ));
-        //  vao trang huong dan
-        // Navigator.of(context).pop();
+      
       },
     );
     Widget cancelButton = FlatButton(
@@ -414,7 +400,6 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
     Widget okButton = FlatButton(
       child: Text("ok".tr),
       onPressed: () async {
-        // print(textCtrl.text);
         PlayControllerV2 controller = new PlayControllerV2();
         PurchasedQuest? purchasedQuest =
             await controller.getPuQuestById(textCtrl.text);
@@ -469,17 +454,7 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
           labelText: "play code".tr,
           border: OutlineInputBorder(),
         ),
-        // onFieldSubmitted: (value) {
-        //   print(value);
-        // },
-        // onEditingComplete: () {
-        //   code = textCtrl.text;
-        //   print(code);
-        // },
-        // onChanged: (value) {
-        //   code = textCtrl.text;
-        //   // print(code);
-        // },
+       
       ),
       actions: [okButton, scanButton, cancelButton],
     );

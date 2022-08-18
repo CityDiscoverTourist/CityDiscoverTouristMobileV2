@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:travel_hour/controllers/chat_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/chatmessage.dart';
@@ -27,7 +25,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     // Get.put(ChatController());
     if (chatController.conID.value == "") {
-      chatController.StartSocket();
+      chatController.startSocket();
     }
     super.initState();
   }

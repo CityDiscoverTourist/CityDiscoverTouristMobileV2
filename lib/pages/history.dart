@@ -1,19 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/customer_quest.dart';
-import 'package:travel_hour/models/quest.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/utils/empty.dart';
-import 'package:travel_hour/utils/list_card.dart';
 import 'package:travel_hour/utils/list_card_history.dart';
-import 'package:travel_hour/utils/loading_cards.dart';
 
 import '../config/colors.dart';
 import '../controllers/history_controller.dart';
-import '../controllers/home_controller.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);

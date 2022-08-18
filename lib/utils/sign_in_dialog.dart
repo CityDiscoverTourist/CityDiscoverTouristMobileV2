@@ -1,8 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:travel_hour/pages/sign_in.dart';
 import 'package:travel_hour/pages/sign_inV2.dart';
 import 'package:travel_hour/utils/next_screen.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 openSignInDialog(context){
    return showDialog(

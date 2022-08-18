@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 // import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
-import 'package:travel_hour/pages/sign_in.dart';
-import 'package:travel_hour/pages/home.dart';
-import 'package:travel_hour/utils/next_screen.dart';
 
-import '../controllers/login_controller.dart';
 import '../widgets/big_text.dart';
 
 class SplashStart extends StatefulWidget {

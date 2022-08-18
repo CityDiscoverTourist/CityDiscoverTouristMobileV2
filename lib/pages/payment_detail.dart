@@ -1,16 +1,12 @@
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
-import 'package:travel_hour/models/payment.dart';
-import 'package:travel_hour/models/purchased_quest.dart';
-import 'package:travel_hour/models/quest.dart';
-import 'package:travel_hour/widgets/big_text.dart';
-import 'package:travel_hour/widgets/custom_cache_image.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:travel_hour/models/purchased_quest.dart';
+import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/dash.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 

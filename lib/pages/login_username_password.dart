@@ -166,7 +166,6 @@ class _UserLoginPageState extends State<UserLoginPage> {
       controller.loginUsernamePassword(nameCtrl.text, passCtrl.text);
     } else {
       setState(() {
-        print(_key.currentState!.validate());
         _validate = true;
       });
     }
@@ -189,7 +188,6 @@ class _UserLoginPageState extends State<UserLoginPage> {
               new FlatButton(
                 child: new Text("cofirm".tr),
                 onPressed: () async {
-                  print(userName);
                   var controller = Get.find<LoginControllerV2>();
                   controller.forgotPassword(forgotPassCtrl.text);
                   Navigator.pop(context);

@@ -11,8 +11,6 @@ class QuestDetailController extends GetxController {
   var total;
   @override
   void onInit() async {
-    // isLoading(true);
-    // print('InitController'+questDetail.id.toString());
      isLoading(true);
 idQuestCurrent.value=int.parse(Get.parameters['idQuest'].toString());
     try {
@@ -31,9 +29,6 @@ idQuestCurrent.value=int.parse(Get.parameters['idQuest'].toString());
 
   @override
   void onReady() async {
-    //  print('OnreadyController'+questDetail!.id.toString());
-    // fetchQuestDetailById();
-// ever(qu)
     super.onReady();
 
   }

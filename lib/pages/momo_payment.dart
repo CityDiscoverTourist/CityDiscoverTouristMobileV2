@@ -1,10 +1,6 @@
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:momo_vn/momo_vn.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:momo_vn/momo_vn.dart';
 
 class MomoPaymentPage extends StatefulWidget {
   @override
@@ -37,41 +33,6 @@ class _MomoPaymentPageState extends State<MomoPaymentPage> {
     setState(() {});
   }
 
-  // Future<dynamic> postCreate(String partnerCode, String partnerName,
-  //     String orderId, String orderInfo, String signature) async {
-  //   const url = 'https://test-payment.momo.vn/v2/gateway/api/create';
-
-  //   final msg = jsonEncode({
-  //     "partnerCode": partnerCode,
-  //     "partnerName": partnerName,
-  //     "storeId": partnerCode,
-  //     "requestType": "captureWallet",
-  //     "ipnUrl": "https://momo.vn",
-  //     "redirectUrl": "https://momo.vn",
-  //     "orderId": orderId,
-  //     "amount": 150000,
-  //     "lang": "vi",
-  //     "orderInfo": orderInfo,
-  //     "requestId": orderId,
-  //     "extraData": "",
-  //     "signature": signature
-  //   });
-  //   final response = await http.post(Uri.parse(url),
-  //       headers: {
-  //         'Content-Type': 'application/json; charset=UTF-8',
-  //       },
-  //       body: msg);
-  //   print(response.body);
-  //   if (response.statusCode == 200) {
-  //     var json = jsonDecode(response.body);
-  //     payUrl = json['payUrl'];
-  //     print(json['payUrl']);
-  //     return json;
-  //   } else {
-  //     //throw HttpRequestException();
-  //     throw 'loi';
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

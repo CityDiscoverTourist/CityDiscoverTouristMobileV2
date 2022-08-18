@@ -1,26 +1,14 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
-import 'package:provider/provider.dart';
 // import 'package:travel_hour/blocs/sign_in_bloc.dart';
 import 'package:travel_hour/config/config.dart';
-import 'package:travel_hour/controllers/chat_controller.dart';
-import 'package:travel_hour/controllers/home_controller.dart';
-import 'package:travel_hour/controllers/login_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
-import 'package:travel_hour/pages/chat.dart';
-import 'package:travel_hour/pages/done.dart';
+// import 'package:travel_hour/pages/done.dart';
 import 'package:travel_hour/services/app_service.dart';
-import 'package:travel_hour/utils/next_screen.dart';
 import 'package:travel_hour/utils/snacbar.dart';
-// import 'package:easy_localization/easy_localization.dart';
-import 'package:travel_hour/widgets/language.dart';
 
 import '../config/colors.dart';
-import '../controllers/play_controller.dart';
-import '../controllers/play_controllerV2.dart';
 import 'login_username_password.dart';
 
 class LoginScreen extends StatefulWidget {

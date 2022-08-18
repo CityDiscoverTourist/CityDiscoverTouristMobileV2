@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/controllers/search_controller.dart';
 import 'package:travel_hour/models/city.dart';
 import 'package:travel_hour/pages/profile.dart';
 import 'package:travel_hour/pages/searchV2.dart';
 import 'package:travel_hour/widgets/big_text.dart';
-import 'package:travel_hour/widgets/custom_cache_image.dart';
+
 import '../../config/config.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/featured_places.dart';

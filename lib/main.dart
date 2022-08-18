@@ -57,7 +57,6 @@ Future<void> main() async {
         FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
           Get.to(SplashStart(            
           ));
-      print('A new onMessageOpenedApp event was published!');
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {

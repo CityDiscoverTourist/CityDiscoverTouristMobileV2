@@ -8,7 +8,6 @@ import 'package:travel_hour/common/customFullScreenDialog.dart';
 import 'package:travel_hour/config/colors.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/models/reward.dart';
-import 'package:travel_hour/pages/intro.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/utils/next_screen.dart';
 

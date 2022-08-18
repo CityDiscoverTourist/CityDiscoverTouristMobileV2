@@ -29,7 +29,7 @@ class QuestService {
               'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         });
     print("fetchQuestFeatureData Status_code: " '${response.statusCode}');
-    // if (response.statusCode == 200) {
+    if (response.statusCode == 200) {
     Map data = jsonDecode(response.body);
     Iterable list = data['data'];
    
@@ -38,7 +38,8 @@ class QuestService {
       return Quest.fromJson(json);
     }).toList();
     return listQuest;
-    // }
+    }
+    return null;
   }
 //https://citytourist.azurewebsites.net/api/v1/quests?QuestTypeId=2&AreaId=3&language=0
  static Future<List<Quest>?> fetchQuestDataByType(

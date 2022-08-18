@@ -9,7 +9,9 @@ import 'package:travel_hour/widgets/small_text.dart';
 
 import '../config/colors.dart';
 import '../controllers/chat_controller.dart';
+import '../controllers/comment_controller.dart';
 import 'chat.dart';
+import 'completed_questV2.dart';
 
 class AnswerPage extends StatelessWidget {
   AnswerPage({Key? key}) : super(key: key);
@@ -25,6 +27,7 @@ class AnswerPage extends StatelessWidget {
               return false;
             },
             child: Scaffold(
+              backgroundColor: Colors.white,
                 appBar:
                     //Man ans
                     controller.indexTypePage.value == 1
@@ -42,8 +45,9 @@ class AnswerPage extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                                 SmallText(
-                                  text: 'question no'.tr + 
-                                      ' ${controller.numQuest}'+"/${controller.totalQuestItem}",
+                                  text: 'question no'.tr +
+                                      ' ${controller.numQuest}' +
+                                      "/${controller.totalQuestItem}",
                                   color: Colors.white,
                                 )
                               ],
@@ -128,13 +132,18 @@ class AnswerPage extends StatelessWidget {
                               // Get.to(AnswerPage());
                               controller.indexTypePage.value = 1;
                             } else {
-                              controller.numQuest++;
-                              // Get.to(StoryDescription());
-                              controller.indexTypePage.value = 0;
+                              if (controller.isFinished.isTrue) {
+                                Get.lazyPut(() => CommentController());
+                                Get.to(CompletedPageV2());
+                              } else {
+                                controller.numQuest++;
+                                // Get.to(StoryDescription());
+                                controller.indexTypePage.value = 0;
+                              }
                             }
                           },
                           child:
-                              Text('next'.tr, style: TextStyle(fontSize: 16)),
+                              Text(controller.isFinished.isTrue?'finish'.tr:'next'.tr, style: TextStyle(fontSize: 16)),
                           style: ElevatedButton.styleFrom(
                             primary: AppColors.mainColor,
                             onPrimary: Colors.white,
@@ -221,28 +230,53 @@ class AnswerPage extends StatelessWidget {
                                         : controller.questItemCurrent.story,
                                     style: {
                                       'html': Style(
-                                          backgroundColor: Colors.white12),
+                                          // backgroundColor: Colors.white12
+                                          ),
                                       'table': Style(
                                           backgroundColor:
                                               Colors.grey.shade200),
                                       'td': Style(
-                                        backgroundColor: Colors.grey.shade400,
+                                       
                                         padding: EdgeInsets.all(10),
                                       ),
                                       'th': Style(
                                           padding: EdgeInsets.all(10),
                                           color: Colors.black),
                                       'tr': Style(
+                                        
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.greenAccent))),
+                                      // 'p class=\"ql-align-center\"': Style(
+                                      //     alignment: Alignment.center,
+                                      //     textAlign: TextAlign.center,
+                                      //     margin: EdgeInsets.only(left: 30),
+                                      //     backgroundColor: Colors.grey.shade300,
+                                      //     border: Border(
+                                      //         bottom: BorderSide(
+                                      //             color: Colors.greenAccent))),
+                                       'img': Style(
+                                        // after: 'p',
+                                          alignment: Alignment.center,
+                                          textAlign: TextAlign.center,
+                                          fontSize: FontSize.xxLarge,
                                           backgroundColor: Colors.grey.shade300,
                                           border: Border(
                                               bottom: BorderSide(
                                                   color: Colors.greenAccent))),
+                                                  
                                       'p': Style(
-                                        fontSize: FontSize.xxLarge,
-                                          backgroundColor: Colors.grey.shade300,
-                                          border: Border(
-                                              bottom: BorderSide(
-                                                  color: Colors.greenAccent))),
+
+                                        // before: '          ',
+                                          // alignment: Alignment.center,
+                                          textAlign: TextAlign.justify,
+                                          fontSize: FontSize.xxLarge,
+                                         
+                                          // border: Border(
+                                          //     bottom: BorderSide(
+                                          //         color: Colors.greenAccent)
+                                                  // )
+                                                  ),
                                     },
                                   ),
                                 ),
@@ -483,10 +517,6 @@ showAlertDialogCofirmShowSuggestion(
     child: Text("cofirm".tr),
     onPressed: () {
       playControllerV2.showSuggestion();
-      // Get.to(RulePage(
-      //   pQuest: pQuest,
-      // ));
-      //  vao trang huong dan
       Navigator.of(context).pop();
       showAlertDialog(context, playControllerV2.sugggestion.value);
     },
