@@ -479,7 +479,7 @@ class Translation extends Translations {
           "you should know": "Bạn nên biết",
           "total distance:": "Tổng quãng đường: ",
           "total time:": "Tổng thời gian: ",
-          "number of question:": "Số lượng câu đó: ",
+          "number of question:": "Số lượng câu đố: ",
           "don't have any comments": "Không có comment nào",
           "Customer not found": "Người dùng không tồn tại",
           "success": "Thành công",
