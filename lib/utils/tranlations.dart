@@ -279,7 +279,8 @@ class Translation extends Translations {
           "address can't be empty": "Address can't be empty",
           "male": "Male",
           "female": "Female",
-          "finish":"Finish"
+          "finish": "Finish",
+          "system busy": "System busy"
         },
         'vn': {
           "welcome message":
@@ -562,7 +563,8 @@ class Translation extends Translations {
           "address can't be empty": "Địa chỉ không thể để trống",
           "male": "Nam",
           "female": "Nữ",
-          "finish":"Kết thúc"
+          "finish": "Kết thúc",
+          "system busy": "Hệ thống bânk"
         }
       };
 }

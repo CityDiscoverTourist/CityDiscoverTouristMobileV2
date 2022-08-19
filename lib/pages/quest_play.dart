@@ -305,7 +305,7 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
   showAlertDialog(BuildContext context, PurchasedQuest pQuest) {
     // Create button
     Widget okButton = FlatButton(
-      child: Text("ok".tr),
+      child: Text("cofirm".tr),
       onPressed: () {
         Get.put(PlayControllerV2()).pQuest = pQuest;
         Navigator.of(context).pop();
@@ -364,7 +364,6 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
         } else {
           throw 'Could not launch $encodedURl';
         }
-      
       },
     );
     Widget cancelButton = FlatButton(
@@ -398,7 +397,7 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
     String code = "";
     // Create button
     Widget okButton = FlatButton(
-      child: Text("ok".tr),
+      child: Text("cofirm".tr),
       onPressed: () async {
         PlayControllerV2 controller = new PlayControllerV2();
         PurchasedQuest? purchasedQuest =
@@ -454,7 +453,6 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
           labelText: "play code".tr,
           border: OutlineInputBorder(),
         ),
-       
       ),
       actions: [okButton, scanButton, cancelButton],
     );

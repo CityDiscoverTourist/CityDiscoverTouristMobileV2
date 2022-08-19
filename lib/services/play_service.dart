@@ -54,8 +54,9 @@ class PlayService {
       Map data = jsonDecode(response.body);
 
       int idCusQuest = data['data']['id'];
-      Get.find<PlayControllerV2>().totalQuestItem.value=data['data']['countQuestItem'];
-      print('createCustomerQuest '+data['data']['countQuestItem'].toString());
+      Get.find<PlayControllerV2>().totalQuestItem.value =
+          data['data']['countQuestItem'];
+      print('createCustomerQuest ' + data['data']['countQuestItem'].toString());
       return Future<String>.value(idCusQuest.toString());
     } else if (response.statusCode == 400) {
       Map data = jsonDecode(response.body);
@@ -219,8 +220,8 @@ class PlayService {
       // print('object');
       print("updateEndPoint OK");
       Map data = jsonDecode(response.body);
-    CustomerQuest rs;
-    rs=CustomerQuest.fromJson(data['data']);
+      CustomerQuest rs;
+      rs = CustomerQuest.fromJson(data['data']);
       // rs = data['data']['endPoint'];
       return Future<CustomerQuest>.value(rs);
     } else {
@@ -395,7 +396,7 @@ class PlayService {
           'Authorization':
               'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         });
-        print("checkCoupon "+response.statusCode.toString());
+    print("checkCoupon " + response.statusCode.toString());
     if (response.statusCode == 200) {
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
       var data = json.decode(response.body);
@@ -768,6 +769,16 @@ class PlayService {
             print(result["data"]);
             rs = CustomerTask.fromJson(result["data"]);
             return Future<CustomerTask>.value(rs);
+          } else {
+            Get.snackbar('system busy'.tr, 'try again'.tr,
+                duration: Duration(seconds: 2),
+                backgroundColor: Colors.black,
+                colorText: Colors.white,
+                snackPosition: SnackPosition.TOP,
+                icon: Icon(
+                  Icons.golf_course,
+                  color: Colors.red,
+                ));
           }
         }
       } else {
