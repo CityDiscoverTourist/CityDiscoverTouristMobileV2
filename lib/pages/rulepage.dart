@@ -143,10 +143,13 @@ class _RulePageState extends State<RulePage> {
             } else {
               return FloatingActionButton(
                 backgroundColor: AppColors.mainColor,
-                child: Text('get started'.tr),
+                child: Text(
+                  'get started'.tr,
+                  textAlign: TextAlign.center,
+                ),
                 onPressed: () {
                   // Get.to(StoryDescription());
-                   Get.to(AnswerPage());
+                  Get.to(AnswerPage());
                 },
               );
             }
