@@ -225,7 +225,7 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
                           bool check = await playController
                               .checkUserLocation(pQuest.questId.toString());
                           CustomFullScreenDialog.cancelDialog();
-                          if (true) {
+                          if (check) {
                             showAlertDialog(context, pQuest);
                           } else {
                             showAlertDialogCheckLocation(context, pQuest);
@@ -380,7 +380,8 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
           "\n" +
           "\n" +
           address),
-      actions: [okButton, cancelButton],
+      // actions: [okButton, cancelButton],
+      actions: [cancelButton, okButton],
     );
 
     // show the dialog
@@ -454,7 +455,7 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
           border: OutlineInputBorder(),
         ),
       ),
-      actions: [okButton, scanButton, cancelButton],
+      actions: [cancelButton, scanButton, okButton],
     );
 
     // show the dialog

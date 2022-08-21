@@ -564,7 +564,7 @@ class Translation extends Translations {
           "male": "Nam",
           "female": "Nữ",
           "finish": "Kết thúc",
-          "system busy": "Hệ thống bânk"
+          "system busy": "Hệ thống bận"
         }
       };
 }
