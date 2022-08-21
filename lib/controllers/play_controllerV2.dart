@@ -65,6 +65,7 @@ class PlayControllerV2 extends GetxController {
   );
   final isHours = true;
   var description;
+  var descriptionTmp;
   //Test List
   var qItem = List<QuestItem>.empty().obs;
   var index = 0.obs;
@@ -76,14 +77,13 @@ class PlayControllerV2 extends GetxController {
   var ruleIndex = 1.obs;
   var displayTime = "".obs;
   var isCancel = false.obs;
+  var isFinished=false.obs;
   increaseIndexRule() {
-    print(ruleIndex);
     ruleIndex++;
     update();
   }
 
   decreaseIndexRule() {
-    print(ruleIndex);
     ruleIndex--;
     update();
   }
@@ -126,12 +126,11 @@ class PlayControllerV2 extends GetxController {
     ever(clickAns, handleAuthStateChanged);
     ever(isLoadQuestItem, (_) {
       if (isLoadQuestItem.value == true) {
+        // ignore: unused_element
         loadDataQuestItem() async {
           questItemCurrent =
               await PlayService.fetchQuestItem(cusTask.questItemId);
           if (questItemCurrent != null) {
-            print('OKKKKK');
-            //Chuyen du lieu
             isLoading(false);
           }
         }
@@ -145,7 +144,6 @@ class PlayControllerV2 extends GetxController {
       await PlayService.cancelCustomerQuest(customerQuestID.value);
       Get.offAllNamed(KWelcomeScreen);
     }
-    print("GOOD BYE CONTROLLER");
     super.onClose();
   }
 
@@ -156,7 +154,6 @@ class PlayControllerV2 extends GetxController {
 
     if (checkErr.value.isNotEmpty) {
       if (checkErr.value == "Previous quest is not finished") {
-        print("Lỗi chưa kết thúc");
         Get.snackbar(
             'error'.tr,
             'previous quest not over. please contact the hotline for support'
@@ -172,7 +169,6 @@ class PlayControllerV2 extends GetxController {
         Get.delete<PlayControllerV2>();
         Get.find<QuestPurchasedController>().getPuschedQuests();
       } else if (checkErr.value == "Ticket quantity is not enough") {
-        print("Lỗi chưa kết thúc");
         Get.snackbar('error'.tr, 'error ticket'.tr,
             duration: Duration(seconds: 2),
             backgroundColor: Colors.black,
@@ -184,7 +180,6 @@ class PlayControllerV2 extends GetxController {
             ));
         Get.delete<PlayControllerV2>();
       }else if (checkErr.value == "Quest is not available") {
-        print("Lỗi chưa kết thúc");
         Get.snackbar('error'.tr, 'Quest is not ready yet'.tr,
             duration: Duration(seconds: 2),
             backgroundColor: Colors.black,
@@ -198,23 +193,20 @@ class PlayControllerV2 extends GetxController {
       }
       //Xác nhận đã StartQuest
       else {
-        // totalQuestItem.value=(await QuestService.fetchTotalQuestItemByIdQuest(pQuest.questId))!;
-        // print(totalQuestItem);
         Get.to(RulePage());
         customerQuestID.value = int.parse(checkErr.value);
         cusTask = await PlayService.confirmTheFirstStart(
             pQuest.questId, customerQuestID.value);
         if (cusTask != null) {
           numQuest++;
-          print('Ok');
           questItemCurrent =
               await PlayService.fetchQuestItem(cusTask.questItemId);
-          description = questItemCurrent.description;
+              descriptionTmp=questItemCurrent.description;
+          // description = questItemCurrent.description;
           if (questItemCurrent != null) {
             sugggestion.value =
                 await PlayService().getSuggestion(questItemCurrent.id);
                  if (sugggestion.isEmpty) {
-            print("isEmpty");
             haveSuggestion(false);
           } else {
             haveSuggestion(true);
@@ -301,14 +293,14 @@ class PlayControllerV2 extends GetxController {
         print('CheckErr ' + checkErr.toString());
         cusTask.questItemId = nextQuestItemId;
         if (nextQuestItemId != -1) {
-          // Get.to(DescriptionAns());
-
           indexTypePage.value = 2;
 
           isLoading(true);
           isDisableTextField(false);
           questItemCurrent = await PlayService.fetchQuestItem(nextQuestItemId);
-          description = questItemCurrent.description;
+          description=descriptionTmp;
+          descriptionTmp=questItemCurrent.description;
+          // description = questItemCurrent.description;
 
           sugggestion.value =
               await PlayService().getSuggestion(questItemCurrent.id);
@@ -323,6 +315,9 @@ class PlayControllerV2 extends GetxController {
           update();
           //Check câu cuối
         } else {
+           indexTypePage.value = 2;
+            description=descriptionTmp;
+              isFinished(true);
           _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
 
           _stopWatchTimer.rawTime.listen((value) => displayTime.value =
@@ -333,8 +328,8 @@ class PlayControllerV2 extends GetxController {
           if (cusQuestEnd != null) {
             endPoint = cusQuestEnd;
           }
-          Get.lazyPut(() => CommentController());
-          Get.to(CompletedPageV2());
+          // Get.lazyPut(() => CommentController());
+          // Get.to(CompletedPageV2());
         }
         print(questItemCurrent.id);
         //refeshCurrentAns

@@ -190,7 +190,7 @@ class Translation extends Translations {
           "using seggestion will be deducted 75 points (1 time)":
               "Using suggestion will be deducted 75 points (1 time)",
           "rulepage": "RulePage",
-          "progress page ": "Progress Page ",
+          "progress page ": "Information",
           "NUM OF QUESTION ": "NUM OF QUESTION ",
           "submit": "Submit",
           "suggestion": "Suggestion",
@@ -237,7 +237,7 @@ class Translation extends Translations {
           "skip success": "Skip success",
           "try again next time": "Try again next time",
           "error when skip questtion": "Error when skip questtion",
-          "description page": "Description page",
+          "description page": "Infomation",
           "story page": "Story page",
           "next": "Next",
           "account not allowed to login": "Account not allowed to login",
@@ -257,7 +257,7 @@ class Translation extends Translations {
           "question no": "Question No",
           "info purchase": "Info purchase",
           "do you want to show suggestion(you will be minus 75 point)":
-              "do you want to show suggestion(you will be minus 75 point)",
+              "Do you want to show suggestion(you will be minus 75 point)",
           "You will lose this turn and cannot play again":
               "You will lose this turn and cannot play again",
           "Score achieved": "Score achieved",
@@ -265,7 +265,7 @@ class Translation extends Translations {
           "You received a discount code": "You received a discount code",
           "You get a discount code for your next order":
               "You get a discount code for your next order",
-          "submitComment": "submit",
+          "submitComment": "Submit",
           "Khong tim thay quest nao": "Don't have any quest",
           "Mua quest di nha": "Please buy some quest",
           "Cau hoi chua co goi y": "This question has no suggestion",
@@ -279,6 +279,8 @@ class Translation extends Translations {
           "address can't be empty": "Address can't be empty",
           "male": "Male",
           "female": "Female",
+          "finish": "Finish",
+          "system busy": "System busy"
         },
         'vn': {
           "welcome message":
@@ -470,14 +472,14 @@ class Translation extends Translations {
           "using seggestion will be deducted 75 points (1 time)":
               "Sử dụng gợi ý sẽ bị trừ 75 điểm (1 lần)",
           "rulepage": "Trang quy tắc",
-          "progress page ": "Trang tiến trình ",
+          "progress page ": "Thông tin",
           "NUM OF QUESTION ": "SỐ CÂU HỎI ",
           "submit": "Trả lời",
           "suggestion": "Gợi ý",
           "you should know": "Bạn nên biết",
           "total distance:": "Tổng quãng đường: ",
           "total time:": "Tổng thời gian: ",
-          "number of question:": "Số lượng câu đó: ",
+          "number of question:": "Số lượng câu đố: ",
           "don't have any comments": "Không có comment nào",
           "Customer not found": "Người dùng không tồn tại",
           "success": "Thành công",
@@ -500,7 +502,7 @@ class Translation extends Translations {
           "previous quest not over. please contact the hotline for support":
               "Quest trước chưa được hoàn thành vui lòng liên hệ hotline để hỗ trợ",
           "please go to this address to start the quest:":
-              "Bạn vui lòng đến địa chỉ này để bắt đầu quest Quest:",
+              "Bạn vui lòng đến địa chỉ này để bắt đầu Quest:",
           "open map": "Mở Google map",
           "complete quest: ": "Hoàn thành quest: ",
           "time": "Thời gia",
@@ -518,7 +520,7 @@ class Translation extends Translations {
           "skip success": "Bỏ qua thành công",
           "try again next time": "Hãy cố gắng hơn vào lần sau nhé",
           "error when skip questtion": "Lỗi khi bỏ qua câu hỏi",
-          "description page": "Trang tiến trình",
+          "description page": "Thông tin",
           "story page": "Trang câu chuyện",
           "next": "Tiếp tục",
           "account not allowed to login": "Tài khoản không được phép đăng nhập",
@@ -561,6 +563,8 @@ class Translation extends Translations {
           "address can't be empty": "Địa chỉ không thể để trống",
           "male": "Nam",
           "female": "Nữ",
+          "finish": "Kết thúc",
+          "system busy": "Hệ thống bận"
         }
       };
 }

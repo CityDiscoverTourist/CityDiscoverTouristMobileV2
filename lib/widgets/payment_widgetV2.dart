@@ -524,7 +524,7 @@ class RewardWidget extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount: Get.find<HomeController>().rewardList.length - 1,
+                itemCount: Get.find<HomeController>().rewardList.length,
                 itemBuilder: (context, index) => Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

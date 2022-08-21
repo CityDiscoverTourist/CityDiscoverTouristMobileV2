@@ -1,15 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/widgets/big_text.dart';
+
 import '../controllers/home_controller.dart';
 import '../models/quest_type.dart';
 import '../widgets/custom_cache_image.dart';
-import 'more_quests.dart';
-import 'dart:math' as math;
 
 class QuestTypePage extends StatefulWidget {
   QuestTypePage({Key? key}) : super(key: key);

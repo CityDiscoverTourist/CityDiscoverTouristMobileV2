@@ -1,20 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:travel_hour/controllers/loadquest_controller.dart';
-
-import 'package:travel_hour/pages/quest_details.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/routes/app_routes.dart';
-import 'package:travel_hour/utils/empty.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 
-import '../controllers/home_controller.dart';
 import '../models/quest.dart';
 import '../widgets/custom_cache_image.dart';
 

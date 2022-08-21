@@ -1,25 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'package:animations/animations.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:travel_hour/controllers/play_controller.dart';
-import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/pages/answer_questitem.dart';
-import 'package:travel_hour/pages/description_questitem.dart';
-import 'package:travel_hour/pages/home.dart';
-import 'package:travel_hour/pages/splashV2.dart';
-import 'package:travel_hour/pages/story_description.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/schedule_container.dart';
 
 import '../config/colors.dart';
-import '../controllers/play_controllerV2.dart';
-import '../widgets/custom_cache_image.dart';
-import 'package:animations/animations.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class RulePage extends StatefulWidget {
   const RulePage({Key? key}) : super(key: key);
@@ -156,10 +143,13 @@ class _RulePageState extends State<RulePage> {
             } else {
               return FloatingActionButton(
                 backgroundColor: AppColors.mainColor,
-                child: Text('get started'.tr),
+                child: Text(
+                  'get started'.tr,
+                  textAlign: TextAlign.center,
+                ),
                 onPressed: () {
                   // Get.to(StoryDescription());
-                   Get.to(AnswerPage());
+                  Get.to(AnswerPage());
                 },
               );
             }
@@ -197,20 +187,16 @@ class _RulePageState extends State<RulePage> {
               itemExtent: 100,
               diameterRatio: 1.8,
               onSelectedItemChanged: (int index) {
-                print(index);
                 // update the UI on selected item changes
                 setState(() {
                   _selectedItemIndex = index;
                   if (_selectedItemIndex > 0) {
                     strikeNotifier.value = 1;
-                    print("hehe");
                   }
                   if (_selectedItemIndex == _items.length - 1) {
-                    print("false");
                     strikeNotifier.value = -1;
                   }
                   if (_selectedItemIndex == 0) {
-                    print("false");
                     strikeNotifier.value = 0;
                   }
                 });

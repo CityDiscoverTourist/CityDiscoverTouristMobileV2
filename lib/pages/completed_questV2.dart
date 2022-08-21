@@ -1,19 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 import 'package:travel_hour/controllers/comment_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/controllers/play_controllerV2.dart';
-import 'package:travel_hour/pages/splashV2.dart';
-import 'package:travel_hour/utils/dialog.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/small_text.dart';
 
 import '../config/colors.dart';
-import '../controllers/questpurchased_controller.dart';
 import '../routes/app_routes.dart';
 import '../widgets/app_header_feedback.dart';
 import '../widgets/custom_appbar.dart';
@@ -38,12 +32,10 @@ class CompletedPageV2State extends State<CompletedPageV2> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print(controller.endPoint.percentDiscount);
     if (controller.endPoint.percentDiscount != 0 && firstTime) {
       Future.delayed(
           Duration.zero,
           () =>
-              // showAlertVoucher(context,controller)
               showPromotionDialog(
                   context, controller.endPoint.percentDiscount));
       firstTime = false;
@@ -79,8 +71,8 @@ class CompletedPageV2State extends State<CompletedPageV2> {
                         height: 150,
                         fit: BoxFit.cover,
                       )
-                    : Image.asset(
-                        'assets/images/logo.png',
+                    : Image.network(
+                        "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000",
                         width: 150,
                         height: 150,
                         fit: BoxFit.cover,
@@ -127,8 +119,7 @@ class CompletedPageV2State extends State<CompletedPageV2> {
                       ratingStar = v;
                     });
                     commentController.rating.value = ratingStar.toInt();
-                    print("Comments_V2:" +
-                        commentController.rating.value.toString());
+                
                   },
                   starCount: 5,
                   rating: ratingStar,
@@ -234,7 +225,7 @@ class PlayInfo extends StatelessWidget {
 showAlertVoucher(BuildContext context, PlayControllerV2 controller) {
   // Create button
   Widget okButton = FlatButton(
-    child: Text("ok".tr),
+    child: Text("cofirm".tr),
     onPressed: () {
       // Get.to(RulePage(
       //   pQuest: pQuest,

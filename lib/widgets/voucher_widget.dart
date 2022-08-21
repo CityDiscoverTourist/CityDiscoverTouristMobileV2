@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:travel_hour/models/reward.dart';
 
 import 'big_text.dart';
@@ -85,22 +86,7 @@ class _VoucherWidgetState extends State<VoucherWidget> {
                           // );
                           else {
                             return BigText(
-                              text: (() {
-                                if (time.days != null) {
-                                  return "time remaining".tr +
-                                      " ${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
-                                } else if (time.min == null) {
-                                  return "time remaining".tr + " ${time.sec}s";
-                                } else if (time.hours == null) {
-                                  return "time remaining".tr +
-                                      "${time.min}m:${time.sec}s";
-                                } else if (time.days == null) {
-                                  return "time remaining".tr +
-                                      " ${time.hours}h:${time.min}m:${time.sec}s";
-                                } else {
-                                  return "time up".tr;
-                                }
-                              })(),
+                              text: "Exp: "+'${DateFormat('dd/MM/yyyy').format(widget.reward.expiredDate)}',
                               color: Colors.white,fontWeight: FontWeight.bold,
                             );
                           }

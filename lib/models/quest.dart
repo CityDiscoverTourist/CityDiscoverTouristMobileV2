@@ -4,7 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:travel_hour/models/questItem.dart';
 
 List<Quest> questFromJson(String str) =>
     List<Quest>.from(json.decode(str).map((x) => Quest.fromJson(x)));

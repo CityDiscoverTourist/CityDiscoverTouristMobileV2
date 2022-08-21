@@ -51,16 +51,8 @@ class PaymentController extends FullLifeCycleController
 
   @override
   void onReady() {
-    // ever(checkTotal, (_)=>{
     isLoading(false);
-    //   });
-    // ever(idRewardChoose, (_)=>{
-    //   print("change reward"+percentReward.toString()),
-    // if(percentReward.value!=0){
-    // finalTotal.value=(total*percentReward.toDouble())/100}else{
-    //   finalTotal=total
-    // }
-    //   });
+   
   }
 
   @override
@@ -97,7 +89,6 @@ class PaymentController extends FullLifeCycleController
     // ignore: unrelated_type_equality_checks
     bool check = await checkPaymentStatus(playCode);
     if (check == true) {
-      print(paymentStatus);
       paymentStatus.value = "payment success".tr;
     } else {
       paymentStatus.value = "";
@@ -155,13 +146,10 @@ class PaymentController extends FullLifeCycleController
   void checkTotal() {
     total.value = quantity2.toDouble() *
         Get.find<QuestDetailController>().questDetail.price;
-    print(percentReward);
     if (percentReward.value != 0) {
-      print("Có giảm giá");
       discountPrice.value = (total * percentReward.toDouble()) / 100;
       finalTotal.value = total.value - discountPrice.value;
     } else {
-      print('không giảm giá');
       finalTotal.value = total.value;
       discountPrice.value=0;
     }
@@ -171,16 +159,9 @@ class PaymentController extends FullLifeCycleController
     _momoPaymentResult = response;
     paymentStatus.value = 'Đã chuyển thanh toán';
     if (_momoPaymentResult.isSuccess == true) {
-      print("thành công");
-      // _paymentStatus += "\nTình trạng: Thành công.";
-      // _paymentStatus +=
-      //     "\nSố điện thoại: " + _momoPaymentResult.phoneNumber.toString();
-      // _paymentStatus += "\nExtra: " + _momoPaymentResult.extra!;
-      // _paymentStatus += "\nToken: " + _momoPaymentResult.token.toString();
+     
     } else {
-      // _paymentStatus += "\nTình trạng: Thất bại.";
-      // _paymentStatus += "\nExtra: " + _momoPaymentResult.extra.toString();
-      // _paymentStatus += "\nMã lỗi: " + _momoPaymentResult.status.toString();
+     
     }
     Fluttertoast.showToast(
         msg: "THÀNH CÔNG: " + response.phoneNumber.toString(),

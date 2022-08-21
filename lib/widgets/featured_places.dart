@@ -10,7 +10,7 @@ import 'package:travel_hour/widgets/custom_cache_image.dart';
 
 import '../controllers/home_controller.dart';
 import '../models/quest.dart';
-import '../pages/quest_details.dart';
+
 
 class FeaturedQuest extends StatefulWidget {
   FeaturedQuest({Key? key}) : super(key: key);

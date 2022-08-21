@@ -45,12 +45,9 @@ class SearchController extends GetxController {
       isLoading(true);
       var questListApi = await QuestService.fetchQuestFeatureDataV2(textSearch.value);
       if (questListApi?.length!=0) {
-        print('Co Roi Ne');
         questList.assignAll(questListApi!);
       }else{
-        print("Search Null");
         questList.clear();
-        print('questList ${questList.length}');
       }
     } finally {
       isLoading(false);

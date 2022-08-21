@@ -1,37 +1,21 @@
-// ignore: depend_on_referenced_packages
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-// ignore: depend_on_referenced_packages
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
-import 'package:travel_hour/config/config.dart';
 import 'package:travel_hour/controllers/history_controller.dart';
 import 'package:travel_hour/controllers/questpurchased_controller.dart';
 import 'package:travel_hour/controllers/voucher_controller.dart';
-import 'package:travel_hour/pages/guide.dart';
-import 'package:travel_hour/pages/quest_play.dart';
-
 import 'package:travel_hour/pages/profile.dart';
+import 'package:travel_hour/pages/quest_play.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/pages/voucher.dart';
-import 'package:travel_hour/utils/format_hexcolor.dart';
+
 import '../config/colors.dart';
-import '../controllers/chat_controller.dart';
 import '../controllers/home_controller.dart';
 import 'explore.dart';
 import 'history.dart';
 
 class HomePage extends GetView<HomeController> {
   HomeController controller = Get.put(HomeController());
-  // Get.lazyPut(()=>RewardController());
-  final GlobalKey _one = GlobalKey();
-  final GlobalKey _two = GlobalKey();
-  final GlobalKey _three = GlobalKey();
-  final GlobalKey _four = GlobalKey();
-  final GlobalKey _five = GlobalKey();
-
+ 
   @override
   Widget build(BuildContext context) {
     var _currentIndex = controller.indexHomePage;
@@ -42,10 +26,8 @@ class HomePage extends GetView<HomeController> {
       ProfilePage(),
     ];
     return Scaffold(
-        // appBar: AppBar(title: Text("Flutter Demo")),
         body: Obx(() {
           if (controller.isLoading.value == true) {
-            // print("true nef");
             return SplashStart(
               content: 'waiting loading data...'.tr,
             );
@@ -87,8 +69,7 @@ class HomePage extends GetView<HomeController> {
                   icon: Icon(Icons.history_sharp),
                   label: 'history'.tr,
 
-                  // activeColor: Colors.pink,
-                  // textAlign: TextAlign.center,
+               
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.account_circle),

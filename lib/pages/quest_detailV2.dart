@@ -1,6 +1,5 @@
 import 'package:carousel_pro_nullsafety/carousel_pro_nullsafety.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
@@ -259,13 +258,7 @@ class QuestDetailsPageV2 extends GetView<QuestDetailController> {
                                           const EdgeInsets.only(right: 20.0),
                                       child: ElevatedButton(
                                         onPressed: () {
-                                          // Get.to(StartPage());
-                                          // bottomSheet(context);
-                                          print("ahaha");
-                                          // Get.lazyPut(
-                                          //   () => PaymentController(),
-                                          // );
-                                          // Get.to(PaymentWidgetV2());
+                                         
                                           Get.toNamed(KPaymentMoMo);
                                         },
                                         child: BigText(

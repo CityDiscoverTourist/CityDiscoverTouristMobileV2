@@ -9,22 +9,17 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:travel_hour/common/customFullScreenDialog.dart';
-import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/models/customer.dart';
-import 'package:travel_hour/pages/register.dart';
 import 'package:travel_hour/pages/sign_inV2.dart';
-import 'package:travel_hour/pages/splashV2.dart';
 
 import '../api/api.dart';
 import '../api/api_end_points.dart';
 import '../pages/login_username_password.dart';
 import '../routes/app_routes.dart';
 import '../services/login_service.dart';
-
-import 'package:http/http.dart' as http;
 
 class LoginControllerV2 extends GetxController {
   var jwtToken = "".obs;

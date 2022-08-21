@@ -6,7 +6,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/models/place.dart';
 import 'package:travel_hour/models/quest.dart';
-import 'package:travel_hour/pages/quest_details.dart';
+
 import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/custom_cache_image.dart';
