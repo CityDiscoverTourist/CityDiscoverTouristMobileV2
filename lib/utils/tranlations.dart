@@ -502,7 +502,7 @@ class Translation extends Translations {
           "previous quest not over. please contact the hotline for support":
               "Quest trước chưa được hoàn thành vui lòng liên hệ hotline để hỗ trợ",
           "please go to this address to start the quest:":
-              "Bạn vui lòng đến địa chỉ này để bắt đầu quest Quest:",
+              "Bạn vui lòng đến địa chỉ này để bắt đầu Quest:",
           "open map": "Mở Google map",
           "complete quest: ": "Hoàn thành quest: ",
           "time": "Thời gia",
