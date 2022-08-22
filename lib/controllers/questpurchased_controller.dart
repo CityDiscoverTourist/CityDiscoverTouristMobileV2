@@ -13,9 +13,11 @@ import 'package:travel_hour/services/purchased_service.dart';
 class QuestPurchasedController extends GetxController {
   List purchsedQuestList = List<PurchasedQuest>.empty().obs;
   var isLoading = false.obs;
+  var qrCode="".obs;
   void onInit() async {
     super.onInit();
     await getPuschedQuests();
+    qrCode.value="";
   }
 
   void onReady() {

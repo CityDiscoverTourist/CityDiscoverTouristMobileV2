@@ -28,6 +28,9 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
   @override
   Widget build(BuildContext context) {
     // var controller = Get.find<HistoryController>();
+    // if(controller.qrCode.isNotEmpty)
+    // showAlertDialogAddCode(context);
+
     return WillPopScope(
       onWillPop: () async {
         Get.back();
@@ -399,9 +402,16 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
     Widget okButton = FlatButton(
       child: Text("cofirm".tr),
       onPressed: () async {
+        String code;
+        if(Get.find<QuestPurchasedController>().qrCode.isNotEmpty){
+          code=Get.find<QuestPurchasedController>().qrCode.value;
+        }else{
+          code=textCtrl.text;
+        }
+
         PlayControllerV2 controller = new PlayControllerV2();
         PurchasedQuest? purchasedQuest =
-            await controller.getPuQuestById(textCtrl.text);
+            await controller.getPuQuestById(code);
         if (purchasedQuest != null) {
           showAlertDialog(context, purchasedQuest);
         } else {
@@ -428,7 +438,7 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
     Widget scanButton = FlatButton(
       child: Text("scan qr code".tr),
       onPressed: () async {
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
         Get.to(QRViewExample());
         // Get.to(RulePage(
         //   pQuest: pQuest,
@@ -440,30 +450,47 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
     Widget cancelButton = FlatButton(
       child: Text("cancel".tr),
       onPressed: () {
+        controller.qrCode.value="";
         Navigator.of(context).pop();
       },
     );
 
     // Create AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("in put play code".tr),
-      content: TextFormField(
+    // AlertDialog alert = AlertDialog(
+    //   title: Text("in put play code".tr),
+    //   content: TextFormField(
+    //     controller: textCtrl,
+    //     decoration: InputDecoration(
+    //       labelText: "play code".tr,
+    //       border: OutlineInputBorder(),
+    //     ),
+    //   ),
+    //   actions: [okButton, scanButton, cancelButton],
+    // );
+
+    Get.dialog(
+      AlertDialog(
+        
+        title: Text("in put play code".tr),
+        content:Obx(()=>
+        controller.qrCode.isEmpty?
+        TextFormField(
         controller: textCtrl,
         decoration: InputDecoration(
           labelText: "play code".tr,
           border: OutlineInputBorder(),
         ),
+      ):Text("Code: "+Get.find<QuestPurchasedController>().qrCode.value),),
+        actions: [okButton, scanButton, cancelButton],
       ),
-      actions: [okButton, scanButton, cancelButton],
     );
-
     // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+    // showDialog(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return alert;
+    //   },
+    // );
   }
 
   void showCustomDialog(BuildContext context) {
