@@ -27,7 +27,7 @@ class CompletedPageV2State extends State<CompletedPageV2> {
   var controller = Get.find<PlayControllerV2>();
   var commentController = Get.find<CommentController>();
   var textCtrl = TextEditingController();
-  double ratingStar = 4;
+  double ratingStar = 5;
   bool firstTime = true;
   @override
   Widget build(BuildContext context) {
@@ -35,9 +35,8 @@ class CompletedPageV2State extends State<CompletedPageV2> {
     if (controller.endPoint.percentDiscount != 0 && firstTime) {
       Future.delayed(
           Duration.zero,
-          () =>
-              showPromotionDialog(
-                  context, controller.endPoint.percentDiscount));
+          () => showPromotionDialog(
+              context, controller.endPoint.percentDiscount));
       firstTime = false;
     }
     return Scaffold(
@@ -119,7 +118,6 @@ class CompletedPageV2State extends State<CompletedPageV2> {
                       ratingStar = v;
                     });
                     commentController.rating.value = ratingStar.toInt();
-                
                   },
                   starCount: 5,
                   rating: ratingStar,
