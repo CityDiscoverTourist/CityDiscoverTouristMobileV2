@@ -484,10 +484,8 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
       ):Text("Code: "+Get.find<QuestPurchasedController>().qrCode.value),),
         actions: [okButton, scanButton, cancelButton],
       ),
-<<<<<<< HEAD
-=======
-      actions: [cancelButton, scanButton, okButton],
->>>>>>> 8d2db024c4a09bcd0de85f4813749c74fc27d299
+
+
     );
     // show the dialog
     // showDialog(

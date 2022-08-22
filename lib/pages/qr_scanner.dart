@@ -5,11 +5,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-<<<<<<< HEAD
+
 import 'package:travel_hour/controllers/questpurchased_controller.dart';
-=======
+
 import 'package:url_launcher/url_launcher.dart';
->>>>>>> 8d2db024c4a09bcd0de85f4813749c74fc27d299
+
 
 import '../common/customFullScreenDialog.dart';
 import '../controllers/home_controller.dart';
