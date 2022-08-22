@@ -723,7 +723,7 @@ class PlayService {
             ApiEndPoints.checkAnswer +
             customerQuestId.toString() +
             "?customerReply=" +
-            "ss hình" +
+            "Compare Image" +
             "&questItemId=" +
             questItemId.toString() +
             "&language=" +
@@ -762,7 +762,7 @@ class PlayService {
           var response = await request.send().timeout(Duration(minutes: 15));
           print("Status code:" + response.statusCode.toString());
           String reply = await response.stream.transform(utf8.decoder).join();
-          // print(reply);
+          print("Reply" + reply);
           if (response.statusCode == 200) {
             // String reply = await response.stream.transform(utf8.decoder).join();
             Map<String, dynamic> result = jsonDecode(reply);

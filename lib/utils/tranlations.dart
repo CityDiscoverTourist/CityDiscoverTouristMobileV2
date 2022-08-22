@@ -189,7 +189,7 @@ class Translation extends Translations {
               "For each wrong answer, 50 points will be deducted",
           "using seggestion will be deducted 75 points (1 time)":
               "Using suggestion will be deducted 75 points (1 time)",
-          "rulepage": "RulePage",
+          "rulepage": "Rule Page",
           "progress page ": "Information",
           "NUM OF QUESTION ": "NUM OF QUESTION ",
           "submit": "Submit",
@@ -280,7 +280,8 @@ class Translation extends Translations {
           "male": "Male",
           "female": "Female",
           "finish": "Finish",
-          "system busy": "System busy"
+          "system busy": "System busy",
+          "cacula point": "Score calculation"
         },
         'vn': {
           "welcome message":
@@ -564,7 +565,8 @@ class Translation extends Translations {
           "male": "Nam",
           "female": "Nữ",
           "finish": "Kết thúc",
-          "system busy": "Hệ thống bận"
+          "system busy": "Hệ thống bận",
+          "cacula point": "Cách tính điểm"
         }
       };
 }

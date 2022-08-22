@@ -60,7 +60,7 @@ class _RulePageState extends State<RulePage> {
     // var controller=Get.find<PlayControllerV2>();
     // WidgetsBinding.instance.addPostFrameCallback((_) =>ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four, _five]));
     final List _items = [
-      "Cách tính điểm".tr,
+      "cacula point".tr,
       "each question you will get 300 points".tr,
       "you will be answered up to 5 times for a question".tr,
       "the 5th time you will be shown the answer".tr,
@@ -208,7 +208,7 @@ class _RulePageState extends State<RulePage> {
                         height: 400.0,
                         child: Card(
                           // make selected item background color is differ from the rest
-                          color: e == "Cách tính điểm"
+                          color: e == "cacula point".tr
                               ? AppColors.mainColor
                               : Colors.indigo,
                           child: Center(
