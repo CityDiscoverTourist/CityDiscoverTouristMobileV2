@@ -189,7 +189,7 @@ class Translation extends Translations {
               "For each wrong answer, 50 points will be deducted",
           "using seggestion will be deducted 75 points (1 time)":
               "Using suggestion will be deducted 75 points (1 time)",
-          "rulepage": "RulePage",
+          "rulepage": "Rule Page",
           "progress page ": "Information",
           "NUM OF QUESTION ": "NUM OF QUESTION ",
           "submit": "Submit",
@@ -280,7 +280,8 @@ class Translation extends Translations {
           "male": "Male",
           "female": "Female",
           "finish": "Finish",
-          "system busy": "System busy"
+          "system busy": "System busy",
+          "cacula point": "Score calculation"
         },
         'vn': {
           "welcome message":
@@ -502,7 +503,7 @@ class Translation extends Translations {
           "previous quest not over. please contact the hotline for support":
               "Quest trước chưa được hoàn thành vui lòng liên hệ hotline để hỗ trợ",
           "please go to this address to start the quest:":
-              "Bạn vui lòng đến địa chỉ này để bắt đầu quest Quest:",
+              "Bạn vui lòng đến địa chỉ này để bắt đầu Quest:",
           "open map": "Mở Google map",
           "complete quest: ": "Hoàn thành quest: ",
           "time": "Thời gia",
@@ -564,7 +565,8 @@ class Translation extends Translations {
           "male": "Nam",
           "female": "Nữ",
           "finish": "Kết thúc",
-          "system busy": "Hệ thống bânk"
+          "system busy": "Hệ thống bận",
+          "cacula point": "Cách tính điểm"
         }
       };
 }

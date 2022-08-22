@@ -71,49 +71,40 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
               : Column(
                   children: [
                     Expanded(
-                        child:
-                         
-                            Obx(() => 
-                            RefreshIndicator(
-                                child:
-                         
-                                    ListView.separated(
-                                  padding: EdgeInsets.all(15),
-                                  controller: controller,
-                                  physics: AlwaysScrollableScrollPhysics(),
-                                  itemCount:
-                                      myController.dataComment.length + 1,
-                                  separatorBuilder:
-                                      (BuildContext context, int index) =>
-                                          SizedBox(
-                                    height: 10,
-                                  ),
-                                  itemBuilder: (_, int index) {
-                                    if (index <
-                                        myController.dataComment.length - 1) {
-                                      return reviewList(
-                                          myController.dataComment[index],
-                                          false);
-                                    }
-                                    return Opacity(
-                                      opacity: myController.isLoading.value
-                                          ? 1.0
-                                          : 0.0,
-                                      child: myController.lastVisible.isTrue
-                                          ? LoadingCard(height: 100)
-                                          : Center(
-                                              child: SizedBox(
-                                                  width: 60.0,
-                                                  height: 60.0,
-                                                  child:
-                                                      CupertinoActivityIndicator()),
-                                            ),
-                                    );
-                                  },
-                                ),
-                                onRefresh: () async {
-                                  myController.refeshData();
-                                }))
+                        child: Obx(() => RefreshIndicator(
+                            child: ListView.separated(
+                              padding: EdgeInsets.all(15),
+                              controller: controller,
+                              physics: AlwaysScrollableScrollPhysics(),
+                              itemCount: myController.dataComment.length + 1,
+                              separatorBuilder:
+                                  (BuildContext context, int index) => SizedBox(
+                                height: 10,
+                              ),
+                              itemBuilder: (_, int index) {
+                                if (index <
+                                    myController.dataComment.length - 1) {
+                                  return reviewList(
+                                      myController.dataComment[index], false);
+                                }
+                                return Opacity(
+                                  opacity:
+                                      myController.isLoading.value ? 1.0 : 0.0,
+                                  child: myController.lastVisible.isTrue
+                                      ? LoadingCard(height: 100)
+                                      : Center(
+                                          child: SizedBox(
+                                              width: 60.0,
+                                              height: 60.0,
+                                              child:
+                                                  CupertinoActivityIndicator()),
+                                        ),
+                                );
+                              },
+                            ),
+                            onRefresh: () async {
+                              myController.refeshData();
+                            }))
                         // }
                         ),
 
@@ -143,12 +134,16 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
                 // d.imageUrl!=null?CachedNetworkImageProvider(imageUrl: d.imageUrl):Image.asset('assets/images/logo.png'),
                 d.imagePath != null
                     ? CircleAvatar(
-                radius: 30.0,
-                backgroundImage:
-                    NetworkImage("${d.imagePath}"),
-                backgroundColor: Colors.transparent,
-              )
-                    : Image.asset('assets/images/logo.png'),
+                        radius: 30.0,
+                        backgroundImage: NetworkImage("${d.imagePath}"),
+                        backgroundColor: Colors.transparent,
+                      )
+                    : CircleAvatar(
+                        radius: 30.0,
+                        backgroundImage: NetworkImage(
+                            "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"),
+                        backgroundColor: Colors.transparent,
+                      ),
 
             // d.imageUrl!=null?CachedNetworkImage(imageUrl: d.imageUrl):Image.asset('assets/images/logo.png'),
           ),

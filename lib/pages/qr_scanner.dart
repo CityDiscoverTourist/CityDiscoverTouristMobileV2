@@ -5,10 +5,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+<<<<<<< HEAD
 import 'package:travel_hour/controllers/questpurchased_controller.dart';
+=======
+import 'package:url_launcher/url_launcher.dart';
+>>>>>>> 8d2db024c4a09bcd0de85f4813749c74fc27d299
 
+import '../common/customFullScreenDialog.dart';
+import '../controllers/home_controller.dart';
 import '../controllers/play_controllerV2.dart';
 import '../models/purchased_quest.dart';
+import '../models/quest.dart';
 
 class QRViewExample extends StatefulWidget {
   const QRViewExample({Key? key}) : super(key: key);
@@ -117,11 +124,30 @@ class _QRViewExampleState extends State<QRViewExample> {
                           child: ElevatedButton(
                             onPressed: () async {
                               // await controller?.pauseCamera();
+                              PlayControllerV2 playController =
+                                  new PlayControllerV2();
                               String? code = result?.code;
-                              showAlertDialog(context, code!);
+                              PurchasedQuest? purchasedQuest =
+                                  await playController.getPuQuestById(code);
+                              if (purchasedQuest != null) {
+                                PlayControllerV2 playController =
+                                    new PlayControllerV2();
+                                CustomFullScreenDialog.showDialog();
+                                bool check =
+                                    await playController.checkUserLocation(
+                                        purchasedQuest.questId.toString());
+                                CustomFullScreenDialog.cancelDialog();
+                                if (check) {
+                                  showAlertDialog(context, code!);
+                                } else {
+                                  showAlertDialogCheckLocation(
+                                      context, purchasedQuest);
+                                }
+                              }
+                              // showAlertDialog(context, code!);
                             },
-                            child:
-                                Text('ok'.tr, style: TextStyle(fontSize: 10)),
+                            child: Text('cofirm'.tr,
+                                style: TextStyle(fontSize: 10)),
                           ),
                         ),
                         // Container(
@@ -197,10 +223,61 @@ class _QRViewExampleState extends State<QRViewExample> {
     super.dispose();
   }
 
+  showAlertDialogCheckLocation(
+      BuildContext context, PurchasedQuest pQuest) async {
+    // Create button
+    CustomFullScreenDialog.showDialog();
+    Quest? quest;
+    String address = "";
+    var controller = Get.find<HomeController>();
+    quest = await controller.getQuestDetailByID(pQuest.questId.toString());
+    address = quest!.address.toString();
+    String googleMapslocationUrl =
+        "https://www.google.com/maps/search/?api=1&query=" +
+            quest.latLong.toString();
+    String encodedURl = Uri.encodeFull(googleMapslocationUrl);
+    CustomFullScreenDialog.cancelDialog();
+    Widget okButton = FlatButton(
+      child: Text("open map".tr),
+      onPressed: () async {
+        Navigator.of(context).pop();
+        if (await canLaunch(encodedURl)) {
+          await launch(encodedURl);
+        } else {
+          throw 'Could not launch $encodedURl';
+        }
+      },
+    );
+    Widget cancelButton = FlatButton(
+      child: Text("cancel".tr),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("cofirm".tr),
+      content: Text("please go to this address to start the quest:".tr +
+          "\n" +
+          "\n" +
+          address),
+      actions: [cancelButton, okButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   showAlertDialog(BuildContext context, String code) {
     // Create button
     Widget okButton = FlatButton(
-      child: Text("ok".tr),
+      child: Text("cofirm".tr),
       onPressed: () async {
         PlayControllerV2 controller = new PlayControllerV2();
         PurchasedQuest? purchasedQuest =

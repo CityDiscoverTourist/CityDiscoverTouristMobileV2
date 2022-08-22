@@ -27,7 +27,7 @@ class AnswerPage extends StatelessWidget {
               return false;
             },
             child: Scaffold(
-              backgroundColor: Colors.white,
+                backgroundColor: Colors.white,
                 appBar:
                     //Man ans
                     controller.indexTypePage.value == 1
@@ -142,8 +142,11 @@ class AnswerPage extends StatelessWidget {
                               }
                             }
                           },
-                          child:
-                              Text(controller.isFinished.isTrue?'finish'.tr:'next'.tr, style: TextStyle(fontSize: 16)),
+                          child: Text(
+                              controller.isFinished.isTrue
+                                  ? 'finish'.tr
+                                  : 'next'.tr,
+                              style: TextStyle(fontSize: 16)),
                           style: ElevatedButton.styleFrom(
                             primary: AppColors.mainColor,
                             onPrimary: Colors.white,
@@ -236,14 +239,12 @@ class AnswerPage extends StatelessWidget {
                                           backgroundColor:
                                               Colors.grey.shade200),
                                       'td': Style(
-                                       
                                         padding: EdgeInsets.all(10),
                                       ),
                                       'th': Style(
                                           padding: EdgeInsets.all(10),
                                           color: Colors.black),
                                       'tr': Style(
-                                        
                                           border: Border(
                                               bottom: BorderSide(
                                                   color: Colors.greenAccent))),
@@ -255,8 +256,8 @@ class AnswerPage extends StatelessWidget {
                                       //     border: Border(
                                       //         bottom: BorderSide(
                                       //             color: Colors.greenAccent))),
-                                       'img': Style(
-                                        // after: 'p',
+                                      'img': Style(
+                                          // after: 'p',
                                           alignment: Alignment.center,
                                           textAlign: TextAlign.center,
                                           fontSize: FontSize.xxLarge,
@@ -264,19 +265,18 @@ class AnswerPage extends StatelessWidget {
                                           border: Border(
                                               bottom: BorderSide(
                                                   color: Colors.greenAccent))),
-                                                  
-                                      'p': Style(
 
+                                      'p': Style(
                                         // before: '          ',
-                                          // alignment: Alignment.center,
-                                          textAlign: TextAlign.justify,
-                                          fontSize: FontSize.xxLarge,
-                                         
-                                          // border: Border(
-                                          //     bottom: BorderSide(
-                                          //         color: Colors.greenAccent)
-                                                  // )
-                                                  ),
+                                        // alignment: Alignment.center,
+                                        textAlign: TextAlign.justify,
+                                        fontSize: FontSize.xxLarge,
+
+                                        // border: Border(
+                                        //     bottom: BorderSide(
+                                        //         color: Colors.greenAccent)
+                                        // )
+                                      ),
                                     },
                                   ),
                                 ),
@@ -322,7 +322,7 @@ class AnswerPage extends StatelessWidget {
                                                     controller.questItemCurrent
                                                         .listImages.first,
                                                     width: 400,
-                                                    height: 400,
+                                                    height: 620,
                                                     fit: BoxFit.fill)
                                               ]))
                                             : SingleChildScrollView(
@@ -354,7 +354,7 @@ class AnswerPage extends StatelessWidget {
                                                             .questItemCurrent
                                                             .imageDescription,
                                                         width: 400,
-                                                        height: 400,
+                                                        height: 620,
                                                         fit: BoxFit.fill)
                                                     : SizedBox.shrink()
                                               ])),

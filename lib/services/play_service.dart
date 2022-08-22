@@ -250,8 +250,8 @@ class PlayService {
   }
 
   Future<String> moveNextQuestItem(int customerQuestId, int questId) async {
-    print("moveNextQuestItem customerQuestId:  " + customerQuestId.toString());
-    print("moveNextQuestItem :  " + questId.toString());
+    // print("moveNextQuestItem customerQuestId:  " + customerQuestId.toString());
+    // print("moveNextQuestItem :  " + questId.toString());
     // print("moveNextQuestItem :  " + response.body);
     CustomerTask rs;
     var response = await http.put(
@@ -269,10 +269,10 @@ class PlayService {
     //     customerReply +
     //     "&questItemId=" +
     //     questItemId);
-    print("moveNextQuestItem :  Status Code:" + response.statusCode.toString());
+    // print("moveNextQuestItem :  Status Code:" + response.statusCode.toString());
     // print("moveNextQuestItem :  " +
     //     "https://citytourist.azurewebsites.net/api/v1/customer-tasks/move-next-task?questId=${questId}&customerQuestId=${customerQuestId}");
-    print("moveNextQuestItem :  " + response.body);
+    // print("moveNextQuestItem :  " + response.body);
     if (response.statusCode == 200) {
       print("moveNextQuestItem ok");
       int rs = jsonDecode(response.body);
@@ -353,9 +353,9 @@ class PlayService {
       'isMobile': true,
       'questId': questID
     };
-    print(mydata);
+    // print(mydata);
     var body = json.encode(mydata);
-    print(httpString);
+    // print(httpString);
     var response = await http.post(Uri.parse(httpString),
         headers: {
           "Content-Type": "application/json",
@@ -363,14 +363,14 @@ class PlayService {
               'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         },
         body: body);
-    print(Api.baseUrl + ApiEndPoints.buyQuest);
-    print(response.body);
+    // print(Api.baseUrl + ApiEndPoints.buyQuest);
+    // print(response.body);
     if (response.statusCode == 200) {
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
       var data = json.decode(response.body);
       returnData = data["data"];
       // print(data);
-      print(returnData);
+      // print(returnData);
       // CustomFullScreenDialog.cancelDialog();
       return returnData;
     }
@@ -597,12 +597,12 @@ class PlayService {
             'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
       },
     );
-    print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
+    // print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
       PurchasedQuest purchasedQuest = PurchasedQuest.fromJson(data["data"]);
       // print("Get Data ok");
-      print(data["data"]);
+      // print(data["data"]);
       return Future<PurchasedQuest>.value(purchasedQuest);
     }
     // CustomFullScreenDialog.cancelDialog();
@@ -660,14 +660,14 @@ class PlayService {
               'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         },
       );
-      print("Skip CustomerTask :  " +
-          Api.baseUrl +
-          ApiEndPoints.skipCustomerTask +
-          "1?questItemId=" +
-          questItemId +
-          "&customerQuestId=" +
-          customerQuestId);
-      print("Skip CustomerTask :  " + response3.body);
+      // print("Skip CustomerTask :  " +
+      //     Api.baseUrl +
+      //     ApiEndPoints.skipCustomerTask +
+      //     "1?questItemId=" +
+      //     questItemId +
+      //     "&customerQuestId=" +
+      //     customerQuestId);
+      // print("Skip CustomerTask :  " + response3.body);
       if (response3.statusCode == 200) {
         var data = json.decode(response3.body);
         rs = CustomerTask.fromJson(data["data"]);
@@ -723,7 +723,7 @@ class PlayService {
             ApiEndPoints.checkAnswer +
             customerQuestId.toString() +
             "?customerReply=" +
-            "ss hình" +
+            "Compare Image" +
             "&questItemId=" +
             questItemId.toString() +
             "&language=" +
@@ -762,11 +762,11 @@ class PlayService {
           var response = await request.send().timeout(Duration(minutes: 15));
           print("Status code:" + response.statusCode.toString());
           String reply = await response.stream.transform(utf8.decoder).join();
-          // print(reply);
+          print("Reply" + reply);
           if (response.statusCode == 200) {
             // String reply = await response.stream.transform(utf8.decoder).join();
             Map<String, dynamic> result = jsonDecode(reply);
-            print(result["data"]);
+            // print(result["data"]);
             rs = CustomerTask.fromJson(result["data"]);
             return Future<CustomerTask>.value(rs);
           } else {

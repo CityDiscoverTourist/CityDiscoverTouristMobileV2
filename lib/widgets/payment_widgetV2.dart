@@ -116,7 +116,9 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                           ),
                           // Row(children: [
                           //Container Giam gia
-                          Get.find<RewardController>().rewardsList.length != 0&&controller.paymentStatus.isEmpty
+                          Get.find<RewardController>().rewardsList.length !=
+                                      0 &&
+                                  controller.paymentStatus.isEmpty
                               ? RewardWidget()
                               : SizedBox.shrink(),
                           //Container code san
@@ -302,10 +304,12 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                                   trailing: CustomText(
                                     text:
                                         // controller.total.truncate()
-                                          MoneyFormatter(amount:controller.total.value)
-                                            .output
-                                            .withoutFractionDigits.toString()
-                                         +
+                                        MoneyFormatter(
+                                                    amount:
+                                                        controller.total.value)
+                                                .output
+                                                .withoutFractionDigits
+                                                .toString() +
                                             " VND",
                                     color: Colors.green,
                                   ),
@@ -318,14 +322,15 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                                   ),
                                   trailing: CustomText(
                                     text:
-                                    //  controller.discountPrice
-                                    //         .truncate()
-                                      MoneyFormatter(amount:controller.discountPrice.value)
-                                            .output
-                                            .withoutFractionDigits
-                                            .toString()
-                                             +
-                                        " VND",
+                                        //  controller.discountPrice
+                                        //         .truncate()
+                                        MoneyFormatter(
+                                                    amount: controller
+                                                        .discountPrice.value)
+                                                .output
+                                                .withoutFractionDigits
+                                                .toString() +
+                                            " VND",
                                     color: Colors.green,
                                   ),
                                 ),
@@ -337,15 +342,16 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                                     text: "total price".tr,
                                   ),
                                   trailing: CustomText(
-                                    text: 
-                                       MoneyFormatter(amount:controller.finalTotal.value)
+                                    text: MoneyFormatter(
+                                                amount:
+                                                    controller.finalTotal.value)
                                             .output
                                             .withoutFractionDigits
                                             .toString()
-                                    // controller.finalTotal
-                                    //         .truncate()
-                                    //         .toString() 
-                                            +
+                                        // controller.finalTotal
+                                        //         .truncate()
+                                        //         .toString()
+                                        +
                                         " VND",
                                     color: Colors.green,
                                   ),
@@ -446,11 +452,11 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                         // child: const Text('Xác nhận thanh toán'),
                         child: controller.paymentStatus.isEmpty
                             ? BigText(text: 'cofirm payment'.tr)
-                            : BigText(text: 'cofirm'.tr),
+                            : BigText(text: 'play now'.tr),
                         onPressed: controller.paymentStatus.value.isEmpty
                             ? _sendToServer
                             : () {
-                              Get.offNamed(KPlayingQuest);
+                                Get.offNamed(KPlayingQuest);
                               },
                       ),
                     ),
