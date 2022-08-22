@@ -15,14 +15,20 @@ import 'package:travel_hour/widgets/small_text.dart';
 
 import '../config/colors.dart';
 
-class ListCardHistory extends StatelessWidget {
+class ListCardHistory extends StatefulWidget {
   final CustomerQuest? d;
   final String tag;
   final Color? color;
+
   const ListCardHistory(
       {Key? key, required this.d, required this.tag, required this.color})
       : super(key: key);
 
+  @override
+  State<ListCardHistory> createState() => _ListCardHistoryState();
+}
+
+class _ListCardHistoryState extends State<ListCardHistory> {
   @override
   Widget build(BuildContext context) {
     Locale locale = Localizations.localeOf(context);
@@ -51,7 +57,7 @@ class ListCardHistory extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   height: 140,
                   decoration: BoxDecoration(
-                    color: color,
+                    color: widget.color,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Padding(
@@ -62,7 +68,7 @@ class ListCardHistory extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          d!.questName.toString(),
+                          widget.d!.questName.toString(),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -75,11 +81,21 @@ class ListCardHistory extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            SmallText(text:'Score achieved'.tr+": "),
-                            BigText(text: d!.endPoint.toString()+"/"+d!.beginPoint.toString(),fontWeight: FontWeight.bold,)
+                            SmallText(text: 'Score achieved'.tr + ": "),
+                            BigText(
+                              text: widget.d!.endPoint != "null" &&
+                                      widget.d!.endPoint != null
+                                  ? widget.d!.endPoint.toString() +
+                                      "/" +
+                                      widget.d!.beginPoint.toString()
+                                  : "0" + "/" + widget.d!.beginPoint.toString(),
+                              fontWeight: FontWeight.bold,
+                            )
                           ],
                         ),
-                            SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Row(
                           children: [
                             Icon(
@@ -89,7 +105,9 @@ class ListCardHistory extends StatelessWidget {
                             // SmallText(text: d!.totalFeedback.toString())
                             Expanded(
                               child: Text(
-                                d!.createdDate!=null?'${DateFormat('dd-MM-yyyy').format(d!.createdDate)}':"",
+                                widget.d!.createdDate != null
+                                    ? '${DateFormat('dd-MM-yyyy').format(widget.d!.createdDate)}'
+                                    : "",
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -101,13 +119,16 @@ class ListCardHistory extends StatelessWidget {
                           ],
                         ),
                         Expanded(
-                          child: Align(alignment: Alignment.bottomRight,child: ElevatedButton(
+                          child: Align(
+                            alignment: Alignment.bottomRight,
+                            child: ElevatedButton(
                               onPressed: () {
-  Get.toNamed(KQuestDetailPage,
-            parameters: {'idQuest': d!.questId.toString()});
+                                Get.toNamed(KQuestDetailPage, parameters: {
+                                  'idQuest': widget.d!.questId.toString()
+                                });
                               },
-                              child:
-                                  Text("Buy again".tr, style: TextStyle(fontSize: 16)),
+                              child: Text("Buy again".tr,
+                                  style: TextStyle(fontSize: 16)),
                               style: ElevatedButton.styleFrom(
                                 primary: AppColors.mainColor,
                                 onPrimary: Colors.white,
@@ -121,7 +142,8 @@ class ListCardHistory extends StatelessWidget {
                                       BorderRadius.circular(12), // <-- Radius
                                 ),
                               ),
-                            ),),
+                            ),
+                          ),
                         )
                       ],
                     ),
@@ -134,14 +156,14 @@ class ListCardHistory extends StatelessWidget {
               bottom: 30,
               left: 5,
               child: Hero(
-                tag: tag,
+                tag: widget.tag,
                 child: Container(
                     height: 120,
                     width: 120,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(5),
-                      child: d!.imagePath!= null
-                          ? CustomCacheImage(imageUrl: d!.imagePath)
+                      child: widget.d!.imagePath != null
+                          ? CustomCacheImage(imageUrl: widget.d!.imagePath)
                           : Image.asset('assets/images/logo.png'),
                     )),
               ))
