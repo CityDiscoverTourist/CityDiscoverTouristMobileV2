@@ -6,6 +6,7 @@ import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/controllers/questpurchased_controller.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
@@ -180,40 +181,41 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
-                      child: CountdownTimer(
-                        endTime: endTime,
-                        widgetBuilder: (_, CurrentRemainingTime? time) {
-                          if (time == null) {
-                            return Text('time up'.tr);
-                          }
-                          // return BigText(
-                          //   text:
-                          //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
-                          //   color: Colors.green,
-                          // );
-                          else {
-                            return BigText(
-                              text: (() {
-                                if (time.days != null) {
-                                  return "time remaining".tr +
-                                      " ${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
-                                } else if (time.min == null) {
-                                  return "time remaining".tr + " ${time.sec}s";
-                                } else if (time.hours == null) {
-                                  return "time remaining".tr +
-                                      "${time.min}m:${time.sec}s";
-                                } else if (time.days == null) {
-                                  return "time remaining".tr +
-                                      " ${time.hours}h:${time.min}m:${time.sec}s";
-                                } else {
-                                  return "time up".tr;
-                                }
-                              })(),
-                              color: Colors.green,
-                            );
-                          }
-                        },
-                      ),
+                      child: BigText(text:'Exp: ${ DateFormat('dd/MM/yyyy').format(pQuest.createdDate.add(Duration(days: 2)))}'),
+                      // child: CountdownTimer(
+                      //   endTime: endTime,
+                      //   widgetBuilder: (_, CurrentRemainingTime? time) {
+                      //     if (time == null) {
+                      //       return Text('time up'.tr);
+                      //     }
+                      //     // return BigText(
+                      //     //   text:
+                      //     //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
+                      //     //   color: Colors.green,
+                      //     // );
+                      //     else {
+                      //       return BigText(
+                      //         text: (() {
+                      //           if (time.days != null) {
+                      //             return "time remaining".tr +
+                      //                 " ${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
+                      //           } else if (time.min == null) {
+                      //             return "time remaining".tr + " ${time.sec}s";
+                      //           } else if (time.hours == null) {
+                      //             return "time remaining".tr +
+                      //                 "${time.min}m:${time.sec}s";
+                      //           } else if (time.days == null) {
+                      //             return "time remaining".tr +
+                      //                 " ${time.hours}h:${time.min}m:${time.sec}s";
+                      //           } else {
+                      //             return "time up".tr;
+                      //           }
+                      //         })(),
+                      //         color: Colors.green,
+                      //       );
+                      //     }
+                      //   },
+                      // ),
                     ),
                   ],
                 ),
@@ -228,7 +230,7 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
                           bool check = await playController
                               .checkUserLocation(pQuest.questId.toString());
                           CustomFullScreenDialog.cancelDialog();
-                          if (check) {
+                          if (true) {
                             showAlertDialog(context, pQuest);
                           } else {
                             showAlertDialogCheckLocation(context, pQuest);

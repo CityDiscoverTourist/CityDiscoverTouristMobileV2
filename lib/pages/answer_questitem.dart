@@ -52,68 +52,68 @@ class AnswerPage extends StatelessWidget {
                                 )
                               ],
                             ),
-                            actions: [
-                              controller.isDisableTextField.isFalse
-                                  ? IconButton(
-                                      onPressed: () {
-                                        if (controller.haveSuggestion.isTrue) {
-                                          if (controller
-                                              .isShowSuggestion.isTrue) {
-                                            showAlertDialog(context,
-                                                controller.sugggestion.value);
-                                          } else {
-                                            showAlertDialogCofirmShowSuggestion(
-                                                context, controller);
-                                          }
-                                        } else {
-                                          Fluttertoast.showToast(
-                                              msg: "Cau hoi chua co goi y"
-                                                  .tr, // message
-                                              toastLength:
-                                                  Toast.LENGTH_SHORT, // length
-                                              gravity: ToastGravity
-                                                  .CENTER, // location
-                                              timeInSecForIosWeb: 1 // duration
-                                              );
-                                        }
-                                      },
-                                      icon: Icon(Icons.notifications))
-                                  : SizedBox.shrink(),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Stack(
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        Get.put(ChatController());
-                                        Get.to(ChatScreen());
-                                      },
-                                      icon: Icon(
-                                        Icons.support_agent,
-                                        color: Colors.white,
-                                      )),
-                                  // Positioned(
-                                  //   top: 0,
-                                  //   right: 14,
+                            // actions: [
+                            //   controller.isDisableTextField.isFalse
+                            //       ? IconButton(
+                            //           onPressed: () {
+                            //             if (controller.haveSuggestion.isTrue) {
+                            //               if (controller
+                            //                   .isShowSuggestion.isTrue) {
+                            //                 showAlertDialog(context,
+                            //                     controller.sugggestion.value);
+                            //               } else {
+                            //                 showAlertDialogCofirmShowSuggestion(
+                            //                     context, controller);
+                            //               }
+                            //             } else {
+                            //               Fluttertoast.showToast(
+                            //                   msg: "Cau hoi chua co goi y"
+                            //                       .tr, // message
+                            //                   toastLength:
+                            //                       Toast.LENGTH_SHORT, // length
+                            //                   gravity: ToastGravity
+                            //                       .CENTER, // location
+                            //                   timeInSecForIosWeb: 1 // duration
+                            //                   );
+                            //             }
+                            //           },
+                            //           icon: Icon(Icons.notifications))
+                            //       : SizedBox.shrink(),
+                            //   SizedBox(
+                            //     width: 10,
+                            //   ),
+                            //   Stack(
+                            //     children: [
+                            //       IconButton(
+                            //           onPressed: () {
+                            //             Get.put(ChatController());
+                            //             Get.to(ChatScreen());
+                            //           },
+                            //           icon: Icon(
+                            //             Icons.support_agent,
+                            //             color: Colors.white,
+                            //           )),
+                            //       // Positioned(
+                            //       //   top: 0,
+                            //       //   right: 14,
 
-                                  //   child: SizedBox(
-                                  //     height: 15,
-                                  //     width: 15,
-                                  //     child: CircleAvatar(radius: 80,backgroundColor: Colors.yellow,)))
-                                ],
-                              ),
-                              controller.isDisableTextField.isFalse
-                                  ? IconButton(
-                                      onPressed: () {
-                                        showAlertDialogCofirmSkip(context);
-                                      },
-                                      icon: Icon(
-                                        Icons.skip_next,
-                                        color: Colors.white,
-                                      ))
-                                  : SizedBox.shrink()
-                            ],
+                            //       //   child: SizedBox(
+                            //       //     height: 15,
+                            //       //     width: 15,
+                            //       //     child: CircleAvatar(radius: 80,backgroundColor: Colors.yellow,)))
+                            //     ],
+                            //   ),
+                            //   controller.isDisableTextField.isFalse
+                            //       ? IconButton(
+                            //           onPressed: () {
+                            //             showAlertDialogCofirmSkip(context);
+                            //           },
+                            //           icon: Icon(
+                            //             Icons.skip_next,
+                            //             color: Colors.white,
+                            //           ))
+                            //       : SizedBox.shrink()
+                            // ],
                           )
                         : AppBar(
                             backgroundColor: AppColors.mainColor,
@@ -122,103 +122,175 @@ class AnswerPage extends StatelessWidget {
                                 : 'story page'.tr),
                             automaticallyImplyLeading: false),
                 bottomNavigationBar: BottomAppBar(
-                    child: SizedBox(
-                  height: 70,
-                  child: controller.indexTypePage.value == 0 ||
-                          controller.indexTypePage.value == 2
-                      ? ElevatedButton(
-                          onPressed: () {
-                            if (controller.indexTypePage.value == 0) {
-                              // Get.to(AnswerPage());
-                              controller.indexTypePage.value = 1;
-                            } else {
-                              if (controller.isFinished.isTrue) {
-                                Get.lazyPut(() => CommentController());
-                                Get.to(CompletedPageV2());
-                              } else {
-                                controller.numQuest++;
-                                // Get.to(StoryDescription());
-                                controller.indexTypePage.value = 0;
-                              }
-                            }
-                          },
-                          child: Text(
-                              controller.isFinished.isTrue
-                                  ? 'finish'.tr
-                                  : 'next'.tr,
-                              style: TextStyle(fontSize: 16)),
-                          style: ElevatedButton.styleFrom(
-                            primary: AppColors.mainColor,
-                            onPrimary: Colors.white,
-                            padding: const EdgeInsets.only(
-                                left: 40.0,
-                                top: 16.0,
-                                bottom: 16.0,
-                                right: 40.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(12), // <-- Radius
-                            ),
-                          ),
-                        )
-                      : controller.isDisableTextField.isTrue &&
-                              controller.indexTypePage.value == 1
-                          ? ElevatedButton(
+                  child: Row(
+                    mainAxisAlignment: controller.indexTypePage.value==1?MainAxisAlignment.spaceAround:MainAxisAlignment.center,
+                    children: [
+                      controller.indexTypePage.value==1?
+                     Row(
+                      children: [
+                        controller.isDisableTextField.isFalse
+                          ? IconButton(
                               onPressed: () {
-                                // if (controller.isDisableTextField.isTrue)
-                                myController.text = controller.currentAns.value;
-                                // else {
-                                //   controller.currentAns.value =
-                                //           myController.text;
-                                //   myController.text = "";
-                                // }
-                                // controller.currentAns.value="";
-                                controller.clickAnswer();
-                                myController.text = "";
-                              },
-                              child: Text('submit'.tr,
-                                  style: TextStyle(fontSize: 16)),
-                              style: ElevatedButton.styleFrom(
-                                primary: AppColors.mainColor,
-                                onPrimary: Colors.white,
-                                padding: const EdgeInsets.only(
-                                    left: 40.0,
-                                    top: 16.0,
-                                    bottom: 16.0,
-                                    right: 40.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(12), // <-- Radius
-                                ),
-                              ),
-                            )
-                          : ElevatedButton(
-                              onPressed: () {
-                                controller.currentAns.value = myController.text;
-                                if (controller.currentAns.isEmpty) {
-                                  controller.currentAns.value = "N/A";
+                                if (controller.haveSuggestion.isTrue) {
+                                  if (controller.isShowSuggestion.isTrue) {
+                                    showAlertDialog(
+                                        context, controller.sugggestion.value);
+                                  } else {
+                                    showAlertDialogCofirmShowSuggestion(
+                                        context, controller);
+                                  }
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg:
+                                          "Cau hoi chua co goi y".tr, // message
+                                      toastLength: Toast.LENGTH_SHORT, // length
+                                      gravity: ToastGravity.CENTER, // location
+                                      timeInSecForIosWeb: 1 // duration
+                                      );
                                 }
-                                myController.text = "";
-                                // }
-                                controller.clickAnswer();
                               },
-                              child: Text('submit'.tr,
-                                  style: TextStyle(fontSize: 16)),
-                              style: ElevatedButton.styleFrom(
-                                primary: AppColors.mainColor,
-                                onPrimary: Colors.white,
-                                padding: const EdgeInsets.only(
-                                    left: 40.0,
-                                    top: 16.0,
-                                    bottom: 16.0,
-                                    right: 40.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(12), // <-- Radius
+                              icon: Icon(Icons.notifications))
+                          : SizedBox.shrink(),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Stack(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                Get.put(ChatController());
+                                Get.to(ChatScreen());
+                              },
+                              icon: Icon(
+                                Icons.support_agent,
+                                color: Colors.black,
+                              )),
+                          // Positioned(
+                          //   top: 0,
+                          //   right: 14,
+
+                          //   child: SizedBox(
+                          //     height: 15,
+                          //     width: 15,
+                          //     child: CircleAvatar(radius: 80,backgroundColor: Colors.yellow,)))
+                        ],
+                      ),
+                      controller.isDisableTextField.isFalse
+                          ? IconButton(
+                              onPressed: () {
+                                showAlertDialogCofirmSkip(context);
+                              },
+                              icon: Icon(
+                                Icons.skip_next,
+                                color: Colors.black,
+                              ))
+                          : SizedBox.shrink(),
+                      ],
+                     ):SizedBox.shrink(),
+                      
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        height: 70,
+                        child: controller.indexTypePage.value == 0 ||
+                                controller.indexTypePage.value == 2
+                            ? ElevatedButton(
+                                onPressed: () {
+                                  if (controller.indexTypePage.value == 0) {
+                                    // Get.to(AnswerPage());
+                                    controller.indexTypePage.value = 1;
+                                  } else {
+                                    if (controller.isFinished.isTrue) {
+                                      Get.lazyPut(() => CommentController());
+                                      Get.to(CompletedPageV2());
+                                    } else {
+                                      controller.numQuest++;
+                                      // Get.to(StoryDescription());
+                                      controller.indexTypePage.value = 0;
+                                    }
+                                  }
+                                },
+                                child: Text(
+                                    controller.isFinished.isTrue
+                                        ? 'finish'.tr
+                                        : 'next'.tr,
+                                    style: TextStyle(fontSize: 16)),
+                                style: ElevatedButton.styleFrom(
+                                  primary: AppColors.mainColor,
+                                  onPrimary: Colors.white,
+                                  padding: const EdgeInsets.only(
+                                      left: 40.0,
+                                      top: 16.0,
+                                      bottom: 16.0,
+                                      right: 40.0),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(12), // <-- Radius
+                                  ),
                                 ),
-                              ),
-                            ),
-                )),
+                              )
+                            : controller.isDisableTextField.isTrue &&
+                                    controller.indexTypePage.value == 1
+                                ? ElevatedButton(
+                                    onPressed: () {
+                                      // if (controller.isDisableTextField.isTrue)
+                                      myController.text =
+                                          controller.currentAns.value;
+                                      // else {
+                                      //   controller.currentAns.value =
+                                      //           myController.text;
+                                      //   myController.text = "";
+                                      // }
+                                      // controller.currentAns.value="";
+                                      controller.clickAnswer();
+                                      myController.text = "";
+                                    },
+                                    child: Text('submit'.tr,
+                                        style: TextStyle(fontSize: 16)),
+                                    style: ElevatedButton.styleFrom(
+                                      primary: AppColors.mainColor,
+                                      onPrimary: Colors.white,
+                                      padding: const EdgeInsets.only(
+                                          left: 40.0,
+                                          top: 16.0,
+                                          bottom: 16.0,
+                                          right: 40.0),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            12), // <-- Radius
+                                      ),
+                                    ),
+                                  )
+                                : ElevatedButton(
+                                    onPressed: () {
+                                      controller.currentAns.value =
+                                          myController.text;
+                                      if (controller.currentAns.isEmpty) {
+                                        controller.currentAns.value = "N/A";
+                                      }
+                                      myController.text = "";
+                                      // }
+                                      controller.clickAnswer();
+                                    },
+                                    child: Text('submit'.tr,
+                                        style: TextStyle(fontSize: 16)),
+                                    style: ElevatedButton.styleFrom(
+                                      primary: AppColors.mainColor,
+                                      onPrimary: Colors.white,
+                                      padding: const EdgeInsets.only(
+                                          left: 40.0,
+                                          top: 16.0,
+                                          bottom: 16.0,
+                                          right: 40.0),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            12), // <-- Radius
+                                      ),
+                                    ),
+                                  ),
+                      ),
+                    ],
+                  ),
+                ),
                 body: Stack(
                   children: [
                     SingleChildScrollView(
