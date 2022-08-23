@@ -37,28 +37,25 @@ class MoreQuestPage extends GetView<LoadQuestController> {
     // var myController = Get.find<HomeController>();
     return Obx(() => controller.isLoading.isTrue
         ? SplashStart()
-       
-        :Scaffold(
-            body:
-          
-             RefreshIndicator(
+        : Scaffold(
+            body: RefreshIndicator(
               child: CustomScrollView(
                 controller: controllerScroll,
                 slivers: <Widget>[
                   SliverAppBar(
-                    automaticallyImplyLeading: false,
+                    automaticallyImplyLeading: true,
                     pinned: true,
-                    actions: <Widget>[
-                      IconButton(
-                        icon: Icon(
-                          Icons.keyboard_arrow_left,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      )
-                    ],
+                    // actions: <Widget>[
+                    //   IconButton(
+                    //     icon: Icon(
+                    //       Icons.keyboard_arrow_left,
+                    //       color: Colors.white,
+                    //     ),
+                    //     onPressed: () {
+                    //       Navigator.pop(context);
+                    //     },
+                    //   )
+                    // ],
                     backgroundColor: color,
                     expandedHeight: 140,
                     flexibleSpace: FlexibleSpaceBar(
@@ -84,15 +81,15 @@ class MoreQuestPage extends GetView<LoadQuestController> {
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
                           return
-          //                    controller.questList.length==0? 
-          // // EmptyPage(
-          // //         icon: Icons.card_giftcard,
-          // //         message: 'no reward found'.tr,
-          // //         message1: ''.tr,
-          // //       )
-          // // Center(child: Text("hhhhhhhhh"),)
-          //       :
-                           _ListItem(
+                              //                    controller.questList.length==0?
+                              // // EmptyPage(
+                              // //         icon: Icons.card_giftcard,
+                              // //         message: 'no reward found'.tr,
+                              // //         message1: ''.tr,
+                              // //       )
+                              // // Center(child: Text("hhhhhhhhh"),)
+                              //       :
+                              _ListItem(
                             q: controller.questList[index],
                             // tag: '${widget.title}$index',
                           );
@@ -202,9 +199,16 @@ class _ListItem extends StatelessWidget {
                               size: 16,
                               color: Colors.grey,
                             ),
-                            BigText(
-                              text: 'Công viên nước đầm sen',
-                              size: 14,
+                            Expanded(
+                              child: Text(
+                                // d.location!,
+                                // q.description,
+                                q.address!,
+                                style: TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.w400),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             )
                           ],
                         ),
@@ -249,7 +253,7 @@ class _ListItem extends StatelessWidget {
                                         " VNĐ",
                                 fontWeight: FontWeight.w700,
                               )),
-                              width: MediaQuery.of(context).size.width * 0.25,
+                              width: MediaQuery.of(context).size.width * 0.30,
                               height: 35,
                               decoration: BoxDecoration(
                                   color: Color(0xFFFF9C00),

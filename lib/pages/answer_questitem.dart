@@ -121,425 +121,455 @@ class AnswerPage extends StatelessWidget {
                                 ? 'description page'.tr
                                 : 'story page'.tr),
                             automaticallyImplyLeading: false),
-                bottomNavigationBar: BottomAppBar(
-                  child: Row(
-                    mainAxisAlignment: controller.indexTypePage.value==1?MainAxisAlignment.spaceAround:MainAxisAlignment.center,
-                    children: [
-                      controller.indexTypePage.value==1?
-                     Row(
+                bottomNavigationBar: Container(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  child: BottomAppBar(
+                    child: Row(
+                      mainAxisAlignment: controller.indexTypePage.value == 1
+                          ? MainAxisAlignment.spaceAround
+                          : MainAxisAlignment.center,
                       children: [
-                        controller.isDisableTextField.isFalse
-                          ? IconButton(
-                              onPressed: () {
-                                if (controller.haveSuggestion.isTrue) {
-                                  if (controller.isShowSuggestion.isTrue) {
-                                    showAlertDialog(
-                                        context, controller.sugggestion.value);
-                                  } else {
-                                    showAlertDialogCofirmShowSuggestion(
-                                        context, controller);
-                                  }
-                                } else {
-                                  Fluttertoast.showToast(
-                                      msg:
-                                          "Cau hoi chua co goi y".tr, // message
-                                      toastLength: Toast.LENGTH_SHORT, // length
-                                      gravity: ToastGravity.CENTER, // location
-                                      timeInSecForIosWeb: 1 // duration
-                                      );
-                                }
-                              },
-                              icon: Icon(Icons.notifications))
-                          : SizedBox.shrink(),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Stack(
-                        children: [
-                          IconButton(
-                              onPressed: () {
-                                Get.put(ChatController());
-                                Get.to(ChatScreen());
-                              },
-                              icon: Icon(
-                                Icons.support_agent,
-                                color: Colors.black,
-                              )),
-                          // Positioned(
-                          //   top: 0,
-                          //   right: 14,
+                        controller.indexTypePage.value == 1
+                            ? Row(
+                                children: [
+                                  controller.isDisableTextField.isFalse
+                                      ? IconButton(
+                                          onPressed: () {
+                                            if (controller
+                                                .haveSuggestion.isTrue) {
+                                              if (controller
+                                                  .isShowSuggestion.isTrue) {
+                                                showAlertDialog(
+                                                    context,
+                                                    controller
+                                                        .sugggestion.value);
+                                              } else {
+                                                showAlertDialogCofirmShowSuggestion(
+                                                    context, controller);
+                                              }
+                                            } else {
+                                              Fluttertoast.showToast(
+                                                  msg: "Cau hoi chua co goi y"
+                                                      .tr, // message
+                                                  toastLength: Toast
+                                                      .LENGTH_SHORT, // length
+                                                  gravity: ToastGravity
+                                                      .CENTER, // location
+                                                  timeInSecForIosWeb:
+                                                      1 // duration
+                                                  );
+                                            }
+                                          },
+                                          icon: Icon(Icons.notifications))
+                                      : SizedBox.shrink(),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Stack(
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {
+                                            Get.put(ChatController());
+                                            Get.to(ChatScreen());
+                                          },
+                                          icon: Icon(
+                                            Icons.support_agent,
+                                            color: Colors.black,
+                                          )),
+                                      // Positioned(
+                                      //   top: 0,
+                                      //   right: 14,
 
-                          //   child: SizedBox(
-                          //     height: 15,
-                          //     width: 15,
-                          //     child: CircleAvatar(radius: 80,backgroundColor: Colors.yellow,)))
-                        ],
-                      ),
-                      controller.isDisableTextField.isFalse
-                          ? IconButton(
-                              onPressed: () {
-                                showAlertDialogCofirmSkip(context);
-                              },
-                              icon: Icon(
-                                Icons.skip_next,
-                                color: Colors.black,
-                              ))
-                          : SizedBox.shrink(),
+                                      //   child: SizedBox(
+                                      //     height: 15,
+                                      //     width: 15,
+                                      //     child: CircleAvatar(radius: 80,backgroundColor: Colors.yellow,)))
+                                    ],
+                                  ),
+                                  controller.isDisableTextField.isFalse
+                                      ? IconButton(
+                                          onPressed: () {
+                                            showAlertDialogCofirmSkip(context);
+                                          },
+                                          icon: Icon(
+                                            Icons.skip_next,
+                                            color: Colors.black,
+                                          ))
+                                      : SizedBox.shrink(),
+                                ],
+                              )
+                            : SizedBox.shrink(),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          height: 70,
+                          child: controller.indexTypePage.value == 0 ||
+                                  controller.indexTypePage.value == 2
+                              ? ElevatedButton(
+                                  onPressed: () {
+                                    if (controller.indexTypePage.value == 0) {
+                                      // Get.to(AnswerPage());
+                                      controller.indexTypePage.value = 1;
+                                    } else {
+                                      if (controller.isFinished.isTrue) {
+                                        Get.lazyPut(() => CommentController());
+                                        Get.to(CompletedPageV2());
+                                      } else {
+                                        controller.numQuest++;
+                                        // Get.to(StoryDescription());
+                                        controller.indexTypePage.value = 0;
+                                      }
+                                    }
+                                  },
+                                  child: Text(
+                                      controller.isFinished.isTrue
+                                          ? 'finish'.tr
+                                          : 'next'.tr,
+                                      style: TextStyle(fontSize: 16)),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: AppColors.mainColor,
+                                    onPrimary: Colors.white,
+                                    padding: const EdgeInsets.only(
+                                        left: 40.0,
+                                        top: 16.0,
+                                        bottom: 16.0,
+                                        right: 40.0),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          12), // <-- Radius
+                                    ),
+                                  ),
+                                )
+                              : controller.isDisableTextField.isTrue &&
+                                      controller.indexTypePage.value == 1
+                                  ? ElevatedButton(
+                                      onPressed: () {
+                                        // if (controller.isDisableTextField.isTrue)
+                                        myController.text =
+                                            controller.currentAns.value;
+                                        // else {
+                                        //   controller.currentAns.value =
+                                        //           myController.text;
+                                        //   myController.text = "";
+                                        // }
+                                        // controller.currentAns.value="";
+                                        controller.clickAnswer();
+                                        myController.text = "";
+                                      },
+                                      child: Text('submit'.tr,
+                                          style: TextStyle(fontSize: 16)),
+                                      style: ElevatedButton.styleFrom(
+                                        primary: AppColors.mainColor,
+                                        onPrimary: Colors.white,
+                                        padding: const EdgeInsets.only(
+                                            left: 40.0,
+                                            top: 16.0,
+                                            bottom: 16.0,
+                                            right: 40.0),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              12), // <-- Radius
+                                        ),
+                                      ),
+                                    )
+                                  : ElevatedButton(
+                                      onPressed: () {
+                                        controller.currentAns.value =
+                                            myController.text;
+                                        if (controller.currentAns.isEmpty) {
+                                          controller.currentAns.value = "N/A";
+                                        }
+                                        myController.text = "";
+                                        // }
+                                        controller.clickAnswer();
+                                      },
+                                      child: Text('submit'.tr,
+                                          style: TextStyle(fontSize: 16)),
+                                      style: ElevatedButton.styleFrom(
+                                        primary: AppColors.mainColor,
+                                        onPrimary: Colors.white,
+                                        padding: const EdgeInsets.only(
+                                            left: 40.0,
+                                            top: 16.0,
+                                            bottom: 16.0,
+                                            right: 40.0),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              12), // <-- Radius
+                                        ),
+                                      ),
+                                    ),
+                        ),
                       ],
-                     ):SizedBox.shrink(),
-                      
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        height: 70,
+                    ),
+                  ),
+                ),
+                body: GestureDetector(
+                  onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                  child: Stack(
+                    children: [
+                      SingleChildScrollView(
                         child: controller.indexTypePage.value == 0 ||
                                 controller.indexTypePage.value == 2
-                            ? ElevatedButton(
-                                onPressed: () {
-                                  if (controller.indexTypePage.value == 0) {
-                                    // Get.to(AnswerPage());
-                                    controller.indexTypePage.value = 1;
-                                  } else {
-                                    if (controller.isFinished.isTrue) {
-                                      Get.lazyPut(() => CommentController());
-                                      Get.to(CompletedPageV2());
-                                    } else {
-                                      controller.numQuest++;
-                                      // Get.to(StoryDescription());
-                                      controller.indexTypePage.value = 0;
-                                    }
-                                  }
-                                },
-                                child: Text(
-                                    controller.isFinished.isTrue
-                                        ? 'finish'.tr
-                                        : 'next'.tr,
-                                    style: TextStyle(fontSize: 16)),
-                                style: ElevatedButton.styleFrom(
-                                  primary: AppColors.mainColor,
-                                  onPrimary: Colors.white,
-                                  padding: const EdgeInsets.only(
-                                      left: 40.0,
-                                      top: 16.0,
-                                      bottom: 16.0,
-                                      right: 40.0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(12), // <-- Radius
+                            ? Column(
+                                children: [
+                                  SingleChildScrollView(
+                                    child: Html(
+                                      data: controller.indexTypePage.value == 2
+                                          ? controller.description
+                                          : controller.questItemCurrent.story,
+                                      style: {
+                                        'html': Style(
+                                            // backgroundColor: Colors.white12
+                                            ),
+                                        'table': Style(
+                                            backgroundColor:
+                                                Colors.grey.shade200),
+                                        'td': Style(
+                                          padding: EdgeInsets.all(10),
+                                        ),
+                                        'th': Style(
+                                            padding: EdgeInsets.all(10),
+                                            color: Colors.black),
+                                        'tr': Style(
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color:
+                                                        Colors.greenAccent))),
+                                        // 'p class=\"ql-align-center\"': Style(
+                                        //     alignment: Alignment.center,
+                                        //     textAlign: TextAlign.center,
+                                        //     margin: EdgeInsets.only(left: 30),
+                                        //     backgroundColor: Colors.grey.shade300,
+                                        //     border: Border(
+                                        //         bottom: BorderSide(
+                                        //             color: Colors.greenAccent))),
+                                        'img': Style(
+                                            // after: 'p',
+                                            alignment: Alignment.center,
+                                            textAlign: TextAlign.center,
+                                            fontSize: FontSize.xxLarge,
+                                            backgroundColor:
+                                                Colors.grey.shade300,
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color:
+                                                        Colors.greenAccent))),
+
+                                        'p': Style(
+                                          // before: '          ',
+                                          // alignment: Alignment.center,
+                                          textAlign: TextAlign.justify,
+                                          fontSize: FontSize.xxLarge,
+
+                                          // border: Border(
+                                          //     bottom: BorderSide(
+                                          //         color: Colors.greenAccent)
+                                          // )
+                                        ),
+                                      },
+                                    ),
                                   ),
-                                ),
+                                ],
                               )
-                            : controller.isDisableTextField.isTrue &&
-                                    controller.indexTypePage.value == 1
-                                ? ElevatedButton(
-                                    onPressed: () {
-                                      // if (controller.isDisableTextField.isTrue)
-                                      myController.text =
-                                          controller.currentAns.value;
-                                      // else {
-                                      //   controller.currentAns.value =
-                                      //           myController.text;
-                                      //   myController.text = "";
-                                      // }
-                                      // controller.currentAns.value="";
-                                      controller.clickAnswer();
-                                      myController.text = "";
-                                    },
-                                    child: Text('submit'.tr,
-                                        style: TextStyle(fontSize: 16)),
-                                    style: ElevatedButton.styleFrom(
-                                      primary: AppColors.mainColor,
-                                      onPrimary: Colors.white,
-                                      padding: const EdgeInsets.only(
-                                          left: 40.0,
-                                          top: 16.0,
-                                          bottom: 16.0,
-                                          right: 40.0),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            12), // <-- Radius
-                                      ),
-                                    ),
-                                  )
-                                : ElevatedButton(
-                                    onPressed: () {
-                                      controller.currentAns.value =
-                                          myController.text;
-                                      if (controller.currentAns.isEmpty) {
-                                        controller.currentAns.value = "N/A";
-                                      }
-                                      myController.text = "";
-                                      // }
-                                      controller.clickAnswer();
-                                    },
-                                    child: Text('submit'.tr,
-                                        style: TextStyle(fontSize: 16)),
-                                    style: ElevatedButton.styleFrom(
-                                      primary: AppColors.mainColor,
-                                      onPrimary: Colors.white,
-                                      padding: const EdgeInsets.only(
-                                          left: 40.0,
-                                          top: 16.0,
-                                          bottom: 16.0,
-                                          right: 40.0),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            12), // <-- Radius
-                                      ),
-                                    ),
+                            : Column(
+                                children: [
+                                  SizedBox(
+                                    height: 10,
                                   ),
+                                  Center(
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          controller.questItemCurrent
+                                                      .questItemTypeId ==
+                                                  2
+                                              ? SingleChildScrollView(
+                                                  child: Column(children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10.0),
+                                                    child: Text(
+                                                      controller
+                                                          .questItemCurrent
+                                                          .content,
+                                                      textAlign:
+                                                          TextAlign.justify,
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  // BigText(
+                                                  //   text:
+                                                  //       "please find and take a photo of something similar to the one below (please let the app use your camera)"
+                                                  //           .tr,
+                                                  //   fontWeight: FontWeight.bold,
+                                                  // ),
+                                                  Image.network(
+                                                      controller
+                                                          .questItemCurrent
+                                                          .listImages
+                                                          .first,
+                                                      width: 400,
+                                                      height: 620,
+                                                      fit: BoxFit.fill)
+                                                ]))
+                                              : SingleChildScrollView(
+                                                  child: Column(children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10.0),
+                                                    child: Text(
+                                                      controller
+                                                          .questItemCurrent
+                                                          .content,
+                                                      textAlign:
+                                                          TextAlign.justify,
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  controller.questItemCurrent
+                                                                  .imageDescription !=
+                                                              "null" &&
+                                                          controller
+                                                                  .questItemCurrent
+                                                                  .imageDescription !=
+                                                              null
+                                                      ? Image.network(
+                                                          controller
+                                                              .questItemCurrent
+                                                              .imageDescription,
+                                                          width: 400,
+                                                          height: 620,
+                                                          fit: BoxFit.fill)
+                                                      : SizedBox.shrink()
+                                                ])),
+                                          //  Text(controller
+                                          //     .questItemCurrent.content),
+                                          SizedBox(height: 30),
+                                          Column(
+                                            children: [
+                                              controller
+                                                      .isDisableTextField.isTrue
+                                                  ? Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              20.0),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              BigText(
+                                                                text:
+                                                                    "right answer"
+                                                                        .tr,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                              Icon(
+                                                                Icons.check,
+                                                                size: 16,
+                                                                color: Colors
+                                                                    .green,
+                                                              )
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 20,
+                                                          ),
+                                                          Container(
+                                                            margin:
+                                                                EdgeInsets.all(
+                                                                    10),
+                                                            decoration: BoxDecoration(
+                                                                color: Colors
+                                                                    .grey[300],
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            15)),
+                                                            height: 50,
+                                                            width:
+                                                                double.infinity,
+                                                            child: Center(
+                                                              child: Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            20),
+                                                                child: BigText(
+                                                                    text: controller
+                                                                        .currentAns
+                                                                        .value),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : SizedBox.shrink(),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(20.0),
+                                                child: controller
+                                                                .questItemCurrent
+                                                                .questItemTypeId ==
+                                                            2 ||
+                                                        controller
+                                                            .isDisableTextField
+                                                            .isTrue
+                                                    ? Container()
+                                                    : TextField(
+                                                        controller:
+                                                            myController,
+                                                        readOnly: controller
+                                                            .isDisableTextField
+                                                            .value,
+                                                        decoration: InputDecoration(
+                                                            border:
+                                                                OutlineInputBorder(),
+                                                            labelText: controller
+                                                                    .isDisableTextField
+                                                                    .isTrue
+                                                                ? controller
+                                                                    .currentAns
+                                                                    .value
+                                                                : ''),
+                                                      ),
+                                              ),
+                                              SizedBox(
+                                                height: 30,
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 30,
+                                          )
+                                        ]),
+                                  )
+                                ],
+                              ),
                       ),
                     ],
                   ),
-                ),
-                body: Stack(
-                  children: [
-                    SingleChildScrollView(
-                      child: controller.indexTypePage.value == 0 ||
-                              controller.indexTypePage.value == 2
-                          ? Column(
-                              children: [
-                                SingleChildScrollView(
-                                  child: Html(
-                                    data: controller.indexTypePage.value == 2
-                                        ? controller.description
-                                        : controller.questItemCurrent.story,
-                                    style: {
-                                      'html': Style(
-                                          // backgroundColor: Colors.white12
-                                          ),
-                                      'table': Style(
-                                          backgroundColor:
-                                              Colors.grey.shade200),
-                                      'td': Style(
-                                        padding: EdgeInsets.all(10),
-                                      ),
-                                      'th': Style(
-                                          padding: EdgeInsets.all(10),
-                                          color: Colors.black),
-                                      'tr': Style(
-                                          border: Border(
-                                              bottom: BorderSide(
-                                                  color: Colors.greenAccent))),
-                                      // 'p class=\"ql-align-center\"': Style(
-                                      //     alignment: Alignment.center,
-                                      //     textAlign: TextAlign.center,
-                                      //     margin: EdgeInsets.only(left: 30),
-                                      //     backgroundColor: Colors.grey.shade300,
-                                      //     border: Border(
-                                      //         bottom: BorderSide(
-                                      //             color: Colors.greenAccent))),
-                                      'img': Style(
-                                          // after: 'p',
-                                          alignment: Alignment.center,
-                                          textAlign: TextAlign.center,
-                                          fontSize: FontSize.xxLarge,
-                                          backgroundColor: Colors.grey.shade300,
-                                          border: Border(
-                                              bottom: BorderSide(
-                                                  color: Colors.greenAccent))),
-
-                                      'p': Style(
-                                        // before: '          ',
-                                        // alignment: Alignment.center,
-                                        textAlign: TextAlign.justify,
-                                        fontSize: FontSize.xxLarge,
-
-                                        // border: Border(
-                                        //     bottom: BorderSide(
-                                        //         color: Colors.greenAccent)
-                                        // )
-                                      ),
-                                    },
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Column(
-                              children: [
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Center(
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        controller.questItemCurrent
-                                                    .questItemTypeId ==
-                                                2
-                                            ? SingleChildScrollView(
-                                                child: Column(children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: Text(
-                                                    controller.questItemCurrent
-                                                        .content,
-                                                    textAlign:
-                                                        TextAlign.justify,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 20,
-                                                    ),
-                                                  ),
-                                                ),
-                                                // BigText(
-                                                //   text:
-                                                //       "please find and take a photo of something similar to the one below (please let the app use your camera)"
-                                                //           .tr,
-                                                //   fontWeight: FontWeight.bold,
-                                                // ),
-                                                Image.network(
-                                                    controller.questItemCurrent
-                                                        .listImages.first,
-                                                    width: 400,
-                                                    height: 620,
-                                                    fit: BoxFit.fill)
-                                              ]))
-                                            : SingleChildScrollView(
-                                                child: Column(children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: Text(
-                                                    controller.questItemCurrent
-                                                        .content,
-                                                    textAlign:
-                                                        TextAlign.justify,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 20,
-                                                    ),
-                                                  ),
-                                                ),
-                                                controller.questItemCurrent
-                                                                .imageDescription !=
-                                                            "null" &&
-                                                        controller
-                                                                .questItemCurrent
-                                                                .imageDescription !=
-                                                            null
-                                                    ? Image.network(
-                                                        controller
-                                                            .questItemCurrent
-                                                            .imageDescription,
-                                                        width: 400,
-                                                        height: 620,
-                                                        fit: BoxFit.fill)
-                                                    : SizedBox.shrink()
-                                              ])),
-                                        //  Text(controller
-                                        //     .questItemCurrent.content),
-                                        SizedBox(height: 30),
-                                        Column(
-                                          children: [
-                                            controller.isDisableTextField.isTrue
-                                                ? Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            20.0),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            BigText(
-                                                              text:
-                                                                  "right answer"
-                                                                      .tr,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                            Icon(
-                                                              Icons.check,
-                                                              size: 16,
-                                                              color:
-                                                                  Colors.green,
-                                                            )
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              EdgeInsets.all(
-                                                                  10),
-                                                          decoration: BoxDecoration(
-                                                              color: Colors
-                                                                  .grey[300],
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          15)),
-                                                          height: 50,
-                                                          width:
-                                                              double.infinity,
-                                                          child: Center(
-                                                            child: Padding(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(20),
-                                                              child: BigText(
-                                                                  text: controller
-                                                                      .currentAns
-                                                                      .value),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
-                                                : SizedBox.shrink(),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(20.0),
-                                              child: controller.questItemCurrent
-                                                              .questItemTypeId ==
-                                                          2 ||
-                                                      controller
-                                                          .isDisableTextField
-                                                          .isTrue
-                                                  ? Container()
-                                                  : TextField(
-                                                      controller: myController,
-                                                      readOnly: controller
-                                                          .isDisableTextField
-                                                          .value,
-                                                      decoration: InputDecoration(
-                                                          border:
-                                                              OutlineInputBorder(),
-                                                          labelText: controller
-                                                                  .isDisableTextField
-                                                                  .isTrue
-                                                              ? controller
-                                                                  .currentAns
-                                                                  .value
-                                                              : ''),
-                                                    ),
-                                            ),
-                                            SizedBox(
-                                              height: 30,
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 30,
-                                        )
-                                      ]),
-                                )
-                              ],
-                            ),
-                    ),
-                  ],
                 )),
           ));
   }
