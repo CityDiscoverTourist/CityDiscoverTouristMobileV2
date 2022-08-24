@@ -135,7 +135,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 10,
                       ),
                       Text(
-                        controller.sp.userName.toString(),
+                         controller.sp.fullName!=null?
+                        controller.sp.fullName.toString():
+                        controller.firebaseAuth.currentUser!.displayName.toString(),
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -197,7 +199,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       size: 20,
                     ),
                     onTap: () => Get.to(EditProfile(
-                          name: controller.sp.userName.toString(),
+                          name:  controller.sp.fullName!=null?
+                        controller.sp.fullName.toString():
+                        controller.firebaseAuth.currentUser!.displayName.toString(),
                           address: controller.sp.address.toString(),
                           gender: controller.sp.gender,
                           imageUrl: Get.find<LoginControllerV2>()
@@ -319,53 +323,53 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               onTap: () async => await AppService().openEmailSupport(context),
             ),
-            Divider(
-              height: 5,
-            ),
+            // Divider(
+            //   height: 5,
+            // ),
 
-            ListTile(
-                title: Text('rate this app'.tr, style: _textStyle),
-                leading: Container(
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(
-                      color: Colors.orangeAccent,
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Icon(Feather.star, size: 20, color: Colors.white),
-                ),
-                trailing: Icon(
-                  Feather.chevron_right,
-                  size: 20,
-                ),
-                onTap: null
-                // () async
-                // => AppService().launchAppReview(context),
-                ),
+            // ListTile(
+            //     title: Text('rate this app'.tr, style: _textStyle),
+            //     leading: Container(
+            //       height: 30,
+            //       width: 30,
+            //       decoration: BoxDecoration(
+            //           color: Colors.orangeAccent,
+            //           borderRadius: BorderRadius.circular(5)),
+            //       child: Icon(Feather.star, size: 20, color: Colors.white),
+            //     ),
+            //     trailing: Icon(
+            //       Feather.chevron_right,
+            //       size: 20,
+            //     ),
+            //     onTap: null
+            //     // () async
+            //     // => AppService().launchAppReview(context),
+            //     ),
 
-            Divider(
-              height: 5,
-            ),
+            // Divider(
+            //   height: 5,
+            // ),
 
-            ListTile(
-              title: Text('privacy policy'.tr, style: _textStyle),
-              leading: Container(
-                height: 30,
-                width: 30,
-                decoration: BoxDecoration(
-                    color: AppColors.mainColor,
-                    borderRadius: BorderRadius.circular(5)),
-                child: Icon(Feather.lock, size: 20, color: Colors.white),
-              ),
-              trailing: Icon(
-                Feather.chevron_right,
-                size: 20,
-              ),
-              onTap: () => AppService()
-                  .openLinkWithCustomTab(context, Config().privacyPolicyUrl),
-            ),
-            Divider(
-              height: 5,
-            ),
+            // ListTile(
+            //   title: Text('privacy policy'.tr, style: _textStyle),
+            //   leading: Container(
+            //     height: 30,
+            //     width: 30,
+            //     decoration: BoxDecoration(
+            //         color: AppColors.mainColor,
+            //         borderRadius: BorderRadius.circular(5)),
+            //     child: Icon(Feather.lock, size: 20, color: Colors.white),
+            //   ),
+            //   trailing: Icon(
+            //     Feather.chevron_right,
+            //     size: 20,
+            //   ),
+            //   onTap: () => AppService()
+            //       .openLinkWithCustomTab(context, Config().privacyPolicyUrl),
+            // ),
+            // Divider(
+            //   height: 5,
+            // ),
 
             ListTile(
               title: Text('about us'.tr, style: _textStyle),
@@ -407,27 +411,27 @@ class _ProfilePageState extends State<ProfilePage> {
                   AppService().openLink(context, Config().facebookPageUrl),
             ),
 
-            Divider(
-              height: 10,
-            ),
+            // Divider(
+            //   height: 10,
+            // ),
 
-            ListTile(
-              title: Text('youtube'.tr, style: _textStyle),
-              leading: Container(
-                height: 30,
-                width: 30,
-                decoration: BoxDecoration(
-                    color: AppColors.mainColor,
-                    borderRadius: BorderRadius.circular(5)),
-                child: Icon(Feather.youtube, size: 20, color: Colors.white),
-              ),
-              trailing: Icon(
-                Feather.chevron_right,
-                size: 20,
-              ),
-              onTap: () =>
-                  AppService().openLink(context, Config().youtubeChannelUrl),
-            ),
+            // ListTile(
+            //   title: Text('youtube'.tr, style: _textStyle),
+            //   leading: Container(
+            //     height: 30,
+            //     width: 30,
+            //     decoration: BoxDecoration(
+            //         color: AppColors.mainColor,
+            //         borderRadius: BorderRadius.circular(5)),
+            //     child: Icon(Feather.youtube, size: 20, color: Colors.white),
+            //   ),
+            //   trailing: Icon(
+            //     Feather.chevron_right,
+            //     size: 20,
+            //   ),
+            //   onTap: () =>
+            //       AppService().openLink(context, Config().youtubeChannelUrl),
+            // ),
 
             // Divider(height: 10,),
 

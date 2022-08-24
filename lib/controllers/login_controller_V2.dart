@@ -421,13 +421,14 @@ class LoginControllerV2 extends GetxController {
     }
   }
 
-  Future<bool> editProfile(String address, bool? gender, File? image) async {
+  Future<bool> editProfile(
+      String name, String address, bool? gender, File? image) async {
     var request = new http.MultipartRequest("PUT",
         Uri.parse("https://citytourist.azurewebsites.net/api/v1/customers"));
     if (image != null) {
       print("file is not null");
       var file = File(image.path);
-      request.files.add(await http.MultipartFile.fromPath("image", file.path));
+      request.files.add(await http.MultipartFile.fromPath("Image", file.path));
     } else {
       print("file is null");
     }
@@ -435,6 +436,7 @@ class LoginControllerV2 extends GetxController {
     request.fields["Id"] = Get.find<LoginControllerV2>().sp.id;
     request.fields["Address"] = address;
     request.fields["Gender"] = gender.toString();
+    request.fields["FullName"] = name;
     request.headers["accept"] = "text/plain";
     request.headers["Content-Type"] = "multipart/form-data";
     request.headers["Authorization"] =
@@ -456,6 +458,7 @@ class LoginControllerV2 extends GetxController {
         print("response image path is null");
         Get.find<LoginControllerV2>().sp.address = newCustomer.address;
         Get.find<LoginControllerV2>().sp.gender = newCustomer.gender;
+        Get.find<LoginControllerV2>().sp.userName = newCustomer.userName;
       }
       // });
       return true;
@@ -476,7 +479,8 @@ class LoginControllerV2 extends GetxController {
       // update();
     }
   }
-    void changeLanguagev2(String language) {
+
+  void changeLanguagev2(String language) {
     Get.updateLocale(Locale(language));
   }
 }

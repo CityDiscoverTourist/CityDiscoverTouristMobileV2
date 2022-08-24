@@ -18,6 +18,7 @@ import 'package:travel_hour/models/purchased_quest.dart';
 import 'package:travel_hour/models/questItem.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
+import 'package:travel_hour/models/sumary.dart';
 
 import '../api/api.dart';
 import '../api/api_end_points.dart';
@@ -366,6 +367,7 @@ class PlayService {
     // print(Api.baseUrl + ApiEndPoints.buyQuest);
     // print(response.body);
     if (response.statusCode == 200) {
+      CustomFullScreenDialog.cancelDialog();
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
       var data = json.decode(response.body);
       returnData = data["data"];
@@ -375,6 +377,7 @@ class PlayService {
       return returnData;
     }
     print("Error");
+    CustomFullScreenDialog.cancelDialog();
     // CustomFullScreenDialog.cancelDialog();
     return null;
   }
@@ -609,6 +612,35 @@ class PlayService {
     return null;
   }
 
+  Future<Sumary?> getSumary(String customerQuestId) async {
+    // CustomFullScreenDialog.showDialog();
+    var response = await http.get(
+      Uri.parse(Api.baseUrl +
+          ApiEndPoints.getSumary +
+          "?customerQuestId=" +
+          customerQuestId +
+          "&language=" +
+          Get.find<LoginControllerV2>().language.value.toString()),
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization':
+            'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+      },
+    );
+    // print(Api.baseUrl + ApiEndPoints.checkPaymentStatus + paymentId);
+    print(response.body);
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      // PurchasedQuest purchasedQuest = PurchasedQuest.fromJson(data["data"]);
+      Sumary sumary = Sumary.fromJson(json.decode(data["data"]));
+      // print("Get Data ok");
+      // print(data["data"]);
+      return Future<Sumary>.value(sumary);
+    }
+    // CustomFullScreenDialog.cancelDialog();
+    return null;
+  }
+
   Future<CustomerTask> checkAnswerV2(
       String customerQuestId,
       String questItemId,
@@ -675,36 +707,36 @@ class PlayService {
         return Future<CustomerTask>.value(rs);
       } else {
         print("Error SKIP");
-        var response2 = await http.get(
-          Uri.parse(Api.baseUrl +
-              ApiEndPoints.customerStartQuest +
-              customerTaskId.toString()),
-          headers: {
-            "Content-Type": "application/json",
-            'Authorization':
-                'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
-          },
-        );
-        if (response2.statusCode == 200) {
-          var data = json.decode(response2.body);
-          rs = CustomerTask.fromJson(data["data"]);
-          Map mydata = {
-            'customerTaskId': rs.id,
-            'questItemId': questItemId,
-          };
-          var body = json.encode(mydata);
-          var response4 = await http.post(
-            Uri.parse(
-                "https://citytourist.azurewebsites.net/api/v1/customer-tasks/internal-save"),
-            body: body,
-            headers: {
-              "Content-Type": "application/json",
-              'Authorization':
-                  'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
-            },
-          );
-          return Future<CustomerTask>.value(rs);
-        }
+        // var response2 = await http.get(
+        //   Uri.parse(Api.baseUrl +
+        //       ApiEndPoints.customerStartQuest +
+        //       customerTaskId.toString()),
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     'Authorization':
+        //         'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+        //   },
+        // );
+        // if (response2.statusCode == 200) {
+        //   var data = json.decode(response2.body);
+        //   rs = CustomerTask.fromJson(data["data"]);
+        //   Map mydata = {
+        //     'customerTaskId': rs.id,
+        //     'questItemId': questItemId,
+        //   };
+        //   var body = json.encode(mydata);
+        //   var response4 = await http.post(
+        //     Uri.parse(
+        //         "https://citytourist.azurewebsites.net/api/v1/customer-tasks/internal-save"),
+        //     body: body,
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       'Authorization':
+        //           'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+        //     },
+        //   );
+        //   return Future<CustomerTask>.value(rs);
+        // }
         // Get.find<PlayControllerV2>().isSkip.value = false;
         Get.snackbar('error'.tr, 'error when skip questtion'.tr,
             duration: Duration(seconds: 2),
@@ -723,7 +755,7 @@ class PlayService {
             ApiEndPoints.checkAnswer +
             customerQuestId.toString() +
             "?customerReply=" +
-            "ss hình" +
+            "Compare Image" +
             "&questItemId=" +
             questItemId.toString() +
             "&language=" +
@@ -762,7 +794,7 @@ class PlayService {
           var response = await request.send().timeout(Duration(minutes: 15));
           print("Status code:" + response.statusCode.toString());
           String reply = await response.stream.transform(utf8.decoder).join();
-          // print(reply);
+          print("Reply" + reply);
           if (response.statusCode == 200) {
             // String reply = await response.stream.transform(utf8.decoder).join();
             Map<String, dynamic> result = jsonDecode(reply);

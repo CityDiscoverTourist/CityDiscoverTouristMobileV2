@@ -125,7 +125,7 @@ class Translation extends Translations {
           "home": "Home",
           "reward": "Reward",
           "history": "History",
-          "waiting loading data...": "Waiting Loading Data...",
+          "waiting loading data...": "Loading Data...",
           "waiting.....": "waiting.....",
           "my quest": "My Quest",
           "minutes": "minutes",
@@ -137,8 +137,8 @@ class Translation extends Translations {
           "payment status": "Payment status",
           "not yet paid": "Not yet paid",
           "play code": "Play Code : ",
-          "copy": "Copy",
-          "cofirm payment": "Cofirm payment",
+          "copy": "Copied",
+          "cofirm payment": "Confirm payment",
           "cofirm": "Confirm",
           "play now": "Play Now",
           "no reward found": "No reward found!",
@@ -147,9 +147,9 @@ class Translation extends Translations {
           "old password can't be empty": "Old password can't be empty",
           "enter new password": "Enter new password",
           "new password can't be empty": "New password can't be empty",
-          "cofirm new password": "Cofirm new password",
+          "cofirm new password": "Confirm new password",
           "new password and cofirm password must be the same!":
-              "New password and Cofirm password must be the same!",
+              "New password and Confirm password must be the same!",
           "sign in with google": "Sign In with Google",
           "sign in with facebook": "Sign In with Facebook",
           "sign in with user": "Sign In with Username/Password",
@@ -162,14 +162,14 @@ class Translation extends Translations {
               "Password must minimum eight characters",
           "password at least one uppercase letter, one lowercase letter, one specical character and one number":
               "Password at least one uppercase letter, one lowercase letter, one specical character and one number",
-          "log in": "Log In",
+          "log in": "Login",
           "forgot password?": "Forgot password?",
           "not a member? sign up now": "Not a member? Sign up now",
           "please enter your email": "Please enter your Email",
-          "cofirm password": "Cofirm password",
-          "cofirm password is required": "Cofirm password is Required",
+          "cofirm password": "Confirm password",
+          "cofirm password is required": "Confirm password is Required",
           "password and cofirm password must be the same!":
-              "Password and Cofirm password must be the same!",
+              "Password and Confirm password must be the same!",
           "register": "Register",
           "time up": "Time up",
           "time remaining": "Time remaining:",
@@ -189,7 +189,7 @@ class Translation extends Translations {
               "For each wrong answer, 50 points will be deducted",
           "using seggestion will be deducted 75 points (1 time)":
               "Using suggestion will be deducted 75 points (1 time)",
-          "rulepage": "RulePage",
+          "rulepage": "Rule Page",
           "progress page ": "Information",
           "NUM OF QUESTION ": "NUM OF QUESTION ",
           "submit": "Submit",
@@ -280,7 +280,12 @@ class Translation extends Translations {
           "male": "Male",
           "female": "Female",
           "finish": "Finish",
-          "system busy": "System busy"
+          "system busy": "System busy",
+          "cacula point": "Score calculation",
+          "exp:": "Expiration date:",
+          "input answer": "Input answer",
+          "don't have any quest": "Don't have any quest",
+          "name can't be empty": "Name can't be empty"
         },
         'vn': {
           "welcome message":
@@ -418,8 +423,8 @@ class Translation extends Translations {
           "payment status": "Thông tin thanh toán",
           "not yet paid": "CHƯA THANH TOÁN",
           "play code": "Mã chơi : ",
-          "copy": "Sao chép",
-          "cofirm payment": "Xác nhận thanh  toán",
+          "copy": "Đã sao chép",
+          "cofirm payment": "Xác nhận thanh toán",
           "cofirm": "Xác nhận",
           "play now": "Chơi ngay",
           "no reward found": "Không tìm thấy phần thưởng nào!",
@@ -493,7 +498,7 @@ class Translation extends Translations {
           "please confim you email before login!":
               "Vui lòng xác nhận tài khoản của bạn qua mail trước khi đăng nhập!",
           "user not exist or wrong username and password":
-              "Người dùng không tông tại hoặc sai tài khoản/mật khẩu",
+              "Người dùng không tồn tại hoặc sai tài khoản/mật khẩu",
           "only 1 answer left": "Chỉ còn 1 lần trả lời",
           "wrong answer": "Trả lời sai",
           "right answer": "Trả lời đúng",
@@ -564,7 +569,12 @@ class Translation extends Translations {
           "male": "Nam",
           "female": "Nữ",
           "finish": "Kết thúc",
-          "system busy": "Hệ thống bận"
+          "system busy": "Hệ thống bận",
+          "cacula point": "Cách tính điểm",
+          "exp:": "Ngày hết hạn:",
+          "input answer": "Nhập câu trả lời",
+          "don't have any quest": "Không có quest nào",
+          "name can't be empty": "Tên không thể để trống",
         }
       };
 }

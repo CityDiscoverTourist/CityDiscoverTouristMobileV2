@@ -251,7 +251,8 @@ showAlertVoucher(BuildContext context, PlayControllerV2 controller) {
         BigText(text: controller.endPoint.percentDiscount.toString() + "%")
       ],
     ),
-    actions: [okButton, cancelButton],
+    // actions: [okButton, cancelButton],
+    actions: [cancelButton, okButton],
   );
 
   // show the dialog

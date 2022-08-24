@@ -5,7 +5,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import 'package:travel_hour/controllers/questpurchased_controller.dart';
+
 import 'package:url_launcher/url_launcher.dart';
+
 
 import '../common/customFullScreenDialog.dart';
 import '../controllers/home_controller.dart';
@@ -196,6 +200,10 @@ class _QRViewExampleState extends State<QRViewExample> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        print("can data "+result!.code.toString());
+        Get.find<QuestPurchasedController>().qrCode.value=result!.code.toString();
+        Get.back();
+
       });
     });
   }

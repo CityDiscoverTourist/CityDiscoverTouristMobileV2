@@ -10,6 +10,7 @@ import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 
 import '../models/quest.dart';
+import '../utils/empty.dart';
 import '../widgets/custom_cache_image.dart';
 
 // class MoreQuestPage extends StatefulWidget {
@@ -37,28 +38,25 @@ class MoreQuestPage extends GetView<LoadQuestController> {
     // var myController = Get.find<HomeController>();
     return Obx(() => controller.isLoading.isTrue
         ? SplashStart()
-       
-        :Scaffold(
-            body:
-          
-             RefreshIndicator(
+        : Scaffold(
+            body: RefreshIndicator(
               child: CustomScrollView(
                 controller: controllerScroll,
                 slivers: <Widget>[
                   SliverAppBar(
-                    automaticallyImplyLeading: false,
+                    automaticallyImplyLeading: true,
                     pinned: true,
-                    actions: <Widget>[
-                      IconButton(
-                        icon: Icon(
-                          Icons.keyboard_arrow_left,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      )
-                    ],
+                    // actions: <Widget>[
+                    //   IconButton(
+                    //     icon: Icon(
+                    //       Icons.keyboard_arrow_left,
+                    //       color: Colors.white,
+                    //     ),
+                    //     onPressed: () {
+                    //       Navigator.pop(context);
+                    //     },
+                    //   )
+                    // ],
                     backgroundColor: color,
                     expandedHeight: 140,
                     flexibleSpace: FlexibleSpaceBar(
@@ -80,26 +78,29 @@ class MoreQuestPage extends GetView<LoadQuestController> {
                   ),
                   SliverPadding(
                     padding: EdgeInsets.all(15),
-                    sliver: SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          return
-          //                    controller.questList.length==0? 
-          // // EmptyPage(
-          // //         icon: Icons.card_giftcard,
-          // //         message: 'no reward found'.tr,
-          // //         message1: ''.tr,
-          // //       )
-          // // Center(child: Text("hhhhhhhhh"),)
-          //       :
-                           _ListItem(
-                            q: controller.questList[index],
-                            // tag: '${widget.title}$index',
-                          );
-                        },
-                        childCount: controller.questList.length,
-                      ),
-                    ),
+                    sliver: controller.questList.length == 0
+                        ? SliverToBoxAdapter(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                EmptyPage(
+                                    icon: Icons.not_interested,
+                                    message: "don't have any quest".tr,
+                                    message1: ""),
+                              ],
+                            ),
+                          )
+                        : SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                return _ListItem(
+                                  q: controller.questList[index],
+                                );
+                              },
+                              childCount: controller.questList.length,
+                            ),
+                          ),
                   )
                 ],
               ),
@@ -162,6 +163,10 @@ class _ListItem extends StatelessWidget {
                         ),
                         Row(
                           children: [
+                            Text(q.averageStar.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey)),
                             Expanded(
                               child: RatingBarIndicator(
                                 rating: q.averageStar.toDouble(),
@@ -174,13 +179,13 @@ class _ListItem extends StatelessWidget {
                                 direction: Axis.horizontal,
                               ),
                             ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(q.averageStar.toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey)),
+                            // SizedBox(
+                            //   width: 5,
+                            // ),
+                            // Text(q.averageStar.toString(),
+                            //     style: TextStyle(
+                            //         fontWeight: FontWeight.bold,
+                            //         color: Colors.grey)),
                             SizedBox(
                               width: 10,
                             ),
@@ -202,9 +207,16 @@ class _ListItem extends StatelessWidget {
                               size: 16,
                               color: Colors.grey,
                             ),
-                            BigText(
-                              text: 'Công viên nước đầm sen',
-                              size: 14,
+                            Expanded(
+                              child: Text(
+                                // d.location!,
+                                // q.description,
+                                q.address!,
+                                style: TextStyle(
+                                    fontSize: 12, fontWeight: FontWeight.w400),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             )
                           ],
                         ),
@@ -249,7 +261,7 @@ class _ListItem extends StatelessWidget {
                                         " VNĐ",
                                 fontWeight: FontWeight.w700,
                               )),
-                              width: MediaQuery.of(context).size.width * 0.25,
+                              width: MediaQuery.of(context).size.width * 0.30,
                               height: 35,
                               decoration: BoxDecoration(
                                   color: Color(0xFFFF9C00),

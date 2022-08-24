@@ -6,6 +6,7 @@ import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:travel_hour/controllers/home_controller.dart';
 import 'package:travel_hour/controllers/questpurchased_controller.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
@@ -28,6 +29,9 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
   @override
   Widget build(BuildContext context) {
     // var controller = Get.find<HistoryController>();
+    // if(controller.qrCode.isNotEmpty)
+    // showAlertDialogAddCode(context);
+
     return WillPopScope(
       onWillPop: () async {
         Get.back();
@@ -177,40 +181,43 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
-                      child: CountdownTimer(
-                        endTime: endTime,
-                        widgetBuilder: (_, CurrentRemainingTime? time) {
-                          if (time == null) {
-                            return Text('time up'.tr);
-                          }
-                          // return BigText(
-                          //   text:
-                          //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
-                          //   color: Colors.green,
-                          // );
-                          else {
-                            return BigText(
-                              text: (() {
-                                if (time.days != null) {
-                                  return "time remaining".tr +
-                                      " ${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
-                                } else if (time.min == null) {
-                                  return "time remaining".tr + " ${time.sec}s";
-                                } else if (time.hours == null) {
-                                  return "time remaining".tr +
-                                      "${time.min}m:${time.sec}s";
-                                } else if (time.days == null) {
-                                  return "time remaining".tr +
-                                      " ${time.hours}h:${time.min}m:${time.sec}s";
-                                } else {
-                                  return "time up".tr;
-                                }
-                              })(),
-                              color: Colors.green,
-                            );
-                          }
-                        },
-                      ),
+                      child: BigText(
+                          text: 'exp:'.tr +
+                              '${DateFormat('dd/MM/yyyy').format(pQuest.createdDate.add(Duration(days: 2)))}'),
+                      // child: CountdownTimer(
+                      //   endTime: endTime,
+                      //   widgetBuilder: (_, CurrentRemainingTime? time) {
+                      //     if (time == null) {
+                      //       return Text('time up'.tr);
+                      //     }
+                      //     // return BigText(
+                      //     //   text:
+                      //     //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
+                      //     //   color: Colors.green,
+                      //     // );
+                      //     else {
+                      //       return BigText(
+                      //         text: (() {
+                      //           if (time.days != null) {
+                      //             return "time remaining".tr +
+                      //                 " ${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
+                      //           } else if (time.min == null) {
+                      //             return "time remaining".tr + " ${time.sec}s";
+                      //           } else if (time.hours == null) {
+                      //             return "time remaining".tr +
+                      //                 "${time.min}m:${time.sec}s";
+                      //           } else if (time.days == null) {
+                      //             return "time remaining".tr +
+                      //                 " ${time.hours}h:${time.min}m:${time.sec}s";
+                      //           } else {
+                      //             return "time up".tr;
+                      //           }
+                      //         })(),
+                      //         color: Colors.green,
+                      //       );
+                      //     }
+                      //   },
+                      // ),
                     ),
                   ],
                 ),
@@ -329,7 +336,8 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
       content: Text(
           "quests that have entered the game cannot be reused. do you want to confirm?"
               .tr),
-      actions: [okButton, cancelButton],
+      // actions: [okButton, cancelButton],
+      actions: [cancelButton, okButton],
     );
 
     // show the dialog
@@ -400,9 +408,15 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
     Widget okButton = FlatButton(
       child: Text("cofirm".tr),
       onPressed: () async {
+        String code;
+        if (Get.find<QuestPurchasedController>().qrCode.isNotEmpty) {
+          code = Get.find<QuestPurchasedController>().qrCode.value;
+        } else {
+          code = textCtrl.text;
+        }
+
         PlayControllerV2 controller = new PlayControllerV2();
-        PurchasedQuest? purchasedQuest =
-            await controller.getPuQuestById(textCtrl.text);
+        PurchasedQuest? purchasedQuest = await controller.getPuQuestById(code);
         if (purchasedQuest != null) {
           showAlertDialog(context, purchasedQuest);
         } else {
@@ -429,7 +443,7 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
     Widget scanButton = FlatButton(
       child: Text("scan qr code".tr),
       onPressed: () async {
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
         Get.to(QRViewExample());
         // Get.to(RulePage(
         //   pQuest: pQuest,
@@ -441,30 +455,49 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
     Widget cancelButton = FlatButton(
       child: Text("cancel".tr),
       onPressed: () {
+        controller.qrCode.value = "";
         Navigator.of(context).pop();
       },
     );
 
     // Create AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("in put play code".tr),
-      content: TextFormField(
-        controller: textCtrl,
-        decoration: InputDecoration(
-          labelText: "play code".tr,
-          border: OutlineInputBorder(),
-        ),
-      ),
-      actions: [cancelButton, scanButton, okButton],
-    );
+    // AlertDialog alert = AlertDialog(
+    //   title: Text("in put play code".tr),
+    //   content: TextFormField(
+    //     controller: textCtrl,
+    //     decoration: InputDecoration(
+    //       labelText: "play code".tr,
+    //       border: OutlineInputBorder(),
+    //     ),
+    //   ),
+    //   actions: [okButton, scanButton, cancelButton],
+    // );
 
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
+    Get.dialog(
+      AlertDialog(
+        title: Text("in put play code".tr),
+        content: Obx(
+          () => controller.qrCode.isEmpty
+              ? TextFormField(
+                  controller: textCtrl,
+                  decoration: InputDecoration(
+                    labelText: "play code".tr,
+                    border: OutlineInputBorder(),
+                  ),
+                )
+              : Text(
+                  "Code: " + Get.find<QuestPurchasedController>().qrCode.value),
+        ),
+        actions: [okButton, scanButton, cancelButton],
+      ),
     );
+    // show the dialog
+    // showDialog(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return alert;
+    //   },
+    // );
   }
 
   void showCustomDialog(BuildContext context) {
