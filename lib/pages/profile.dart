@@ -135,7 +135,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 10,
                       ),
                       Text(
-                        controller.sp.fullName.toString(),
+                         controller.sp.fullName!=null?
+                        controller.sp.fullName.toString():
+                        controller.firebaseAuth.currentUser!.displayName.toString(),
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -197,7 +199,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       size: 20,
                     ),
                     onTap: () => Get.to(EditProfile(
-                          name: controller.sp.fullName.toString(),
+                          name:  controller.sp.fullName!=null?
+                        controller.sp.fullName.toString():
+                        controller.firebaseAuth.currentUser!.displayName.toString(),
                           address: controller.sp.address.toString(),
                           gender: controller.sp.gender,
                           imageUrl: Get.find<LoginControllerV2>()
