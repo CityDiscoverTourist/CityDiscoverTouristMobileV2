@@ -51,7 +51,7 @@ class Customer {
   dynamic lockoutEnd;
   bool lockoutEnabled;
   int accessFailedCount;
-  String fullName;
+  String? fullName;
 
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
         imagePath: json["imagePath"] == null ? null : json["imagePath"],
