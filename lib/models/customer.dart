@@ -15,6 +15,7 @@ class Customer {
     required this.imagePath,
     required this.gender,
     required this.address,
+    required this.fullName,
     required this.id,
     required this.userName,
     required this.normalizedUserName,
@@ -50,6 +51,7 @@ class Customer {
   dynamic lockoutEnd;
   bool lockoutEnabled;
   int accessFailedCount;
+  String fullName;
 
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
         imagePath: json["imagePath"] == null ? null : json["imagePath"],
@@ -57,6 +59,7 @@ class Customer {
         address: json["address"] == null ? null : json["address"],
         id: json["id"],
         userName: json["userName"],
+        fullName: json["fullName"],
         normalizedUserName: json["normalizedUserName"],
         email: json["email"],
         normalizedEmail: json["normalizedEmail"],
@@ -78,6 +81,7 @@ class Customer {
         "gender": gender,
         "address": address == null ? null : address,
         "id": id,
+        "fullName": fullName,
         "userName": userName,
         "normalizedUserName": normalizedUserName,
         "email": email,

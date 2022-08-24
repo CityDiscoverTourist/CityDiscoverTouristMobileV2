@@ -56,20 +56,16 @@ class _EditProfileState extends State<EditProfile> {
         imageFile = File(imagepicked.path);
         fileName = (imageFile!.path);
       });
-    } else {
-    }
+    } else {}
   }
 
- 
-
   Future handleUpdateData() async {
-   
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       setState(() => loading = true);
       if (imageFile != null) {
-        bool check = await Get.find<LoginControllerV2>()
-            .editProfile(addressCtrl.text, updateGender, imageFile);
+        bool check = await Get.find<LoginControllerV2>().editProfile(
+            nameCtrl.text, addressCtrl.text, updateGender, imageFile);
         if (check) {
           Get.snackbar("success".tr, 'update profile success'.tr,
               duration: Duration(seconds: 5),
@@ -84,7 +80,7 @@ class _EditProfileState extends State<EditProfile> {
         }
       } else {
         bool check = await Get.find<LoginControllerV2>()
-            .editProfile(addressCtrl.text, updateGender, null);
+            .editProfile(nameCtrl.text, addressCtrl.text, updateGender, null);
         if (check) {
           Get.snackbar("success".tr, 'update profile success'.tr,
               duration: Duration(seconds: 5),
@@ -132,10 +128,10 @@ class _EditProfileState extends State<EditProfile> {
   void initState() {
     super.initState();
     nameCtrl.text = widget.name!;
-    if (widget.address != null&&widget.address!="null") {
+    if (widget.address != null && widget.address != "null") {
       addressCtrl.text = widget.address!;
-    }else{
-         addressCtrl.text="";
+    } else {
+      addressCtrl.text = "";
     }
     updateGender = widget.gender;
   }
@@ -222,15 +218,15 @@ class _EditProfileState extends State<EditProfile> {
         new TextFormField(
           keyboardType: TextInputType.emailAddress,
           autofocus: false,
-          enabled: false,
+          enabled: true,
           decoration: InputDecoration(
             hintText: 'enter new name'.tr,
-            fillColor: Colors.grey,
-            filled: true,
+            // fillColor: Colors.grey,
+            // filled: true,
           ),
           controller: nameCtrl,
           validator: (value) {
-            if (value!.length == 0) return "Name can't be empty";
+            if (value!.length == 0) return "name can't be empty".tr;
             return null;
           },
           // onSaved: (String? value) {

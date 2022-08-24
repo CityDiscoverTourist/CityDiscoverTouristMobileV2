@@ -285,6 +285,7 @@ class Translation extends Translations {
           "exp:": "Expiration date:",
           "input answer": "Input answer",
           "don't have any quest": "Don't have any quest",
+          "name can't be empty": "Name can't be empty"
         },
         'vn': {
           "welcome message":
@@ -573,6 +574,7 @@ class Translation extends Translations {
           "exp:": "Ngày hết hạn:",
           "input answer": "Nhập câu trả lời",
           "don't have any quest": "Không có quest nào",
+          "name can't be empty": "Tên không thể để trống",
         }
       };
 }
