@@ -159,6 +159,10 @@ class _ListItem extends StatelessWidget {
                         ),
                         Row(
                           children: [
+                            Text(q.averageStar.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey)),
                             Expanded(
                               child: RatingBarIndicator(
                                 rating: q.averageStar.toDouble(),
@@ -171,13 +175,13 @@ class _ListItem extends StatelessWidget {
                                 direction: Axis.horizontal,
                               ),
                             ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(q.averageStar.toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey)),
+                            // SizedBox(
+                            //   width: 5,
+                            // ),
+                            // Text(q.averageStar.toString(),
+                            //     style: TextStyle(
+                            //         fontWeight: FontWeight.bold,
+                            //         color: Colors.grey)),
                             SizedBox(
                               width: 10,
                             ),

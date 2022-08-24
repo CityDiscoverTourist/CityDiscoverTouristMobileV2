@@ -138,7 +138,7 @@ class Translation extends Translations {
           "not yet paid": "Not yet paid",
           "play code": "Play Code : ",
           "copy": "Copy",
-          "cofirm payment": "Cofirm payment",
+          "cofirm payment": "Confirm payment",
           "cofirm": "Confirm",
           "play now": "Play Now",
           "no reward found": "No reward found!",
@@ -147,9 +147,9 @@ class Translation extends Translations {
           "old password can't be empty": "Old password can't be empty",
           "enter new password": "Enter new password",
           "new password can't be empty": "New password can't be empty",
-          "cofirm new password": "Cofirm new password",
+          "cofirm new password": "Confirm new password",
           "new password and cofirm password must be the same!":
-              "New password and Cofirm password must be the same!",
+              "New password and Confirm password must be the same!",
           "sign in with google": "Sign In with Google",
           "sign in with facebook": "Sign In with Facebook",
           "sign in with user": "Sign In with Username/Password",
@@ -166,10 +166,10 @@ class Translation extends Translations {
           "forgot password?": "Forgot password?",
           "not a member? sign up now": "Not a member? Sign up now",
           "please enter your email": "Please enter your Email",
-          "cofirm password": "Cofirm password",
-          "cofirm password is required": "Cofirm password is Required",
+          "cofirm password": "Confirm password",
+          "cofirm password is required": "Confirm password is Required",
           "password and cofirm password must be the same!":
-              "Password and Cofirm password must be the same!",
+              "Password and Confirm password must be the same!",
           "register": "Register",
           "time up": "Time up",
           "time remaining": "Time remaining:",
@@ -281,7 +281,9 @@ class Translation extends Translations {
           "female": "Female",
           "finish": "Finish",
           "system busy": "System busy",
-          "cacula point": "Score calculation"
+          "cacula point": "Score calculation",
+          "exp:": "Expiration date:",
+          "input answer": "Input answer"
         },
         'vn': {
           "welcome message":
@@ -566,7 +568,9 @@ class Translation extends Translations {
           "female": "Nữ",
           "finish": "Kết thúc",
           "system busy": "Hệ thống bận",
-          "cacula point": "Cách tính điểm"
+          "cacula point": "Cách tính điểm",
+          "exp:": "Ngày hết hạn:",
+          "input answer": "Nhập câu trả lời"
         }
       };
 }

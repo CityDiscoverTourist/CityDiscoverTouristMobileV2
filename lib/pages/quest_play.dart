@@ -181,7 +181,9 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
-                      child: BigText(text:'Exp: ${ DateFormat('dd/MM/yyyy').format(pQuest.createdDate.add(Duration(days: 2)))}'),
+                      child: BigText(
+                          text: 'exp:'.tr +
+                              '${DateFormat('dd/MM/yyyy').format(pQuest.createdDate.add(Duration(days: 2)))}'),
                       // child: CountdownTimer(
                       //   endTime: endTime,
                       //   widgetBuilder: (_, CurrentRemainingTime? time) {
@@ -334,7 +336,8 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
       content: Text(
           "quests that have entered the game cannot be reused. do you want to confirm?"
               .tr),
-      actions: [okButton, cancelButton],
+      // actions: [okButton, cancelButton],
+      actions: [cancelButton, okButton],
     );
 
     // show the dialog
@@ -406,15 +409,14 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
       child: Text("cofirm".tr),
       onPressed: () async {
         String code;
-        if(Get.find<QuestPurchasedController>().qrCode.isNotEmpty){
-          code=Get.find<QuestPurchasedController>().qrCode.value;
-        }else{
-          code=textCtrl.text;
+        if (Get.find<QuestPurchasedController>().qrCode.isNotEmpty) {
+          code = Get.find<QuestPurchasedController>().qrCode.value;
+        } else {
+          code = textCtrl.text;
         }
 
         PlayControllerV2 controller = new PlayControllerV2();
-        PurchasedQuest? purchasedQuest =
-            await controller.getPuQuestById(code);
+        PurchasedQuest? purchasedQuest = await controller.getPuQuestById(code);
         if (purchasedQuest != null) {
           showAlertDialog(context, purchasedQuest);
         } else {
@@ -453,7 +455,7 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
     Widget cancelButton = FlatButton(
       child: Text("cancel".tr),
       onPressed: () {
-        controller.qrCode.value="";
+        controller.qrCode.value = "";
         Navigator.of(context).pop();
       },
     );
@@ -473,21 +475,21 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
 
     Get.dialog(
       AlertDialog(
-        
         title: Text("in put play code".tr),
-        content:Obx(()=>
-        controller.qrCode.isEmpty?
-        TextFormField(
-        controller: textCtrl,
-        decoration: InputDecoration(
-          labelText: "play code".tr,
-          border: OutlineInputBorder(),
+        content: Obx(
+          () => controller.qrCode.isEmpty
+              ? TextFormField(
+                  controller: textCtrl,
+                  decoration: InputDecoration(
+                    labelText: "play code".tr,
+                    border: OutlineInputBorder(),
+                  ),
+                )
+              : Text(
+                  "Code: " + Get.find<QuestPurchasedController>().qrCode.value),
         ),
-      ):Text("Code: "+Get.find<QuestPurchasedController>().qrCode.value),),
         actions: [okButton, scanButton, cancelButton],
       ),
-
-
     );
     // show the dialog
     // showDialog(

@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:travel_hour/controllers/play_controllerV2.dart';
+import 'package:travel_hour/models/sumary.dart';
 import 'package:travel_hour/pages/splashV2.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 import 'package:travel_hour/widgets/small_text.dart';
@@ -53,73 +55,74 @@ class AnswerPage extends StatelessWidget {
                               ],
                             ),
                             // actions: [
-                            //   controller.isDisableTextField.isFalse
-                            //       ? IconButton(
-                            //           onPressed: () {
-                            //             if (controller.haveSuggestion.isTrue) {
-                            //               if (controller
-                            //                   .isShowSuggestion.isTrue) {
-                            //                 showAlertDialog(context,
-                            //                     controller.sugggestion.value);
-                            //               } else {
-                            //                 showAlertDialogCofirmShowSuggestion(
-                            //                     context, controller);
-                            //               }
-                            //             } else {
-                            //               Fluttertoast.showToast(
-                            //                   msg: "Cau hoi chua co goi y"
-                            //                       .tr, // message
-                            //                   toastLength:
-                            //                       Toast.LENGTH_SHORT, // length
-                            //                   gravity: ToastGravity
-                            //                       .CENTER, // location
-                            //                   timeInSecForIosWeb: 1 // duration
-                            //                   );
-                            //             }
+                            //   IconButton(
+                            //       onPressed: () async {
+                            //         Sumary? sumary = await controller.getSumary(
+                            //             controller.customerQuestID.value
+                            //                 .toString());
+                            //         showModalBottomSheet<void>(
+                            //           shape: RoundedRectangleBorder(
+                            //             borderRadius:
+                            //                 BorderRadius.circular(10.0),
+                            //           ),
+                            //           context: context,
+                            //           builder: (BuildContext context) {
+                            //             return Container(
+                            //               decoration: new BoxDecoration(
+                            //                   color: Colors.white,
+                            //                   borderRadius:
+                            //                       new BorderRadius.only(
+                            //                           topLeft:
+                            //                               const Radius.circular(
+                            //                                   10.0),
+                            //                           topRight:
+                            //                               const Radius.circular(
+                            //                                   10.0))),
+                            //               height: 300,
+                            //               // color: Colors.white,
+                            //               child: Center(
+                            //                 child: Column(
+                            //                   mainAxisAlignment:
+                            //                       MainAxisAlignment.center,
+                            //                   mainAxisSize: MainAxisSize.min,
+                            //                   children: <Widget>[
+                            //                     Text(
+                            //                       'Current quest:' +
+                            //                           sumary!.questName,
+                            //                       style: TextStyle(
+                            //                           fontSize: 20,
+                            //                           fontWeight:
+                            //                               FontWeight.bold),
+                            //                     ),
+                            //                     CachedNetworkImage(
+                            //                       imageUrl: sumary.imagePath,
+                            //                     ),
+                            //                     const Text('Modal BottomSheet'),
+                            //                     ElevatedButton(
+                            //                       child: const Text(
+                            //                           'Close BottomSheet'),
+                            //                       onPressed: () =>
+                            //                           Navigator.pop(context),
+                            //                     )
+                            //                   ],
+                            //                 ),
+                            //               ),
+                            //             );
                             //           },
-                            //           icon: Icon(Icons.notifications))
-                            //       : SizedBox.shrink(),
-                            //   SizedBox(
-                            //     width: 10,
-                            //   ),
-                            //   Stack(
-                            //     children: [
-                            //       IconButton(
-                            //           onPressed: () {
-                            //             Get.put(ChatController());
-                            //             Get.to(ChatScreen());
-                            //           },
-                            //           icon: Icon(
-                            //             Icons.support_agent,
-                            //             color: Colors.white,
-                            //           )),
-                            //       // Positioned(
-                            //       //   top: 0,
-                            //       //   right: 14,
-
-                            //       //   child: SizedBox(
-                            //       //     height: 15,
-                            //       //     width: 15,
-                            //       //     child: CircleAvatar(radius: 80,backgroundColor: Colors.yellow,)))
-                            //     ],
-                            //   ),
-                            //   controller.isDisableTextField.isFalse
-                            //       ? IconButton(
-                            //           onPressed: () {
-                            //             showAlertDialogCofirmSkip(context);
-                            //           },
-                            //           icon: Icon(
-                            //             Icons.skip_next,
-                            //             color: Colors.white,
-                            //           ))
-                            //       : SizedBox.shrink()
+                            //         );
+                            //       },
+                            //       icon: Icon(Icons.checklist))
                             // ],
                           )
                         : AppBar(
                             backgroundColor: AppColors.mainColor,
-                            title: Text(controller.indexTypePage.value == 2
-                                ? 'description page'.tr
-                                : 'story page'.tr),
+                            title: controller.indexTypePage.value == 2
+                                ? Text('description page'.tr +
+                                    " " +
+                                    controller.numQuest.toString())
+                                : Text('story page'.tr +
+                                    " " +
+                                    controller.numQuest.toString()),
                             automaticallyImplyLeading: false),
                 bottomNavigationBar: Container(
                   padding: EdgeInsets.only(
@@ -543,16 +546,27 @@ class AnswerPage extends StatelessWidget {
                                                         readOnly: controller
                                                             .isDisableTextField
                                                             .value,
-                                                        decoration: InputDecoration(
-                                                            border:
-                                                                OutlineInputBorder(),
-                                                            labelText: controller
-                                                                    .isDisableTextField
-                                                                    .isTrue
-                                                                ? controller
-                                                                    .currentAns
-                                                                    .value
-                                                                : ''),
+                                                        decoration: controller
+                                                                .isDisableTextField
+                                                                .isTrue
+                                                            ? InputDecoration(
+                                                                hintText:
+                                                                    "input answer"
+                                                                        .tr,
+                                                                border:
+                                                                    OutlineInputBorder(),
+                                                                labelText:
+                                                                    controller
+                                                                        .currentAns
+                                                                        .value)
+                                                            : InputDecoration(
+                                                                hintText:
+                                                                    "input answer"
+                                                                        .tr,
+                                                                border:
+                                                                    OutlineInputBorder(),
+                                                                // labelText: ''
+                                                              ),
                                                       ),
                                               ),
                                               SizedBox(

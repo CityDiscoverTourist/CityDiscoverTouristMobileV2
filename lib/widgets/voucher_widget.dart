@@ -25,9 +25,10 @@ class _VoucherWidgetState extends State<VoucherWidget> {
     super.initState();
     //YOUR CHANGE PAGE METHOD HERE
   }
+
   @override
   Widget build(BuildContext context) {
- int endTime = widget.reward.expiredDate.millisecondsSinceEpoch + 172800000;
+    int endTime = widget.reward.expiredDate.millisecondsSinceEpoch + 172800000;
 
     return CouponCard(
       height: 300,
@@ -72,26 +73,30 @@ class _VoucherWidgetState extends State<VoucherWidget> {
           //     fontWeight: FontWeight.bold,
           //   ),
           // ),
-          SizedBox(height: 15,),
+          SizedBox(
+            height: 15,
+          ),
           CountdownTimer(
-                        endTime: endTime,
-                        widgetBuilder: (_, CurrentRemainingTime? time) {
-                          if (time == null) {
-                            return Text('time up'.tr);
-                          }
-                          // return BigText(
-                          //   text:
-                          //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
-                          //   color: Colors.green,
-                          // );
-                          else {
-                            return BigText(
-                              text: "Exp: "+'${DateFormat('dd/MM/yyyy').format(widget.reward.expiredDate)}',
-                              color: Colors.white,fontWeight: FontWeight.bold,
-                            );
-                          }
-                        },
-                      ),
+            endTime: endTime,
+            widgetBuilder: (_, CurrentRemainingTime? time) {
+              if (time == null) {
+                return Text('time up'.tr);
+              }
+              // return BigText(
+              //   text:
+              //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
+              //   color: Colors.green,
+              // );
+              else {
+                return BigText(
+                  text: "exp:".tr +
+                      ' ${DateFormat('dd/MM/yyyy').format(widget.reward.expiredDate)}',
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                );
+              }
+            },
+          ),
         ],
       ),
       secondChild: Container(
@@ -119,8 +124,8 @@ class _VoucherWidgetState extends State<VoucherWidget> {
           onPressed: () {
             Clipboard.setData(new ClipboardData(text: widget.reward.code))
                 .then((_) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Copied to your clipboard !')));
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text('copy'.tr)));
             });
           },
           child: Text(

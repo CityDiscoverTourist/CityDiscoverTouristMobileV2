@@ -7,6 +7,7 @@ import 'package:travel_hour/controllers/questpurchased_controller.dart';
 import 'package:travel_hour/controllers/login_controller_V2.dart';
 import 'package:travel_hour/models/customer_quest.dart';
 import 'package:travel_hour/models/purchased_quest.dart';
+import 'package:travel_hour/models/sumary.dart';
 import 'package:travel_hour/pages/completed_questV2.dart';
 import 'package:travel_hour/pages/description_questitem.dart';
 import 'package:travel_hour/pages/rulepage.dart';
@@ -77,7 +78,7 @@ class PlayControllerV2 extends GetxController {
   var ruleIndex = 1.obs;
   var displayTime = "".obs;
   var isCancel = false.obs;
-  var isFinished=false.obs;
+  var isFinished = false.obs;
   increaseIndexRule() {
     ruleIndex++;
     update();
@@ -179,7 +180,7 @@ class PlayControllerV2 extends GetxController {
               color: Colors.red,
             ));
         Get.delete<PlayControllerV2>();
-      }else if (checkErr.value == "Quest is not available") {
+      } else if (checkErr.value == "Quest is not available") {
         Get.snackbar('error'.tr, 'Quest is not ready yet'.tr,
             duration: Duration(seconds: 2),
             backgroundColor: Colors.black,
@@ -201,16 +202,16 @@ class PlayControllerV2 extends GetxController {
           numQuest++;
           questItemCurrent =
               await PlayService.fetchQuestItem(cusTask.questItemId);
-              descriptionTmp=questItemCurrent.description;
+          descriptionTmp = questItemCurrent.description;
           // description = questItemCurrent.description;
           if (questItemCurrent != null) {
             sugggestion.value =
                 await PlayService().getSuggestion(questItemCurrent.id);
-                 if (sugggestion.isEmpty) {
-            haveSuggestion(false);
-          } else {
-            haveSuggestion(true);
-          }
+            if (sugggestion.isEmpty) {
+              haveSuggestion(false);
+            } else {
+              haveSuggestion(true);
+            }
           }
         }
       }
@@ -298,8 +299,8 @@ class PlayControllerV2 extends GetxController {
           isLoading(true);
           isDisableTextField(false);
           questItemCurrent = await PlayService.fetchQuestItem(nextQuestItemId);
-          description=descriptionTmp;
-          descriptionTmp=questItemCurrent.description;
+          description = descriptionTmp;
+          descriptionTmp = questItemCurrent.description;
           // description = questItemCurrent.description;
 
           sugggestion.value =
@@ -315,9 +316,9 @@ class PlayControllerV2 extends GetxController {
           update();
           //Check câu cuối
         } else {
-           indexTypePage.value = 2;
-            description=descriptionTmp;
-              isFinished(true);
+          indexTypePage.value = 2;
+          description = descriptionTmp;
+          isFinished(true);
           _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
 
           _stopWatchTimer.rawTime.listen((value) => displayTime.value =
@@ -393,7 +394,7 @@ class PlayControllerV2 extends GetxController {
   }
 
   void showSuggestion() async {
-    if (isShowSuggestion.value == false&&haveSuggestion.isTrue) {
+    if (isShowSuggestion.value == false && haveSuggestion.isTrue) {
       try {
         isLoading(true);
         cusTask =
@@ -439,5 +440,9 @@ class PlayControllerV2 extends GetxController {
 
   Future<bool> checkUserLocation(String questID) async {
     return await PlayService().checkLocation(questID);
+  }
+
+  Future<Sumary?> getSumary(String customerQuestId) async {
+    return await PlayService().getSumary(customerQuestId);
   }
 }

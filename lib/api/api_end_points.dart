@@ -1,5 +1,3 @@
-
-
 class ApiEndPoints {
   // static const products = "products";
   // static const popularMovies = "movie/popular";
@@ -35,4 +33,5 @@ class ApiEndPoints {
   static const ChangePassword = "/customers/update-password";
   static const checkCoupon = "/payments/check-coupon";
   static const skipCustomerTask = "/customer-tasks/skip/";
+  static const getSumary = "/customer-tasks/summary";
 }
