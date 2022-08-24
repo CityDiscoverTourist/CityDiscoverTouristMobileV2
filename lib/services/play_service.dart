@@ -367,6 +367,7 @@ class PlayService {
     // print(Api.baseUrl + ApiEndPoints.buyQuest);
     // print(response.body);
     if (response.statusCode == 200) {
+      CustomFullScreenDialog.cancelDialog();
       // print("OKkkkkkkkkkkkkkkkkkkkkk");
       var data = json.decode(response.body);
       returnData = data["data"];
@@ -376,6 +377,7 @@ class PlayService {
       return returnData;
     }
     print("Error");
+    CustomFullScreenDialog.cancelDialog();
     // CustomFullScreenDialog.cancelDialog();
     return null;
   }
