@@ -60,55 +60,55 @@ class PaymentDetail extends StatelessWidget {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          BigText(
-                            text: "play code".tr,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          // BigText(
+                          //   text: "play code".tr,
+                          //   fontWeight: FontWeight.w600,
+                          // ),
                           SizedBox(
                             height: 10,
                           ),
-                          BigText(text: purchasedQuest!.id.toString()),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          BigText(
-                            text: "time remaining".tr,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          CountdownTimer(
-                            endTime: endTime,
-                            widgetBuilder: (_, CurrentRemainingTime? time) {
-                              if (time == null) {
-                                return Text('time up'.tr);
-                              }
-                              // return BigText(
-                              //   text:
-                              //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
-                              //   color: Colors.green,
-                              // );
-                              else {
-                                return BigText(
-                                  text: (() {
-                                    if (time.days != null) {
-                                      return "${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
-                                    } else if (time.min == null) {
-                                      return "${time.sec}s";
-                                    } else if (time.hours == null) {
-                                      return "${time.min}m:${time.sec}s";
-                                    } else if (time.days == null) {
-                                      return "${time.hours}h:${time.min}m:${time.sec}s";
-                                    } else {
-                                      return "Time up";
-                                    }
-                                  })(),
-                                  color: Colors.green,
-                                );
-                              }
-                            },
-                          ),
+                          // BigText(text: purchasedQuest!.id.toString()),
+                          // SizedBox(
+                          //   height: 15,
+                          // ),
+                          // BigText(
+                          //   text: "time remaining".tr,
+                          //   fontWeight: FontWeight.w600,
+                          // ),
+                          // SizedBox(
+                          //   height: 10,
+                          // ),
+                          // CountdownTimer(
+                          //   endTime: endTime,
+                          //   widgetBuilder: (_, CurrentRemainingTime? time) {
+                          //     if (time == null) {
+                          //       return Text('time up'.tr);
+                          //     }
+                          //     // return BigText(
+                          //     //   text:
+                          //     //       '${time.days}d:${time.hours}h:${time.min}m:${time.sec}s',
+                          //     //   color: Colors.green,
+                          //     // );
+                          //     else {
+                          //       return BigText(
+                          //         text: (() {
+                          //           if (time.days != null) {
+                          //             return "${time.days}d:${time.hours}h:${time.min}m:${time.sec}s";
+                          //           } else if (time.min == null) {
+                          //             return "${time.sec}s";
+                          //           } else if (time.hours == null) {
+                          //             return "${time.min}m:${time.sec}s";
+                          //           } else if (time.days == null) {
+                          //             return "${time.hours}h:${time.min}m:${time.sec}s";
+                          //           } else {
+                          //             return "Time up";
+                          //           }
+                          //         })(),
+                          //         color: Colors.green,
+                          //       );
+                          //     }
+                          //   },
+                          // ),
                         ],
                       ),
                       Container(

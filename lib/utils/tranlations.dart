@@ -284,7 +284,7 @@ class Translation extends Translations {
           "cacula point": "Score calculation",
           "exp:": "Expiration date:",
           "input answer": "Input answer",
-          "don't have any quest": "Don't have any quest",
+          "don't have any quest": "Don't have any quest in this area",
           "name can't be empty": "Name can't be empty"
         },
         'vn': {
@@ -429,8 +429,8 @@ class Translation extends Translations {
           "play now": "Chơi ngay",
           "no reward found": "Không tìm thấy phần thưởng nào!",
           "change password": "Đổi mật khẩu",
-          "enter old password": "Nhập mật khẩu củ",
-          "old password can't be empty": "Mật khẩu củ không thể để trống",
+          "enter old password": "Nhập mật khẩu cũ",
+          "old password can't be empty": "Mật khẩu cũ không thể để trống",
           "enter new password": "Nhập mật khẩu mới",
           "new password can't be empty": "Mật khẩu mới không thể để trống",
           "cofirm new password": "Nhập lại mật khẩu mới",
@@ -510,7 +510,7 @@ class Translation extends Translations {
               "Bạn vui lòng đến địa chỉ này để bắt đầu Quest:",
           "open map": "Mở Google map",
           "complete quest: ": "Hoàn thành quest: ",
-          "time": "Thời gia",
+          "time": "Thời gian",
           "point": "Điểm",
           "how is your trip?": "Trải nghiệm của bạn thế nào?",
           "rating quest": "Đánh giá chất lượng quest",
@@ -573,7 +573,7 @@ class Translation extends Translations {
           "cacula point": "Cách tính điểm",
           "exp:": "Ngày hết hạn:",
           "input answer": "Nhập câu trả lời",
-          "don't have any quest": "Không có quest nào",
+          "don't have any quest": "Không có quest tại khu vực này",
           "name can't be empty": "Tên không thể để trống",
         }
       };

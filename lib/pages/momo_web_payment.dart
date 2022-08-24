@@ -196,7 +196,7 @@ class _MoMoWebView extends State<MoMoWebView> {
           initialChild: Container(
             color: AppColors.mainColor,
             child: Center(
-              child: Text('waiting.....'.tr),
+              child: Text('waiting loading data...'.tr),
             ),
           ),
           // bottomNavigationBar: BottomAppBar(

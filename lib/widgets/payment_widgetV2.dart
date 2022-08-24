@@ -481,7 +481,7 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
               url: map.first,
             ));
       } else {
-        Get.snackbar("discount code is not valid".tr, 'try again'.tr,
+        Get.snackbar("error".tr, 'try again'.tr,
             duration: Duration(seconds: 2),
             backgroundColor: Colors.black,
             colorText: Colors.white,

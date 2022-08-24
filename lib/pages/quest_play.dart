@@ -98,7 +98,7 @@ class QuestsPlayPage extends GetView<QuestPurchasedController> {
             }
           } else {
             return SplashStart(
-              content: "waiting.....".tr,
+              content: "waiting loading data...".tr,
             );
           }
         })),

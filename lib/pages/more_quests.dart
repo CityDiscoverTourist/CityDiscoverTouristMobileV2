@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
@@ -85,7 +86,7 @@ class MoreQuestPage extends GetView<LoadQuestController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 EmptyPage(
-                                    icon: Icons.not_interested,
+                                    icon: Feather.book,
                                     message: "don't have any quest".tr,
                                     message1: ""),
                               ],
