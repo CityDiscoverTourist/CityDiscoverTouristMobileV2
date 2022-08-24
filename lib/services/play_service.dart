@@ -335,10 +335,6 @@ class PlayService {
       var quantity, double totalAmout, var discountCode) async {
     CustomFullScreenDialog.showDialog();
     List returnData = new List.empty(growable: true);
-    // var now = new DateTime.now();
-    // var dateFormatted = DateFormat("yyyy-MM-ddTHH:mm:ss").format(now);
-    // print(dateFormatted);
-
     String httpString = Api.baseUrl + ApiEndPoints.buyQuest;
     if (discountCode != "") {
       List list =
@@ -354,9 +350,7 @@ class PlayService {
       'isMobile': true,
       'questId': questID
     };
-    // print(mydata);
     var body = json.encode(mydata);
-    // print(httpString);
     var response = await http.post(Uri.parse(httpString),
         headers: {
           "Content-Type": "application/json",
@@ -364,17 +358,24 @@ class PlayService {
               'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         },
         body: body);
-    // print(Api.baseUrl + ApiEndPoints.buyQuest);
-    // print(response.body);
     if (response.statusCode == 200) {
       CustomFullScreenDialog.cancelDialog();
-      // print("OKkkkkkkkkkkkkkkkkkkkkk");
       var data = json.decode(response.body);
       returnData = data["data"];
-      // print(data);
-      // print(returnData);
-      // CustomFullScreenDialog.cancelDialog();
       return returnData;
+    } else {
+      var data = json.decode(response.body);
+      if (data["message"] == "Payment is not valid") {
+        Get.snackbar("discount code is not valid".tr, 'try again'.tr,
+            duration: Duration(seconds: 2),
+            backgroundColor: Colors.black,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+            icon: Icon(
+              Icons.error,
+              color: Colors.red,
+            ));
+      }
     }
     print("Error");
     CustomFullScreenDialog.cancelDialog();
@@ -650,35 +651,7 @@ class PlayService {
       int customerTaskId) async {
     String requestUrl;
     CustomerTask? rs;
-    // print("customerQuestId:" + customerQuestId);
-    // print("questItemId:" + questItemId);
-    // print("customerReply:" + customerReply);
-    // print("questTypeId:" + questTypeId.toString());
     if (isSkip) {
-      // requestUrl = Api.baseUrl +
-      //     ApiEndPoints.checkAnswer +
-      //     customerQuestId.toString() +
-      //     "?customerReply=" +
-      //     "1" +
-      //     "&questItemId=" +
-      //     questItemId.toString() +
-      //     "&language=" +
-      //     Get.find<LoginControllerV2>().language.value.toString();
-
-      // var request = new http.MultipartRequest("PUT", Uri.parse(requestUrl));
-      // request.headers["accept"] = "text/plain";
-      // request.headers["Content-Type"] = "multipart/form-data";
-      // request.headers["Authorization"] =
-      //     "Bearer " + Get.find<LoginControllerV2>().jwtToken.value;
-      // // print("Request:" + request.toString());
-      // var response = await request.send();
-      // // print("Status code:" + response.statusCode.toString());
-      // if (response.statusCode == 200) {
-      //   String reply = await response.stream.transform(utf8.decoder).join();
-      //   Map<String, dynamic> result = jsonDecode(reply);
-      // print("Check Answer CustomerTask :  " + result["data"]);
-      // print(result["data"]);
-      // rs = CustomerTask.fromJson(result["data"]);
       var response3 = await http.put(
         Uri.parse(Api.baseUrl +
             ApiEndPoints.skipCustomerTask +
@@ -692,52 +665,28 @@ class PlayService {
               'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
         },
       );
-      // print("Skip CustomerTask :  " +
-      //     Api.baseUrl +
-      //     ApiEndPoints.skipCustomerTask +
-      //     "1?questItemId=" +
-      //     questItemId +
-      //     "&customerQuestId=" +
-      //     customerQuestId);
-      // print("Skip CustomerTask :  " + response3.body);
       if (response3.statusCode == 200) {
         var data = json.decode(response3.body);
         rs = CustomerTask.fromJson(data["data"]);
         print("object");
+        Map mydata = {
+          'customerTaskId': rs.id,
+          'questItemId': questItemId,
+        };
+        var body = json.encode(mydata);
+        var response4 = await http.post(
+          Uri.parse(
+              "https://citytourist.azurewebsites.net/api/v1/customer-tasks/internal-save"),
+          body: body,
+          headers: {
+            "Content-Type": "application/json",
+            'Authorization':
+                'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
+          },
+        );
         return Future<CustomerTask>.value(rs);
       } else {
         print("Error SKIP");
-        // var response2 = await http.get(
-        //   Uri.parse(Api.baseUrl +
-        //       ApiEndPoints.customerStartQuest +
-        //       customerTaskId.toString()),
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //     'Authorization':
-        //         'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
-        //   },
-        // );
-        // if (response2.statusCode == 200) {
-        //   var data = json.decode(response2.body);
-        //   rs = CustomerTask.fromJson(data["data"]);
-        //   Map mydata = {
-        //     'customerTaskId': rs.id,
-        //     'questItemId': questItemId,
-        //   };
-        //   var body = json.encode(mydata);
-        //   var response4 = await http.post(
-        //     Uri.parse(
-        //         "https://citytourist.azurewebsites.net/api/v1/customer-tasks/internal-save"),
-        //     body: body,
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //       'Authorization':
-        //           'Bearer ' + Get.find<LoginControllerV2>().jwtToken.value
-        //     },
-        //   );
-        //   return Future<CustomerTask>.value(rs);
-        // }
-        // Get.find<PlayControllerV2>().isSkip.value = false;
         Get.snackbar('error'.tr, 'error when skip questtion'.tr,
             duration: Duration(seconds: 2),
             backgroundColor: Colors.black,
