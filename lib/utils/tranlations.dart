@@ -424,7 +424,7 @@ class Translation extends Translations {
           "not yet paid": "CHƯA THANH TOÁN",
           "play code": "Mã chơi : ",
           "copy": "Đã sao chép",
-          "cofirm payment": "Xác nhận thanh  toán",
+          "cofirm payment": "Xác nhận thanh toán",
           "cofirm": "Xác nhận",
           "play now": "Chơi ngay",
           "no reward found": "Không tìm thấy phần thưởng nào!",
