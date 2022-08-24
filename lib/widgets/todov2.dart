@@ -75,11 +75,13 @@ class TodoWidgetV2 extends StatelessWidget {
                             Expanded(
                               child: SmallText(
                                 text: 'total distance:'.tr,
+                                size: 16,
                                 color: Colors.white,
                               ),
                               flex: 1,
                             ),
                             BigText(
+                              size: 16,
                               text: questDetailModel!.estimatedDistance
                                       .toString() +
                                   ' km',
@@ -119,13 +121,16 @@ class TodoWidgetV2 extends StatelessWidget {
                             ),
                             Expanded(
                               child: SmallText(
+                                size: 16,
                                 text: 'total time:'.tr,
                                 color: Colors.white,
                               ),
                               flex: 1,
                             ),
                             BigText(
-                              text: questDetailModel!.estimatedTime.toString() +" "+
+                              size: 16,
+                              text: questDetailModel!.estimatedTime.toString() +
+                                  " " +
                                   'minutes'.tr,
                               color: Colors.white,
                             ),
@@ -161,12 +166,14 @@ class TodoWidgetV2 extends StatelessWidget {
                             ),
                             Expanded(
                               child: SmallText(
+                                size: 16,
                                 text: 'number of question:'.tr,
                                 color: Colors.white,
                               ),
                               flex: 1,
                             ),
                             BigText(
+                              size: 16,
                               text: questDetailModel!.countQuestItem.toString(),
                               color: Colors.white,
                             ),
@@ -204,6 +211,7 @@ class TodoWidgetV2 extends StatelessWidget {
                             ),
                             Expanded(
                               child: BigText(
+                                size: 16,
                                 text: 'user reviews'.tr,
                                 color: Colors.white,
                               ),

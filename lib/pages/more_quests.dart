@@ -10,6 +10,7 @@ import 'package:travel_hour/routes/app_routes.dart';
 import 'package:travel_hour/widgets/big_text.dart';
 
 import '../models/quest.dart';
+import '../utils/empty.dart';
 import '../widgets/custom_cache_image.dart';
 
 // class MoreQuestPage extends StatefulWidget {
@@ -77,26 +78,29 @@ class MoreQuestPage extends GetView<LoadQuestController> {
                   ),
                   SliverPadding(
                     padding: EdgeInsets.all(15),
-                    sliver: SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          return
-                              //                    controller.questList.length==0?
-                              // // EmptyPage(
-                              // //         icon: Icons.card_giftcard,
-                              // //         message: 'no reward found'.tr,
-                              // //         message1: ''.tr,
-                              // //       )
-                              // // Center(child: Text("hhhhhhhhh"),)
-                              //       :
-                              _ListItem(
-                            q: controller.questList[index],
-                            // tag: '${widget.title}$index',
-                          );
-                        },
-                        childCount: controller.questList.length,
-                      ),
-                    ),
+                    sliver: controller.questList.length == 0
+                        ? SliverToBoxAdapter(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                EmptyPage(
+                                    icon: Icons.not_interested,
+                                    message: "don't have any quest".tr,
+                                    message1: ""),
+                              ],
+                            ),
+                          )
+                        : SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                return _ListItem(
+                                  q: controller.questList[index],
+                                );
+                              },
+                              childCount: controller.questList.length,
+                            ),
+                          ),
                   )
                 ],
               ),

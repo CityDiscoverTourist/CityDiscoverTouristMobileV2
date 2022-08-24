@@ -26,8 +26,8 @@ class _QuestTypePageState extends State<QuestTypePage>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFFF9C00),
-        centerTitle: false,
-        automaticallyImplyLeading: false,
+        centerTitle: true,
+        automaticallyImplyLeading: true,
         title: BigText(
           text: "quest type".tr,
           fontWeight: FontWeight.w900,
@@ -97,7 +97,6 @@ class _ItemList extends StatelessWidget {
               ],
             )),
         onTap: () {
-
           // Get.toNamed(YourRouteName.name, parameters: data);
           Get.toNamed(KQuestByType, parameters: {
             "title": d.name,
