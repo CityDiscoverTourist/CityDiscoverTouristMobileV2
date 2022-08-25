@@ -52,7 +52,6 @@ class PaymentController extends FullLifeCycleController
   @override
   void onReady() {
     isLoading(false);
-   
   }
 
   @override
@@ -87,6 +86,7 @@ class PaymentController extends FullLifeCycleController
     // var controller = Get.find<PlayController>();
     // PlayControllerV2 controller = new PlayControllerV2();
     // ignore: unrelated_type_equality_checks
+    CustomFullScreenDialog.showDialog();
     bool check = await checkPaymentStatus(playCode);
     if (check == true) {
       paymentStatus.value = "payment success".tr;
@@ -151,7 +151,7 @@ class PaymentController extends FullLifeCycleController
       finalTotal.value = total.value - discountPrice.value;
     } else {
       finalTotal.value = total.value;
-      discountPrice.value=0;
+      discountPrice.value = 0;
     }
   }
 
@@ -159,10 +159,7 @@ class PaymentController extends FullLifeCycleController
     _momoPaymentResult = response;
     paymentStatus.value = 'Đã chuyển thanh toán';
     if (_momoPaymentResult.isSuccess == true) {
-     
-    } else {
-     
-    }
+    } else {}
     Fluttertoast.showToast(
         msg: "THÀNH CÔNG: " + response.phoneNumber.toString(),
         toastLength: Toast.LENGTH_SHORT);

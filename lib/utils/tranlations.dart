@@ -237,7 +237,7 @@ class Translation extends Translations {
           "skip success": "Skip success",
           "try again next time": "Try again next time",
           "error when skip questtion": "Error when skip questtion",
-          "description page": "Infomation",
+          "description page": "Information",
           "story page": "Story page",
           "next": "Next",
           "account not allowed to login": "Account not allowed to login",
