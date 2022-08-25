@@ -7,12 +7,7 @@
    <!-- Replace "193186341991913" with your Facebook App ID here. -->  
    <string name="facebook_app_id">436231261837871</string>
 
-   <string name="facebook_client_token">9361df31a7b5e21e4aac0ab575ac07f1</string>
+   <string name="facebook_client_token">dba9eddb7609c33fe79b96ea5e5786ae</string>
 
-
-   <!--
-      Replace "193186341991913" with your Facebook App ID here.
-      **NOTE**: The scheme needs to start with `fb` and then your ID.
-    -->
    <string name="fb_login_protocol_scheme">fb436231261837871</string>  
 </resources>

@@ -52,7 +52,7 @@ dependencies:
   url_launcher: ^6.0.9
   the_apple_sign_in: ^1.1.1
   fluttertoast: ^8.0.8
-  flutter_facebook_auth: ^4.0.1
+  flutter_facebook_auth: ^4.4.1
   flutter_web_browser: ^0.16.0
   google_mobile_ads: ^1.0.1
   facebook_audience_network: ^1.0.1
