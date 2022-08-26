@@ -44,13 +44,16 @@ class PaymentDetail extends StatelessWidget {
                   margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(40.0))),
+                      borderRadius: BorderRadius.all(Radius.circular(40))),
                   child: Column(
                     children: [
-                      BigText(
-                        text: purchasedQuest!.questName,
-                        size: 28,
-                        fontWeight: FontWeight.w500,
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: BigText(
+                          text: purchasedQuest!.questName,
+                          size: 28,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       purchasedQuest?.imagePath != null
                           ? Image.network(purchasedQuest!.imagePath,
