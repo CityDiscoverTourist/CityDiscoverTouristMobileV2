@@ -257,7 +257,7 @@ class Translation extends Translations {
           "question no": "Question No",
           "info purchase": "Info purchase",
           "do you want to show suggestion(you will be minus 75 point)":
-              "Do you want to show suggestion(you will be minus 75 point)",
+              "Do you want to show suggestion(you will be minus 75 points)",
           "You will lose this turn and cannot play again":
               "You will lose this turn and cannot play again",
           "Score achieved": "Score achieved",
