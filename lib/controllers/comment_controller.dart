@@ -27,7 +27,7 @@ class CommentController extends GetxController {
   //Biến Comment và rating
   var indexCount = 1.obs;
 
-  var rating = 4.obs;
+  var rating = 5.obs;
   var comment = "".obs;
   var isCommented = 0.obs;
   late Comment myComment;
@@ -35,7 +35,6 @@ class CommentController extends GetxController {
   void onInit() async {
     super.onInit();
     await getCommentData();
-   
   }
 
   @override
@@ -51,22 +50,22 @@ class CommentController extends GetxController {
   }
 
   void increaseIndex() {
- if(lastVisible.isFalse){
-    indexCount++;
- }
-    else{ Fluttertoast.showToast(
-        msg: "Hết dữ liệu",  // message
-        toastLength: Toast.LENGTH_SHORT, // length
-        gravity: ToastGravity.CENTER,    // location
-        timeInSecForIosWeb: 1              // duration
-    );}
-
+    if (lastVisible.isFalse) {
+      indexCount++;
+    } else {
+      Fluttertoast.showToast(
+          msg: "Hết dữ liệu", // message
+          toastLength: Toast.LENGTH_SHORT, // length
+          gravity: ToastGravity.CENTER, // location
+          timeInSecForIosWeb: 1 // duration
+          );
+    }
   }
 
   void refeshData() {
     lastVisible(false);
     isMoreLoading.value = true;
-    indexPage.value=1;
+    indexPage.value = 1;
     dataComment.clear();
     getCommentData();
   }
@@ -78,8 +77,8 @@ class CommentController extends GetxController {
       await Future.delayed(Duration(seconds: 1));
       var commentApi = await CommentService.fetchCommentsData(indexCount.value,
           Get.find<LoginControllerV2>().jwtToken.value, idQuest.value);
-      if (commentApi!.length!=0) {
-        if (dataComment.length==0) {
+      if (commentApi!.length != 0) {
+        if (dataComment.length == 0) {
           dataComment.assignAll(commentApi);
         } //Nếu không thì nhét hết vô
         else {
@@ -102,21 +101,20 @@ class CommentController extends GetxController {
     try {
       isLoading(true);
 
-        await AppService().checkInternet().then((hasInternet) async {
-          if (hasInternet == false) {
-            openToast(context, 'no internet');
+      await AppService().checkInternet().then((hasInternet) async {
+        if (hasInternet == false) {
+          openToast(context, 'no internet');
+        } else {
+          if (commentStr.isEmpty) {
           } else {
-            if(commentStr.isEmpty){
-            }else{
             comment.value = commentStr;
-            }
-
-            // PushComment
-            await CommentService.pushComment(
-                comment.value, rating.value,customerQuestID.toString());
           }
-        });
-      
+
+          // PushComment
+          await CommentService.pushComment(
+              comment.value, rating.value, customerQuestID.toString());
+        }
+      });
     } finally {
       Get.delete<PlayControllerV2>();
       Get.delete<QuestPurchasedController>();

@@ -237,7 +237,7 @@ class Translation extends Translations {
           "skip success": "Skip success",
           "try again next time": "Try again next time",
           "error when skip questtion": "Error when skip questtion",
-          "description page": "Infomation",
+          "description page": "Information",
           "story page": "Story page",
           "next": "Next",
           "account not allowed to login": "Account not allowed to login",
@@ -257,7 +257,7 @@ class Translation extends Translations {
           "question no": "Question No",
           "info purchase": "Info purchase",
           "do you want to show suggestion(you will be minus 75 point)":
-              "Do you want to show suggestion(you will be minus 75 point)",
+              "Do you want to show suggestion(you will be minus 75 points)",
           "You will lose this turn and cannot play again":
               "You will lose this turn and cannot play again",
           "Score achieved": "Score achieved",
