@@ -165,7 +165,7 @@ class AnswerPage extends StatelessWidget {
                                                   );
                                             }
                                           },
-                                          icon: Icon(Icons.notifications))
+                                          icon: Icon(Icons.lightbulb))
                                       : SizedBox.shrink(),
                                   SizedBox(
                                     width: 10,

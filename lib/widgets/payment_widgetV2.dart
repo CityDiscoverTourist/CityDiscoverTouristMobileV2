@@ -252,8 +252,7 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            BigText(
-                                                text: 'enter voucher here'.tr),
+                                            BigText(text: 'discount code'.tr),
                                             BigText(
                                                 text: controller.percentReward
                                                             .value !=

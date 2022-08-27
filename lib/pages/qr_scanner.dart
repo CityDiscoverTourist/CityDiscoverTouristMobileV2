@@ -10,7 +10,6 @@ import 'package:travel_hour/controllers/questpurchased_controller.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-
 import '../common/customFullScreenDialog.dart';
 import '../controllers/home_controller.dart';
 import '../controllers/play_controllerV2.dart';
@@ -53,119 +52,119 @@ class _QRViewExampleState extends State<QRViewExample> {
         body: Column(
           children: <Widget>[
             Expanded(flex: 7, child: _buildQrView(context)),
-            Expanded(
-              flex: 1,
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    if (result != null)
-                      Text('${result!.code}')
-                    else
-                      Text('scan qr code'.tr),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        // Container(
-                        //   margin: const EdgeInsets.all(8),
-                        //   child: ElevatedButton(
-                        //       onPressed: () async {
-                        //         await controller?.toggleFlash();
-                        //         setState(() {});
-                        //       },
-                        //       child: FutureBuilder(
-                        //         future: controller?.getFlashStatus(),
-                        //         builder: (context, snapshot) {
-                        //           return Text('Flash: ${snapshot.data}');
-                        //         },
-                        //       )),
-                        // ),
-                        // Container(
-                        //   margin: const EdgeInsets.all(8),
-                        //   child: ElevatedButton(
-                        //       onPressed: () async {
-                        //         await controller?.flipCamera();
-                        //         setState(() {});
-                        //       },
-                        //       child: FutureBuilder(
-                        //         future: controller?.getCameraInfo(),
-                        //         builder: (context, snapshot) {
-                        //           if (snapshot.data != null) {
-                        //             return Text(
-                        //                 'Camera facing ${describeEnum(snapshot.data!)}');
-                        //           } else {
-                        //             return const Text('loading');
-                        //           }
-                        //         },
-                        //       )),
-                        // )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.all(5),
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              setState(() {
-                                result = null;
-                              });
-                            },
-                            child: Text('reset'.tr,
-                                style: TextStyle(fontSize: 10)),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(5),
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              // await controller?.pauseCamera();
-                              PlayControllerV2 playController =
-                                  new PlayControllerV2();
-                              String? code = result?.code;
-                              PurchasedQuest? purchasedQuest =
-                                  await playController.getPuQuestById(code);
-                              if (purchasedQuest != null) {
-                                PlayControllerV2 playController =
-                                    new PlayControllerV2();
-                                CustomFullScreenDialog.showDialog();
-                                bool check =
-                                    await playController.checkUserLocation(
-                                        purchasedQuest.questId.toString());
-                                CustomFullScreenDialog.cancelDialog();
-                                if (check) {
-                                  showAlertDialog(context, code!);
-                                } else {
-                                  showAlertDialogCheckLocation(
-                                      context, purchasedQuest);
-                                }
-                              }
-                              // showAlertDialog(context, code!);
-                            },
-                            child: Text('cofirm'.tr,
-                                style: TextStyle(fontSize: 10)),
-                          ),
-                        ),
-                        // Container(
-                        //   margin: const EdgeInsets.all(8),
-                        //   child: ElevatedButton(
-                        //     onPressed: () async {
-                        //       await controller?.resumeCamera();
-                        //     },
-                        //     child: const Text('resume',
-                        //         style: TextStyle(fontSize: 20)),
-                        //   ),
-                        // )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            )
+            // Expanded(
+            //   flex: 1,
+            //   child: FittedBox(
+            //     fit: BoxFit.contain,
+            //     child: Column(
+            //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //       children: <Widget>[
+            //         // if (result != null)
+            //         //   Text('${result!.code}')
+            //         // else
+            //         //   Text('scan qr code'.tr),
+            //         Row(
+            //           mainAxisAlignment: MainAxisAlignment.center,
+            //           crossAxisAlignment: CrossAxisAlignment.center,
+            //           children: <Widget>[
+            //             // Container(
+            //             //   margin: const EdgeInsets.all(8),
+            //             //   child: ElevatedButton(
+            //             //       onPressed: () async {
+            //             //         await controller?.toggleFlash();
+            //             //         setState(() {});
+            //             //       },
+            //             //       child: FutureBuilder(
+            //             //         future: controller?.getFlashStatus(),
+            //             //         builder: (context, snapshot) {
+            //             //           return Text('Flash: ${snapshot.data}');
+            //             //         },
+            //             //       )),
+            //             // ),
+            //             // Container(
+            //             //   margin: const EdgeInsets.all(8),
+            //             //   child: ElevatedButton(
+            //             //       onPressed: () async {
+            //             //         await controller?.flipCamera();
+            //             //         setState(() {});
+            //             //       },
+            //             //       child: FutureBuilder(
+            //             //         future: controller?.getCameraInfo(),
+            //             //         builder: (context, snapshot) {
+            //             //           if (snapshot.data != null) {
+            //             //             return Text(
+            //             //                 'Camera facing ${describeEnum(snapshot.data!)}');
+            //             //           } else {
+            //             //             return const Text('loading');
+            //             //           }
+            //             //         },
+            //             //       )),
+            //             // )
+            //           ],
+            //         ),
+            //         // Row(
+            //         //   mainAxisAlignment: MainAxisAlignment.center,
+            //         //   crossAxisAlignment: CrossAxisAlignment.center,
+            //         //   children: <Widget>[
+            //         //     // Container(
+            //         //     //   margin: const EdgeInsets.all(5),
+            //         //     //   child: ElevatedButton(
+            //         //     //     onPressed: () async {
+            //         //     //       setState(() {
+            //         //     //         result = null;
+            //         //     //       });
+            //         //     //     },
+            //         //     //     child: Text('reset'.tr,
+            //         //     //         style: TextStyle(fontSize: 10)),
+            //         //     //   ),
+            //         //     // ),
+            //         //     // Container(
+            //         //     //   margin: const EdgeInsets.all(5),
+            //         //     //   child: ElevatedButton(
+            //         //     //     onPressed: () async {
+            //         //     //       // await controller?.pauseCamera();
+            //         //     //       PlayControllerV2 playController =
+            //         //     //           new PlayControllerV2();
+            //         //     //       String? code = result?.code;
+            //         //     //       PurchasedQuest? purchasedQuest =
+            //         //     //           await playController.getPuQuestById(code);
+            //         //     //       if (purchasedQuest != null) {
+            //         //     //         PlayControllerV2 playController =
+            //         //     //             new PlayControllerV2();
+            //         //     //         CustomFullScreenDialog.showDialog();
+            //         //     //         bool check =
+            //         //     //             await playController.checkUserLocation(
+            //         //     //                 purchasedQuest.questId.toString());
+            //         //     //         CustomFullScreenDialog.cancelDialog();
+            //         //     //         if (check) {
+            //         //     //           showAlertDialog(context, code!);
+            //         //     //         } else {
+            //         //     //           showAlertDialogCheckLocation(
+            //         //     //               context, purchasedQuest);
+            //         //     //         }
+            //         //     //       }
+            //         //     //       // showAlertDialog(context, code!);
+            //         //     //     },
+            //         //     //     child: Text('cofirm'.tr,
+            //         //     //         style: TextStyle(fontSize: 10)),
+            //         //     //   ),
+            //         //     // ),
+            //         //     // Container(
+            //         //     //   margin: const EdgeInsets.all(8),
+            //         //     //   child: ElevatedButton(
+            //         //     //     onPressed: () async {
+            //         //     //       await controller?.resumeCamera();
+            //         //     //     },
+            //         //     //     child: const Text('resume',
+            //         //     //         style: TextStyle(fontSize: 20)),
+            //         //     //   ),
+            //         //     // )
+            //         //   ],
+            //         // ),
+            //       ],
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),
@@ -200,10 +199,10 @@ class _QRViewExampleState extends State<QRViewExample> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
-        print("can data "+result!.code.toString());
-        Get.find<QuestPurchasedController>().qrCode.value=result!.code.toString();
+        print("can data " + result!.code.toString());
+        Get.find<QuestPurchasedController>().qrCode.value =
+            result!.code.toString();
         Get.back();
-
       });
     });
   }

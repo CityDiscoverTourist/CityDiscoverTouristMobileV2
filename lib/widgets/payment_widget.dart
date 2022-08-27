@@ -275,8 +275,8 @@ class PaymentWidgetState extends State<PaymentWidget>
                     keyboardType: TextInputType.text,
                     autofocus: false,
                     decoration: InputDecoration(
-                      hintText: 'enter voucher here'.tr,
-                    ),
+                        // hintText: 'enter voucher here'.tr,
+                        ),
                     controller: voucherCtl,
                     validator: (value) {
                       // String patttern =
