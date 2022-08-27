@@ -383,7 +383,7 @@ class PaymentWidgetV2 extends GetView<PaymentController> {
                                           // color: Colors.grey,
                                         ),
                                         trailing: RaisedButton(
-                                          child: Text('copy'.tr),
+                                          child: Text('copy2'.tr),
                                           onPressed: () {
                                             Clipboard.setData(new ClipboardData(
                                                     text: controller.playCode))
