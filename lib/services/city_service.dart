@@ -13,7 +13,7 @@ class CityService {
     
     var response = await http.get(
         Uri.parse('https://citytourist.azurewebsites.net/api/v1/areas' +
-            "?language=" +
+            "?Status=active&language=" +
             Get.find<LoginControllerV2>().language.value.toString()),
         headers: {
           "Accept": "application/json",
