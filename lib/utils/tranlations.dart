@@ -222,7 +222,7 @@ class Translation extends Translations {
           "please go to this address to start the quest:":
               "Please go to this address to start the Quest:",
           "open map": "Open Google map",
-          "complete quest: ": "Complete quest: ",
+          "complete quest: ": "Completed quest: ",
           "time": "Time",
           "point": "Point",
           "how is your trip?": "How is your trip?",
