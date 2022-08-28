@@ -260,8 +260,13 @@ class AnswerPage extends StatelessWidget {
                                         controller.clickAnswer();
                                         myController.text = "";
                                       },
-                                      child: Text('submit'.tr,
-                                          style: TextStyle(fontSize: 16)),
+                                      child: controller.questItemCurrent
+                                                  .questItemTypeId !=
+                                              2
+                                          ? Text('submit'.tr,
+                                              style: TextStyle(fontSize: 16))
+                                          : Text('scan image'.tr,
+                                              style: TextStyle(fontSize: 16)),
                                       style: ElevatedButton.styleFrom(
                                         primary: AppColors.mainColor,
                                         onPrimary: Colors.white,
@@ -287,8 +292,13 @@ class AnswerPage extends StatelessWidget {
                                         // }
                                         controller.clickAnswer();
                                       },
-                                      child: Text('submit'.tr,
-                                          style: TextStyle(fontSize: 16)),
+                                      child: controller.questItemCurrent
+                                                  .questItemTypeId !=
+                                              2
+                                          ? Text('submit'.tr,
+                                              style: TextStyle(fontSize: 16))
+                                          : Text('scan image'.tr,
+                                              style: TextStyle(fontSize: 16)),
                                       style: ElevatedButton.styleFrom(
                                         primary: AppColors.mainColor,
                                         onPrimary: Colors.white,
@@ -481,7 +491,7 @@ class AnswerPage extends StatelessWidget {
                                                             children: [
                                                               BigText(
                                                                 text:
-                                                                    "right answer"
+                                                                    "corect answer"
                                                                         .tr,
                                                                 fontWeight:
                                                                     FontWeight

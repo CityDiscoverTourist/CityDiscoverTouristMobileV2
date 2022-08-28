@@ -287,7 +287,9 @@ class Translation extends Translations {
           "don't have any quest": "Don't have any quest in this area",
           "name can't be empty": "Name can't be empty",
           "copy2": "Copy",
-          "discount code": "Discount code"
+          "discount code": "Discount code",
+          "scan image": "Scan Image",
+          "corect answer": "Correct answer",
         },
         'vn': {
           "welcome message":
@@ -579,6 +581,8 @@ class Translation extends Translations {
           "name can't be empty": "Tên không thể để trống",
           "copy2": "Sao chép",
           "discount code": "Mã giảm giá",
+          "scan image": "Quét ảnh",
+          "corect answer": "Đáp án đúng",
         }
       };
 }
