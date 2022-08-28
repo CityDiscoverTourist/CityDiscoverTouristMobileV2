@@ -41,6 +41,7 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
     if (!myController.isLoading.value) {
       if (controller!.position.pixels == controller!.position.maxScrollExtent) {
         myController.increaseIndex();
+        print('object');
         // myController.getCommentData();
         // myController.isMoreLoading(true);
       }
@@ -76,14 +77,14 @@ class _CommentsPageV2State extends State<CommentsPageV2> {
                               padding: EdgeInsets.all(15),
                               controller: controller,
                               physics: AlwaysScrollableScrollPhysics(),
-                              itemCount: myController.dataComment.length + 1,
+                              itemCount: myController.dataComment.length,
                               separatorBuilder:
                                   (BuildContext context, int index) => SizedBox(
                                 height: 10,
                               ),
                               itemBuilder: (_, int index) {
                                 if (index <
-                                    myController.dataComment.length - 1) {
+                                    myController.dataComment.length) {
                                   return reviewList(
                                       myController.dataComment[index], false);
                                 }
